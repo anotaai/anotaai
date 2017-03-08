@@ -1,0 +1,81 @@
+<div class="form-horizontal">
+	<h3>Novo Usuário</h3>
+	<div class="form-group">
+		<div class="col-md-offset-2 col-sm-2">
+			<a id="Create" class="btn btn-primary" ui-sref="app.usuario-new">
+				<span class="glyphicon glyphicon-plus-sign"></span> Criar
+			</a>
+		</div>
+	</div>
+</div>
+<hr/>
+<div>
+	<h3>Usuários</h3>
+	<form id="UsuarioSearch" class="form-horizontal">
+	<div class="form-group">
+		<label for="nome" class="col-sm-2 control-label">Nome</label>
+		<div class="col-sm-10">
+			<input id="nome" name="nome" class="form-control" type="text" ng-model="search.nome" placeholder="Enter the Usuario Nome"></input>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="email" class="col-sm-2 control-label">E-mail</label>
+		<div class="col-sm-10">
+			<input id="email" name="email" class="form-control" type="text" ng-model="search.email" placeholder="E-mail"></input>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="perfil" class="col-sm-2 control-label">Perfil</label>
+		<div class="col-sm-10">
+			<select id="perfil" name="perfil" class="form-control" ng-model="search.perfil">
+				<option value="">Choose a Perfil</option>
+				<option ng-repeat="(g, p) in perfilList" value="{{g}}">{{p}}</option>
+			</select>
+		</div>
+	</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-sm-10">
+				<a id="Search" class="btn btn-primary" ng-click="performSearch()">
+					<span class="glyphicon glyphicon-search" >Pesquisar</span></a>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="search-results">
+		<div class="table-responsive">
+		<table class="table table-responsive table-bordered table-striped clearfix">
+			<thead>
+				<tr>
+					<th class="col-sm-3">Nome</th>
+					<th class="col-sm-3">E-mail</th>
+					<th class="col-sm-2">Telefone</th>
+					<th class="col-sm-2">Data Cadastro</th>
+				</tr>
+			</thead>
+			<tbody id="search-results-body">
+				<tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td><a href="#/Usuarios/edit/{{result.id}}">{{result.nome}}</a></td>
+					<td><a href="#/Usuarios/edit/{{result.id}}">{{result.email}}</a></td>
+					<td><a href="#/Usuarios/edit/{{result.id}}">{{result.telefone | telefone}}</a></td>
+					<td><a href="#/Usuarios/edit/{{result.id}}">{{result.dataCadastro | date:'dd/MM/yyyy'}}</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+		<ul class="pagination pagination-centered">
+		<li ng-class="{disabled:currentPage == 0}">
+			<a id="prev" ng-click="previous()">«</a>
+		</li>
+		<li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+			<a ng-bind="n + 1">1</a>
+		</li>
+		<li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+			<a id="next" ng-click="next()">»</a>
+		</li>
+	</ul>
+
+</div>

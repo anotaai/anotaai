@@ -1,0 +1,57 @@
+<h2 class="page-title text-center">
+	<span ng-translate="LOGIN">Login</span>
+</h2>
+
+
+<form name="form" class="form-login" ng-submit="login()" role="form">
+
+	<div class="row">
+		<div class="row form-group"> 
+			<div class="col-md-4" ng-repeat="tipoAcesso in tiposAcesso">
+				<label class="control-label">
+					<input type="radio" name="tipoAcesso" style="position:relative;top:2px;"  ng-model="userLogin.tipoAcesso" value="{{tipoAcesso.type}}" ng-change="changeTipoAcesso(tipoAcesso.type)" /> <span ng-bind="tipoAcesso.descricao"></span>
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-class="{'has-error': form.email.$invalid}" ng-show="userLogin.tipoAcesso == 'EMAIL'">
+		<input id="email" name="email" type="email" class="form-control" ng-model="userLogin.usuario.email" placeholder="E-mail" 
+			   ng-required="userLogin.tipoAcesso == 'EMAIL'" />
+		<span ng-show="form.telefone.$dirty && form.telefone.$error.required" class="help-block">E-Mail � obrigat�rio</span>
+	</div>
+	<div class="row"  ng-class="{'has-error': form.telefone.$invalid}" ng-show="userLogin.tipoAcesso == 'TELEFONE'">
+		<input id="telefone" name="telefone" type="text" class="form-control" ng-model="telefone" placeholder="Telefone" ui-mask="(99) 99999-9999" ui-mask-placeholder
+			   ui-mask-placeholder-char="_" ng-required="userLogin.tipoAcesso == 'TELEFONE'" ui-pattern="/^\(\d{2}\)\d{4,5}-\d{4}$/" />
+		<span ng-show="form.telefone.$dirty && form.telefone.$error.required" class="help-block">Telefone � obrigat�rio</span>
+	</div>
+	<div class="row"  ng-class="{'has-error': form.senha.$dirty && form.senha.$error.required}">
+		<input type="password" name="senha" id="senha" class="form-control" ng-model="userLogin.usuario.senha" required placeholder="Senha" />
+		<span ng-show="form.senha.$dirty && form.senha.$error.required" class="help-block">
+			<span ng-translate="INFORMAR_SENHA">Senha</span>
+		</span>
+	</div>
+	<div class="row">
+		<label class="control-label" for="keepAlive" ng-translate="MANTER_CONECTADO">Manter Conectado</label>
+		<input type="checkbox" name="keepAlive" id="keepAlive" style="position:relative;top:2px" ng-model="userLogin.keepAlive" />
+		<a  class="btn btn-link" ng-click="renewPassword()" >Esqueci a senha</a>
+	</div>
+	<div class="row">
+		<button id="btn-login" type="submit" ng-disabled="form.$invalid" class="btn btn-lg btn-primary btn-block">
+			<span data-ng-hide="loading">
+				<span ng-translate="LOGIN">Login</span>
+			</span>
+			<span data-ng-show="loading">
+				<span ng-translate="LOGIN">Login</span>
+				<i class="fa fa-spinner fa-spin"></i>
+			</span>
+		</button>
+	</div>
+	
+	<div class="row">
+	<hr />
+	</div>
+	
+	<div class="row">
+		<input type="button"  value="Cadastre-se"  class="btn btn-lg btn-default btn-block" ui-sref="access.register"  />
+	</div>
+</form>

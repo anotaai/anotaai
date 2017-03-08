@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="anotaai">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Anota ai</title>
+ 
+	<link href="styles/font-awesome.min.css" rel="stylesheet" media="screen">
+
+	<link href="/img/lapis-caderneta/16x16.png" rel="shortcut icon" />
+
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	
+		ga('create', 'UA-79790827-1', 'auto');
+		ga('send', 'pageview');
+	
+	</script>
+
+</head>
+<body>
+	<!-- Div para apresentar as mensagens da aplicacao -->
+	<div growl></div>
+
+	<div class="navbar navbar-inverse navbar-top" role="navigation" ng-controller="ProfileController">
+		<div id="profile" ng-include="'profile.html'"></div>
+	</div>
+	<div class="container-fluid" id="wrap" ui-view>
+		
+	</div>
+	
+	<div class="footer" id="footer">
+		<div class="container">
+			<p>Powered by <a href="https://goo.gl/93I0At" target="_blank">Aline Solutions</a></p>
+			<p>Contato: <strong>(31) 9 8774-9131 | Copyright @2017 </strong></p>
+		</div>
+	</div>
+	
+	
+	<script src="scripts/bundle.js"></script>
+
+</body>
+</html>

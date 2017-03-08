@@ -1,0 +1,35 @@
+{
+	"project_info": {
+		"project_number": "455825777646",
+		"project_id": "anota-ai-b02ff"
+	},
+	"client": [
+	{
+		"client_info": {
+			"mobilesdk_app_id": "1:455825777646:android:eada1aa3eb22f6d5",
+			"android_client_info": {
+				"package_name": "alinesolutions.com.br.anotaai"
+			}
+		},
+		"oauth_client": [],
+		"api_key": [
+			{
+				"current_key": "AIzaSyCAhOyal--1b0zUobEvMTqGoV9LqCDEzSo"
+			}
+		],
+		"services": {
+			"analytics_service": {
+				"status": 1
+			},
+			"appinvite_service": {
+				"status": 1,
+				"other_platform_oauth_client": []
+			},
+			"ads_service": {
+				"status": 1
+			}
+		}
+	}
+	],
+	"configuration_version": "1"
+}

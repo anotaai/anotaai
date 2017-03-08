@@ -1,0 +1,227 @@
+<h2 class="page-title text-center">
+	<span ng-bind="titulo"></span>
+</h2>
+
+<form id="UsuarioForm" name="UsuarioForm" class="form-horizontal"
+	role="form">
+
+	<div class="panel">
+
+		<div class="panel-heading"></div>
+
+		<div class="panel-body">
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.nome.$invalid}">
+				<label for="nome" class="control-label col-sm-4" ng-translate="NOME">Nome</label>
+				<div class="col-sm-8">
+					<input id="nome" name="nome" type="text" autofocus
+						class="form-control" ng-model="usuario.nome" required></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.telefone.$invalid}">
+				<label for="telefone" class="control-label col-sm-4"
+					ng-translate="TELEFONE">Telefone</label>
+				<div class="col-sm-8">
+					<input id="telefone" name="telefone" type="tel"
+						class="form-control" ng-model="telefone" ui-mask="(99) 99999-9999"
+						ui-mask-placeholder ui-mask-placeholder-char="_" required />
+				</div>
+			</div>
+
+			<div class="form-group col-md-6"
+				ng-class="{'has-error': UsuarioForm.email.$invalid}">
+				<label for="email" class="control-label col-sm-4"
+					ng-translate="EMAIL">E-Mail</label>
+				<div class="col-sm-8">
+					<input id="email" name="email" type="text" class="form-control"
+						ng-model="usuario.email"></input>
+				</div>
+			</div>
+
+			<!--================================================================================================-->
+			<!-- 											Cliente												-->
+			<!--================================================================================================-->
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.nomeComercial.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="nomeComercial" class="control-label col-sm-4">Nome
+					Comercial</label>
+
+				<div class="col-sm-8">
+					<input id="nomeComercial" name="nomeComercial" type="text"
+						class="form-control" ng-model="cliente.nomeComercial" required></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.cpf.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="cpf" class="control-label col-md-4">CPF</label>
+				<div class="col-md-8">
+					<input id="cpf" name="cpf" type="text" class="form-control"
+						ng-model="cliente.cpf" ui-mask="999.999.999-99"
+						ui-mask-placeholder ui-mask-placeholder-char="_" required></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.senha.$invalid}">
+				<label for="senha" class="control-label col-md-4">Senha</label>
+				<div class="col-md-8">
+					<input id="senha" name="senha" type="password" class="form-control"
+						ng-model="usuario.senha" autocomplete="off" required
+						placeholder="Senha minimo 6 caracteres" ng-minlength="6"></input>
+					<span class="error" ng-show="UsuarioForm.senha.$error.minlength">A
+						senha deve conter no m�nimo 6 caracteres!</span>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.confirmaSenha.$invalid}">
+				<label for="confimaSenha" class="control-label col-md-4">Confirmar
+					Senha</label>
+				<div class="col-md-8">
+					<input id="confirmaSenha" name="confirmaSenha" type="password"
+						class="form-control" ng-model="confirmaSenha" autocomplete="off"
+						required ng-minlength="6"></input> <span class="error"
+						ng-show="UsuarioForm.confirmaSenha.$error.minlength">A
+						senha deve conter no m�nimo 6 caracteres!</span>
+				</div>
+			</div>
+
+		</div>
+
+
+
+	</div>
+
+	<h3 ng-if="tipoCadastro == 'vendedor'">
+		<span ng-translate="subtitulo.endereco">Endereço</span>
+	</h3>
+
+	<div class="panel" ng-if="tipoCadastro == 'vendedor'">
+
+		<div class="panel-heading"></div>
+
+		<div class="panel-body">
+
+
+			<!--================================================================================================-->
+			<!-- 											Endereco											-->
+			<!--================================================================================================-->
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.cep.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="cep" class="control-label col-md-4">Cep</label>
+				<div class="col-md-8">
+					<input id="cep" name="cep" type="text" class="form-control"
+						ng-model="cliente.endereco.cep" required ui-mask="99.999-999"
+						ui-mask-placeholder ui-mask-placeholder-char="_"></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.logradouro.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="logradouro" class="control-label col-md-4">Logradouro</label>
+				<div class="col-md-8">
+					<input id="logradouro" name="logradouro" type="text"
+						class="ng-cloak form-control"
+						ng-model="cliente.endereco.logradouro" required></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.numero.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="numero" class="control-label col-md-4">N�mero</label>
+				<div class="col-md-8">
+					<input id="numero" name="numero" type="text"
+						class="ng-cloak form-control" ng-model="cliente.endereco.numero"
+						required></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6" ng-if="tipoCadastro == 'vendedor'">
+				<label for="complemento" class="control-label col-md-4">Complemento</label>
+				<div class="col-md-8">
+					<input id="complemento" name="complemento" type="text"
+						class="form-control" ng-model="cliente.endereco.complemento"></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.bairro.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="bairro" class="control-label col-md-4">Bairro</label>
+				<div class="col-md-8">
+					<input id="bairro" name="bairro" type="text"
+						class="ng-cloak form-control" ng-model="cliente.endereco.bairro"
+						required></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.cidade.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="cidade" class="control-label col-md-4">Cidade</label>
+				<div class="col-md-8">
+					<input id="cidade" name="cidade" type="text" required
+						class="ng-cloak form-control" ng-model="cliente.endereco.cidade"></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-6 required"
+				ng-class="{'has-error': UsuarioForm.estado.$invalid}"
+				ng-if="tipoCadastro == 'vendedor'">
+				<label for="estado" class="control-label col-md-4">Estado</label>
+				<div class="col-md-8">
+					<select id="estado" name="estado" class="ng-cloak form-control"
+						ng-model="cliente.endereco.estado" required>
+						<option value="">Selecione um Estado</option>
+						<option ng-repeat="estado in estadoList" value="{{estado.type}}">{{estado.descricao}}</option>
+					</select> <span class="help-block error"
+						ng-show="UsuarioForm.endereco.estado.$error.required">required</span>
+				</div>
+			</div>
+
+		</div>
+
+
+
+	</div>
+
+	<div class="text-center">
+
+		<button id="saveUsuario" name="saveUsuario" class="btn btn-success"
+			ng-if="!ativacaoCadastro" ng-disabled="UsuarioForm.$invalid"
+			ng-click="save()">
+			<span class="glyphicon glyphicon-ok-sign"></span> <span
+				ng-translate="label.gravar">Gravar</span>
+		</button>
+
+		<button id="ativarUsuario" name="ativarUsuario"
+			class="btn btn-success" ng-if="ativacaoCadastro"
+			ng-disabled="UsuarioForm.$invalid" ng-click="activationUser()">
+			<span class="glyphicon glyphicon-ok-sign"></span> <span
+				ng-translate="label.ativar.cadastro">Ativar Cadastro</span>
+		</button>
+
+		<button id="cancel" name="cancel" class="btn btn-warning"
+			ng-click="cancel()">
+			<span class="glyphicon glyphicon-remove-sign"></span> <span>Cancel</span>
+		</button>
+		<button id="limpar" name="limpar" class="btn btn-default"
+			ng-if="!isClean()" ng-click="limpar()">
+			 <span>Limpar</span>
+		</button>
+	</div>
+
+
+
+
+</form>

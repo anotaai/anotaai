@@ -1,0 +1,102 @@
+<div class="row text-center">
+	<img  src="../../img/crud.svg">
+	<header ng-switch on="action">
+		<h2 ng-switch-when="new" class="page-title">Cadastro de Setores</h2>
+		<h2 ng-switch-when="edit" class="page-title">Edição de Setores</h2>
+	</header>
+</div>
+
+<form id="SetorForm" name="SetorForm" class="form-horizontal" role="form">
+
+  <div class="panel">
+  
+   <div class="panel-heading"></div>
+   
+   <div class="panel-body">
+
+	<div class="form-group required" ng-class="{'has-error': SetorForm.nome.$invalid}">
+		<label for="descricao" class="col-sm-2 control-label">Nome</label>
+		<div id="nomeControls" class="col-sm-10">
+			<input id="nome" name="nome" type="text" class="form-control" ng-model="setor.nome" 
+					required></input>
+		</div>
+	</div>
+
+	<div class="form-group required" ng-class="{'has-error': SetorForm.descricao.$invalid}">
+		<label for="descricao" class="col-sm-2 control-label">Descrição</label>
+		<div id="descricaoControls" class="col-sm-10">
+			<input id="descricao" name="descricao" type="text" class="form-control" required
+				   ng-model="setor.descricao"></input>
+		</div>
+	</div>
+	
+	</div>
+	
+	<div class="panel-footer text-center">
+	
+	<div class="form-group">
+		<div class="col-sm-12">
+			<button id="saveSetor" name="saveSetor" class="btn btn-success" ng-disabled="isClean() || GrupoProdutoForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+			<button id="novoSetor" name="novoSetor" class="btn btn-primary" ng-show="setor.id" ng-click="create()">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				<span ng-translate="label.novo">Novo</span>
+			</button>
+			<button id="addGrupoProduto" name="addGrupoProduto" class="btn btn-primary" 
+					ng-show="setor.id" ng-click="addGrupoProduto()">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				<span ng-translate="label.add.grupo.produto">Grupo Produto</span>
+			</button>
+			<button id="cancel" name="cancel" class="btn btn-warning" ng-click="cancel()">
+				<span class="glyphicon glyphicon-remove-sign"></span>
+				<span ng-translate="label.cancelar">Cancelar</span>	
+			</button>
+			<button id="deleteSetor" name="deleteGrupoProduto" class="btn btn-danger" ng-show="setor.id" ng-click="remove(setor)">
+				<span class="glyphicon glyphicon-trash"></span>
+				<span ng-translate="label.deletar">Deletar</span>	
+			</button>
+		</div>
+	</div>
+	
+	</div>
+  
+  </div>
+
+	<div class="form-group detail-result">
+	
+		<div ng-if="setor.gruposProduto && setor.gruposProduto.length > 0" id="grupoproduto-results">
+			<div class="table-responsive">
+				<table class="table table-responsive table-bordered table-striped clearfix">
+					<thead>
+						<tr>
+							<th class="col-md-10">Nome</th>
+							<th class="col-md-2 text-center">Excluir</th>
+						</tr>
+					</thead>
+					<tbody id="produto-results-body" class="cursor-pointer">
+						<tr ng-repeat="result in setor.gruposProduto">
+							<td ng-click="edit(result)"><span ng-bind="result.nome"></span></td>
+							<td class="pointer text-center" ng-click="confirmClick() && remove($index, result)" ai-confirm-click 
+								ai-message="Este Grupo de Produto será excluído permanentemente!" 
+								uib-popover="Excluir" popover-trigger="mouseenter" ai-title="Excluir Grupo de Produto"
+								ng-class="{trashhover: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+								<span class="glyphicon glyphicon-plus glyphicon-trash"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<ul class="pagination pagination-centered">
+				<li ng-class="{disabled:currentPage == 0}">
+					<a id="prev" ng-click="previous()">«</a>
+				</li>
+				<li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+					<a ng-bind="n + 1">1</a>
+				</li>
+				<li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+					<a id="next" ng-click="next()">»</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</form>

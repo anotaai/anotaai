@@ -1,0 +1,46 @@
+<header ng-switch on="$location.path().indexOf('/SessaoUsuarios/new') > -1">
+	<h3 ng-switch-when="true">Create a new SessaoUsuario</h3>
+	<h3 ng-switch-when="false">View or edit SessaoUsuario</h3>
+</header>
+<form id="SessaoUsuarioForm" name="SessaoUsuarioForm" class="form-horizontal" role="form">
+		<div class="form-group" ng-class="{'has-error': SessaoUsuarioForm.sessionID.$invalid}">
+		<label for="sessionID" class="col-sm-2 control-label">Session ID</label>
+		<div id="sessionIDControls" class="col-sm-10">
+			<input id="sessionID" name="sessionID" type="text" class="form-control" ng-model="sessaoUsuario.sessionID" placeholder="Enter the SessaoUsuario Session ID"></input>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': SessaoUsuarioForm.ultimoAcesso.$invalid}">
+		<label for="ultimoAcesso" class="col-sm-2 control-label">Ultimo Acesso</label>
+		<div id="ultimoAcessoControls" class="col-sm-10">
+			<datetime id="ultimoAcesso" name="ultimoAcesso" ng-model="sessaoUsuario.ultimoAcesso" placeholder="Enter the SessaoUsuario Ultimo Acesso"></datetime>
+			<span class="help-block error" ng-show="SessaoUsuarioForm.ultimoAcesso.$error.datetimeFormat">does not match format "yyyy-MM-dd hh:mm:ss" (e.g. 2013-12-01 22:00:00)</span>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': SessaoUsuarioForm.keepAlive.$invalid}">
+		<label for="keepAlive" class="col-sm-2 control-label">Keep Alive</label>
+		<div id="keepAliveControls" class="col-sm-10">
+			<input id="keepAlive" name="keepAlive" type="checkbox" class="checkbox" ng-model="sessaoUsuario.keepAlive" placeholder="Enter the SessaoUsuario Keep Alive"></input>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': SessaoUsuarioForm.usuario.$invalid}">
+		<label for="usuario" class="col-sm-2 control-label">Usuario</label>
+		<div id="usuarioControls" class="col-sm-10">
+		<select id="usuario" name="usuario" class="form-control" ng-model="usuarioSelection" ng-options="u.text for u in usuarioSelectionList"  >
+			<option value="">Choose a Usuario</option>
+		</select>
+		</div>
+	</div>
+
+
+
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button id="saveSessaoUsuario" name="saveSessaoUsuario" class="btn btn-primary" ng-disabled="isClean() || SessaoUsuarioForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+			<button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+			<button id="deleteSessaoUsuario" name="deleteSessaoUsuario" class="btn btn-danger" ng-show="sessaoUsuario.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+		</div>
+	</div>
+</form>

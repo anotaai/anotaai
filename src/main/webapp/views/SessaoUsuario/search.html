@@ -1,0 +1,82 @@
+<div class="form-horizontal">
+	<h3>Create a new SessaoUsuario</h3>
+	<div class="form-group">
+		<div class="col-md-offset-2 col-sm-2">
+			<a id="Create" class="btn btn-primary" href="#/SessaoUsuarios/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+		</div>
+	</div>
+</div>
+<hr/>
+<div>
+	<h3>Search for SessaoUsuarios</h3>
+	<form id="SessaoUsuarioSearch" class="form-horizontal">
+			<div class="form-group">
+		<label for="sessionID" class="col-sm-2 control-label">Session ID</label>
+		<div class="col-sm-10">
+			<input id="sessionID" name="sessionID" class="form-control" type="text" ng-model="search.sessionID" placeholder="Enter the SessaoUsuario Session ID"></input>
+		</div>
+	</div>
+
+
+	<div class="form-group">
+		<label for="keepAlive" class="col-sm-2 control-label">Keep Alive</label>
+		<div class="col-sm-10">
+			<select id="keepAlive" name="keepAlive" class="form-control" ng-model="search.keepAlive" ng-options="k as k for k in keepAliveList">
+				<option value="">Choose a Keep Alive</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="usuario" class="col-sm-2 control-label">Usuario</label>
+		<div class="col-sm-10">
+			<select id="usuario" name="usuario" class="form-control" ng-model="search.usuario" ng-options="u as u.nome for u in usuarioList">
+				<option value="">Choose a Usuario</option>
+			</select>
+		</div>
+	</div>
+
+
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-sm-10">
+				<a id="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="search-results">
+		<div class="table-responsive">
+		<table class="table table-responsive table-bordered table-striped clearfix">
+			<thead>
+				<tr>
+					<th>Session ID</th>
+					<th>Ultimo Acesso</th>
+					<th>Keep Alive</th>
+					<th>Usuario</th>
+				</tr>
+			</thead>
+			<tbody id="search-results-body">
+				<tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td><a href="#/SessaoUsuarios/edit/{{result.id}}">{{result.sessionID}}</a></td>
+					<td><a href="#/SessaoUsuarios/edit/{{result.id}}">{{result.ultimoAcesso| date:'yyyy-MM-dd HH:mm:ss Z'}}</a></td>
+					<td><a href="#/SessaoUsuarios/edit/{{result.id}}">{{result.keepAlive}}</a></td>
+						<td><a href="#/SessaoUsuarios/edit/{{result.id}}">{{result.usuario.nome}}</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+		<ul class="pagination pagination-centered">
+		<li ng-class="{disabled:currentPage == 0}">
+			<a id="prev" href="" ng-click="previous()">«</a>
+		</li>
+		<li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+			<a href="" ng-bind="n + 1">1</a>
+		</li>
+		<li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+			<a id="next" href="" ng-click="next()">»</a>
+		</li>
+	</ul>
+
+</div>

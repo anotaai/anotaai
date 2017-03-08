@@ -1,0 +1,166 @@
+<div class="row text-center">
+	<img  src="../../img/crud.svg">
+	
+	<header ng-switch on="action">
+	 <h2 ng-switch-when="new" class="page-title">Cadastro de Produto</h2>
+	 <h2 ng-switch-when="edit" class="page-title">Edição de Produto</h2>
+	</header>
+
+</div>
+
+<form id="ProdutoForm" name="ProdutoForm" class="form-horizontal" role="form">
+
+<div class="panel">
+   <div class="panel-heading"> </div>
+   
+   <div class="panel-body">
+ 
+	<div  class="form-group">
+		<div class="col-md-offset-3 col-md-4">
+			<div id="codigo-controls" class="col-sm-3 col-xs-3">
+			   <input id="codigoGerado" name="codigoGerado" type="checkbox" class="form-control" ng-model="produto.codigoGerado"   ng-change="codigoAutomatico()"></input>
+			</div>
+			<div class="form-control-static">
+			 <label for="codigoGerado" class="control-label">Gerar Código Produto</label>
+			 </div>
+		</div>
+		
+		<div class="col-md-4" >
+		  <div id="descricao-controls" class="col-sm-3 col-xs-3">
+			<input id="ehInsumo" name="ehInsumo" type="checkbox" class="form-control" ng-model="produto.ehInsumo"   ></input>
+		   </div>
+		   <div class="form-control-static"> 
+			<label for="ehInsumo" class="control-label">Insumo</label>
+		   </div>
+		</div>
+	</div>
+  
+	<div class="form-group required">
+		<div>
+			<label for="codigo" class="col-sm-3 control-label">Código</label>
+			<div id="codigo-controls" class="col-sm-8">
+				<input id="codigo" name="codigo" type="number" required class="form-control" ng-model="produto.codigo" 
+						autocomplete="off"></input>
+			</div>
+		</div>
+		
+	</div>
+	
+	 
+	
+	<div class="form-group required" ng-class="{'has-error': ProdutoForm.descricao.$invalid}">
+		<label for="descricao" class="col-sm-3 control-label">Descrição</label>
+		<div id="descricao-controls" class="col-sm-8">
+			<input id="descricao" name="descricao" type="text" required class="form-control" ng-model="produto.descricao" 
+					autocomplete="off"></input>
+		</div>
+	</div>
+	
+	<div class="form-group" ng-class="{'has-error': ProdutoForm.descricaoResumida.$invalid}">
+		<label for="descricaoResumida" class="col-sm-3 control-label">Descrição Resumida</label>
+		<div id="descricaoResumidaControls" class="col-sm-8">
+			<input id="descricaoResumida" name="descricaoResumida" type="text" class="form-control" ng-model="produto.descricaoResumida"
+					autocomplete="off"></input>
+		</div>
+	</div>
+	
+	<div class="form-group" ng-class="{'has-error': !produto.unidadeMedida}">
+		<label for="unidadeMedida" class="col-sm-3 control-label">Unidade de Medida</label>
+		<div id="unidadeMedidaControls" class="col-sm-8">
+			<select id="unidadeMedida" name="unidadeMedida" class="form-control" ng-model="produto.unidadeMedida.type">
+				<option value="" selected></option>
+				<option ng-repeat="unidadeMedida in unidadesMedida" value="{{unidadeMedida.type}}" ng-selected="unidadeMedida.type ==  produto.unidadeMedida.type">
+					{{unidadeMedida.descricao}}
+				</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="form-group required" ng-class="{'has-error': ProdutoForm.precoVenda.$invalid}">
+		<label for="precoVenda" class="col-sm-3 control-label">Preço de venda</label>
+		<div id="precoVendaControls" class="col-sm-8">
+			<input id="precoVenda" name="precoVenda" type="text" required class="form-control" ng-model="produto.precoVenda" 
+					autocomplete="off" ng-currency></input>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="precoVenda" class="col-sm-3 control-label">Disponibilidade</label>
+		<div id="precoVendaControls" class="col-sm-8">
+			<select id="disponibilidades" class="form-control" multiple="multiple"></select>
+		</div>
+	</div>
+	
+	<script type="text/ng-template" id="customTemplate.html">
+		<a>
+			<i class="glyphicon {{match.model.iconClass.nameClass}}" width="16"></i>
+			<span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+		</a>
+	</script>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Receita</label>
+		<div id="divReceita" class="col-sm-8">
+			<div id="divItemReceita" class="col-sm-9" style="padding-left: 0px;">
+				<input id="autoComplete" type="text" ng-model="produtoSelecionado" ng-model-options="modelOptions" placeholder="Produto" 
+					   typeahead-template-url="customTemplate.html" class="form-control" ng-class="{'produto-selecionado': selecionado}"
+					   uib-typeahead="produto as produto.descricao for produto in getProdutos($viewValue)" 
+					   typeahead-loading="loadingProdutos" typeahead-no-results="noResults" autocomplete="off">
+				<i ng-show="loadingProdutos" class="glyphicon glyphicon-refresh"></i>
+				<div ng-show="noResults">
+					<i class="glyphicon glyphicon-remove"></i><b>&nbsp;Nenhum registro encontrado</b>
+				</div>
+			</div>
+			<div id="divQtdItemReceita" class="col-sm-2" style="padding-left: 0px;">
+				<input id="qtdItemReceita" name="qtdItemReceita" type="text" class="form-control" ng-model="itemReceita.quantidade"
+					   placeholder="Qtd" autocomplete="off"></input>
+			</div>
+			<div id="divSaveProduto" class="col-sm-1" style="padding-left: 0px;">
+				<button id="saveItemReceita" name="saveItemReceita" class="btn btn-primary" 
+						ng-disabled="!itemProdutoPreenchido()" title="Adicionar"
+				 		ng-click="addItemReceita()"><span class="glyphicon glyphicon-save"></span></button>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group" ng-repeat="itemReceita in produto.itensReceita">
+		<label class="col-sm-3 control-label"></label>
+		<div class="col-sm-8">
+			<div class="col-sm-9">
+				<span ng-bind="itemReceita.ingrediente.descricao"></span>
+			</div>
+			<div class="col-sm-2">
+				<span ng-bind="itemReceita.quantidade"></span>
+			</div>
+			<div class="col-sm-1" style="text-align: center;">
+				<div uib-dropdown on-toggle="toggled(open)">
+					<a href="" id="menu" uib-dropdown-toggle class="glyphicon glyphicon-menu-hamburger"></a>
+					<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="menu">
+						<li role="menuitem"><a href="" ng-click="editarItemReceita(itemReceita, $index)">Editar</a></li>
+						<li role="menuitem"><a href="" ng-click="excluirItemReceita(itemReceita, $index)">Excluir</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	</div>
+	
+	<div class="panel-footer text-center">
+
+	<div class="form-group">
+		<div class="col-sm-12">
+			<button id="saveProduto" name="saveEndereco" class="btn btn-success" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+			<button id="cancel" name="cancel" class="btn btn-warning" ng-click="cancel()">
+				<span class="glyphicon glyphicon-hand-left"></span>
+				<span ng-translate="label.voltar">Sair</span>				
+			</button>
+			<button id="deleteProduto" name="delete-produot" class="btn btn-danger" ng-show="endereco.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+		</div>
+	</div>
+	
+	</div>
+	
+ </div>
+	
+</form>

@@ -1,0 +1,35 @@
+<header ng-switch on="$location.path().indexOf('/ProdutoGrupoProdutos/new') > -1">
+	<h3 ng-switch-when="true">Create a new ProdutoGrupoProduto</h3>
+	<h3 ng-switch-when="false">View or edit ProdutoGrupoProduto</h3>
+</header>
+<form id="ProdutoGrupoProdutoForm" name="ProdutoGrupoProdutoForm" class="form-horizontal" role="form">
+		<div class="form-group" ng-class="{'has-error': ProdutoGrupoProdutoForm.produto.$invalid}">
+		<label for="produto" class="col-sm-2 control-label">Produto</label>
+		<div id="produtoControls" class="col-sm-10">
+		<select id="produto" name="produto" class="form-control" ng-model="produtoSelection" ng-options="p.text for p in produtoSelectionList" required >
+			<option value="">Choose a Produto</option>
+		</select>
+		<span class="help-block error" ng-show="ProdutoGrupoProdutoForm.produto.$error.required">required</span> 
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': ProdutoGrupoProdutoForm.grupoProduto.$invalid}">
+		<label for="grupoProduto" class="col-sm-2 control-label">Grupo Produto</label>
+		<div id="grupoProdutoControls" class="col-sm-10">
+		<select id="grupoProduto" name="grupoProduto" class="form-control" ng-model="grupoProdutoSelection" ng-options="g.text for g in grupoProdutoSelectionList" required >
+			<option value="">Choose a Grupo Produto</option>
+		</select>
+		<span class="help-block error" ng-show="ProdutoGrupoProdutoForm.grupoProduto.$error.required">required</span> 
+		</div>
+	</div>
+
+
+
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button id="saveProdutoGrupoProduto" name="saveProdutoGrupoProduto" class="btn btn-primary" ng-disabled="isClean() || ProdutoGrupoProdutoForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+			<button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+			<button id="deleteProdutoGrupoProduto" name="deleteProdutoGrupoProduto" class="btn btn-danger" ng-show="produtoGrupoProduto.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,86 @@
+package br.com.alinesolutions.anotaai.service.app;
+
+import java.util.ArrayList;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+
+import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
+import br.com.alinesolutions.anotaai.metadata.model.AppException;
+import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
+import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.produto.Disponibilidade;
+import br.com.alinesolutions.anotaai.model.usuario.Cliente;
+import br.com.alinesolutions.anotaai.model.usuario.Cliente.ClienteConstant;
+import br.com.alinesolutions.anotaai.service.AppService;
+import br.com.alinesolutions.anotaai.service.ResponseUtil;
+import br.com.alinesolutions.anotaai.util.Constant;
+
+@Stateless
+public class DisponibilidadeService {
+	
+	@Inject
+	private EntityManager em;
+	
+	@EJB
+	private AppService appService;
+	
+	@EJB
+	private ResponseUtil responseUtil;
+	
+	public ResponseEntity create(Disponibilidade disponibilidade) throws AppException {
+		TypedQuery<Cliente> q = null;
+		Cliente clienteLogado = appService.getCliente();
+		Cliente cliente = null;
+		ResponseEntity responseEntity = new ResponseEntity();
+		try {
+			q = em.createNamedQuery(ClienteConstant.FIND_BY_PRODUTO_KEY, Cliente.class);
+			q.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, disponibilidade.getProduto().getId());
+			cliente = q.getSingleResult();
+			if (cliente.equals(clienteLogado)) {
+				em.persist(disponibilidade);
+				responseEntity.setIsValid(Boolean.TRUE);
+				responseEntity.setEntity(disponibilidade);
+				responseEntity.setMessages(new ArrayList<>());
+				responseEntity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO,
+						TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
+			} else {
+				responseUtil.buildIllegalArgumentException(responseEntity);
+			}
+		} catch (NoResultException e) {
+			responseUtil.buildIllegalArgumentException(responseEntity);
+		}
+		return responseEntity;
+	}
+	
+	public ResponseEntity deleteById(Long id) throws AppException {
+		ResponseEntity entity = new ResponseEntity();
+		Cliente clienteLogado = appService.getCliente();
+		Cliente clienteDisponibilidade = null;
+		Disponibilidade disponibilidade = null;
+		try {
+			TypedQuery<Cliente> query = em.createNamedQuery(Cliente.ClienteConstant.FIND_BY_DISPONIBILIDADE_KEY, Cliente.class);
+			query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, id);
+			clienteDisponibilidade = query.getSingleResult();
+			entity.setIsValid(clienteDisponibilidade.equals(clienteLogado));
+			if (entity.getIsValid()) {
+				disponibilidade = em.find(Disponibilidade.class, id);
+				em.remove(disponibilidade);
+				entity.setMessages(new ArrayList<>());
+				entity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO,
+						TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
+			} else {
+				responseUtil.buildIllegalArgumentException(entity);
+			}
+		} catch (NoResultException e) {
+			responseUtil.buildIllegalArgumentException(entity);
+		}
+		return entity;
+	}
+
+}

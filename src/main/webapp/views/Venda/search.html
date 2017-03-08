@@ -1,0 +1,89 @@
+<div class="row text-center">
+	<img  src="../../img/search.svg">
+	<h2 class="page-title">Venda</h2>
+</div>
+
+<div class="panel">
+	<div class="panel-heading"></div>
+
+	<form id="ProdutoSearch" class="form-horizontal">
+
+		<div class="panel-body">  
+		 
+		<div class="form-group">
+			<label for="descricao" class="col-sm-2 control-label">Período</label>
+			<div class="col-sm-4">
+				<input id="descricao" name="descricao" class="form-control" type="text" ng-model="search.descricao" 
+					   placeholder="Descrição do produto" autocomplete="off"></input>
+			</div>
+			<div class="col-sm-1">
+				  <label class="control-label">a</label>	   
+			</div>
+			<div class="col-sm-4">
+				<input id="descricao" name="descricao" class="form-control" type="text" ng-model="search.descricao" 
+					   placeholder="Descrição do produto" autocomplete="off"></input>
+			</div>
+		 
+		</div>
+			
+		 
+		</div>
+
+		<div class="panel-footer text-right">
+			<a id="Search" class="btn btn-primary" ng-click="performSearch()">
+				<span class="glyphicon glyphicon-search"></span> <span>Pesquisar</span>
+			</a> 
+			<a id="novo-venda" class="btn btn-primary" ui-sref="app.venda-new">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				<span>Nova Venda</span>
+			</a>
+		</div>
+
+	</form>
+</div>
+
+
+ 
+ <div class="panel" id="search-results" ng-if="filteredResults.length > 0">
+   <div class="panel-body">
+	<div class="table-responsive">
+		<table class="table table-responsive table-bordered table-striped clearfix">
+			<thead>
+				<tr>
+					<th class="col-md-3 text-center">Cupom</th>
+					<th class="col-md-3 text-center">Data Hora</th>
+					<th class="col-md-3 text-center">Quantidade Itens</th>
+					<th class="col-md-3 text-center">Valor Total</th>
+				</tr>
+			</thead>
+			<tbody id="search-results-body" class="cursor-pointer">
+				<tr class="pointer" ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.estoque.precoCusto"></span></td>
+					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.descricao"></span></td>
+					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.codigo"></span></td>
+					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.estoque.precoCusto"></span></td>
+					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.precoVenda | currency:''"></span></td>
+					<td class="text-center" ng-click="edit(result)">
+						<span ng-bind="result.estoque.quantidadeEstoque"></span>
+						<span ng-bind="&#160;"></span>
+						<span ng-bind="result.unidadeMedida.sigla" title="{{result.unidadeMedida.descricao}}"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</div>
+	<div class="panel-footer">
+	<ul class="pagination pagination-centered">
+		<li ng-class="{disabled:currentPage == 0}">
+			<a id="prev" href="" ng-click="previous()">«</a>
+		</li>
+		<li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+			<a href="" ng-bind="n + 1">1</a>
+		</li>
+		<li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+			<a id="next" href="" ng-click="next()">»</a>
+		</li>
+	</ul>
+	</div>
+</div>

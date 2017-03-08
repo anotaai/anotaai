@@ -1,0 +1,102 @@
+<div class="form-horizontal">
+	<h3>Create a new Endereco</h3>
+	<div class="form-group">
+		<div class="col-md-offset-2 col-sm-2">
+			<a id="Create" class="btn btn-primary" href="#/Enderecos/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+		</div>
+	</div>
+</div>
+<hr/>
+<div>
+	<h3>Search for Enderecos</h3>
+	<form id="EnderecoSearch" class="form-horizontal">
+			<div class="form-group">
+		<label for="logradouro" class="col-sm-2 control-label">Logradouro</label>
+		<div class="col-sm-10">
+			<input id="logradouro" name="logradouro" class="form-control" type="text" ng-model="search.logradouro" placeholder="Enter the Endereco Logradouro"></input>
+		</div>
+		</div>
+	
+		<div class="form-group">
+			<label for="complemento" class="col-sm-2 control-label">Complemento</label>
+			<div class="col-sm-10">
+				<input id="complemento" name="complemento" class="form-control" type="text" ng-model="search.complemento" placeholder="Enter the Endereco Complemento"></input>
+			</div>
+		</div>
+	
+		<div class="form-group">
+			<label for="cep" class="col-sm-2 control-label">Cep</label>
+			<div class="col-sm-10">
+				<input id="cep" name="cep" class="form-control" type="text" ng-model="search.cep" placeholder="Enter the Endereco Cep"></input>
+			</div>
+		</div>
+	
+		<div class="form-group">
+			<label for="bairro" class="col-sm-2 control-label">Bairro</label>
+			<div class="col-sm-10">
+				<input id="bairro" name="bairro" class="form-control" type="text" ng-model="search.bairro" placeholder="Enter the Endereco Bairro"></input>
+			</div>
+		</div>
+	
+		<div class="form-group">
+			<label for="cidade" class="col-sm-2 control-label">Cidade</label>
+			<div class="col-sm-10">
+				<input id="cidade" name="cidade" class="form-control" type="text" ng-model="search.cidade" placeholder="Enter the Endereco Cidade"></input>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="estado" class="col-sm-2 control-label">Estado</label>
+			<div class="col-sm-10">
+				<select id="estado" name="estado" class="form-control" ng-model="search.estado">
+					<option value="">Choose a Estado</option>
+					<option ng-repeat="(k, v) in estadoList" value="{{k}}">{{v}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-sm-10">
+				<a id="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="search-results">
+		<div class="table-responsive">
+		<table class="table table-responsive table-bordered table-striped clearfix">
+			<thead>
+				<tr>
+					<th>Logradouro</th>
+					<th>Complemento</th>
+					<th>Cep</th>
+					<th>Bairro</th>
+					<th>Cidade</th>
+					<th>Estado</th>
+				</tr>
+			</thead>
+			<tbody id="search-results-body">
+				<tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td><a href="#/Enderecos/edit/{{result.id}}">{{result.logradouro}}</a></td>
+					<td><a href="#/Enderecos/edit/{{result.id}}">{{result.complemento}}</a></td>
+					<td><a href="#/Enderecos/edit/{{result.id}}">{{result.cep}}</a></td>
+					<td><a href="#/Enderecos/edit/{{result.id}}">{{result.bairro}}</a></td>
+					<td><a href="#/Enderecos/edit/{{result.id}}">{{result.cidade}}</a></td>
+					<td><a href="#/Enderecos/edit/{{result.id}}">{{result.estado}}</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+		<ul class="pagination pagination-centered">
+		<li ng-class="{disabled:currentPage == 0}">
+			<a id="prev" href="" ng-click="previous()">«</a>
+		</li>
+		<li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+			<a href="" ng-bind="n + 1">1</a>
+		</li>
+		<li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+			<a id="next" href="" ng-click="next()">»</a>
+		</li>
+	</ul>
+
+</div>

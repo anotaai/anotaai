@@ -1,0 +1,35 @@
+<header ng-switch on="$location.path().indexOf('/ClienteConsumidors/new') > -1">
+	<h3 ng-switch-when="true">Create a new ClienteConsumidor</h3>
+	<h3 ng-switch-when="false">View or edit ClienteConsumidor</h3>
+</header>
+<form id="ClienteConsumidorForm" name="ClienteConsumidorForm" class="form-horizontal" role="form">
+	 <div class="form-group" ng-class="{'has-error': ClienteConsumidorForm.cliente.$invalid}">
+		<label for="cliente" class="col-sm-2 control-label">Cliente</label>
+		<div id="clienteControls" class="col-sm-10">
+		<select id="cliente" name="cliente" class="form-control" ng-model="clienteSelection" ng-options="c.text for c in clienteSelectionList" required >
+			<option value="">Choose a Cliente</option>
+		</select>
+		<span class="help-block error" ng-show="ClienteConsumidorForm.cliente.$error.required">required</span> 
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': ClienteConsumidorForm.consumidor.$invalid}">
+		<label for="consumidor" class="col-sm-2 control-label">Consumidor</label>
+		<div id="consumidorControls" class="col-sm-10">
+		<select id="consumidor" name="consumidor" class="form-control" ng-model="consumidorSelection" ng-options="c.text for c in consumidorSelectionList" required >
+			<option value="">Choose a Consumidor</option>
+		</select>
+		<span class="help-block error" ng-show="ClienteConsumidorForm.consumidor.$error.required">required</span> 
+		</div>
+	</div>
+
+
+
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button id="saveClienteConsumidor" name="saveClienteConsumidor" class="btn btn-primary" ng-disabled="isClean() || ClienteConsumidorForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+			<button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+			<button id="deleteClienteConsumidor" name="deleteClienteConsumidor" class="btn btn-danger" ng-show="clienteConsumidor.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+		</div>
+	</div>
+</form>

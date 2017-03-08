@@ -1,0 +1,70 @@
+<div class="container">
+	<div id="menuResponsivo" class="row row-offcanvas row-offcanvas-left">	
+	
+		<div id="sidebar" ng-show="dataLoading" class="ng-hide col-xs-6 col-sm-2 sidebar-offcanvas" ng-app="anotaai" ng-controller="MenuController" >
+			<div class="caderneta-app">
+				<a href="#" ng-click="home()">
+					<img class="hidden-xs img-responsive" src="img/caderneta-02.png" alt="Anota Ai"></img>
+				</a>
+			</div>
+			<nav id="navegador" class="sidebar-nav" role="navigation">
+				<div id="sidebar-entries" class="list-group">
+					<a ng-repeat="menu in listMenu" class="list-group-item" ng-class="{active: matchesRoute('{{menu.action}}')}"
+						onclick="hideMenu()"
+						ng-click="root.changeRoute(menu.action)" href="#" data-toggle="offcanvas">
+						<i class="glyphicon	{{menu.icone.nameClass}}"></i>
+						<span ng-bind="menu.descricao" ></span>
+					</a>
+				</div>
+			</nav>
+		</div> 
+		
+		<!-- main area-->			
+		<div class="col-xs-12 col-sm-9 col-sm-offset-2">
+
+			<div class="text-right visible-xs">
+				<div class="col-sm-3">
+					<button type="button" class="btn btn-primary"
+						data-toggle="offcanvas" onclick="toggleMenu()">
+						Menu <i id="arrow" class="glyphicon glyphicon-chevron-left"
+							style="display: none;"></i> <i id="burger" class="fa fa-navicon"></i>
+					</button>
+				</div>
+			</div>
+
+			<div ng-app="anotaai" ng-controller="FlashController" class="alert alert-dismissible"
+				ng-class="'alert-' + flash.getMessage().cssClass" role="alert"
+				ng-show="showAlert">
+				<button type="button" class="close" ng-click="hideAlert()"	aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span ng-bind="flash.getMessage().text"></span>
+			</div>
+			<div id="main" ui-view>
+			</div>
+		</div>
+	 </div>
+	
+</div>
+
+<script>
+	function toggleMenu() {
+		$('#menuResponsivo').toggleClass('active');
+		checkIcons(); 
+	}
+
+	function checkIcons() {
+		if($('#menuResponsivo').hasClass('active')) {
+			$('#burger').hide();
+			$('#arrow').show();
+		} else {
+			$('#burger').show();
+			$('#arrow').hide();
+		} 
+	}
+	
+	function hideMenu() {
+		$('#menuResponsivo').removeClass('active');
+		checkIcons();
+	}
+</script>

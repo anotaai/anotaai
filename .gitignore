@@ -1,0 +1,7 @@
+target
+.settings/*
+!.settings/.jsdtscope
+.project
+.classpath
+/.tern-project
+/node_modules/
