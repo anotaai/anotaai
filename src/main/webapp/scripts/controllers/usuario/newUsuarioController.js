@@ -108,7 +108,7 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 						angular.element('#' + campoFoco).focus();
 					} else {
 						limparFormulario();
-						angular.element('#nome').focus();
+						angular.element('#email').focus();
 					}					
 				} else {
 					angular.element('#telefone').attr("disabled", "disabled");

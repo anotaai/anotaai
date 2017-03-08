@@ -3,4 +3,4 @@
 03) npm install -g webpack 
 04) Ir para a pasta do projeto e executar comandos abaixo ou executar pelo plugin do eclipse
 05) npm install
-06) npm run dev   ou  webpack --watch
+06) npm run dev ou webpack --watch
