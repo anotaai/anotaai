@@ -1,41 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -46,7 +46,7 @@
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -55,13 +55,13 @@
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 137);
 /******/ })
@@ -62483,7 +62483,7 @@ module.exports =
 /***/ (function(module, exports) {
 
 module.exports =
-	"@CHARSET \"UTF-8\";\r\n\r\n/* Sticky footer styles\r\n -------------------------------------------------- */\r\nhtml  {\r\n\t position:relative;\r\n\t min-height:100%;\r\n}\r\n\r\n\r\nbody {\r\n\tfont-family: \"Lato\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n\tbackground-color: #e6e6fa;   /* cinza:  #ECF0F1; */\r\n\toverflow-y: scroll;\r\n\toverflow-x: hidden;\r\n\tmargin-bottom: 70px;\r\n}\r\n\r\n\r\n\r\n\r\n.navbar-inverse {\r\n    background-color: #00004c;\r\n    border-color: #E7E7E7;\r\n    background-image: none;\r\n}\r\n\r\n.has-error .control-label {\r\n\tcolor: #333 !important;\r\n}\r\n\r\n.has-error .form-control {\r\n\tborder: 1px solid #ccc !important;\r\n\t\r\n}\r\n\r\n.required .control-label:after { \r\n   content:\"*\";\r\n   color:red;\r\n}\r\n\r\n\r\n.panel {\r\n\tborder: 0;\r\n\tbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10), 0 2px 15px 0 rgba(0, 0, 0, .1);\r\n\tborder-radius: 0;\r\n}\r\n\r\n.page-title {\r\n\ttext-shadow: 1px 1px 2px #ECF0F1, 1px 0px 2px #ECF0F1, 0px 1px 8px #ECF0F1, -1px -1px 8px #ECF0F1;\r\n    color: #626262;\r\n} \r\n\r\n.panel-footer {\r\n    background-color: #fff;\r\n    border-top: 1px solid #fff;\r\n   \r\n}\r\n\r\n \r\n.form-login {\r\n\tbox-shadow: 0 14px 24px 0 rgba(0, 0, 0, .19), 0 5px 8px 0 rgba(0, 0, 0, .24);\r\n\tpadding: 40px 50px;\r\n\tborder-radius: 10px;\r\n\tmargin: 0 auto;\r\n\tmax-width: 400px;\r\n\topacity: .80;\r\n\tbackground-color: #FFF;\r\n}\r\n\r\n\r\n\r\n/* Set the fixed height of the footer here */\r\n#footer {\r\n\theight: 60px;\r\n\tbackground-color: #F5F5F5;\r\n\ttext-align: center;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n}\r\n\r\nh2 i.icon-check {\r\n\tvertical-align: middle;\r\n}\r\n\r\ntable {\r\n\ttable-layout: fixed;\r\n\tword-wrap: break-word;\r\n}\r\n\r\n \r\n@media ( max-width : 767px) {\r\n\ttable {\r\n\t\ttable-layout: auto;\r\n\t}\r\n .row-offcanvas {\r\n    position: relative;\r\n    -webkit-transition: all .25s ease-out;\r\n         -o-transition: all .25s ease-out;\r\n            transition: all .25s ease-out;\r\n  }\r\n  \r\n  .sidebar-offcanvas {\r\n    position: absolute;\r\n    width: 60%;  \r\n    display: none;\r\n  }\r\n\r\n  .row-offcanvas-left {\r\n    right: 0;\r\n  }\r\n\r\n  .row-offcanvas-left.active\r\n  .sidebar-offcanvas {\r\n    display: block;  \r\n    position: absolute;\r\n    top: 25px;\r\n    z-index: 1;\r\n  }\r\n\r\n  .row-offcanvas-left.active {\r\n    \r\n  }\r\n}\r\n\r\n.navbar-login {\r\n\twidth: 305px;\r\n\tpadding: 10px;\r\n\tpadding-bottom: 0px;\r\n}\r\n\r\n.navbar-login-session {\r\n\tpadding: 10px;\r\n\tpadding-bottom: 0px;\r\n\tpadding-top: 0px;\r\n}\r\n\r\n.navbar-footer {\r\n\tbackground-color: #DDD;\r\n}\r\n\r\n.navbar-footer-content {\r\n\tpadding: 15px 15px 15px 15px;\r\n}\r\n\r\n.dropdown-menu {\r\n\tpadding: 0px;\r\n\toverflow: hidden;\r\n}\r\n\r\n.dropdown-toggle {\r\n\tcursor: pointer;\r\n}\r\n\r\n.icon-size {\r\n\tfont-size: 87px;\r\n}\r\n\r\n.footer {\r\n\tposition: fixed;\r\n\theight: 100px;\r\n\tbottom: 0px;\r\n\twidth: 100%;\r\n}\r\n.row-aline {\r\n\tmargin-left: 0px;\r\n\tmargin-right: 0px;\r\n}\r\n.centering {\r\n\tfloat: none;\r\n\tmargin: 0 auto;\r\n}\r\n\r\n.cursor-pointer {\r\n\tcursor: pointer;\r\n}\r\n\r\n.cursor-croshair {\r\n\tcursor: crosshair;\r\n}\r\n\r\n.cursor-eresize {\r\n\tcursor: e-resize;\r\n}\r\n\r\n.cursor-move {\r\n\tcursor: move;\r\n}\r\n\r\n.caderneta-app {\r\n\tpadding-left: 33px;\r\n\tpadding-bottom: 10px;\r\n\tposition: relative;\r\n\tright: 15px;\r\n}\r\n.detail-result {\r\n\tpadding-top: 50px;\r\n}\r\n.trashhover {\r\n\tcolor: red;\r\n\tfont-size: 1em;\r\n}\r\n.auto-complete-option {\r\n\twidth: 95%;\r\n}\r\n.produto-selecionado {\r\n\tcolor: green;\r\n\tbackground-color: #f2dede;\r\n\tborder-color: green;\r\n}";
+	"@CHARSET \"UTF-8\";\r\n\r\n/* Sticky footer styles\r\n -------------------------------------------------- */\r\nhtml  {\r\n\t position:relative;\r\n\t min-height:100%;\r\n}\r\n\r\n\r\nbody {\r\n\tfont-family: \"Lato\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n\tbackground-color: #e6e6fa;   /* cinza:  #ECF0F1; */\r\n\toverflow-y: scroll;\r\n\toverflow-x: hidden;\r\n\tmargin-bottom: 70px;\r\n}\r\n\r\n\r\n\r\n.navbar-inverse {\r\n    background-color: #00004c;\r\n    border-color: #E7E7E7;\r\n    background-image: none;\r\n}\r\n\r\n.has-error .control-label {\r\n\tcolor: #333 !important;\r\n}\r\n\r\n.has-error .form-control {\r\n\tborder: 1px solid #ccc !important;\r\n\t\r\n}\r\n\r\n.required .control-label:after { \r\n   content:\"*\";\r\n   color:red;\r\n}\r\n\r\n\r\n.panel {\r\n\tborder: 0;\r\n\tbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10), 0 2px 15px 0 rgba(0, 0, 0, .1);\r\n\tborder-radius: 0;\r\n}\r\n\r\n.page-title {\r\n\ttext-shadow: 1px 1px 2px #ECF0F1, 1px 0px 2px #ECF0F1, 0px 1px 8px #ECF0F1, -1px -1px 8px #ECF0F1;\r\n    color: #626262;\r\n} \r\n\r\n.panel-footer {\r\n    background-color: #fff;\r\n    border-top: 1px solid #fff;\r\n   \r\n}\r\n\r\n \r\n.form-login {\r\n\tbox-shadow: 0 14px 24px 0 rgba(0, 0, 0, .19), 0 5px 8px 0 rgba(0, 0, 0, .24);\r\n\tpadding: 40px 50px;\r\n\tborder-radius: 10px;\r\n\tmargin: 0 auto;\r\n\tmax-width: 400px;\r\n\topacity: .80;\r\n\tbackground-color: #FFF;\r\n}\r\n\r\n\r\n\r\n/* Set the fixed height of the footer here */\r\n#footer {\r\n\theight: 60px;\r\n\tbackground-color: #F5F5F5;\r\n\ttext-align: center;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n}\r\n\r\nh2 i.icon-check {\r\n\tvertical-align: middle;\r\n}\r\n\r\ntable {\r\n\ttable-layout: fixed;\r\n\tword-wrap: break-word;\r\n}\r\n\r\n \r\n@media ( max-width : 767px) {\r\n\ttable {\r\n\t\ttable-layout: auto;\r\n\t}\r\n .row-offcanvas {\r\n    position: relative;\r\n    -webkit-transition: all .25s ease-out;\r\n         -o-transition: all .25s ease-out;\r\n            transition: all .25s ease-out;\r\n  }\r\n  \r\n  .sidebar-offcanvas {\r\n    position: absolute;\r\n    width: 60%;  \r\n    display: none;\r\n  }\r\n\r\n  .row-offcanvas-left {\r\n    right: 0;\r\n  }\r\n\r\n  .row-offcanvas-left.active\r\n  .sidebar-offcanvas {\r\n    display: block;  \r\n    position: absolute;\r\n    top: 25px;\r\n    z-index: 1;\r\n  }\r\n\r\n  .row-offcanvas-left.active {\r\n    \r\n  }\r\n}\r\n\r\n.navbar-login {\r\n\twidth: 305px;\r\n\tpadding: 10px;\r\n\tpadding-bottom: 0px;\r\n}\r\n\r\n.navbar-login-session {\r\n\tpadding: 10px;\r\n\tpadding-bottom: 0px;\r\n\tpadding-top: 0px;\r\n}\r\n\r\n.navbar-footer {\r\n\tbackground-color: #DDD;\r\n}\r\n\r\n.navbar-footer-content {\r\n\tpadding: 15px 15px 15px 15px;\r\n}\r\n\r\n.dropdown-menu {\r\n\tpadding: 0px;\r\n\toverflow: hidden;\r\n}\r\n\r\n.dropdown-toggle {\r\n\tcursor: pointer;\r\n}\r\n\r\n.icon-size {\r\n\tfont-size: 87px;\r\n}\r\n\r\n.footer {\r\n\tposition: fixed;\r\n\theight: 100px;\r\n\tbottom: 0px;\r\n\twidth: 100%;\r\n}\r\n.row-aline {\r\n\tmargin-left: 0px;\r\n\tmargin-right: 0px;\r\n}\r\n.centering {\r\n\tfloat: none;\r\n\tmargin: 0 auto;\r\n}\r\n\r\n.cursor-pointer {\r\n\tcursor: pointer;\r\n}\r\n\r\n.cursor-croshair {\r\n\tcursor: crosshair;\r\n}\r\n\r\n.cursor-eresize {\r\n\tcursor: e-resize;\r\n}\r\n\r\n.cursor-move {\r\n\tcursor: move;\r\n}\r\n\r\n.caderneta-app {\r\n\tpadding-left: 33px;\r\n\tpadding-bottom: 10px;\r\n\tposition: relative;\r\n\tright: 15px;\r\n}\r\n.detail-result {\r\n\tpadding-top: 50px;\r\n}\r\n.trashhover {\r\n\tcolor: red;\r\n\tfont-size: 1em;\r\n}\r\n.auto-complete-option {\r\n\twidth: 95%;\r\n}\r\n.produto-selecionado {\r\n\tcolor: green;\r\n\tbackground-color: #f2dede;\r\n\tborder-color: green;\r\n}\r\n\r\n#sidebar {\r\n  position: absolute;\r\n  top: 51px; \r\n  bottom: 0;  \r\n  left: 0; \r\n  padding: 20px;\r\n}";
 
 /***/ }),
 /* 41 */
@@ -69340,9 +69340,6 @@ angular.module('anotaai').run(function($http, $rootScope) {
 			};
 			
 			firebase.initializeApp(config);
-			
-			
-			
 			
 			firebase.auth().onAuthStateChanged(function(user) {
 				if (user) {
