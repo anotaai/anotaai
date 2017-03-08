@@ -203,7 +203,7 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 		limparFormulario();
 		$scope.ativacaoCadastro = false;
 		$timeout(function() {
-			angular.element('#telefone').focus(); 
+			angular.element('#nome').focus(); 
 		}, 0);
 	};
 	
