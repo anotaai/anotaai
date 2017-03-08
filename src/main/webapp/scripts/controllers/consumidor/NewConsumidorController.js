@@ -19,7 +19,7 @@ angular.module('anotaai').controller('NewConsumidorController', function ($rootS
 	
 	(function() {
 		$timeout(function(){
-			angular.element('#nome').focus();
+			angular.element('#telefone').focus();
 		}, 0);
 	})()
 	
