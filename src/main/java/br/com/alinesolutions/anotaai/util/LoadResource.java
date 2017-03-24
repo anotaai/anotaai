@@ -13,13 +13,13 @@ import javax.ejb.Startup;
 public class LoadResource {
 
 	public String getFile(String fileName) {
-		InputStream is = getInputStream(fileName);
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(isr);
 		StringBuilder buffer = new StringBuilder();
-		try {
+		try (	
+			InputStream is = getInputStream(fileName);
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr)) {
 			String s = br.readLine();
-
+			
 			while (s != null) {
 				buffer.append(s);
 				s = br.readLine();
