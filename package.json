@@ -16,8 +16,8 @@
 	],
 	"license": "ISC",
 	"scripts": {
-		"dev": "cross-env NODE_ENV=dev webpack --watch --config webpack.config.js",
-		"prod": "cross-env NODE_ENV=production webpack --progress --config webpack.production.config.js"
+		"dev": "cross-env NODE_ENV=dev webpack --watch --config webpack.config.js --devtool source-map",
+		"prod": "cross-env NODE_ENV=production webpack --progress --config webpack.production.config.js --devtool eval"
 	},
 	"dependencies": {
 		"jquery": "2.1.1",
