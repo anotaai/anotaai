@@ -29,8 +29,6 @@ public class Login implements Serializable {
 	private static final Long sessionTime;
 
 	private static final String cookieSessionName;
-	
-	private String firebaseToken;
 
 	private TipoAcesso tipoAcesso;
 
@@ -89,14 +87,6 @@ public class Login implements Serializable {
 
 	public void setTipoAcesso(TipoAcesso tipoAcesso) {
 		this.tipoAcesso = tipoAcesso;
-	}
-
-	public String getFirebaseToken() {
-		return firebaseToken;
-	}
-
-	public void setFirebaseToken(String firebaseToken) {
-		this.firebaseToken = firebaseToken;
 	}
 
 }

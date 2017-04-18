@@ -224,12 +224,6 @@
 			</exclusions>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.firebase</groupId>
-			<artifactId>firebase-server-sdk</artifactId>
-			<version>3.0.3</version>
-		</dependency>
-
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

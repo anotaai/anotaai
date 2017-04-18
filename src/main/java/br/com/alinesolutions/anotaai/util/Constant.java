@@ -57,8 +57,6 @@ public interface Constant {
 	
 	public interface FileNane {
 		String SHORTENER = "config/google/url-shortener/shortener.json";
-		String FIREBASE = "config/google/firebase/firebase.json";
-		String FIREBASE_CONFIG = "config/google/firebase/firebase-config.json";
 		String CONFIRMACAO_CADASTRO_CONSUMIDOR_EMAIL = "template/email/usuario/confirmacao-cadastro-consumidor.html";
 		String CONFIRMACAO_CADASTRO_CONSUMIDOR_SMS = "template/sms/usuario/confirmacao-cadastro-consumidor.txt";
 		String CONFIRMACAO_CADASTRO_USUARIO_EMAIL = "template/email/usuario/confirmacao-cadastro-usuario.html";
@@ -67,12 +65,8 @@ public interface Constant {
 		String SOLICITACAO_EDICAO_CADASTRO_SMS = "template/email/usuario/solicitacao-edicao-cadastro.txt";
 		String CONFIRMACAO_ASSOCIACAO_CONSUMIDOR_EMAIL = "template/email/usuario/confirmacao-associacao-cliente.html";
 		String CONFIRMACAO_ASSOCIACAO_CONSUMIDOR_SMS = "template/sms/usuario/confirmacao-associacao-cliente.txt";
-	}
-
-	public interface Url {
-
-		String DATABASE_URL_FIREBASE = "https://databaseName.firebaseio.com/";
-		
+		String NOTIFICACAO_RENEW_PASSWORD_EMAIL = "template/email/usuario/renew-password.html";
+		String NOTIFICACAO_RENEW_PASSWORD_SMS = "template/sms/usuario/renew-password.txt";
 	}
 
 }

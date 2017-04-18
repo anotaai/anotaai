@@ -117,4 +117,24 @@ public class MessageEmail implements AnotaaiSendMessage {
 				htmlMensagem.toString(), usuarioConsumidor.getEmail());
 		event.fire(email);
 	}
+	
+	@Override
+	public void notificacaoRenewPassword(Usuario usuario) {
+		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
+		String htmlMensagem = resourceFile.getFile(Constant.FileNane.NOTIFICACAO_RENEW_PASSWORD_EMAIL);
+		StringBuilder host = new StringBuilder(request.getScheme());
+		
+		host.append(":").append("//").append(request.getHeader("Host"));
+		StringBuilder urlRenewPassword = new StringBuilder(host).append("/main.html#/access/RegisterUsuario/");
+		urlRenewPassword.append(usuario.getCodigoAtivacao());
+		String link = shortener.shortener(urlRenewPassword.toString());
+		
+		htmlMensagem = htmlMensagem.replace("{nomeUsuario}", usuario.getNome());
+		htmlMensagem = htmlMensagem.replace("{link}", link.toString());
+		
+		Email email = new Email("📝  Anota ai - Redefinição de Senha", htmlMensagem.toString(), usuario.getEmail());
+		event.fire(email);
+
+	}
+	
 }

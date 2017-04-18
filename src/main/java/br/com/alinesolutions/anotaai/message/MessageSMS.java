@@ -33,5 +33,11 @@ public class MessageSMS implements AnotaaiSendMessage {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void notificacaoRenewPassword(Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

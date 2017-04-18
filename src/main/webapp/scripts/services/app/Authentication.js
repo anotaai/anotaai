@@ -31,11 +31,6 @@ angular.module('anotaai').factory('AuthenticationResource', function($resource, 
 		
 		$http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
 		$cookies.put(login.cookieSessionName, JSON.stringify($rootScope.globals), {'expires': expireDate});
-		firebase.auth().signInWithCustomToken(login.firebaseToken).then(function() {
-			console.log("Sign-in successful.");
-		}, function(error) {
-			console.log(error.message);
-		});
 		// dispara o evento para o escutador
 		$rootScope.$broadcast('$loginChange', $rootScope.globals.login);
 	}
@@ -45,13 +40,6 @@ angular.module('anotaai').factory('AuthenticationResource', function($resource, 
 		$cookies.remove('globals');
 		$http.defaults.headers.common.Authorization = 'Basic';
 		//dispara o evento para o escutador
-		
-		firebase.auth().signOut().then(function() {
-			console.log("Sign-out successful.");
-		}, function(error) {
-			console.log("// An error happened.");
-		});
-		
 		$rootScope.$broadcast('$logoutChange');
 	}
 });

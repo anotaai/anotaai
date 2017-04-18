@@ -206,7 +206,8 @@ public class UsuarioEndpoint {
 	
 	
 	/**
-	 * Confere se existe um usuário com o email ou telefone informado para atualizar a senha e enviar a notificação de confirmação de cadastro
+	 * Confere se existe um usuário com o email ou telefone informado para atualizar a senha e enviar a notificação de 
+	 * confirmação de cadastro
 	 * @param usuario
 	 * @return
 	 * @throws AppException
@@ -224,10 +225,8 @@ public class UsuarioEndpoint {
 		ResponseEntity responseEntity = new ResponseEntity();
 		
 		try {
-		 	
 			usuarioService.renewPassword(usuario);
-		    builder = Response.ok(responseEntity);
-			
+			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getViewException());
 		} catch (Exception e) {

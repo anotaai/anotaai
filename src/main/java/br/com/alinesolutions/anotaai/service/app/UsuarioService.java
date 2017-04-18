@@ -2,7 +2,6 @@ package br.com.alinesolutions.anotaai.service.app;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -21,10 +20,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
+import br.com.alinesolutions.anotaai.message.qualifier.SMS;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -55,7 +53,11 @@ public class UsuarioService {
 
 	@Inject
 	@Email
-	private AnotaaiSendMessage sender;
+	private AnotaaiSendMessage senderEmail;
+	
+	@Inject
+	@SMS
+	private AnotaaiSendMessage senderSMS;
 	
 	@EJB
 	private UploadService uploadService;
@@ -82,16 +84,8 @@ public class UsuarioService {
 		consumidor.setUsuario(usuario);
 		consumidor.setDataCadastro(new Date());
 		em.persist(usuario);
-		sender.notificacaoRegistroUsuario(usuario);
+		senderEmail.notificacaoRegistroUsuario(usuario);
 		return usuario;
-	}
-
-	private void createFirebaseToken(Login login) {
-		HashMap<String, Object> additionalClaims = new HashMap<String, Object>();
-		additionalClaims.put("ggmoura", "Gleidson Guimarães Moura");
-		additionalClaims.put("maria_sophia", new String[] {"Maria Sophia", "Gatinha"});
-		String token = FirebaseAuth.getInstance().createCustomToken(login.getUsuario().getFirebaseUserId(), additionalClaims);
-		login.setFirebaseToken(token);
 	}
 
 	private void validarUsuario(Usuario usuario) throws AppException {
@@ -127,7 +121,7 @@ public class UsuarioService {
 		usuarioDatabase.setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
 		usuario.setCodigoAtivacao(usuarioDatabase.getCodigoAtivacao());
 		em.merge(usuarioDatabase);
-		sender.notificacaoRegistroUsuario(usuario);
+		senderEmail.notificacaoRegistroUsuario(usuario);
 	}
 
 	public ResponseEntity findUserByActivationCode(String codigoAtivacao) throws AppException {
@@ -210,7 +204,6 @@ public class UsuarioService {
 		if (senha.equals(senhaCriptografada)) {
 			sessaoUsuario = criarSessao(login, usuarioLogin);
 			login.setUsuario(usuarioLogin);
-			createFirebaseToken(login);
 			login.setSessionID(sessaoUsuario.getSessionID());
 		} else {
 			// senha nao confere
@@ -259,7 +252,7 @@ public class UsuarioService {
 					break;
 				case PENDENTE_VALIDACAO:
 					key = Constant.Message.USUARIO_PENDENTE_VALIDACAO;
-					sender.notificacaoRegistroUsuario(usuarioLogin);
+					senderEmail.notificacaoRegistroUsuario(usuarioLogin);
 					break;
 			}
 			if (!usuarioLogin.getSituacao().equals(SituacaoUsuario.ATIVO)) {
@@ -405,20 +398,27 @@ public class UsuarioService {
 	 * @throws AppException
 	 */
 
-	public void renewPassword(Usuario usuarioRequest) throws AppException {
+	public ResponseEntity renewPassword(Usuario usuarioRequest) throws AppException {
 		
 		Usuario usuarioDataBase = null;
-		 
-		if(usuarioRequest.getTelefone().getNumero() != null) {
-			usuarioDataBase = loadByTelefone(usuarioRequest.getTelefone());
-		} else {
-			usuarioDataBase = loadByEmail(usuarioRequest.getEmail());
+		ResponseEntity responseEntity = new ResponseEntity();
+		TipoAcesso tipoAcesso = null;
+		try {
+			if(usuarioRequest.getTelefone().getNumero() != null) {
+				tipoAcesso = TipoAcesso.TELEFONE;
+				usuarioDataBase = loadByTelefone(usuarioRequest.getTelefone());
+				senderEmail.notificacaoRenewPassword(usuarioDataBase);
+			} else {
+				tipoAcesso = TipoAcesso.EMAIL;
+				usuarioDataBase = loadByEmail(usuarioRequest.getEmail());
+				senderSMS.notificacaoRenewPassword(usuarioDataBase);
+			}
+			responseEntity.setIsValid(Boolean.TRUE);
+		} catch (NoResultException e) {
+			responseEntity.setIsValid(Boolean.FALSE);
+			responseEntity.setException(new AnotaaiViewException(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, 
+										Constant.Message.LONG_TIME_VIEW, tipoAcesso.getDescricao()));
 		}
-		
-		usuarioDataBase.setSenha(Criptografia.criptografar(usuarioRequest.getSenha()));
-		usuarioDataBase.setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
-		em.merge(usuarioDataBase);
-		sender.notificacaoRegistroUsuario(usuarioDataBase);
-		
+		return responseEntity;
 	}
 }

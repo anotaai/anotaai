@@ -86,7 +86,7 @@ angular.module('anotaai').controller('LoginController', function (dataTransferOb
 			function (response) {
 				$scope.loading = false;
 				$scope.userLogin.usuario.senha = '';
-				flash.setExceptionMessage(response.data);
+				flash.setExceptionMessage(response);
 				angular.element('btn-login').removeAttr('disabled');
 			}
 		);

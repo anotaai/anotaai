@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('anotaai').controller('RenewPasswordController', function ($scope, $location, $timeout,$uibModalInstance,locationParser, flash, UsuarioResource, EnumResource,constant) {
+angular.module('anotaai').controller('RenewPasswordController', function ($scope, $location, $timeout, $uibModalInstance, locationParser, flash, UsuarioResource, EnumResource, constant, $rootScope) {
 	
 	$scope.disabled = false;
 	$scope.$location = $location;
@@ -64,58 +64,19 @@ angular.module('anotaai').controller('RenewPasswordController', function ($scope
 	
 	$scope.cancel = function() {
 		 $uibModalInstance.dismiss('cancel');
-		 
 	}
 	
 	$scope.renew= function() {
-		
-		if ($scope.confirmaSenha == $scope.usuario.senha) {
 			
-			var successCallback = function(response){
-	        	flash.destroyAllMessages(); 
-	        	var param = $scope.renewPassword.tipoAcesso == 'TELEFONE' ? 'sms' : 'e-mail';
-	        	
-				if (!response.anotaaiExceptionMessages) {
-					
-					$scope.usuario.senha = '';
-					$scope.confirmaSenha = '';
-					
-					flash.setMessage({
-						type: {type: constant.TYPE_MESSAGE.SUCCESS},
-						key: 'renew.password.success',
-						isKey: true,
-						time: constant.MESSAGE_TIME,
-						params: [param]
-					});
-					
-				} else {
-					flash.setExceptionMessage(response);
-				}
-	        };
-	        var errorCallback = function(response) {
-	        	flash.setExceptionMessage(response);
-	        };
-	        
-	        UsuarioResource.renewPassword($scope.usuario, successCallback, errorCallback);
-			
-		} else {
-			senhaInvalida();	
-		}
-        
-		
-    };
-    
-    function senhaInvalida() {
-		$scope.usuario.senha = '';
-		$scope.confirmaSenha = '';
-		flash.setMessage({
-			'type': constant.TYPE_MESSAGE.ERROR,
-			'key': 'senha.nao.confere',
-			'isKey': true
-		});
-		angular.element("#senha").focus();
-	}
-	
-
+		var successCallback = function(response) {
+			flash.destroyAllMessages();
+			if (response.data.isValid) {
+				flash.setMessages(response.anotaaiExceptionMessages);
+			} else {
+				flash.setExceptionMessage(response);
+			}
+		};
+		UsuarioResource.renewPassword($scope.usuario, successCallback, $rootScope.defaultErrorCallback);
+	};
 
 });

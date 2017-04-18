@@ -140,20 +140,6 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 			var errorCallback = function(response) {
 				flash.setExceptionMessage(response.data);
 			};
-			firebase.auth().createUserWithEmailAndPassword($scope.usuario.email, $scope.usuario.senha).then(function(user) {
-				var user = firebase.auth().currentUser;
-				$scope.usuario.firebaseUserId = user.uid;
-				if ($scope.tipoCadastro == null || $scope.tipoCadastro == 'comprador') {
-					UsuarioResource.save($scope.usuario, successCallback, errorCallback);
-				} else {
-					$scope.cliente.type = 'cliente';
-					ClienteResource.save($scope.cliente, successCallback, errorCallback);
-				}
-			}, function(error) {
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				console.log(errorCode, errorMessage);
-			});
 		} else {
 			senhaInvalida();
 		}

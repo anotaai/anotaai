@@ -22,7 +22,6 @@ require('app-js/vendor/angular/upload/ng-file-upload-shim.min.js');
 require('app-js/vendor/angular/upload/ng-file-upload.min.js');
 require('select2');
 require('app-js/vendor/select2/pt-BR.js');
-firebase = require('firebase');
 
 
 //Css

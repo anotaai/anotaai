@@ -26,7 +26,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.alinesolutions.anotaai.metadata.model.Cep;
-import br.com.alinesolutions.anotaai.metadata.model.FirebaseConfig;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
@@ -152,14 +151,6 @@ public class AppService {
 		Integer ddd = Integer.parseInt(telefoneStr.substring(2, 4));
 		Integer numero = Integer.parseInt(telefoneStr.substring(4, telefoneStr.length()));
 		return new Telefone(ddi, ddd, numero);
-	}
-
-	public FirebaseConfig getFirebaseConfig() {
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		Gson gson = gsonBuilder.create();
-		String config = loader.getFile(Constant.FileNane.FIREBASE_CONFIG);
-		FirebaseConfig firebaseConfig = gson.fromJson(config, FirebaseConfig.class);
-		return firebaseConfig;
 	}
 
 }

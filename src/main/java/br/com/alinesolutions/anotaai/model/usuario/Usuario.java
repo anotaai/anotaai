@@ -64,7 +64,6 @@ public class Usuario extends BaseEntity<Long> {
 	private String senha;
 	private Date dataCadastro;
 	private String codigoAtivacao;
-	private String firebaseUserId;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(nullable = true)
@@ -124,10 +123,9 @@ public class Usuario extends BaseEntity<Long> {
 	}
 
 	public Usuario(Long id, String nome, String email, Date dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
-			Integer numero, Operadora operadora, String senha, String firebaseUserId, SituacaoUsuario situacao) {
+			Integer numero, Operadora operadora, String senha, SituacaoUsuario situacao) {
 		this(id, nome, email, dataCadastro, idTelefone, ddi, ddd, numero, operadora, senha);
 		this.situacao = situacao;
-		this.firebaseUserId = firebaseUserId;
 	}
 
 	public Usuario(String email, String senha) {
@@ -215,23 +213,15 @@ public class Usuario extends BaseEntity<Long> {
 		this.situacao = situacao;
 	}
 
-	public String getFirebaseUserId() {
-		return firebaseUserId;
-	}
-
-	public void setFirebaseUserId(String firebaseUserId) {
-		this.firebaseUserId = firebaseUserId;
-	}
-
 	public interface UsuarioConstant {
 		String FIELD_EMAIL = "email";
 		String FIELD_NOME = "email";
 		String FIELD_TELEFONE = "telefone";
 		String FIELD_CODIGO_ATIVACAO = "codigoAtivacao";
 		String FIND_BY_EMAIL_KEY = "Usuario.findByEmail";
-		String FIND_BY_EMAIL_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Usuario(u.id, u.nome, u.email, u.dataCadastro, t.id, t.ddi, t.ddd, t.numero, t.operadora, u.senha, u.firebaseUserId, u.situacao) from Usuario u join u.telefone t where u.email like :email";
+		String FIND_BY_EMAIL_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Usuario(u.id, u.nome, u.email, u.dataCadastro, t.id, t.ddi, t.ddd, t.numero, t.operadora, u.senha, u.situacao) from Usuario u join u.telefone t where u.email like :email";
 		String FIND_BY_TELEFONE_LOGIN_KEY = "Usuario.findByTelefoneLogin";
-		String FIND_BY_TELEFONE_LOGIN_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Usuario(u.id, u.nome, u.email, u.dataCadastro, t.id, t.ddi, t.ddd, t.numero, t.operadora, u.senha, u.firebaseUserId, u.situacao) from Usuario u join u.telefone t where t.ddi = :ddi and t.ddd = :ddd and t.numero = :numero";
+		String FIND_BY_TELEFONE_LOGIN_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Usuario(u.id, u.nome, u.email, u.dataCadastro, t.id, t.ddi, t.ddd, t.numero, t.operadora, u.senha, u.situacao) from Usuario u join u.telefone t where t.ddi = :ddi and t.ddd = :ddd and t.numero = :numero";
 		String FIND_BY_TELEFONE_PERSIST_KEY = "Usuario.findByTelefonePersist";
 		String FIND_BY_TELEFONE_PERSIST_QUERY = "select u from Usuario u join fetch u.perfis join u.telefone t where t.ddi = :ddi and t.ddd = :ddd and t.numero = :numero";
 		String ACCESS_KEY = "Usuario.accessKey";

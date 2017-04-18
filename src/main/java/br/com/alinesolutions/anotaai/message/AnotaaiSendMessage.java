@@ -16,4 +16,6 @@ public interface AnotaaiSendMessage {
 
 	void notificacaoAssociacaoConsumidorCliente(ClienteConsumidor clienteConsumidor);
 	
+	void notificacaoRenewPassword(Usuario usuario);
+	
 }
