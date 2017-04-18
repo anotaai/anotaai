@@ -30,6 +30,10 @@ angular.module('anotaai')
 			url: "/Login",
 			templateUrl: "views/Acesso/Login/login.html",
 			controller: 'LoginController'
+		}).state('access.renew', {
+			url: "/ResetPassword/:activationCode",
+			templateUrl: "views/Acesso/Reset/reset-password.html",
+			controller: 'ResetPasswordController'
 		})
 	}
 );

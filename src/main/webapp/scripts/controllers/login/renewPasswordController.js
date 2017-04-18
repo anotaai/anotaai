@@ -18,7 +18,7 @@ angular.module('anotaai').controller('RenewPasswordController', function ($scope
 	$scope.usuario.telefone.numero = $scope.usuario.telefone.numero || '';
 	$scope.loading = false;
 	
-	$timeout(function(){
+	$timeout(function() {
 		EnumResource.load('tiposAcesso', 
 			function(response) {
 				$scope.tiposAcesso = response.data;

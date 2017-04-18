@@ -346,7 +346,6 @@ public class UsuarioService {
 	}
 
 	public Usuario loadByEmail(String email) {
-		
 		try {
 			
 			TypedQuery<Usuario> query = em.createNamedQuery(Usuario.UsuarioConstant.ACCESS_KEY, Usuario.class);
@@ -364,21 +363,15 @@ public class UsuarioService {
 			exception.setMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
 			throw new AppException(exception);
 		}
-		
-		
-		
 	}
 
 	public Usuario loadByTelefone(Telefone telefone) {
-		
 		try {
-			
 			TypedQuery<Usuario> query = em.createNamedQuery(Usuario.UsuarioConstant.FIND_BY_TELEFONE_PERSIST_KEY, Usuario.class);
 			query.setParameter(Telefone.TelefoneConstant.FIELD_DDI, telefone.getDdi());
 			query.setParameter(Telefone.TelefoneConstant.FIELD_DDD, telefone.getDdd());
 			query.setParameter(Telefone.TelefoneConstant.FIELD_NUMERO, telefone.getNumero());
 			return query.getSingleResult();
-			
 		} catch (NoResultException e) {
 			AnotaaiViewException exception = new AnotaaiViewException();
 			exception.setMessage(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW,"telefone");
@@ -403,16 +396,20 @@ public class UsuarioService {
 		Usuario usuarioDataBase = null;
 		ResponseEntity responseEntity = new ResponseEntity();
 		TipoAcesso tipoAcesso = null;
+		AnotaaiSendMessage sender = null;
 		try {
 			if(usuarioRequest.getTelefone().getNumero() != null) {
 				tipoAcesso = TipoAcesso.TELEFONE;
+				sender = senderSMS;
 				usuarioDataBase = loadByTelefone(usuarioRequest.getTelefone());
-				senderEmail.notificacaoRenewPassword(usuarioDataBase);
 			} else {
 				tipoAcesso = TipoAcesso.EMAIL;
+				sender = senderEmail;
 				usuarioDataBase = loadByEmail(usuarioRequest.getEmail());
-				senderSMS.notificacaoRenewPassword(usuarioDataBase);
 			}
+			usuarioDataBase.setCodigoAtivacao(UUID.randomUUID().toString());
+			em.merge(usuarioDataBase);
+			sender.notificacaoRenewPassword(usuarioDataBase);
 			responseEntity.setIsValid(Boolean.TRUE);
 		} catch (NoResultException e) {
 			responseEntity.setIsValid(Boolean.FALSE);

@@ -5,4 +5,4 @@ target
 .classpath
 /.tern-project
 /node_modules/
-/npm-debug.log
+/npm-debug.log.*

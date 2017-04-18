@@ -74,8 +74,9 @@
 					<input id="senha" name="senha" type="password" class="form-control"
 						ng-model="usuario.senha" autocomplete="off" required
 						placeholder="Senha minimo 6 caracteres" ng-minlength="6"></input>
-					<span class="error" ng-show="UsuarioForm.senha.$error.minlength">A
-						senha deve conter no mínimo 6 caracteres!</span>
+					<span class="error" ng-show="UsuarioForm.senha.$error.minlength">
+						<span ng-translate="msg.senha.invalida">Senha inválida</span>
+					</span>
 				</div>
 			</div>
 
@@ -86,9 +87,10 @@
 				<div class="col-md-8">
 					<input id="confirmaSenha" name="confirmaSenha" type="password"
 						class="form-control" ng-model="confirmaSenha" autocomplete="off"
-						required ng-minlength="6"></input> <span class="error"
-						ng-show="UsuarioForm.confirmaSenha.$error.minlength">A
-						senha deve conter no mínimo 6 caracteres!</span>
+						required ng-minlength="6"></input>
+					<span class="error" ng-show="UsuarioForm.confirmaSenha.$error.minlength">
+						<span ng-translate="msg.senha.invalida">Senha inválida</span>
+					</span>
 				</div>
 			</div>
 
@@ -138,7 +140,7 @@
 			<div class="form-group col-md-6 required"
 				ng-class="{'has-error': UsuarioForm.numero.$invalid}"
 				ng-if="tipoCadastro == 'vendedor'">
-				<label for="numero" class="control-label col-md-4">N�mero</label>
+				<label for="numero" class="control-label col-md-4">Número</label>
 				<div class="col-md-8">
 					<input id="numero" name="numero" type="text"
 						class="ng-cloak form-control" ng-model="cliente.endereco.numero"

@@ -47,6 +47,7 @@ angular.module('anotaai').config(['$translateProvider', function ($translateProv
 		'usuario.senha.invalido': 'Usuário ou senha inválido',
 		'titulo.cadastro.comprador': 'Cadastro de Comprador',
 		'titulo.cadastro.vendedor': 'Cadastro de Vendedor',
+		'titulo.reset.password': 'Recuperar Senha',
 		'senha.nao.confere': 'A senha não confere com a confirmação de senha. Informe novamente.',
 		'usuario.editado.sucesso': 'Usuario <strong>{0}</strong> editado com sucesso.',
 		'usuario.pendente.validacao': 'Acesse seu email para confirmar o acesso e faça login novamente!',
@@ -62,6 +63,8 @@ angular.module('anotaai').config(['$translateProvider', function ($translateProv
 		'msg.dias.disponibilidade.produto': 'Selecione os dias em que o produto estará disponível',
 		'msg.erro.nao.identificado': 'Erro não identificado, o administrador do sistema foi notificado e a correção será efetuada em breve.',
 		'msg.itemreceita.ja.incluido': 'O item {0}, já foi incluído',
+		'btn.reset.password': 'Redefinir senha',
+		'msg.senha.invalida': 'A senha deve conter no mínimo 6 caracteres!',
 	});
 
 }]);

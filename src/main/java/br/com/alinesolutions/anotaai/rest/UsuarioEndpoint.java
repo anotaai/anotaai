@@ -225,7 +225,7 @@ public class UsuarioEndpoint {
 		ResponseEntity responseEntity = new ResponseEntity();
 		
 		try {
-			usuarioService.renewPassword(usuario);
+			responseEntity = usuarioService.renewPassword(usuario);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getViewException());
