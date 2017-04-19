@@ -127,7 +127,7 @@ public class AppService {
 		String nickName = null;
 		String retorno = null;
 		if (email != null) {
-			if (email.indexOf("@gmail.com") > -1) {
+			if (email.endsWith("@gmail.com")) {
 				StringBuilder novoEmail = new StringBuilder();
 				indexInicioProvedor = email.indexOf("@gmail.com");
 				nickName = email.substring(0, indexInicioProvedor).replace(".", "");

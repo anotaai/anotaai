@@ -71,9 +71,9 @@ angular.module('anotaai').controller('RenewPasswordController', function ($scope
 		var successCallback = function(response) {
 			flash.destroyAllMessages();
 			if (response.data.isValid) {
-				flash.setMessages(response.anotaaiExceptionMessages);
+				flash.setMessages(response.data.messages);
 			} else {
-				flash.setExceptionMessage(response);
+				flash.setMessages(response.data.exception.anotaaiExceptionMessages);
 			}
 		};
 		UsuarioResource.renewPassword($scope.usuario, successCallback, $rootScope.defaultErrorCallback);

@@ -54,17 +54,12 @@ public class MessageEmail implements AnotaaiSendMessage {
 
 	public void notificacaoRegistroConsumidor(ClienteConsumidor clienteConsumidor) {
 
-
 		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
-
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.CONFIRMACAO_CADASTRO_CONSUMIDOR_EMAIL);
-
 		Usuario usuarioCliente = clienteConsumidor.getCliente().getUsuario();
 		Usuario usuarioConsumidor = clienteConsumidor.getConsumidor().getUsuario();
-
 		StringBuilder host = new StringBuilder(request.getScheme());
 		host.append(":").append("//").append(request.getHeader("Host"));
-
 		StringBuilder urlAtivacaoCadastro = new StringBuilder(host).append("/main.html#/access/RegisterUsuario/");
 		urlAtivacaoCadastro.append(usuarioConsumidor.getCodigoAtivacao());
 		String link = shortener.shortener(urlAtivacaoCadastro.toString());

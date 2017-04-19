@@ -220,18 +220,15 @@ public class UsuarioEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response renewPassword(Usuario usuario) throws AppException {
-
 		ResponseBuilder builder = null;
 		ResponseEntity responseEntity = new ResponseEntity();
-		
 		try {
 			responseEntity = usuarioService.renewPassword(usuario);
-			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+			responseEntity.setIsValid(Boolean.FALSE);
+			responseEntity.setException(e.getViewException());
 		}
+		builder = Response.ok(responseEntity);
 		return builder.build();
 	}
 

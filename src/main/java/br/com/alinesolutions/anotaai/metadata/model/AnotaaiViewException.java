@@ -9,6 +9,7 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 public class AnotaaiViewException implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	private List<AnotaaiMessage> anotaaiExceptionMessages;
 	
 	public AnotaaiViewException() {

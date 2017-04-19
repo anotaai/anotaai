@@ -397,16 +397,16 @@ public class UsuarioService {
 		ResponseEntity responseEntity = new ResponseEntity();
 		TipoAcesso tipoAcesso = null;
 		AnotaaiSendMessage sender = null;
+		if(usuarioRequest.getTelefone().getNumero() != null) {
+			tipoAcesso = TipoAcesso.TELEFONE;
+			sender = senderSMS;
+			usuarioDataBase = loadByTelefone(usuarioRequest.getTelefone());
+		} else {
+			tipoAcesso = TipoAcesso.EMAIL;
+			sender = senderEmail;
+			usuarioDataBase = loadByEmail(usuarioRequest.getEmail());
+		}
 		try {
-			if(usuarioRequest.getTelefone().getNumero() != null) {
-				tipoAcesso = TipoAcesso.TELEFONE;
-				sender = senderSMS;
-				usuarioDataBase = loadByTelefone(usuarioRequest.getTelefone());
-			} else {
-				tipoAcesso = TipoAcesso.EMAIL;
-				sender = senderEmail;
-				usuarioDataBase = loadByEmail(usuarioRequest.getEmail());
-			}
 			usuarioDataBase.setCodigoAtivacao(UUID.randomUUID().toString());
 			em.merge(usuarioDataBase);
 			sender.notificacaoRenewPassword(usuarioDataBase);
