@@ -137,9 +137,7 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 					flash.setExceptionMessage(data.exception);
 				}
 			};
-			var errorCallback = function(response) {
-				flash.setExceptionMessage(response.data);
-			};
+			UsuarioResource.save($scope.usuario, successCallback, $rootScope.defaultErrorCallback)
 		} else {
 			senhaInvalida();
 		}
@@ -225,10 +223,7 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 	EnumResource.load('estados',
 		function(response) {
 			$scope.estadoList = response.data;
-		},
-		function(response) {
-			console.log(response)
-		}
-	);
+		}, 
+	$rootScope.defaultErrorCallback);
 	
 });

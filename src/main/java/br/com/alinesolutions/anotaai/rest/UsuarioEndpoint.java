@@ -21,6 +21,7 @@ import javax.ws.rs.core.SecurityContext;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
+import br.com.alinesolutions.anotaai.model.usuario.IPessoa;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.service.app.UploadService;
@@ -44,11 +45,11 @@ public class UsuarioEndpoint {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(Usuario usuario) {
+	public Response create(IPessoa usuario) {
 		ResponseBuilder builder = null;
 		ResponseEntity entity = new ResponseEntity();
 		try {
-			usuarioService.create(usuario);
+			//usuarioService.create(usuario);
 			entity.setIsValid(Boolean.TRUE);
 			builder = Response.ok(entity);
 		} catch (AppException e) {

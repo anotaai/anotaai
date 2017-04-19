@@ -83,7 +83,7 @@ public class UsuarioService {
 		Consumidor consumidor = new Consumidor();
 		consumidor.setUsuario(usuario);
 		consumidor.setDataCadastro(new Date());
-		em.persist(usuario);
+		em.persist(consumidor);
 		senderEmail.notificacaoRegistroUsuario(usuario);
 		return usuario;
 	}

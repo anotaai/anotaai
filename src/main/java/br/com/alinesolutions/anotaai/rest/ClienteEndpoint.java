@@ -112,7 +112,7 @@ public class ClienteEndpoint {
 		return Response.noContent().build();
 	}
 
-	//TODO refatorar removendo carga eager
+	//f
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
