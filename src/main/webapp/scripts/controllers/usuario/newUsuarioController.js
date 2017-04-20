@@ -137,7 +137,13 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 					flash.setExceptionMessage(data.exception);
 				}
 			};
-			UsuarioResource.save($scope.usuario, successCallback, $rootScope.defaultErrorCallback)
+			console.log($scope.tipoCadastro);
+			if ($scope.tipoCadastro == null || $scope.tipoCadastro == 'comprador') {
+				UsuarioResource.save($scope.usuario, successCallback, errorCallback);
+			} else {
+				$scope.cliente.type = 'cliente';
+				ClienteResource.save($scope.cliente, successCallback, errorCallback);
+			}
 		} else {
 			senhaInvalida();
 		}
