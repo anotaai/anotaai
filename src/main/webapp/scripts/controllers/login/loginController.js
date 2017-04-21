@@ -7,7 +7,7 @@ angular.module('anotaai').controller('LoginController', function (dataTransferOb
 	
 	$scope.telefone = '';
 	$scope.userLogin = {};
-	$scope.userLogin.keepAlive = false;
+	$scope.userLogin.keepAlive = true;
 	$scope.userLogin.tipoAcesso = 'EMAIL';
 	$scope.userLogin.usuario = {};
 	$scope.userLogin.usuario.email;
