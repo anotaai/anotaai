@@ -375,27 +375,28 @@ public class UsuarioService {
 		
 		Usuario usuarioDataBase = null;
 		ResponseEntity responseEntity = new ResponseEntity();
-		TipoAcesso tipoAcesso = null;
-		AnotaaiSendMessage sender = null;
 		try {
-			if(usuario.getTelefone().getNumero() != null) {
-				tipoAcesso = TipoAcesso.TELEFONE;
-				sender = senderSMS;
+			StringBuilder mensagem = new StringBuilder();
+			if(usuario.getTelefone() != null && usuario.getTelefone().getNumero() != null) {
+				mensagem.append(TipoAcesso.TELEFONE.getDescricao()).append(" ");
 				usuarioDataBase = loadByTelefone(usuario.getTelefone());
 			} else {
-				tipoAcesso = TipoAcesso.EMAIL;
-				sender = senderEmail;
+				mensagem.append(" e ").append(TipoAcesso.EMAIL.getDescricao());
 				usuarioDataBase = loadByEmail(usuario.getEmail());
 			}
 			usuarioDataBase.setCodigoAtivacao(UUID.randomUUID().toString());
 			em.merge(usuarioDataBase);
-			sender.notificacaoRenewPassword(usuarioDataBase);
+			if (usuarioDataBase.getTelefone() != null && usuarioDataBase.getTelefone().getNumero() != null) {
+				senderSMS.notificacaoRenewPassword(usuarioDataBase);
+			}
+			if (usuarioDataBase.getEmail() != null && !usuarioDataBase.getEmail().isEmpty()) {
+				senderEmail.notificacaoRenewPassword(usuarioDataBase);
+			}
 			responseEntity.setIsValid(Boolean.TRUE);
-			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.SOLICITACAO_ALTERACAO_SENHA, TipoMensagem.SUCCESS, Constant.Message.LONG_TIME_VIEW, tipoAcesso.getDescricao()));
+			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.SOLICITACAO_ALTERACAO_SENHA, TipoMensagem.SUCCESS, Constant.Message.LONG_TIME_VIEW, mensagem.toString()));
 		} catch (AppException e) {
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(new AnotaaiViewException(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, 
-										Constant.Message.LONG_TIME_VIEW, tipoAcesso.getDescricao()));
+			responseEntity.setException(new AnotaaiViewException(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW, "Parâetro"));
 		}
 		return responseEntity;
 	}
