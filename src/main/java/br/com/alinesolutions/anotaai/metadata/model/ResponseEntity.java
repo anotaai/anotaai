@@ -14,7 +14,7 @@ public class ResponseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private BaseEntity<?> entity;
+	private BaseEntity<?, ?> entity;
 
 	private String responseText;
 
@@ -32,7 +32,7 @@ public class ResponseEntity implements Serializable {
 		super();
 	}
 
-	public ResponseEntity(BaseEntity<?> entity) {
+	public ResponseEntity(BaseEntity<?, ?> entity) {
 		this();
 		this.entity = entity;
 	}
@@ -41,11 +41,11 @@ public class ResponseEntity implements Serializable {
 		addMessage(mensagem);
 	}
 
-	public BaseEntity<?> getEntity() {
+	public BaseEntity<?, ?> getEntity() {
 		return entity;
 	}
 
-	public void setEntity(BaseEntity<?> entity) {
+	public void setEntity(BaseEntity<?, ?> entity) {
 		this.entity = entity;
 	}
 

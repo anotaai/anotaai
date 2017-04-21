@@ -9,6 +9,7 @@ angular.module('anotaai', ['ngRoute', 'ngResource', 'ui.mask', 'ngCookies', 'pas
 		"MESSAGE_CONSTANT": -1,
 		TYPE_MESSAGE: {'SUCCESS': 'SUCCESS', 'ERROR': 'ERROR', 'INFO': 'INFO', 'WARNING': 'WARNING'},
 		"AUTO_COMPLETE_MAX_RESULT" : 10,
+		MESSAGE_SENHA_NAO_CONFERE : {'type': {'type' : 'ERROR'}, 'key': 'senha.nao.confere', 'isKey': true },
 	})
 	.config(function($routeProvider, $stateProvider, $httpProvider, $urlRouterProvider, growlProvider, constant) {
 	

@@ -23,7 +23,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;;
 	@NamedQuery(name = AnotaaiSequenceConstant.GET_SEQUENCE_KEY, query = AnotaaiSequenceConstant.GET_SEQUENCE_QUERY)
 })
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "tipoCodigoInterno", "cliente" }) })
-public class AnotaaiSequencial extends BaseEntity<Long> {
+public class AnotaaiSequencial extends BaseEntity<Long, AnotaaiSequencial> {
 
 	private static final long serialVersionUID = 1L;
 

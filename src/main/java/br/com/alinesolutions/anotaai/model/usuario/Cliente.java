@@ -36,11 +36,11 @@ import br.com.alinesolutions.anotaai.model.venda.CupomFiscal;
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update Cliente set ativo = false where id = ?")
-public class Cliente extends BaseEntity<Long> implements IPessoa {
+public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private Usuario usuario;
 
 	private String nomeComercial;

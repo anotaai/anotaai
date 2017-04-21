@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('anotaai').controller('RenewPasswordController', function ($scope, $location, $timeout, $uibModalInstance, locationParser, flash, UsuarioResource, EnumResource, constant, $rootScope) {
+angular.module('anotaai').controller('RenewPasswordController', function ($scope, $location, $timeout, $uibModalInstance, flash, UsuarioResource, EnumResource, $state, $rootScope) {
 	
 	$scope.disabled = false;
 	$scope.$location = $location;
@@ -22,10 +22,7 @@ angular.module('anotaai').controller('RenewPasswordController', function ($scope
 		EnumResource.load('tiposAcesso', 
 			function(response) {
 				$scope.tiposAcesso = response.data;
-			},
-			function(response) {
-				console.log(response);
-			}
+			}, $rootScope.defaultErrorCallback
 		);
 		angular.element('#email').focus();
 	}, 0);
@@ -51,7 +48,6 @@ angular.module('anotaai').controller('RenewPasswordController', function ($scope
 		}
 	};
 	
-	
 	$scope.$watch('telefone', function() {
 		if ($scope.telefone) {
 			$scope.usuario.telefone = $rootScope.buildTelefone($scope.telefone);
@@ -61,22 +57,21 @@ angular.module('anotaai').controller('RenewPasswordController', function ($scope
 		}
 	});
 	
-	
 	$scope.cancel = function() {
 		 $uibModalInstance.dismiss('cancel');
 	}
 	
 	$scope.renew= function() {
-			
 		var successCallback = function(response) {
 			flash.destroyAllMessages();
 			if (response.data.isValid) {
 				flash.setMessages(response.data.messages);
+				$scope.cancel();
 			} else {
 				flash.setMessages(response.data.exception.anotaaiExceptionMessages);
 			}
 		};
-		UsuarioResource.renewPassword($scope.usuario, successCallback, $rootScope.defaultErrorCallback);
+		UsuarioResource.solicitarMensagemAlteracaoSenha($scope.usuario, successCallback, $rootScope.defaultErrorCallback);
 	};
 
 });

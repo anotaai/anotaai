@@ -13,7 +13,7 @@ import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 
 @NamedQueries({})
 @Entity
-public class ArquivoTemporario extends BaseEntity<Long> {
+public class ArquivoTemporario extends BaseEntity<Long, ArquivoTemporario> {
 
 	private static final long serialVersionUID = 1L;
 

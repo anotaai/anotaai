@@ -9,7 +9,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
-import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 @XmlRootElement
-public abstract class BaseEntity<ID> implements Serializable {
+public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Serializable {
 
 	private static final long serialVersionUID = 1l;
 
@@ -30,9 +29,6 @@ public abstract class BaseEntity<ID> implements Serializable {
 	private ID id;
 
 	private Boolean ativo;
-	
-	@Version
-	private Long version;
 
 	public ID getId() {
 		return id;
@@ -48,14 +44,6 @@ public abstract class BaseEntity<ID> implements Serializable {
 
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
-	}
-	
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
 	}
 
 	@Override
@@ -77,7 +65,7 @@ public abstract class BaseEntity<ID> implements Serializable {
 			} else if (getClass() != obj.getClass()) {
 				equal = Boolean.FALSE;
 			}
-			BaseEntity<?> other = (BaseEntity<?>) obj;
+			BaseEntity<?, ?> other = (BaseEntity<?, ?>) obj;
 			if (id == null) {
 				if (other.id != null) {
 					equal = Boolean.FALSE;
@@ -102,6 +90,23 @@ public abstract class BaseEntity<ID> implements Serializable {
 	
 	public interface BaseEntityConstant {
 		String FIELD_ID = "id";
+	}
+	
+	/**
+	 * Metodo utilizado na edicao de objetos, o objeto original é recuperado do banco e
+	 * invoca este metodo passando o objeto que foi manipulado na tela.
+	 * 
+	 * Todos os atributos nao nulos do objeto passado como parametro serao copiados para
+	 * o objeto que invocou o metodos
+	 * 
+	 * @param entity
+	 */
+	public void clone(T entity) {
+		if (entity != null) {
+			if (entity.getAtivo() != null) {
+				this.setAtivo(entity.getAtivo());
+			}
+		}
 	}
 
 }

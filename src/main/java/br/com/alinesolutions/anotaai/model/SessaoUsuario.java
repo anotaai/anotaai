@@ -29,7 +29,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 })
 @Entity
 @XmlRootElement
-public class SessaoUsuario extends BaseEntity<Long> {
+public class SessaoUsuario extends BaseEntity<Long, SessaoUsuario> {
 
 	private static final long serialVersionUID = 1L;
 

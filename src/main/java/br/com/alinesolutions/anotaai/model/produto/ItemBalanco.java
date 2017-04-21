@@ -30,7 +30,7 @@ import br.com.alinesolutions.anotaai.model.domain.SituacaoItemBalanco;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ItemBalanco set ativo = false where id = ?")
 @XmlRootElement
-public class ItemBalanco extends BaseEntity<Long> implements IMovimentacao {
+public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
 

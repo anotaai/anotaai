@@ -27,7 +27,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope=Caderneta.class)
-public class Caderneta extends BaseEntity<Long> {
+public class Caderneta extends BaseEntity<Long, Caderneta> {
 
 	private static final long serialVersionUID = 1L;
 

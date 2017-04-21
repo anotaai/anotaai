@@ -27,7 +27,7 @@ import br.com.alinesolutions.anotaai.model.domain.Operadora;
 		//@UniqueConstraint(columnNames="ddi_tel, ddd_tel, numero_tel")
 })
 @XmlRootElement
-public class Telefone extends BaseEntity<Long> {
+public class Telefone extends BaseEntity<Long, Telefone> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -87,6 +87,22 @@ public class Telefone extends BaseEntity<Long> {
 		String FIELD_DDD = "ddd";
 		String FIELD_NUMERO = "numero";
 		
+	}
+	
+	@Override
+	public void clone(Telefone entity) {
+		super.clone(entity);
+		if (entity != null) {
+			if (entity.getDdi() != null) {
+				this.ddi = entity.getDdi();
+			}
+			if (entity.getDdd() != null) {
+				this.ddd = entity.getDdd();
+			}
+			if (entity.getNumero() != null) {
+				this.numero = entity.getNumero();
+			}
+		}
 	}
 }
 

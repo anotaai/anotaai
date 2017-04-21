@@ -30,7 +30,7 @@ import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil.UsuarioConstant
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update UsuarioPerfil set ativo = false where id = ?")
 @XmlRootElement
-public class UsuarioPerfil extends BaseEntity<Long> {
+public class UsuarioPerfil extends BaseEntity<Long, UsuarioPerfil> {
 
 	private static final long serialVersionUID = 1L;
 

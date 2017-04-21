@@ -29,7 +29,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update Quebra set ativo = false where id = ?")
 @XmlRootElement
-public class Quebra extends BaseEntity<Long> {
+public class Quebra extends BaseEntity<Long, Quebra> {
 
 	private static final long serialVersionUID = 1L;
 

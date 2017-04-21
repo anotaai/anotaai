@@ -114,24 +114,6 @@ public class UsuarioEndpoint {
 		}
 		return builder.build();
 	}
-	
-	@POST
-	@Path("/recuperarSenha")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response recuperarSenha(String codigoAtivacao) {
-		ResponseBuilder builder = null;
-		ResponseEntity entity = null;
-		try {
-			entity = usuarioService.findUserByActivationCodeRecuperarSenha(codigoAtivacao);
-			builder = Response.ok(entity);
-		} catch (AppException e) {
-			builder = Response.status(Status.OK).entity(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
-		}
-		return builder.build();
-	}
 
 	@PermitAll
 	@POST
@@ -221,7 +203,42 @@ public class UsuarioEndpoint {
 		return builder.build();
 	}
 	
+	@POST
+	@Path("/solicitarMensagemAlteracaoSenha")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response solicitarMensagemAlteracaoSenha(Usuario usuario) {
+		ResponseBuilder builder = null;
+		ResponseEntity entity = null;
+		try {
+			entity = usuarioService.solicitarMensagemAlteracaoSenha(usuario);
+			builder = Response.ok(entity);
+		} catch (AppException e) {
+			builder = Response.status(Status.OK).entity(e.getViewException());
+		} catch (Exception e) {
+			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+		}
+		return builder.build();
+	}
 	
+	
+	@POST
+	@Path("/recuperarUsuarioAlteracaoSenha")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response recuperarUsuarioAlteracaoSenha(String codigoAtivacao) {
+		ResponseBuilder builder = null;
+		ResponseEntity entity = null;
+		try {
+			entity = usuarioService.findUserByActivationCodeRecuperarSenha(codigoAtivacao);
+			builder = Response.ok(entity);
+		} catch (AppException e) {
+			builder = Response.status(Status.OK).entity(e.getViewException());
+		} catch (Exception e) {
+			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+		}
+		return builder.build();
+	}
 	
 	/**
 	 * Confere se existe um usuário com o email ou telefone informado para atualizar a senha e enviar a notificação de 
@@ -234,14 +251,14 @@ public class UsuarioEndpoint {
 	
 	@PermitAll
 	@POST
-	@Path("/renewpassword")
+	@Path("/alterarSenha")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response renewPassword(Usuario usuario) throws AppException {
+	public Response alterarSenha(Usuario usuario) throws AppException {
 		ResponseBuilder builder = null;
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
-			responseEntity = usuarioService.renewPassword(usuario);
+			responseEntity = usuarioService.alterarSenha(usuario);
 		} catch (AppException e) {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.setException(e.getViewException());

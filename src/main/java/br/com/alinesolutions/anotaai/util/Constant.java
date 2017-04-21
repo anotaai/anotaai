@@ -39,6 +39,7 @@ public interface Constant {
 		String SECURITY_ACCESS_FORBIDDEN = "security.access.forbidden";
 		String SECURITY_ACCESS_DENIED = "security.access.denied";
 		String SECURITY_SECURITY_SESSION_TIMEOUT = "security.session.timeout";
+		String SOLICITACAO_ALTERACAO_SENHA = "mensagem.alteracao.senha";
 	}
 	
 	public interface Persistence {

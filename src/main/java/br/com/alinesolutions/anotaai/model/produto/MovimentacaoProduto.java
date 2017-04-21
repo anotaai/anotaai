@@ -22,7 +22,7 @@ import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update MovimentacaoProduto set ativo = false where id = ?")
 @XmlRootElement
-public class MovimentacaoProduto extends BaseEntity<Long> {
+public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 
 	private static final long serialVersionUID = 1L;
 

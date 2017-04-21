@@ -20,7 +20,7 @@ import br.com.alinesolutions.anotaai.model.domain.Estado;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update Endereco set ativo = false where id = ?")
 @XmlRootElement
-public class Endereco extends BaseEntity<Long> {
+public class Endereco extends BaseEntity<Long, Endereco> {
 
 	private static final long serialVersionUID = 1L;
 

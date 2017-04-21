@@ -65,6 +65,8 @@ angular.module('anotaai').config(['$translateProvider', function ($translateProv
 		'msg.itemreceita.ja.incluido': 'O item {0}, já foi incluído',
 		'btn.reset.password': 'Redefinir senha',
 		'msg.senha.invalida': 'A senha deve conter no mínimo 6 caracteres!',
+		'mensagem.alteracao.senha': 'Uma mensagem foi enviada para o seu {0}, para recuperar alterar sua senha acesse a menságem e siga as instruções!',
+		'codigo.ativacao.invalido': 'Esta solicitação de alteração de senha já foi processada, faça uma nova solicitação de alteração de senha'
 	});
 
 }]);

@@ -29,7 +29,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update Devolucao set ativo = false where id = ?")
 @XmlRootElement
-public class Devolucao extends BaseEntity<Long> {
+public class Devolucao extends BaseEntity<Long, Devolucao> {
 
 	private static final long serialVersionUID = 1L;
 

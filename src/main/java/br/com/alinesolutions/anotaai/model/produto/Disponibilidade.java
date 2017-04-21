@@ -18,7 +18,7 @@ import br.com.alinesolutions.anotaai.model.domain.DiaSemana;
 })
 @Entity
 @XmlRootElement
-public class Disponibilidade extends BaseEntity<Long> {
+public class Disponibilidade extends BaseEntity<Long, Disponibilidade> {
 
 	private static final long serialVersionUID = 1L;
 

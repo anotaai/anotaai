@@ -16,7 +16,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 })
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ClienteVenda set ativo = false where id = ?")
-public class ClienteVenda extends BaseEntity<Long> {
+public class ClienteVenda extends BaseEntity<Long, ClienteVenda> {
 
 	private static final long serialVersionUID = 1L;
 

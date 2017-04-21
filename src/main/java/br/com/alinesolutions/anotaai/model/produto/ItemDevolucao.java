@@ -25,7 +25,7 @@ import br.com.alinesolutions.anotaai.model.domain.MotivoDevolucao;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ItemDevolucao set ativo = false where id = ?")
 @XmlRootElement
-public class ItemDevolucao extends BaseEntity<Long> implements IMovimentacao {
+public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
 

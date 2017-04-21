@@ -14,8 +14,9 @@ angular.module('anotaai').factory('UsuarioResource', function($resource, $http) 
 	resource.activationUserWithNotification = activationUserWithNotification;
 	resource.findUsuarioByTelefone = findUsuarioByTelefone;
 	resource.loadProfileImage = loadProfileImage;
-	resource.renewPassword = renewPassword;
-	resource.recuperarSenha = recuperarSenha;
+	resource.solicitarMensagemAlteracaoSenha = solicitarMensagemAlteracaoSenha;
+	resource.recuperarUsuarioAlteracaoSenha = recuperarUsuarioAlteracaoSenha;
+	resource.alterarSenha = alterarSenha;
 	
 	function activation(activationCode, handleSuccess, handleError) {
 		return $http.post('rest/usuarios/activation', activationCode).then(handleSuccess, handleError);
@@ -23,10 +24,6 @@ angular.module('anotaai').factory('UsuarioResource', function($resource, $http) 
 	
 	function userByActivationCode(activationCode, handleSuccess, handleError) {
 		return $http.post('rest/usuarios/byactivationcode', activationCode).then(handleSuccess, handleError);
-	}
-	
-	function recuperarSenha(activationCode, handleSuccess, handleError) {
-		return $http.post('rest/usuarios/recuperarSenha', activationCode).then(handleSuccess, handleError);
 	}
 	
 	function login(login, handleSuccess, handleError) {
@@ -53,8 +50,16 @@ angular.module('anotaai').factory('UsuarioResource', function($resource, $http) 
 		return $http.get('rest/usuarios/profilePhoto/' + idUsuario).then(handleSuccess, handleError);
 	}
 	
-	function renewPassword(usuario, handleSuccess, handleError) {
-		return $http.post('rest/usuarios/renewpassword', usuario).then(handleSuccess, handleError);
+	function solicitarMensagemAlteracaoSenha(usuario, handleSuccess, handleError) {
+		return $http.post('rest/usuarios/solicitarMensagemAlteracaoSenha', usuario).then(handleSuccess, handleError);
+	}
+	
+	function alterarSenha(usuario, handleSuccess, handleError) {
+		return $http.post('rest/usuarios/alterarSenha', usuario).then(handleSuccess, handleError);
+	}
+	
+	function recuperarUsuarioAlteracaoSenha(activationCode, handleSuccess, handleError) {
+		return $http.post('rest/usuarios/recuperarUsuarioAlteracaoSenha', activationCode).then(handleSuccess, handleError);
 	}
 	
 	return resource;

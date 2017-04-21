@@ -24,7 +24,7 @@ import br.com.alinesolutions.anotaai.model.produto.GrupoProduto.GrupoProdutoCons
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update GrupoProduto set ativo = false where id = ?")
-public class GrupoProduto extends BaseEntity<Long> {
+public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 
 	private static final long serialVersionUID = 1L;
 

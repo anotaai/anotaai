@@ -14,11 +14,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.MediaType;
 
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
@@ -122,26 +117,6 @@ public class UsuarioService {
 		usuario.setCodigoAtivacao(usuarioDatabase.getCodigoAtivacao());
 		em.merge(usuarioDatabase);
 		senderEmail.notificacaoRegistroUsuario(usuario);
-	}
-
-	public ResponseEntity findUserByActivationCodeRecuperarSenha(String codigoAtivacao) throws AppException {
-		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
-		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
-		ResponseEntity entity = new ResponseEntity();
-		AnotaaiViewException exception = null;
-		try {
-			Usuario usuario = q.getSingleResult();
-			if (usuario.getSituacao().equals(SituacaoUsuario.ATIVO) || usuario.getSituacao().equals(SituacaoUsuario.PENDENTE_VALIDACAO)) {
-				entity.setEntity(usuario);
-			} else {
-				exception = new AnotaaiViewException(Constant.Message.USUARIO_BLOQUEADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
-				entity.setException(exception);
-			}
-		} catch (NoResultException e) {
-			exception = new AnotaaiViewException(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
-			entity.setException(exception);
-		}
-		return entity;
 	}
 
 	public ResponseEntity findUserByActivationCode(String codigoAtivacao) throws AppException {
@@ -310,10 +285,7 @@ public class UsuarioService {
 		return usuarioLogin;
 	}
 
-	@PUT
-	@Path("/{id:[0-9][0-9]*}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public ResponseEntity update(@PathParam("id") Long id, Usuario entity) throws AppException {
+	public ResponseEntity update(Long id, Usuario entity) throws AppException {
 		Usuario usuario = null;
 		AnotaaiMessage message = null;
 		ResponseEntity responseEntity = new ResponseEntity();
@@ -321,7 +293,7 @@ public class UsuarioService {
 		AnotaaiViewException exception = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			usuario = em.find(Usuario.class, id);
-			mergeUsuario(entity, usuario);
+			usuario.clone(entity);
 			entity = em.merge(usuario);
 			message = new AnotaaiMessage(Constant.Message.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, usuario.getNome());
 			responseEntity.setMessages(new ArrayList<>());
@@ -332,17 +304,6 @@ public class UsuarioService {
 			throw appException;
 		}
 		return responseEntity;
-	}
-
-	private void mergeUsuario(Usuario oldUser, Usuario newUser) {
-		newUser.setNome(oldUser.getNome());
-		if (oldUser.getEmail() != null) {
-			//remove o ponto quando for gmail
-			oldUser.setEmail(appService.atulaizarEmail(oldUser.getEmail()));
-		}
-		newUser.setEmail(oldUser.getEmail());
-		newUser.getTelefone().setDdd(oldUser.getTelefone().getDdd());
-		newUser.getTelefone().setNumero(oldUser.getTelefone().getNumero());
 	}
 
 	private Usuario findUsuarioByTelefone(Telefone telefone) {
@@ -410,27 +371,27 @@ public class UsuarioService {
 	 * @param usuarioRequest
 	 * @throws AppException
 	 */
-
-	public ResponseEntity renewPassword(Usuario usuarioRequest) throws AppException {
+	public ResponseEntity solicitarMensagemAlteracaoSenha(Usuario usuario) throws AppException {
 		
 		Usuario usuarioDataBase = null;
 		ResponseEntity responseEntity = new ResponseEntity();
 		TipoAcesso tipoAcesso = null;
 		AnotaaiSendMessage sender = null;
-		if(usuarioRequest.getTelefone().getNumero() != null) {
+		if(usuario.getTelefone().getNumero() != null) {
 			tipoAcesso = TipoAcesso.TELEFONE;
 			sender = senderSMS;
-			usuarioDataBase = loadByTelefone(usuarioRequest.getTelefone());
+			usuarioDataBase = loadByTelefone(usuario.getTelefone());
 		} else {
 			tipoAcesso = TipoAcesso.EMAIL;
 			sender = senderEmail;
-			usuarioDataBase = loadByEmail(usuarioRequest.getEmail());
+			usuarioDataBase = loadByEmail(usuario.getEmail());
 		}
 		try {
 			usuarioDataBase.setCodigoAtivacao(UUID.randomUUID().toString());
 			em.merge(usuarioDataBase);
 			sender.notificacaoRenewPassword(usuarioDataBase);
 			responseEntity.setIsValid(Boolean.TRUE);
+			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.SOLICITACAO_ALTERACAO_SENHA, TipoMensagem.SUCCESS, Constant.Message.LONG_TIME_VIEW, tipoAcesso.getDescricao()));
 		} catch (NoResultException e) {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.setException(new AnotaaiViewException(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, 
@@ -438,4 +399,58 @@ public class UsuarioService {
 		}
 		return responseEntity;
 	}
+	
+	public ResponseEntity findUserByActivationCodeRecuperarSenha(String codigoAtivacao) throws AppException {
+		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
+		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
+		ResponseEntity entity = new ResponseEntity();
+		AnotaaiViewException exception = null;
+		try {
+			Usuario usuario = q.getSingleResult();
+			if (usuario.getSituacao().equals(SituacaoUsuario.ATIVO) || usuario.getSituacao().equals(SituacaoUsuario.PENDENTE_VALIDACAO)) {
+				entity.setEntity(usuario);
+			} else {
+				exception = new AnotaaiViewException(Constant.Message.USUARIO_BLOQUEADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
+				entity.setException(exception);
+			}
+		} catch (NoResultException e) {
+			exception = new AnotaaiViewException(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
+			entity.setException(exception);
+		}
+		return entity;
+	}
+	
+	public ResponseEntity alterarSenha(Usuario entity) throws AppException {
+		Usuario usuario = null;
+		AnotaaiMessage message = null;
+		ResponseEntity responseEntity = new ResponseEntity();
+		AppException appException = null;
+		AnotaaiViewException exception = null;
+		if (entity != null && entity.getEmail() != null) {
+			usuario = loadByEmail(entity.getEmail());
+			if (entity.getCodigoAtivacao().equals(usuario.getCodigoAtivacao())) {
+				entity.setSituacao(SituacaoUsuario.ATIVO);
+				entity.setCodigoAtivacao(UUID.randomUUID().toString());
+				entity.setSenha(Criptografia.criptografar(entity.getSenha()));
+				usuario.clone(entity);
+				em.merge(usuario);
+				entity.setCodigoAtivacao(null);
+				message = new AnotaaiMessage(Constant.Message.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, usuario.getNome());
+				responseEntity.setIsValid(Boolean.TRUE);
+				responseEntity.setEntity(entity);
+				responseEntity.setMessages(new ArrayList<>());
+				responseEntity.getMessages().add(message);
+			} else {
+				exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+				appException = new AppException(exception);
+				throw appException;
+			}
+		} else {
+			exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			appException = new AppException(exception);
+			throw appException;
+		}
+		return responseEntity;
+	}
+	
 }

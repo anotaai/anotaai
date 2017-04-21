@@ -25,7 +25,7 @@ import br.com.alinesolutions.anotaai.model.domain.MotivoQuebra;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ItemQuebra set ativo = false where id = ?")
 @XmlRootElement
-public class ItemQuebra extends BaseEntity<Long> implements IMovimentacao {
+public class ItemQuebra extends BaseEntity<Long, ItemQuebra> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
 

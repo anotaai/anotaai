@@ -19,7 +19,7 @@ import br.com.alinesolutions.anotaai.model.util.Arquivo.ArquivoContant;
 	@NamedQuery(name=ArquivoContant.LOAD_FILE_KEY, query=ArquivoContant.LOAD_FILE_QUERY)
 )
 @Entity
-public class Arquivo extends BaseEntity<Long> {
+public class Arquivo extends BaseEntity<Long, Arquivo> {
 
 	private static final long serialVersionUID = 1L;
 

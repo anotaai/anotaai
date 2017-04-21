@@ -29,11 +29,8 @@ angular.module('anotaai').controller('NewGrupoProdutoController', function (data
 				flash.setExceptionMessage(response.exception)
 			}
 		};
-		var errorCallback = function(response) {
-			flash.setMessage(response);
-			$rootScope.enableElements(elements);
-		};
-		GrupoProdutoResource.save($scope.grupoProduto, successCallback, errorCallback);
+		
+		GrupoProdutoResource.save($scope.grupoProduto, successCallback, $rootScope.defaultErrorCallback);
 	};
 	
 	$scope.cancel = function() {
