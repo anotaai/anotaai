@@ -259,7 +259,7 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 				this.setEmail(entity.getEmail());
 			}
 			if (entity.getSenha() != null) {
-				this.setSenha(senha);
+				this.setSenha(entity.getSenha());
 			}
 			if (entity.getSituacao() != null) {
 				this.setSituacao(entity.getSituacao());
