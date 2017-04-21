@@ -377,22 +377,22 @@ public class UsuarioService {
 		ResponseEntity responseEntity = new ResponseEntity();
 		TipoAcesso tipoAcesso = null;
 		AnotaaiSendMessage sender = null;
-		if(usuario.getTelefone().getNumero() != null) {
-			tipoAcesso = TipoAcesso.TELEFONE;
-			sender = senderSMS;
-			usuarioDataBase = loadByTelefone(usuario.getTelefone());
-		} else {
-			tipoAcesso = TipoAcesso.EMAIL;
-			sender = senderEmail;
-			usuarioDataBase = loadByEmail(usuario.getEmail());
-		}
 		try {
+			if(usuario.getTelefone().getNumero() != null) {
+				tipoAcesso = TipoAcesso.TELEFONE;
+				sender = senderSMS;
+				usuarioDataBase = loadByTelefone(usuario.getTelefone());
+			} else {
+				tipoAcesso = TipoAcesso.EMAIL;
+				sender = senderEmail;
+				usuarioDataBase = loadByEmail(usuario.getEmail());
+			}
 			usuarioDataBase.setCodigoAtivacao(UUID.randomUUID().toString());
 			em.merge(usuarioDataBase);
 			sender.notificacaoRenewPassword(usuarioDataBase);
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.SOLICITACAO_ALTERACAO_SENHA, TipoMensagem.SUCCESS, Constant.Message.LONG_TIME_VIEW, tipoAcesso.getDescricao()));
-		} catch (NoResultException e) {
+		} catch (AppException e) {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.setException(new AnotaaiViewException(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, 
 										Constant.Message.LONG_TIME_VIEW, tipoAcesso.getDescricao()));
