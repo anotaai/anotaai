@@ -197,7 +197,7 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 	};
 	
 	$scope.cancel = function() {
-		$state.go('main');
+		$state.go('access.login');
 	};
 	
 	function limparFormulario() {
