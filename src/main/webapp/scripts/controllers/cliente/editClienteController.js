@@ -70,7 +70,9 @@ angular.module('anotaai').controller('EditClienteController', function($rootScop
 		$scope.cliente.$remove(successCallback, errorCallback);
 	};
 	
-	$scope.estadoList = EnumResource.enum({EnumName:'estados'});
+	EnumResource.load('estados', function(response) {
+		$scope.estadoList = response.data;
+	});
 	
 	$scope.get();
 });

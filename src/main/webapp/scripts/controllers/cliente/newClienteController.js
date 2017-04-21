@@ -43,6 +43,8 @@ angular.module('anotaai').controller('NewClienteController', function ($rootScop
 		$location.path("/Clientes");
 	};
 
-	$scope.estadoList = EnumResource.enum({EnumName:'estados'});
+	EnumResource.load('estados', function(response) {
+		$scope.estadoList = response.data;
+	});
 
 });

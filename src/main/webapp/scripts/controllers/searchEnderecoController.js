@@ -15,7 +15,9 @@ angular.module('anotaai').controller('SearchEnderecoController', function($scope
         }
         return max;
     };
-    $scope.estadoList = EnumResource.enum({EnumName:'estados'});
+	EnumResource.load('estados', function(response) {
+		$scope.estadoList = response.data;
+	});
 
     $scope.performSearch = function() {
         $scope.searchResults = EnderecoResource.queryAll(function(){

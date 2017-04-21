@@ -53,7 +53,9 @@ angular.module('anotaai').controller('EditEnderecoController', function($scope, 
         $scope.endereco.$remove(successCallback, errorCallback);
     };
     
-    $scope.estadoList = EnumResource.enum({EnumName:'estados'});
+	EnumResource.load('estados', function(response) {
+		$scope.estadoList = response.data;
+	});
     
     $scope.get();
 });

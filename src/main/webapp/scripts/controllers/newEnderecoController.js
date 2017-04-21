@@ -3,7 +3,9 @@ angular.module('anotaai').controller('NewEnderecoController', function ($scope, 
     $scope.$location = $location;
     $scope.endereco = $scope.endereco || {};
     
-    $scope.estadoList = EnumResource.enum({EnumName:'estados'});
+	EnumResource.load('estados', function(response) {
+		$scope.estadoList = response.data;
+	});
 
     $scope.save = function() {
         var successCallback = function(data,responseHeaders){

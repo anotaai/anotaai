@@ -117,7 +117,7 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 					angular.element('#senha').attr("disabled", "disabled");
 					angular.element('#confirmaSenha').attr("disabled", "disabled");
 					angular.element('#limpar').focus();
-					flash.setExceptionMessage(response.data.exception);
+					flash.setMessages(response.data.exception.anotaaiExceptionMessages);
 				}
 				
 			};
@@ -134,15 +134,14 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 				if (data.isValid) {
 					$state.go('access.register-success');
 				} else {
-					flash.setExceptionMessage(data.exception);
+					flash.setExceptionMessage(data.exception.anotaaiExceptionMessages);
 				}
 			};
-			console.log($scope.tipoCadastro);
 			if ($scope.tipoCadastro == null || $scope.tipoCadastro == 'comprador') {
-				UsuarioResource.save($scope.usuario, successCallback, errorCallback);
+				UsuarioResource.save($scope.usuario, successCallback, $rootScope.defaultErrorCallback);
 			} else {
 				$scope.cliente.type = 'cliente';
-				ClienteResource.save($scope.cliente, successCallback, errorCallback);
+				ClienteResource.save($scope.cliente, successCallback, $rootScope.defaultErrorCallback);
 			}
 		} else {
 			senhaInvalida();
@@ -172,7 +171,7 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 		$scope.usuario.senha = '';
 		$scope.confirmaSenha = '';
 		flash.setMessage({
-			'type': constant.TYPE_MESSAGE.ERROR,
+		'type': {'type' : constant.TYPE_MESSAGE.ERROR},
 			'key': 'senha.nao.confere',
 			'isKey': true
 		});
@@ -226,10 +225,8 @@ angular.module('anotaai').controller('NewUsuarioController', function (dataTrans
 		$scope.titulo = $translate.instant('titulo.cadastro.' + tipoCadastro);
 	}
 	
-	EnumResource.load('estados',
-		function(response) {
-			$scope.estadoList = response.data;
-		}, 
-	$rootScope.defaultErrorCallback);
+	EnumResource.load('estados', function(response) {
+		$scope.estadoList = response.data;
+	});
 	
 });

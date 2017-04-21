@@ -45,11 +45,11 @@ public class UsuarioEndpoint {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(IPessoa usuario) {
+	public Response create(Usuario usuario) {
 		ResponseBuilder builder = null;
 		ResponseEntity entity = new ResponseEntity();
 		try {
-			//usuarioService.create(usuario);
+			usuarioService.create(usuario);
 			entity.setIsValid(Boolean.TRUE);
 			builder = Response.ok(entity);
 		} catch (AppException e) {
