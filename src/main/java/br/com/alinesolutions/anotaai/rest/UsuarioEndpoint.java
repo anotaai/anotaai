@@ -21,7 +21,6 @@ import javax.ws.rs.core.SecurityContext;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
-import br.com.alinesolutions.anotaai.model.usuario.IPessoa;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.service.app.UploadService;
@@ -109,7 +108,25 @@ public class UsuarioEndpoint {
 			entity = usuarioService.findUserByActivationCode(codigoAtivacao);
 			builder = Response.ok(entity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Status.OK).entity(e.getViewException());
+		} catch (Exception e) {
+			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+		}
+		return builder.build();
+	}
+	
+	@POST
+	@Path("/recuperarSenha")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response recuperarSenha(String codigoAtivacao) {
+		ResponseBuilder builder = null;
+		ResponseEntity entity = null;
+		try {
+			entity = usuarioService.findUserByActivationCodeRecuperarSenha(codigoAtivacao);
+			builder = Response.ok(entity);
+		} catch (AppException e) {
+			builder = Response.status(Status.OK).entity(e.getViewException());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}

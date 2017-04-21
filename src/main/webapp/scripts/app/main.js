@@ -69,8 +69,9 @@ angular.module('anotaai', ['ngRoute', 'ngResource', 'ui.mask', 'ngCookies', 'pas
 			var freePage = $.inArray(path, ['/', '/access', '/access/Login', '/access/Register', '/access/RegisterUsuario', 
 											'/access/RegisterVendedor', '/access/InvalidActivationCode', '/access/SuccessActivate', 
 											'/access/RegisterSuccess']) >= 0;
+											
 			//paginas de acesso livre com parametro
-			var freePageWithParam = path.startsWith('/access/Activate/') || path.startsWith('/access/RegisterUsuario/');
+			var freePageWithParam = path.startsWith('/access/Activate/') || path.startsWith('/access/RegisterUsuario/') || path.startsWith('/access/ResetPassword/');
 			//usuario ja logado, para nao acessar mais as paginas de login
 			var loggedIn = $rootScope.globals.login;
 			if (!freePage && !freePageWithParam && !loggedIn) {

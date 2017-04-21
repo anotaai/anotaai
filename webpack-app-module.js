@@ -73,6 +73,7 @@ require("app-js/controllers/main/MainController.js");
 require("app-js/controllers/activate/activateController.js");
 require("app-js/controllers/login/loginController.js");
 require("app-js/controllers/login/renewPasswordController.js");
+require("app-js/controllers/login/resetPasswordController.js");
 require("app-js/controllers/login/profileController.js");
 require("app-js/controllers/cliente/newClienteController.js");
 require("app-js/controllers/menu/MenuController.js");

@@ -124,6 +124,26 @@ public class UsuarioService {
 		senderEmail.notificacaoRegistroUsuario(usuario);
 	}
 
+	public ResponseEntity findUserByActivationCodeRecuperarSenha(String codigoAtivacao) throws AppException {
+		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
+		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
+		ResponseEntity entity = new ResponseEntity();
+		AnotaaiViewException exception = null;
+		try {
+			Usuario usuario = q.getSingleResult();
+			if (usuario.getSituacao().equals(SituacaoUsuario.ATIVO) || usuario.getSituacao().equals(SituacaoUsuario.PENDENTE_VALIDACAO)) {
+				entity.setEntity(usuario);
+			} else {
+				exception = new AnotaaiViewException(Constant.Message.USUARIO_BLOQUEADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
+				entity.setException(exception);
+			}
+		} catch (NoResultException e) {
+			exception = new AnotaaiViewException(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
+			entity.setException(exception);
+		}
+		return entity;
+	}
+
 	public ResponseEntity findUserByActivationCode(String codigoAtivacao) throws AppException {
 		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
 		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
@@ -138,7 +158,7 @@ public class UsuarioService {
 				entity.setException(exception);
 			}
 		} catch (NoResultException e) {
-			exception = new AnotaaiViewException(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW);
+			exception = new AnotaaiViewException(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
 			entity.setException(exception);
 		}
 		return entity;

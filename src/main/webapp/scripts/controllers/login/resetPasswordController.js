@@ -1,39 +1,27 @@
 'use strict';
 
-angular.module('anotaai').controller('RenewPasswordController', function ($scope, $location, $timeout, $uibModalInstance, locationParser, flash, UsuarioResource, EnumResource, constant, $rootScope) {
+angular.module('anotaai').controller('ResetPasswordController', function ($scope, $location, $timeout, locationParser, flash, UsuarioResource, EnumResource, $stateParams, $rootScope) {
 	
 	$scope.disabled = false;
 	$scope.$location = $location;
-	
-	$scope.telefone = '';
-	$scope.login = {};
-	$scope.login.usuario = {};
-	$scope.login.usuario.email = '';
-	$scope.login.usuario.telefone;
-	$scope.login.usuario.telefone = $scope.usuario.telefone || {};
-	$scope.login.usuario.telefone.ddi = $scope.usuario.telefone.ddi || '';
-	$scope.login.usuario.telefone.ddd = $scope.usuario.telefone.ddd || '';
-	$scope.login.usuario.telefone.numero = $scope.usuario.telefone.numero || '';
-	$scope.login.usuario.telefone.numero = $scope.usuario.telefone.numero || '';
 	$scope.loading = false;
+	$scope.senha = '';
+	$scope.usuario = {};
 	
 	(function() {
 		if ($stateParams.activationCode) {
 			var successCallback = function(response) {
 				if (response.data.entity) {
-					$scope.login.usuario = response.data.entity;
-					$scope.telefone = $scope.usuario.telefone.ddd.toString() + $scope.usuario.telefone.numero.toString();
-					angular.element('#email').attr("disabled", "disabled");
-					angular.element('#telefone').attr("disabled", "disabled");
+					$scope.usuario = response.data.entity;
+					var telefoneStr = $scope.usuario.telefone.ddd.toString() + $scope.usuario.telefone.numero.toString();
+					$scope.telefone = telefoneStr.replace(/^(\d{2})(\d)/g,"($1) $2");
+					$scope.telefone = telefoneStr.replace(/(\d)(\d{4})$/,"$1-$2"); 
 					angular.element('#senha').focus();
 				} else if(response.data.exception) {
 					$state.go('access.login');
 				}
-			};			
-			var errorCallback = function(response) {
-				flash.setExceptionMessage(response.data);				
 			};
-			UsuarioResource.userByActivationCode($stateParams.activationCode, successCallback, errorCallback);
+			UsuarioResource.recuperarSenha($stateParams.activationCode, successCallback, $rootScope.defaultErrorCallback);
 		} else {
 			$state.go('access.login');
 		}

@@ -15,6 +15,7 @@ angular.module('anotaai').factory('UsuarioResource', function($resource, $http) 
 	resource.findUsuarioByTelefone = findUsuarioByTelefone;
 	resource.loadProfileImage = loadProfileImage;
 	resource.renewPassword = renewPassword;
+	resource.recuperarSenha = recuperarSenha;
 	
 	function activation(activationCode, handleSuccess, handleError) {
 		return $http.post('rest/usuarios/activation', activationCode).then(handleSuccess, handleError);
@@ -22,6 +23,10 @@ angular.module('anotaai').factory('UsuarioResource', function($resource, $http) 
 	
 	function userByActivationCode(activationCode, handleSuccess, handleError) {
 		return $http.post('rest/usuarios/byactivationcode', activationCode).then(handleSuccess, handleError);
+	}
+	
+	function recuperarSenha(activationCode, handleSuccess, handleError) {
+		return $http.post('rest/usuarios/recuperarSenha', activationCode).then(handleSuccess, handleError);
 	}
 	
 	function login(login, handleSuccess, handleError) {

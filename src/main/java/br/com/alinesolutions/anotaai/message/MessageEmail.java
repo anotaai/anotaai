@@ -124,8 +124,8 @@ public class MessageEmail implements AnotaaiSendMessage {
 		urlRenewPassword.append(usuario.getCodigoAtivacao());
 		String link = shortener.shortener(urlRenewPassword.toString());
 		
-		htmlMensagem = htmlMensagem.replace("{nomeUsuario}", usuario.getNome());
-		htmlMensagem = htmlMensagem.replace("{linkReativacao}", link.toString());
+		htmlMensagem = htmlMensagem.replace("{nome}", usuario.getNome());
+		htmlMensagem = htmlMensagem.replace("{linkRedefinicao}", link.toString());
 		
 		Email email = new Email("📝  Anota ai - Redefinição de Senha", htmlMensagem.toString(), usuario.getEmail());
 		event.fire(email);
