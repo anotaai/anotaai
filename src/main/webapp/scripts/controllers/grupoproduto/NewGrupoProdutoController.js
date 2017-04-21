@@ -26,7 +26,7 @@ angular.module('anotaai').controller('NewGrupoProdutoController', function (data
 				$state.go('app.grupo-produto-edit');
 			} else {
 				$rootScope.enableElements(elements);
-				flash.setExceptionMessage(response.exception)
+				flash.setMessages(response.exception.anotaaiExceptionMessages)
 			}
 		};
 		

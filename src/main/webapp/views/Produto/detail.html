@@ -107,7 +107,7 @@
 					   uib-typeahead="produto as produto.descricao for produto in getProdutos($viewValue)" 
 					   typeahead-loading="loadingProdutos" typeahead-no-results="noResults" autocomplete="off">
 				<i ng-show="loadingProdutos" class="glyphicon glyphicon-refresh"></i>
-				<div ng-show="noResults">
+				<div ng-show="{{noResults}}">
 					<i class="glyphicon glyphicon-remove"></i><b>&nbsp;Nenhum registro encontrado</b>
 				</div>
 			</div>

@@ -9,7 +9,8 @@ import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 
 public enum Path {
 	
-	FILES("files", null),
+	ANOTAAI("anotaai", null),
+	FILES("files", ANOTAAI),
 	USUARIO("usuario", FILES),
 	CLIENTE("cliente", FILES),
 	PRODUTO("produto", CLIENTE),

@@ -14,7 +14,6 @@ import javax.annotation.Priority;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -86,7 +85,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 				sessaoUsuario = sessaoUsuarioervice.getSessionActive(login.getSessionID());
 				AnotaaiSession anotaaiSession = new AnotaaiSession(request, sessaoUsuario);
 				RequestUtils.putRequest(anotaaiSession);
-			} catch (NoResultException e) {
+			} catch (AppException e) {
 				requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
 						.entity(buildResponseEntity(Constant.Message.SECURITY_ACCESS_FORBIDDEN)).build());
 			}
