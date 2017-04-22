@@ -51,7 +51,7 @@
 				<tr class="pointer" ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
 					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.descricao"></span></td>
 					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.codigo"></span></td>
-					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.estoque.precoCusto"></span></td>
+					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.estoque.precoCusto | currency:''"></span></td>
 					<td class="text-center" ng-click="edit(result)"><span ng-bind="result.precoVenda | currency:''"></span></td>
 					<td class="text-center" ng-click="edit(result)">
 						<span ng-bind="result.estoque.quantidadeEstoque"></span>
