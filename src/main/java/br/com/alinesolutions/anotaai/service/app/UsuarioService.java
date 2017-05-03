@@ -15,6 +15,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import java.util.Base64;
+
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.message.qualifier.SMS;
@@ -195,7 +197,9 @@ public class UsuarioService {
 	private void ativarLogin(Login login, Usuario usuarioLogin, String senha) throws AppException {
 		SessaoUsuario sessaoUsuario;
 		AnotaaiViewException exception;
-		String senhaCriptografada = Criptografia.criptografar(login.getUsuario().getSenha());
+ 
+		String senhaUsuario = new String(Base64.getDecoder().decode(login.getUsuario().getSenha().getBytes()));
+		String senhaCriptografada = Criptografia.criptografar(senhaUsuario);
 		if (senha.equals(senhaCriptografada)) {
 			sessaoUsuario = criarSessao(login, usuarioLogin);
 			login.setUsuario(usuarioLogin);

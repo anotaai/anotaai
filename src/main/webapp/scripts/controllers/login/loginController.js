@@ -75,6 +75,8 @@ angular.module('anotaai').controller('LoginController', function (dataTransferOb
 		})();
 		
 		flash.destroyAllMessages();
+		var senha = $scope.userLogin.usuario.senha ;
+		$scope.userLogin.usuario.senha =  Base64Service.encode(senha)
 		UsuarioResource.login($scope.userLogin,
 			function (response) {
 				$scope.loading = false;
