@@ -1,6 +1,7 @@
 package br.com.alinesolutions.anotaai.service.app;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,13 +16,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import java.util.Base64;
-
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.message.qualifier.SMS;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
@@ -87,15 +85,14 @@ public class UsuarioService {
 
 	private void validarUsuario(Usuario usuario) throws AppException {
 		AnotaaiUtil util = AnotaaiUtil.getInstance();
-		AnotaaiViewException exception = new AnotaaiViewException();
-		Boolean hasException = Boolean.FALSE;
+		ResponseEntity responseEntity = new ResponseEntity();
 		TypedQuery<Long> queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_EMAIL_KEY, Long.class);
 		String email = appService.atulaizarEmail(usuario.getEmail());
 		queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
 		Long cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			exception.setMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW, usuario.getEmail());
-			hasException = Boolean.TRUE;
+			responseEntity.addMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW, usuario.getEmail());
+			responseEntity.setIsValid(Boolean.FALSE);
 		}
 		queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_TELEFONE_KEY, Long.class);
 		queryCount.setParameter(Telefone.TelefoneConstant.FIELD_DDI, usuario.getTelefone().getDdi());
@@ -103,12 +100,12 @@ public class UsuarioService {
 		queryCount.setParameter(Telefone.TelefoneConstant.FIELD_NUMERO, usuario.getTelefone().getNumero());
 		cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			exception.setMessage(Constant.Message.TELEFONE_JA_CADASTRADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW, util.formatarTelefoneStr(usuario.getTelefone()));
-			hasException = Boolean.TRUE;
+			responseEntity.addMessage(Constant.Message.TELEFONE_JA_CADASTRADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW, util.formatarTelefoneStr(usuario.getTelefone()));
+			responseEntity.setIsValid(Boolean.FALSE);
 		}
 
-		if (hasException) {
-			throw new AppException(exception);
+		if (!responseEntity.getIsValid()) {
+			throw new AppException(responseEntity);
 		}
 	}
 
@@ -124,27 +121,27 @@ public class UsuarioService {
 	public ResponseEntity findUserByActivationCode(String codigoAtivacao) throws AppException {
 		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
 		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
-		ResponseEntity entity = new ResponseEntity();
-		AnotaaiViewException exception = null;
+		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			Usuario usuario = q.getSingleResult();
 			if (usuario.getSituacao().equals(SituacaoUsuario.NAO_REGISTRADO)) {
-				entity.setEntity(usuario);
+				responseEntity.setEntity(usuario);
+				responseEntity.setIsValid(Boolean.TRUE);
 			} else {
-				exception = new AnotaaiViewException(Constant.Message.USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW);
-				entity.setException(exception);
+				responseEntity.addMessage(Constant.Message.USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW);
+				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException e) {
-			exception = new AnotaaiViewException(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
-			entity.setException(exception);
+			responseEntity.addMessage(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
+			responseEntity.setIsValid(Boolean.FALSE);
 		}
-		return entity;
+		return responseEntity;
 	}
 
 	public ResponseEntity activateAccount(String codigoAtivacao) throws AppException {
 		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_ACTIVATE_KEY, Usuario.class);
 		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
-		ResponseEntity entity = new ResponseEntity();
+		ResponseEntity responseEntity = new ResponseEntity();
 		AppException appException = null;
 		Usuario usuario = null;
 		try {
@@ -152,17 +149,16 @@ public class UsuarioService {
 			if (usuario.getSituacao().equals(SituacaoUsuario.PENDENTE_VALIDACAO)) {
 				usuario.setSituacao(SituacaoUsuario.ATIVO);
 				em.merge(usuario);
-				entity.setIsValid(Boolean.TRUE);
+				responseEntity.setIsValid(Boolean.TRUE);
 			} else {
-				entity.setIsValid(Boolean.FALSE);
+				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException e) {
-			AnotaaiViewException exception = new AnotaaiViewException();
-			exception.setMessage(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
-			appException = new AppException(exception);
+			responseEntity.addMessage(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			appException = new AppException(responseEntity);
 			throw appException;
 		}
-		return entity;
+		return responseEntity;
 	}
 
 	public ResponseEntity findByTelefone(Telefone telefone) {
@@ -175,7 +171,7 @@ public class UsuarioService {
 				responseEntity.setEntity(usuario);
 				responseEntity.setIsValid(Boolean.TRUE);
 			} else {
-				responseEntity.setException(new AnotaaiViewException(Constant.Message.USUARIO_JA_CADASTRADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW));
+				responseEntity.addMessage(Constant.Message.USUARIO_JA_CADASTRADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException nre) {
@@ -196,7 +192,6 @@ public class UsuarioService {
 	 */
 	private void ativarLogin(Login login, Usuario usuarioLogin, String senha) throws AppException {
 		SessaoUsuario sessaoUsuario;
-		AnotaaiViewException exception;
  
 		String senhaUsuario = new String(Base64.getDecoder().decode(login.getUsuario().getSenha().getBytes()));
 		String senhaCriptografada = Criptografia.criptografar(senhaUsuario);
@@ -206,8 +201,10 @@ public class UsuarioService {
 			login.setSessionID(sessaoUsuario.getSessionID());
 		} else {
 			// senha nao confere
-			exception = new AnotaaiViewException(Constant.Message.USUARIO_SENHA_INVALIDO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
-			throw new AppException(exception);
+			ResponseEntity responseEntity = new ResponseEntity();
+			responseEntity.addMessage(Constant.Message.USUARIO_SENHA_INVALIDO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
+			responseEntity.setIsValid(Boolean.FALSE);
+			throw new AppException(responseEntity);
 		}
 	}
 
@@ -224,13 +221,13 @@ public class UsuarioService {
 
 	public void login(Login login) throws AppException {
 
-		AnotaaiViewException exception = null;
 		AppException appException = null;
 		Usuario usuarioLogin = null;
 		TipoMensagem tipoMensagemErro = TipoMensagem.ERROR;
 		Long time = Constant.Message.KEEP_ALIVE_TIME_VIEW;
 		String key = null;
 		String senha = null;
+		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			usuarioLogin = loadUsuario(login);
 			switch (usuarioLogin.getSituacao()) {
@@ -256,14 +253,16 @@ public class UsuarioService {
 			}
 			if (!usuarioLogin.getSituacao().equals(SituacaoUsuario.ATIVO)) {
 				// usuario com acesso bloqueado ou conta nao ativada
-				exception = new AnotaaiViewException(key, tipoMensagemErro, time);
-				appException = new AppException(exception);
+				responseEntity.addMessage(key, tipoMensagemErro, time);
+				responseEntity.setIsValid(Boolean.FALSE);
+				appException = new AppException(responseEntity);
 				throw appException;
 			}
 		} catch (NoResultException e) {
 			// usuario nao registrado
-			exception = new AnotaaiViewException(Constant.Message.USUARIO_SENHA_INVALIDO, tipoMensagemErro, time);
-			appException = new AppException(exception);
+			responseEntity.addMessage(Constant.Message.USUARIO_SENHA_INVALIDO, tipoMensagemErro, time);
+			responseEntity.setIsValid(Boolean.FALSE);
+			appException = new AppException(responseEntity);
 			throw appException;
 		}
 	}
@@ -294,7 +293,6 @@ public class UsuarioService {
 		AnotaaiMessage message = null;
 		ResponseEntity responseEntity = new ResponseEntity();
 		AppException appException = null;
-		AnotaaiViewException exception = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			usuario = em.find(Usuario.class, id);
 			usuario.clone(entity);
@@ -303,8 +301,9 @@ public class UsuarioService {
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(message);
 		} else {
-			exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
-			appException = new AppException(exception);
+			responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.setIsValid(Boolean.FALSE);
+			appException = new AppException(responseEntity);
 			throw appException;
 		}
 		return responseEntity;
@@ -331,6 +330,8 @@ public class UsuarioService {
 	}
 
 	public Usuario loadByEmail(String email) {
+		ResponseEntity responseEntity = new ResponseEntity();
+		responseEntity.setIsValid(Boolean.FALSE);
 		try {
 			
 			TypedQuery<Usuario> query = em.createNamedQuery(Usuario.UsuarioConstant.ACCESS_KEY, Usuario.class);
@@ -339,18 +340,13 @@ public class UsuarioService {
 			return usuario;
 			
 		} catch (NoResultException e) {
-			AnotaaiViewException exception = new AnotaaiViewException();
-			exception.setMessage(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW,"email");
-			throw new AppException(exception);
-		} catch (Exception e) {
-			e.printStackTrace();
-			AnotaaiViewException exception = new AnotaaiViewException();
-			exception.setMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
-			throw new AppException(exception);
+			responseEntity.addMessage(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW,"email");
+			throw new AppException(responseEntity);
 		}
 	}
 
 	public Usuario loadByTelefone(Telefone telefone) {
+		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			TypedQuery<Usuario> query = em.createNamedQuery(Usuario.UsuarioConstant.FIND_BY_TELEFONE_PERSIST_KEY, Usuario.class);
 			query.setParameter(Telefone.TelefoneConstant.FIELD_DDI, telefone.getDdi());
@@ -358,14 +354,8 @@ public class UsuarioService {
 			query.setParameter(Telefone.TelefoneConstant.FIELD_NUMERO, telefone.getNumero());
 			return query.getSingleResult();
 		} catch (NoResultException e) {
-			AnotaaiViewException exception = new AnotaaiViewException();
-			exception.setMessage(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW,"telefone");
-			throw new AppException(exception);
-		} catch (Exception e) {
-			e.printStackTrace();
-			AnotaaiViewException exception = new AnotaaiViewException();
-			exception.setMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
-			throw new AppException(exception);
+			responseEntity.addMessage(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, Constant.Message.DEFAULT_TIME_VIEW,"telefone");
+			throw new AppException(responseEntity);
 		}
 		
 	}
@@ -400,7 +390,7 @@ public class UsuarioService {
 			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.SOLICITACAO_ALTERACAO_SENHA, TipoMensagem.SUCCESS, Constant.Message.LONG_TIME_VIEW, mensagem.toString()));
 		} catch (AppException e) {
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(new AnotaaiViewException(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW, "Parâetro"));
+			responseEntity.addMessage(Constant.Message.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW, "Parâetro");
 		}
 		return responseEntity;
 	}
@@ -408,21 +398,21 @@ public class UsuarioService {
 	public ResponseEntity findUserByActivationCodeRecuperarSenha(String codigoAtivacao) throws AppException {
 		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
 		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
-		ResponseEntity entity = new ResponseEntity();
-		AnotaaiViewException exception = null;
+		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			Usuario usuario = q.getSingleResult();
 			if (usuario.getSituacao().equals(SituacaoUsuario.ATIVO) || usuario.getSituacao().equals(SituacaoUsuario.PENDENTE_VALIDACAO)) {
-				entity.setEntity(usuario);
+				responseEntity.setEntity(usuario);
 			} else {
-				exception = new AnotaaiViewException(Constant.Message.USUARIO_BLOQUEADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
-				entity.setException(exception);
+				responseEntity.addMessage(Constant.Message.USUARIO_BLOQUEADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
+				responseEntity.setIsValid(Boolean.TRUE);
 			}
 		} catch (NoResultException e) {
-			exception = new AnotaaiViewException(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
-			entity.setException(exception);
+			responseEntity.addMessage(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
+			responseEntity.setIsValid(Boolean.FALSE);
+			throw new AppException(responseEntity);
 		}
-		return entity;
+		return responseEntity;
 	}
 	
 	public ResponseEntity alterarSenha(Usuario entity) throws AppException {
@@ -430,7 +420,6 @@ public class UsuarioService {
 		AnotaaiMessage message = null;
 		ResponseEntity responseEntity = new ResponseEntity();
 		AppException appException = null;
-		AnotaaiViewException exception = null;
 		if (entity != null && entity.getEmail() != null) {
 			usuario = loadByEmail(entity.getEmail());
 			if (entity.getCodigoAtivacao().equals(usuario.getCodigoAtivacao())) {
@@ -446,13 +435,13 @@ public class UsuarioService {
 				responseEntity.setMessages(new ArrayList<>());
 				responseEntity.getMessages().add(message);
 			} else {
-				exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
-				appException = new AppException(exception);
+				responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+				appException = new AppException(responseEntity);
 				throw appException;
 			}
 		} else {
-			exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
-			appException = new AppException(exception);
+			responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			appException = new AppException(responseEntity);
 			throw appException;
 		}
 		return responseEntity;

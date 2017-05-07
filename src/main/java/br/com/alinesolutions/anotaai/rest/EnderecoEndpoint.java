@@ -10,11 +10,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
+import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Cep;
-import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.service.AppService;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 @Path("/enderecos")
@@ -32,12 +30,9 @@ public class EnderecoEndpoint {
 		try {
 			cep = service.findCep(nrCep);
 			builder = Response.ok(cep);
-		} catch (IllegalArgumentException e) {
-			AnotaaiViewException exception = new AnotaaiViewException("cep.nao.cadastrado", TipoMensagem.WARNING,
-					Constant.Message.DEFAULT_TIME_VIEW, cep.toString());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(exception);
+		} catch (AppException e) {
+			builder = Response.ok().entity(e.getResponseEntity());
 		}
-
 		return builder.build();
 	}
 

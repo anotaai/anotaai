@@ -38,9 +38,7 @@ public class GrupoProdutoEndpoint {
 			responseEntity = grupoProdutoService.create(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Status.BAD_REQUEST);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -54,9 +52,7 @@ public class GrupoProdutoEndpoint {
 			responseEntity = grupoProdutoService.deleteById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Status.BAD_REQUEST);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -72,9 +68,7 @@ public class GrupoProdutoEndpoint {
 			responseEntity = grupoProdutoService.findById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Status.BAD_REQUEST);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -108,9 +102,7 @@ public class GrupoProdutoEndpoint {
 			responseEntity = grupoProdutoService.update(id, entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		}
 		return builder.build();
 	}

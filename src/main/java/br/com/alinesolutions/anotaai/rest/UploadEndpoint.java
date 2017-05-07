@@ -7,7 +7,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -33,12 +32,7 @@ public class UploadEndpoint {
 			responseEntity = upload.saveProfileFile(arquivo);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			responseEntity = new ResponseEntity();
-			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(e.getViewException());
-			builder = Response.ok(responseEntity);
-		} catch (Exception e) {
-			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}

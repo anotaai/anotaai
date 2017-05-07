@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -77,9 +76,10 @@ public class ProdutoGrupoProdutoService {
 			queryGrupoProduto.setParameter(Constant.Entity.CLIENTE, cliente);
 			queryGrupoProduto.getSingleResult();
 		} catch (NoResultException e) {
-			AnotaaiViewException exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT,
-					TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
-			throw new AppException(exception);
+			ResponseEntity responseEntity = new ResponseEntity();
+			responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.setIsValid(Boolean.FALSE);
+			throw new AppException(responseEntity);
 		}
 
 	}

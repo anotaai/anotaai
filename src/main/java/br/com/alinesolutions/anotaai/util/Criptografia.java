@@ -3,8 +3,9 @@ package br.com.alinesolutions.anotaai.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
+import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 
 public class Criptografia {
 
@@ -16,7 +17,10 @@ public class Criptografia {
 		try {
 			md = MessageDigest.getInstance(ALGORITHM);
 		} catch (NoSuchAlgorithmException ex) {
-			throw new AppException(new AnotaaiViewException());
+			ResponseEntity responseEntity = new ResponseEntity();
+			responseEntity.setIsValid(Boolean.FALSE);
+			responseEntity.addMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
+			throw new AppException(responseEntity);
 		}
 	}
 
@@ -29,7 +33,10 @@ public class Criptografia {
 			}
 			return hexString.toString();
 		} catch (Exception e) {
-			throw new AppException(new AnotaaiViewException());
+			ResponseEntity responseEntity = new ResponseEntity();
+			responseEntity.setIsValid(Boolean.FALSE);
+			responseEntity.addMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
+			throw new AppException(responseEntity);
 		}
 	}
 }

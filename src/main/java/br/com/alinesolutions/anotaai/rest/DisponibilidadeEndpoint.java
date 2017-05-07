@@ -15,7 +15,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
@@ -37,9 +36,7 @@ public class DisponibilidadeEndpoint {
 			responseEntity = disponibilidadeService.create(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Status.BAD_REQUEST);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -53,9 +50,7 @@ public class DisponibilidadeEndpoint {
 			responseEntity = disponibilidadeService.deleteById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Status.BAD_REQUEST);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}

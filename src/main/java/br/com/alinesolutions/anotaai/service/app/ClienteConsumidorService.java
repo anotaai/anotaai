@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
@@ -54,10 +53,9 @@ public class ClienteConsumidorService {
 	private SessionContext sessionContext;
 
 	public void create(ClienteConsumidor clienteConsumidor) throws AppException {
-		AnotaaiViewException viewException = null;
-		AppException appException = null;
 		TypedQuery<Usuario> q = null;
 		Usuario usuarioDatabase = null;
+		ResponseEntity response;
 		Cliente cliente = appManager.getAppService().getCliente();
 		clienteConsumidor.setCliente(cliente);
 		clienteConsumidor.setDataAssociacao(new Date());
@@ -88,11 +86,12 @@ public class ClienteConsumidorService {
 				queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
 				Long cont = queryCount.getSingleResult();
 				if (cont > 0) {
-					viewException = new AnotaaiViewException();
-					viewException.setMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR,
+					response = new ResponseEntity();
+					response.setIsValid(Boolean.FALSE);
+					AnotaaiMessage message = new AnotaaiMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR,
 							Constant.Message.DEFAULT_TIME_VIEW, usuario.getEmail());
-					appException = new AppException(viewException);
-					throw appException;
+					response.addMessage(message);
+					throw new AppException(response);
 				}
 				usuario.setCodigoAtivacao(UUID.randomUUID().toString());
 				if (usuario.getEmail() != null) {
@@ -169,7 +168,6 @@ public class ClienteConsumidorService {
 	public Response deleteById(Long id) throws AppException {
 		ResponseEntity entity = new ResponseEntity();
 		ResponseBuilder builder = null;
-		AnotaaiViewException exception = null;
 		try {
 			ClienteConsumidor clienteConsumidor = em.find(ClienteConsumidor.class, id);
 			clienteConsumidor.setSituacao(SituacaoConsumidor.INATIVO);
@@ -177,10 +175,9 @@ public class ClienteConsumidorService {
 			entity.setIsValid(Boolean.TRUE);
 			builder = Response.ok(entity);
 		} catch (Exception e) {
-			exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,
-					Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			entity.addMessage(new AnotaaiMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,
+					Constant.Message.KEEP_ALIVE_TIME_VIEW));
 			entity.setIsValid(Boolean.FALSE);
-			entity.setException(exception);
 			builder = Response.ok(entity);
 		}
 		return builder.build();
@@ -209,7 +206,6 @@ public class ClienteConsumidorService {
 		Usuario usuario = null;
 		ResponseEntity responseEntity = null;
 		ClienteConsumidor clienteConsumidor = null;
-		AnotaaiViewException viewException = null;
 		AnotaaiMessage message = null;
 		try {
 			usuario = findUsuarioByTelefone(telefone);
@@ -221,9 +217,8 @@ public class ClienteConsumidorService {
 			responseEntity = new ResponseEntity(clienteConsumidor);
 			try {
 				clienteConsumidor = validarConsumidorJaCadastrado(telefone);
-				viewException = new AnotaaiViewException(Constant.Message.CONSUMIDOR_JA_CADASTRADO, TipoMensagem.ERROR,
-						Constant.Message.KEEP_ALIVE_TIME_VIEW, nome);
-				responseEntity.setException(viewException);
+				responseEntity.addMessage(new AnotaaiMessage(Constant.Message.CONSUMIDOR_JA_CADASTRADO, TipoMensagem.ERROR,
+						Constant.Message.KEEP_ALIVE_TIME_VIEW, nome));
 				// o consumidor ja esta cadastrado para este cliente
 			} catch (NoResultException e) {
 				// o consumidor ja esta cadastrado para outro cliente
@@ -271,8 +266,7 @@ public class ClienteConsumidorService {
 		SituacaoUsuario situacao = querySituacao.getSingleResult();
 
 		if (!situacao.equals(SituacaoUsuario.NAO_REGISTRADO)) {
-			responseEntity
-					.setException(new AnotaaiViewException(Constant.Message.EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO,
+			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO,
 							TipoMensagem.WARNING, Constant.Message.KEEP_ALIVE_TIME_VIEW, usuario.getNome()));
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
@@ -283,8 +277,7 @@ public class ClienteConsumidorService {
 			// exites apenas um clietne associado ao usuario
 			responseEntity.setIsValid(qtdClientes == 1);
 			if (!responseEntity.getIsValid()) {
-				responseEntity.setException(
-						new AnotaaiViewException(Constant.Message.EDICAO_EXCLUSIVA_USUARIO_MULTIPLOS_CLIENTES,
+				responseEntity.addMessage(new AnotaaiMessage(Constant.Message.EDICAO_EXCLUSIVA_USUARIO_MULTIPLOS_CLIENTES,
 								TipoMensagem.WARNING, Constant.Message.KEEP_ALIVE_TIME_VIEW, usuario.getNome()));
 			}
 		}

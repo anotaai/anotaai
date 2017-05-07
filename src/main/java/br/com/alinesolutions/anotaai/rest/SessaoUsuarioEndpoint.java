@@ -32,7 +32,7 @@ public class SessaoUsuarioEndpoint {
 			responseEntity = service.isActive(sessionID);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}

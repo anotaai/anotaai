@@ -33,7 +33,7 @@ public class ProdutoGrupoProdutoEndpoint {
 			responseEntity = service.deleteById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}
@@ -49,7 +49,7 @@ public class ProdutoGrupoProdutoEndpoint {
 			responseEntity = service.create(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}

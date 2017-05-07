@@ -43,12 +43,7 @@ public class VendaEndpoint {
 			responseEntity = vendaService.create(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			responseEntity = new ResponseEntity();
-			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(e.getViewException());
-			builder = Response.ok(responseEntity);
-		} catch (Exception e) {
-			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -62,7 +57,7 @@ public class VendaEndpoint {
 			responseEntity = vendaService.deleteById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}
@@ -79,12 +74,7 @@ public class VendaEndpoint {
 			responseEntity = vendaService.findById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			responseEntity = new ResponseEntity();
-			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(e.getViewException());
-			builder = Response.ok(responseEntity);
-		} catch (Exception e) {
-			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}

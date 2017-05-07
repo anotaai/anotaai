@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 @JsonInclude(Include.NON_NULL)
@@ -17,8 +18,6 @@ public class ResponseEntity implements Serializable {
 	private BaseEntity<?, ?> entity;
 
 	private String responseText;
-
-	private AnotaaiViewException exception;
 
 	private List<AnotaaiMessage> messages;
 
@@ -47,14 +46,6 @@ public class ResponseEntity implements Serializable {
 
 	public void setEntity(BaseEntity<?, ?> entity) {
 		this.entity = entity;
-	}
-
-	public AnotaaiViewException getException() {
-		return exception;
-	}
-
-	public void setException(AnotaaiViewException exception) {
-		this.exception = exception;
 	}
 
 	public Boolean getIsValid() {
@@ -87,5 +78,10 @@ public class ResponseEntity implements Serializable {
 		}
 		messages.add(message);
 	}
+	
+	public void addMessage(String key, TipoMensagem type, Long time, String... params) {
+		addMessage(new AnotaaiMessage(key, type, time, params));
+	}
+
 
 }

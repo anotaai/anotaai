@@ -26,13 +26,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
+import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSequencial;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
@@ -71,8 +70,6 @@ public class ClienteEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)  
 	public Response create(Cliente entity) {
 
-		ResponseBuilder builder = null;
-
 		entity.setDataCadastro(new Date());
 		entity.getUsuario().setDataCadastro(new Date());
 		entity.getUsuario().setCodigoAtivacao(UUID.randomUUID().toString());
@@ -91,15 +88,10 @@ public class ClienteEndpoint {
 			em.persist(entity);
 			sender.notificacaoRegistroUsuario(entity.getUsuario());
 			response.setIsValid(Boolean.TRUE);
-			builder = Response.ok(response);
 		} catch (AppException e) {
-			response.setException(e.getViewException());
-			response.setIsValid(Boolean.FALSE);
-			builder = Response.ok(response);
-		} catch (Exception e) {
-			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			response = e.getResponseEntity();
 		}
-		return builder.build();
+		return Response.ok(response).build();
 	}
 
 	@DELETE
@@ -158,7 +150,8 @@ public class ClienteEndpoint {
 		String telefoneJaCadastrado = Constant.Message.TELEFONE_JA_CADASTRADO;
 		Usuario usuario = cliente.getUsuario();
 		AnotaaiUtil util = AnotaaiUtil.getInstance();
-		AnotaaiViewException ex = new AnotaaiViewException();
+		ResponseEntity responseEntity = new ResponseEntity();
+		responseEntity.setIsValid(Boolean.FALSE);
 		Boolean hasException = Boolean.FALSE;
 		TypedQuery<Long> queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_EMAIL_KEY, Long.class);
 		if (usuario.getEmail() != null) {
@@ -168,7 +161,7 @@ public class ClienteEndpoint {
 		queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, usuario.getEmail());
 		Long cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			ex.setMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, defaultTimeView, usuario.getEmail());
+			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, defaultTimeView, usuario.getEmail()));
 			hasException = Boolean.TRUE;
 		}
 		queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_TELEFONE_KEY, Long.class);
@@ -177,12 +170,12 @@ public class ClienteEndpoint {
 		queryCount.setParameter(Telefone.TelefoneConstant.FIELD_NUMERO, usuario.getTelefone().getNumero());
 		cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			ex.setMessage(telefoneJaCadastrado, TipoMensagem.ERROR, defaultTimeView, util.formatarTelefoneStr(usuario.getTelefone()));
+			responseEntity.addMessage(new AnotaaiMessage(telefoneJaCadastrado, TipoMensagem.ERROR, defaultTimeView, util.formatarTelefoneStr(usuario.getTelefone())));
 			hasException = Boolean.TRUE;
 		}
 
 		if (hasException) {
-			throw new AppException(ex);
+			throw new AppException(responseEntity);
 		}
 	}
 

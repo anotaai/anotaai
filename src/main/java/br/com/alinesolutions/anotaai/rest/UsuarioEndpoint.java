@@ -52,11 +52,7 @@ public class UsuarioEndpoint {
 			entity.setIsValid(Boolean.TRUE);
 			builder = Response.ok(entity);
 		} catch (AppException e) {
-			entity.setIsValid(Boolean.FALSE);
-			entity.setException(e.getViewException());
-			builder = Response.ok(entity);
-		} catch (Exception e) {
-			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -72,7 +68,7 @@ public class UsuarioEndpoint {
 			usuarioService.ativarUsuario(usuario);
 			builder = Response.ok();
 		} catch (AppException e) {
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -90,9 +86,7 @@ public class UsuarioEndpoint {
 			entity = usuarioService.activateAccount(codigoAtivacao);
 			builder = Response.ok(entity);
 		} catch (AppException e) {
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok().entity(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -108,7 +102,7 @@ public class UsuarioEndpoint {
 			entity = usuarioService.findUserByActivationCode(codigoAtivacao);
 			builder = Response.ok(entity);
 		} catch (AppException e) {
-			builder = Response.status(Status.OK).entity(e.getViewException());
+			builder = Response.status(Status.OK).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -127,7 +121,7 @@ public class UsuarioEndpoint {
 			usuarioService.login(login);
 			builder = Response.ok(login);
 		} catch (AppException e) {
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
@@ -146,7 +140,7 @@ public class UsuarioEndpoint {
 			responseEntity = usuarioService.logout(login);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
@@ -164,7 +158,7 @@ public class UsuarioEndpoint {
 			responseEntity = usuarioService.findByTelefone(telefone);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -181,7 +175,7 @@ public class UsuarioEndpoint {
 			responseEntity = usuarioService.update(id, entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
@@ -197,7 +191,7 @@ public class UsuarioEndpoint {
 			responseEntity.setEntity(uploadService.getProfilePhoto(id));
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
@@ -215,7 +209,7 @@ public class UsuarioEndpoint {
 			entity = usuarioService.solicitarMensagemAlteracaoSenha(usuario);
 			builder = Response.ok(entity);
 		} catch (AppException e) {
-			builder = Response.status(Status.OK).entity(e.getViewException());
+			builder = Response.status(Status.OK).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -234,7 +228,7 @@ public class UsuarioEndpoint {
 			entity = usuarioService.findUserByActivationCodeRecuperarSenha(codigoAtivacao);
 			builder = Response.ok(entity);
 		} catch (AppException e) {
-			builder = Response.status(Status.OK).entity(e.getViewException());
+			builder = Response.status(Status.OK).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -261,8 +255,7 @@ public class UsuarioEndpoint {
 		try {
 			responseEntity = usuarioService.alterarSenha(usuario);
 		} catch (AppException e) {
-			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(e.getViewException());
+			responseEntity = e.getResponseEntity();
 		}
 		builder = Response.ok(responseEntity);
 		return builder.build();

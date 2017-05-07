@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSession;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
@@ -130,8 +129,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	private ResponseEntity buildResponseEntity(String key) {
 		ResponseEntity responseEntity = new ResponseEntity();
 		responseEntity.setIsValid(Boolean.FALSE);
-		responseEntity
-				.setException(new AnotaaiViewException(key, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW));
+		responseEntity.addMessage(key, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
 		return responseEntity;
 	}
 

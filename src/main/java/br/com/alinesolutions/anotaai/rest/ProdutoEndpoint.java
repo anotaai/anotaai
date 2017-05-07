@@ -40,12 +40,7 @@ public class ProdutoEndpoint {
 			responseEntity = produtoService.create(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			responseEntity = new ResponseEntity();
-			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(e.getViewException());
-			builder = Response.ok(responseEntity);
-		} catch (Exception e) {
-			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -59,7 +54,7 @@ public class ProdutoEndpoint {
 			responseEntity = produtoService.deleteById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}
@@ -76,10 +71,7 @@ public class ProdutoEndpoint {
 			responseEntity = produtoService.findById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			responseEntity = new ResponseEntity();
-			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(e.getViewException());
-			builder = Response.ok(responseEntity);
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
@@ -166,7 +158,7 @@ public class ProdutoEndpoint {
 			responseEntity = produtoService.update(id, entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
@@ -184,7 +176,7 @@ public class ProdutoEndpoint {
 			responseEntity = produtoService.loadItensReceita(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}
@@ -202,7 +194,7 @@ public class ProdutoEndpoint {
 			responseEntity = produtoService.loadDisponibilidades(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}

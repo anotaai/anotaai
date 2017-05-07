@@ -42,7 +42,7 @@ public class ClienteConsumidorEndpoint {
 			service.create(clienteConsumidor);
 			builder = Response.noContent();
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -57,7 +57,7 @@ public class ClienteConsumidorEndpoint {
 			service.deleteById(id);
 			builder = Response.noContent();
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.ok().entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -85,12 +85,12 @@ public class ClienteConsumidorEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findByTelefone(Telefone telefone) {
 		ResponseBuilder builder = null;
+		ResponseEntity responseEntity = null;
 		try {
-			builder = Response.ok(service.findByTelefone(telefone));
+			responseEntity = service.findByTelefone(telefone);
+			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.status(Status.OK).entity(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -106,9 +106,7 @@ public class ClienteConsumidorEndpoint {
 			responseEntity = service.isEditable(usuario);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok().entity(e.getResponseEntity());
 		}
 		return builder.build();
 	}
@@ -127,9 +125,7 @@ public class ClienteConsumidorEndpoint {
 			responseEntity = new ResponseEntity(message);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
-		} catch (Exception e) {
-			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok().entity(e.getResponseEntity());
 		}
 		return builder.build();
 	}

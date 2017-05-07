@@ -8,18 +8,19 @@ public class AppException extends EJBException {
 
 	private static final long serialVersionUID = 1L;
 
-	private AnotaaiViewException viewException;
+	private ResponseEntity responseEntity;
 
-	public AppException(AnotaaiViewException viewException) {
-		this.viewException = viewException;
+	public AppException(ResponseEntity responseEntity) {
+		this.responseEntity = responseEntity;
 	}
 
-	public AnotaaiViewException getViewException() {
-		return viewException;
+	public ResponseEntity getResponseEntity() {
+		return responseEntity;
 	}
 
-	public void setViewException(AnotaaiViewException viewException) {
-		this.viewException = viewException;
+	public void setResponseEntity(ResponseEntity responseEntity) {
+		this.responseEntity = responseEntity;
 	}
 
+	
 }

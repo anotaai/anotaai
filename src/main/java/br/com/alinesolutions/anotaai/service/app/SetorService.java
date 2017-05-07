@@ -13,7 +13,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -51,8 +50,7 @@ public class SetorService {
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			setor = q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(new AnotaaiViewException(Constant.Message.ENTIDADE_JA_CADASTRADA,
-					TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW, setor.getNome()));
+			responseEntity.addMessage(Constant.Message.ENTIDADE_JA_CADASTRADA, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW, setor.getNome());
 		} catch (NoResultException e) {
 			setor.setCliente(cliente);
 			em.persist(setor);
@@ -110,7 +108,6 @@ public class SetorService {
 		AnotaaiMessage message = null;
 		ResponseEntity responseEntity = new ResponseEntity();
 		AppException appException = null;
-		AnotaaiViewException exception = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			setor = em.find(Setor.class, id);
 			mergeSetor(entity, setor);
@@ -120,9 +117,9 @@ public class SetorService {
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(message);
 		} else {
-			exception = new AnotaaiViewException(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,
+			responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,
 					Constant.Message.KEEP_ALIVE_TIME_VIEW);
-			appException = new AppException(exception);
+			appException = new AppException(responseEntity);
 			throw appException;
 		}
 		return responseEntity;

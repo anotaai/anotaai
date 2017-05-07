@@ -38,7 +38,7 @@ public class SetorEndpoint {
 			responseEntity = setorService.create(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}
@@ -54,7 +54,7 @@ public class SetorEndpoint {
 			responseEntity = setorService.deleteById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getViewException());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.BAD_REQUEST);
 		}
@@ -72,7 +72,7 @@ public class SetorEndpoint {
 			responseEntity = setorService.findById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
@@ -98,7 +98,7 @@ public class SetorEndpoint {
 			responseEntity = setorService.update(id, entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getViewException());
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}

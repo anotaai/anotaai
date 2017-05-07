@@ -16,41 +16,57 @@
  
 	<div class="panel-body">
 
-	<div class="form-group required" ng-class="{'has-error': GrupoProdutoForm.nome.$invalid}">
-		<label for="descricao" class="col-sm-2 control-label">Nome</label>
-		<div id="nomeControls" class="col-sm-10">
-			<input id="nome" name="nome" type="text" class="form-control" ng-model="grupoProduto.nome" 
-				   required></input>
+		<div class="form-group required" ng-class="{'has-error': GrupoProdutoForm.nome.$invalid}">
+			<label for="descricao" class="col-sm-2 control-label">Nome</label>
+			<div id="nomeControls" class="col-sm-10">
+				<input id="nome" name="nome" type="text" class="form-control" ng-model="grupoProduto.nome" 
+					   required></input>
+			</div>
 		</div>
-	</div>
-
-	<div class="form-group required" ng-class="{'has-error': GrupoProdutoForm.descricao.$invalid}">
-		<label for="descricao" class="col-sm-2 control-label">Descrição</label>
-		<div id="descricaoControls" class="col-sm-10">
-			<input id="descricao" name="descricao" type="text" class="form-control" required
-				   ng-model="grupoProduto.descricao" ></input>
+	
+		<div class="form-group required" ng-class="{'has-error': GrupoProdutoForm.descricao.$invalid}">
+			<label for="descricao" class="col-sm-2 control-label">Descrição</label>
+			<div id="descricao" class="col-sm-10">
+				<input id="descricao" name="descricao" type="text" class="form-control" required
+					   ng-model="grupoProduto.descricao" ></input>
+			</div>
 		</div>
-	</div>
-	
-	<div class="panel-footer text-center">
-	
-	<div class="form-group">
-		<div class="col-sm-10">
-			<button id="saveGrupoProduto" name="saveGrupoProduto" class="btn btn-success" ng-disabled="isClean() || GrupoProdutoForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
-			<button id="novoGrupoProduto" name="novoGrupoProduto" class="btn btn-primary" ng-show="grupoProduto.id" ng-click="create()">
-				<span class="glyphicon glyphicon-plus-sign"></span>
-				<span ng-translate="label.novo">Novo</span>
-			</button>
-			<button id="cancel" name="cancel" class="btn btn-warning" ng-click="cancel()">
-				<span class="glyphicon glyphicon-remove-sign"></span>
-				<span ng-translate="label.cancelar">Cancelar</span>	
-			</button>
-			<button id="deleteGrupoProduto" name="deleteGrupoProduto" class="btn btn-danger" ng-show="grupoProduto.id" ng-click="remove(grupoProduto)"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+		
+		<div class="form-group required" ng-class="{'has-error': GrupoProdutoForm.descricao.$invalid}">
+			<label for="setor" class="col-sm-2 control-label">Setor</label>
+			<div id="setor" class="col-sm-9">
+				<input id="autoCompleteSetor" type="text" ng-model="setorSelecionado" ng-model-options="modelOptions" placeholder="Produto" 
+					   typeahead-template-url="customTemplate.html" class="form-control" ng-class="{'produto-selecionado': selecionado}"
+					   uib-typeahead="produto as produto.descricao for produto in getProdutos($viewValue)" 
+					   typeahead-loading="loadingProdutos" typeahead-no-results="noResults" autocomplete="off">
+				<i ng-show="loadingProdutos" class="glyphicon glyphicon-refresh"></i>
+				<div ng-show="noResults">
+					<i class="glyphicon glyphicon-remove"></i><b>&nbsp;Nenhum registro encontrado</b>
+				</div>
+			</div>
+			<div id="divSaveProduto" class="col-sm-1" style="padding-left: 0px;">
+				<button id="saveItemReceita" name="saveItemReceita" class="btn btn-primary" 
+						ng-disabled="!itemProdutoPreenchido()" title="Adicionar"
+				 		ng-click="addItemReceita()"><span class="glyphicon glyphicon-save"></span></button>
+			</div>
 		</div>
-	</div>
-	
-	</div>
-	
+		
+		<div class="panel-footer text-center">
+			<div class="form-group">
+				<div class="col-sm-10">
+					<button id="saveGrupoProduto" name="saveGrupoProduto" class="btn btn-success" ng-disabled="isClean() || GrupoProdutoForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+					<button id="novoGrupoProduto" name="novoGrupoProduto" class="btn btn-primary" ng-show="grupoProduto.id" ng-click="create()">
+						<span class="glyphicon glyphicon-plus-sign"></span>
+						<span ng-translate="label.novo">Novo</span>
+					</button>
+					<button id="cancel" name="cancel" class="btn btn-warning" ng-click="cancel()">
+						<span class="glyphicon glyphicon-remove-sign"></span>
+						<span ng-translate="label.cancelar">Cancelar</span>	
+					</button>
+					<button id="deleteGrupoProduto" name="deleteGrupoProduto" class="btn btn-danger" ng-show="grupoProduto.id" ng-click="remove(grupoProduto)"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 	</div>

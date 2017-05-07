@@ -14,7 +14,6 @@ import javax.persistence.TypedQuery;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -79,8 +78,8 @@ public class ProdutoService {
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.setException(new AnotaaiViewException(Constant.Message.ENTIDADE_JA_CADASTRADA,
-					TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString()));
+			responseEntity.addMessage(Constant.Message.ENTIDADE_JA_CADASTRADA,
+					TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
 		} catch (NoResultException e) {
 			for (Disponibilidade disponibilidade : produto.getDiasDisponibilidade()) {
 				disponibilidade.setProduto(produto);

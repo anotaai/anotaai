@@ -25,7 +25,11 @@ import org.apache.http.util.EntityUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
+import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Cep;
+import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
@@ -109,7 +113,11 @@ public class AppService {
 				cep = gson.fromJson(resultado, Cep.class);
 			}
 		} catch (Exception e) {
-			throw new IllegalArgumentException();
+			ResponseEntity responseEntity = new ResponseEntity();
+			responseEntity.setIsValid(Boolean.FALSE);
+			responseEntity.addMessage(new AnotaaiMessage("cep.nao.cadastrado", TipoMensagem.WARNING,
+					Constant.Message.DEFAULT_TIME_VIEW, cep.toString()));
+			throw new AppException(responseEntity);
 		}
 		return cep;
 	}

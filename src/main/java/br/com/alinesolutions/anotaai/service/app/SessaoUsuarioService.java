@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiViewException;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -86,21 +85,22 @@ public class SessaoUsuarioService {
 		responseEntity = new ResponseEntity();
 		responseEntity.setIsValid(qtd > 0);
 		if (!responseEntity.getIsValid()) {
-			responseEntity.setException(new AnotaaiViewException(Constant.Message.SECURITY_SECURITY_SESSION_TIMEOUT, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW));
+			responseEntity.addMessage(Constant.Message.SECURITY_SECURITY_SESSION_TIMEOUT, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
 		}
 		return responseEntity;
 	}
 
 	public SessaoUsuario getSessionActive(String sessionID) throws AppException {
 		SessaoUsuario sessaoUsuario = null;
-		AppException exception = null;
 		TypedQuery<SessaoUsuario> querySessaoUsuario = em.createNamedQuery(SessaoUsuario.SessaoUsuarioConstant.FIND_BY_SESSIONID_KEY, SessaoUsuario.class);
 		querySessaoUsuario.setParameter(SessaoUsuario.SessaoUsuarioConstant.FIELD_SESSION_ID, sessionID);
 		try {
 			sessaoUsuario = querySessaoUsuario.getSingleResult();
 		} catch (NoResultException e) {
-			exception = new AppException(new AnotaaiViewException(Constant.Message.SECURITY_SECURITY_SESSION_TIMEOUT, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW));
-			throw exception;
+			ResponseEntity responseEntity = new ResponseEntity();
+			responseEntity.setIsValid(Boolean.FALSE);
+			responseEntity.addMessage(Constant.Message.SECURITY_SECURITY_SESSION_TIMEOUT, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
+			throw new AppException(responseEntity );
 		}
 		return sessaoUsuario;
 	}

@@ -159,6 +159,7 @@ angular.module('anotaai', ['ngRoute', 'ngResource', 'ui.mask', 'ngCookies', 'pas
 				growlMessages.destroyAllMessages();
 			}
 		};
+		
 		var backElements = [];
 		$rootScope.enableElements = function (elements) {
 			if (elements) {
