@@ -9,7 +9,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 public enum CategoriaIcone {
 
 	PRODUTO("Produto"),
-	GLYPHCONS("Glyphcons");
+	GLYPHCONS("Glyphcons"),
+	MATERIAL("Material");
 
 	private CategoriaIcone(String descricao) {
 		this.descricao = descricao;

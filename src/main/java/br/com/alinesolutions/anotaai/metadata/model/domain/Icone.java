@@ -267,7 +267,16 @@ public enum Icone {
 	GLYPHICON_MENU_LEFT("Menu Feft", CategoriaIcone.GLYPHCONS),
 	GLYPHICON_MENU_RIGHT("Menu Right", CategoriaIcone.GLYPHCONS),
 	GLYPHICON_MENU_DOWN("Menu Down", CategoriaIcone.GLYPHCONS),
-	GLYPHICON_MENU_UP("Menu Up", CategoriaIcone.GLYPHCONS);
+	GLYPHICON_MENU_UP("Menu Up", CategoriaIcone.GLYPHCONS),
+	MATERIAL_PENCIL("mode_edit", CategoriaIcone.MATERIAL),
+	MATERIAL_USER("perm_identity", CategoriaIcone.MATERIAL),
+	MATERIAL_FILE("payment", CategoriaIcone.MATERIAL),
+	MATERIAL_BARCODE("shopping_cart", CategoriaIcone.MATERIAL),
+	MATERIAL_BOOK("library_books", CategoriaIcone.MATERIAL),
+	MATERIAL_TH_LIST("business_center", CategoriaIcone.MATERIAL),
+	MATERIAL_TH("apps", CategoriaIcone.MATERIAL),
+	MATERIAL_ARROW_LEFT("list", CategoriaIcone.MATERIAL);
+	
 	
 	private Icone(String descricao, CategoriaIcone categoria) {
 		this.descricao = descricao;

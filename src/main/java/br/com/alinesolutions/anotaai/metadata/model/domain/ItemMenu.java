@@ -8,17 +8,17 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ItemMenu {
 
-	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icone.GLYPHICON_USER, Perfil.CLIENTE),
-	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icone.GLYPHICON_TH, Perfil.CLIENTE),
-	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icone.GLYPHICON_TH_LIST, Perfil.CLIENTE),
-	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icone.GLYPHICON_BARCODE, Perfil.CLIENTE),
-	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icone.GLYPHICON_BOOK, Perfil.CLIENTE),
+	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icone.MATERIAL_USER, Perfil.CLIENTE),
+	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icone.MATERIAL_TH, Perfil.CLIENTE),
+	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icone.MATERIAL_TH_LIST, Perfil.CLIENTE),
+	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icone.MATERIAL_BARCODE, Perfil.CLIENTE),
+	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icone.MATERIAL_BOOK, Perfil.CLIENTE),
 	//FOLHA("Folha", "folha", Menu.PRINCIPAL, Perfil.CONSUMIDOR, Icone.GLYPHICON_SEARCH),
-	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icone.GLYPHICON_PENCIL, Perfil.CLIENTE),
-	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icone.GLYPHICON_FILE, Perfil.CONSUMIDOR),
+	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icone.MATERIAL_PENCIL, Perfil.CLIENTE),
+	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icone.MATERIAL_FILE, Perfil.CONSUMIDOR),
 	ANOTA_AI_HOME("Anota ai", "home", Menu.SUPERIOR, Icone.GLYPHICON_FIRE, Perfil.CLIENTE),
-	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icone.GLYPHICON_USER, Perfil.CLIENTE),
-	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icone.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE);
+	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icone.MATERIAL_USER, Perfil.CLIENTE),
+	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icone.MATERIAL_ARROW_LEFT, Perfil.CLIENTE);
 	
 	private ItemMenu(String descricao, String action, Menu menu, Icone icone, Perfil perfil) {
 		this.descricao = descricao;
