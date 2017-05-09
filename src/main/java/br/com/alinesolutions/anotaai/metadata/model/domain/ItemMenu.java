@@ -8,19 +8,19 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ItemMenu {
 
-	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icone.GLYPHICON_USER, Perfil.CLIENTE,Icone.MATERIAL_USER,"/cliente"),
-	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icone.GLYPHICON_TH, Perfil.CLIENTE,Icone.MATERIAL_TH,"/grupoproduto"),
-	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icone.GLYPHICON_LIST, Perfil.CLIENTE,Icone.MATERIAL_TH_LIST,"/setor"),
-	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icone.GLYPHICON_BARCODE, Perfil.CLIENTE,Icone.MATERIAL_BARCODE,"/produto"),
-	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icone.GLYPHICON_BOOK, Perfil.CLIENTE,Icone.MATERIAL_BOOK,"/caderneta"),
+	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icone.GLYPHICON_USER, Perfil.CLIENTE,Icone.MATERIAL_USER, "/cliente"),
+	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icone.GLYPHICON_TH, Perfil.CLIENTE,Icone.MATERIAL_TH, "/grupoproduto"),
+	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icone.GLYPHICON_LIST, Perfil.CLIENTE,Icone.MATERIAL_TH_LIST, "/setor"),
+	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icone.GLYPHICON_BARCODE, Perfil.CLIENTE,Icone.MATERIAL_BARCODE, "/produto"),
+	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icone.GLYPHICON_BOOK, Perfil.CLIENTE,Icone.MATERIAL_BOOK, "/caderneta"),
 	//FOLHA("Folha", "folha", Menu.PRINCIPAL, Perfil.CONSUMIDOR, Icone.GLYPHICON_SEARCH),
-	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icone.GLYPHICON_PENCIL, Perfil.CLIENTE,Icone.MATERIAL_PENCIL,"/venda"),
-	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icone.GLYPHICON_FILE, Perfil.CONSUMIDOR,Icone.MATERIAL_FILE,"/pedido"),
-	ANOTA_AI_HOME("Anota ai", "home", Menu.SUPERIOR, Icone.GLYPHICON_FIRE, Perfil.CLIENTE,null,null),
-	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icone.GLYPHICON_USER, Perfil.CLIENTE,null,null),
-	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icone.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE,Icone.MATERIAL_ARROW_LEFT,"/entradamercadoria");
+	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icone.GLYPHICON_PENCIL, Perfil.CLIENTE,Icone.MATERIAL_PENCIL, "/venda"),
+	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icone.GLYPHICON_FILE, Perfil.CONSUMIDOR,Icone.MATERIAL_FILE, "/pedido"),
+	ANOTA_AI_HOME("Anota ai", "home", Menu.SUPERIOR, Icone.GLYPHICON_FIRE, Perfil.CLIENTE, null, null),
+	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icone.GLYPHICON_USER, Perfil.CLIENTE, null, null),
+	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icone.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE,Icone.MATERIAL_ARROW_LEFT, "/entradamercadoria");
 	
-	private ItemMenu(String descricao, String action, Menu menu, Icone icone, Perfil perfil, Icone iconeMaterial,String url) {
+	private ItemMenu(String descricao, String action, Menu menu, Icone icone, Perfil perfil, Icone iconeMaterial, String url) {
 		this.descricao = descricao;
 		this.action = action;
 		this.menu = menu;
