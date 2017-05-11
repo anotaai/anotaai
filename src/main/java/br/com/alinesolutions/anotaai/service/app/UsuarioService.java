@@ -104,7 +104,7 @@ public class UsuarioService {
 			responseEntity.setIsValid(Boolean.FALSE);
 		}
 
-		if (!responseEntity.getIsValid()) {
+		if (responseEntity.getIsValid() != null) {
 			throw new AppException(responseEntity);
 		}
 	}
