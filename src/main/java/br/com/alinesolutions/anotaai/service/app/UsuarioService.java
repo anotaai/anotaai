@@ -219,7 +219,7 @@ public class UsuarioService {
 		return sessaoUsuario;
 	}
 
-	public void login(Login login) throws AppException {
+	public ResponseEntity login(Login login) throws AppException {
 
 		AppException appException = null;
 		Usuario usuarioLogin = null;
@@ -228,12 +228,14 @@ public class UsuarioService {
 		String key = null;
 		String senha = null;
 		ResponseEntity responseEntity = new ResponseEntity();
+		responseEntity.setIsValid(Boolean.FALSE);
 		try {
 			usuarioLogin = loadUsuario(login);
 			switch (usuarioLogin.getSituacao()) {
 				case ATIVO:
 					senha = usuarioLogin.getSenha();
 					usuarioLogin.setSenha(null);
+					responseEntity.setIsValid(Boolean.TRUE);
 					ativarLogin(login, usuarioLogin, senha);
 					break;
 				case BLOQUEADO:
@@ -258,6 +260,8 @@ public class UsuarioService {
 				appException = new AppException(responseEntity);
 				throw appException;
 			}
+			responseEntity.setLogin(login);
+			return responseEntity;
 		} catch (NoResultException e) {
 			// usuario nao registrado
 			responseEntity.addMessage(Constant.Message.USUARIO_SENHA_INVALIDO, tipoMensagemErro, time);

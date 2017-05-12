@@ -275,16 +275,20 @@ public enum Icone {
 	MATERIAL_BOOK("library_books", CategoriaIcone.MATERIAL),
 	MATERIAL_TH_LIST("business_center", CategoriaIcone.MATERIAL),
 	MATERIAL_TH("apps", CategoriaIcone.MATERIAL),
+	MATERIAL_DONE("done", CategoriaIcone.MATERIAL),
+	MATERIAL_INFO("info", CategoriaIcone.MATERIAL),
+	MATERIAL_WARNING("warning", CategoriaIcone.MATERIAL),
+	MATERIAL_ERROR("error", CategoriaIcone.MATERIAL),
 	MATERIAL_ARROW_LEFT("list", CategoriaIcone.MATERIAL);
 	
 	
 	private Icone(String descricao, CategoriaIcone categoria) {
 		this.descricao = descricao;
 		this.categoria = categoria;
-		this.nameClass = this.toString().toLowerCase().replace("_", "-");
+		this.className = this.toString().toLowerCase().replace("_", "-");
 	}
 	
-	private String nameClass;
+	private String className;
 	
 	private CategoriaIcone categoria;
 	
@@ -297,11 +301,11 @@ public enum Icone {
 	public CategoriaIcone getCategoriaIcone() {
 		return categoria;
 	}
-
-	public String getNameClass() {
-		return nameClass;
-	}
 	
+	public String getClassName() {
+		return className;
+	}
+
 	// TODO - Adicionar metodos dinamicamente
 	public String getType() {
 		return this.toString();

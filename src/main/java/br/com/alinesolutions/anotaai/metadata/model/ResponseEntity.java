@@ -17,6 +17,8 @@ public class ResponseEntity implements Serializable {
 
 	private BaseEntity<?, ?> entity;
 
+	private Login login;
+
 	private String responseText;
 
 	private List<AnotaaiMessage> messages;
@@ -72,16 +74,23 @@ public class ResponseEntity implements Serializable {
 		this.responseText = responseText;
 	}
 
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
 	public void addMessage(AnotaaiMessage message) {
 		if (messages == null) {
 			messages = new ArrayList<>();
 		}
 		messages.add(message);
 	}
-	
+
 	public void addMessage(String key, TipoMensagem type, Long time, String... params) {
 		addMessage(new AnotaaiMessage(key, type, time, params));
 	}
-
 
 }
