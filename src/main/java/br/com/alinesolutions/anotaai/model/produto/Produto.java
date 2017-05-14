@@ -20,7 +20,7 @@ import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import br.com.alinesolutions.anotaai.metadata.model.domain.Icone;
+import br.com.alinesolutions.anotaai.metadata.model.domain.Icon;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.TipoArmazenamento;
 import br.com.alinesolutions.anotaai.model.domain.UnidadeMedida;
@@ -63,7 +63,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 	private Boolean codigoGerado;
 
 	@Enumerated(EnumType.STRING)
-	private Icone iconClass;
+	private Icon iconClass;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;
@@ -95,7 +95,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 		super();
 	}
 
-	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icone iconClass) {
+	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass) {
 		this();
 		setId(id);
 		this.descricao = descricao;
@@ -104,7 +104,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 		this.iconClass = iconClass;
 	}
 
-	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icone iconClass,
+	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass,
 			Long idEstoque, Long quantidadeEstoque, Double precoCusto, Long codigo, UnidadeMedida unidadeMedida) {
 		this(id, descricao, descricaoResumida, precoVenda, iconClass);
 		this.estoque = new Estoque();
@@ -115,7 +115,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 		this.unidadeMedida = unidadeMedida;
 	}
 
-	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icone iconClass, Long codigo,
+	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Long codigo,
 			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente) {
 		this(id, descricao, descricaoResumida, precoVenda, iconClass);
 		this.ehInsumo = ehInsumo;
@@ -189,11 +189,11 @@ public class Produto extends BaseEntity<Long, Produto> {
 		this.diasDisponibilidade = diasDisponibilidade;
 	}
 
-	public Icone getIconClass() {
+	public Icon getIconClass() {
 		return iconClass;
 	}
 
-	public void setIconClass(Icone iconClass) {
+	public void setIconClass(Icon iconClass) {
 		this.iconClass = iconClass;
 	}
 

@@ -8,23 +8,23 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ItemMenu {
 
-	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icone.GLYPHICON_USER, Perfil.CLIENTE,Icone.MATERIAL_USER, "/cliente"),
-	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icone.GLYPHICON_TH, Perfil.CLIENTE,Icone.MATERIAL_TH, "/grupoproduto"),
-	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icone.GLYPHICON_LIST, Perfil.CLIENTE,Icone.MATERIAL_TH_LIST, "/setor"),
-	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icone.GLYPHICON_BARCODE, Perfil.CLIENTE,Icone.MATERIAL_BARCODE, "/produto"),
-	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icone.GLYPHICON_BOOK, Perfil.CLIENTE,Icone.MATERIAL_BOOK, "/caderneta"),
-	//FOLHA("Folha", "folha", Menu.PRINCIPAL, Perfil.CONSUMIDOR, Icone.GLYPHICON_SEARCH),
-	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icone.GLYPHICON_PENCIL, Perfil.CLIENTE,Icone.MATERIAL_PENCIL, "/venda"),
-	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icone.GLYPHICON_FILE, Perfil.CONSUMIDOR,Icone.MATERIAL_FILE, "/pedido"),
-	ANOTA_AI_HOME("Anota ai", "home", Menu.SUPERIOR, Icone.GLYPHICON_FIRE, Perfil.CLIENTE, null, null),
-	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icone.GLYPHICON_USER, Perfil.CLIENTE, null, null),
-	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icone.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE,Icone.MATERIAL_ARROW_LEFT, "/entradamercadoria");
+	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icon.GLYPHICON_USER, Perfil.CLIENTE,Icon.USER, "/cliente"),
+	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icon.GLYPHICON_TH, Perfil.CLIENTE,Icon.TH, "/grupoproduto"),
+	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icon.GLYPHICON_LIST, Perfil.CLIENTE,Icon.TH_LIST, "/setor"),
+	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icon.GLYPHICON_BARCODE, Perfil.CLIENTE,Icon.BARCODE, "/produto"),
+	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icon.GLYPHICON_BOOK, Perfil.CLIENTE,Icon.BOOK, "/caderneta"),
+	//FOLHA("Folha", "folha", Menu.PRINCIPAL, Perfil.CONSUMIDOR, Icon.GLYPHICON_SEARCH),
+	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icon.GLYPHICON_PENCIL, Perfil.CLIENTE,Icon.PENCIL, "/venda"),
+	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icon.GLYPHICON_FILE, Perfil.CONSUMIDOR,Icon.FILE, "/pedido"),
+	ANOTA_AI_HOME("Anota ai", "home", Menu.SUPERIOR, Icon.GLYPHICON_FIRE, Perfil.CLIENTE, null, null),
+	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icon.GLYPHICON_USER, Perfil.CLIENTE, null, null),
+	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icon.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE,Icon.ARROW_LEFT, "/entradamercadoria");
 	
-	private ItemMenu(String descricao, String action, Menu menu, Icone icone, Perfil perfil, Icone iconeMaterial, String url) {
+	private ItemMenu(String descricao, String action, Menu menu, Icon icon, Perfil perfil, Icon iconeMaterial, String url) {
 		this.descricao = descricao;
 		this.action = action;
 		this.menu = menu;
-		this.icone = icone;
+		this.icon = icon;
 		this.perfil = perfil;
 		this.iconeMaterial = iconeMaterial;
 		this.url = url;
@@ -35,8 +35,8 @@ public enum ItemMenu {
 	private Menu menu;
 	private Perfil perfil;
 	private String action;
-	private Icone icone;
-	private Icone iconeMaterial;
+	private Icon icon;
+	private Icon iconeMaterial;
 	private String url;
 	
 	public String getUrl() {
@@ -47,11 +47,11 @@ public enum ItemMenu {
 		this.url = url;
 	}
 	
-	public Icone getIconeMaterial() {
+	public Icon getIconeMaterial() {
 		return iconeMaterial;
 	}
 	
-	public void setIconeMaterial(Icone iconeMaterial) {
+	public void setIconeMaterial(Icon iconeMaterial) {
 		this.iconeMaterial = iconeMaterial;
 	}
 
@@ -71,8 +71,8 @@ public enum ItemMenu {
 		return action;
 	}
 	
-	public Icone getIcone() {
-		return icone;
+	public Icon getIcone() {
+		return icon;
 	}
 	
 	// TODO - Adicionar metodos dinamicamente

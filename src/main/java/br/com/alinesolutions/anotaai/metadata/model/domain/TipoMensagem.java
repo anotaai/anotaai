@@ -8,20 +8,20 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoMensagem {
 
-	ERROR("error", Icone.MATERIAL_ERROR),
-	SUCCESS("success", Icone.MATERIAL_DONE),
-	INFO("info", Icone.MATERIAL_INFO),
-	WARNING("warning", Icone.MATERIAL_WARNING);
+	ERROR("error", Icon.ERROR),
+	SUCCESS("success", Icon.DONE),
+	INFO("info", Icon.INFO),
+	WARNING("warning", Icon.WARNING);
 	
 	private String descricao;
-	private Icone icon;
+	private Icon icon;
 	
-	private TipoMensagem(String descricao, Icone icon) {
+	private TipoMensagem(String descricao, Icon icon) {
 		this.descricao = descricao;
 		this.icon = icon;
 	}
 	
-	public Icone getIcon() {
+	public Icon getIcon() {
 		return icon;
 	}
 	
