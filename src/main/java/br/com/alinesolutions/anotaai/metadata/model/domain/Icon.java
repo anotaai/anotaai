@@ -284,7 +284,7 @@ public enum Icon {
 	private Icon(String descricao, CategoriaIcone categoria, String className) {
 		this.descricao = descricao;
 		this.categoria = categoria;
-		this.className =  className != null ? className : this.toString().toLowerCase().replace("_", "-");
+		this.className = className != null ? className : this.toString().toLowerCase().replace("_", "-");
 	}
 	
 	private String className;
