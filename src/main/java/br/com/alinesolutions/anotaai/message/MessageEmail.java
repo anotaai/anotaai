@@ -1,5 +1,8 @@
 package br.com.alinesolutions.anotaai.message;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.event.Event;
@@ -117,18 +120,24 @@ public class MessageEmail implements AnotaaiSendMessage {
 	public void notificacaoRenewPassword(Usuario usuario) {
 		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.NOTIFICACAO_RENEW_PASSWORD_EMAIL);
-		StringBuilder host = new StringBuilder(request.getScheme());
-		
-		host.append(":").append("//").append(request.getHeader("Host"));
-		StringBuilder urlRenewPassword = new StringBuilder(host).append("/main.html#/access/ResetPassword/");
-		urlRenewPassword.append(usuario.getCodigoAtivacao());
-		String link = shortener.shortener(urlRenewPassword.toString());
-		
-		htmlMensagem = htmlMensagem.replace("{nome}", usuario.getNome());
-		htmlMensagem = htmlMensagem.replace("{linkRedefinicao}", link.toString());
-		
-		Email email = new Email("📝  Anota ai - Redefinição de Senha", htmlMensagem.toString(), usuario.getEmail());
-		event.fire(email);
+		StringBuilder host = new StringBuilder();
+
+		try {
+			URL u = new URL(request.getHeader("Referer"));
+			host.append(u.getProtocol() + "://" + u.getHost() + ":" + u.getPort());
+			StringBuilder urlRenewPassword = new StringBuilder(host).append("/renew/");
+			urlRenewPassword.append(usuario.getCodigoAtivacao());
+			String link = shortener.shortener(urlRenewPassword.toString());
+			
+			htmlMensagem = htmlMensagem.replace("{nome}", usuario.getNome());
+			htmlMensagem = htmlMensagem.replace("{linkRedefinicao}", link.toString());
+			
+			Email email = new Email("📝  Anota ai - Redefinição de Senha", htmlMensagem.toString(), usuario.getEmail());
+			event.fire(email);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	

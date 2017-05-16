@@ -407,9 +407,10 @@ public class UsuarioService {
 			Usuario usuario = q.getSingleResult();
 			if (usuario.getSituacao().equals(SituacaoUsuario.ATIVO) || usuario.getSituacao().equals(SituacaoUsuario.PENDENTE_VALIDACAO)) {
 				responseEntity.setEntity(usuario);
+				responseEntity.setIsValid(Boolean.TRUE);
 			} else {
 				responseEntity.addMessage(Constant.Message.USUARIO_BLOQUEADO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
-				responseEntity.setIsValid(Boolean.TRUE);
+				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException e) {
 			responseEntity.addMessage(Constant.Message.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
