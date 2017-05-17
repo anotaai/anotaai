@@ -288,7 +288,6 @@ public class UsuarioService {
 		if (login.getTipoAcesso().equals(TipoAcesso.EMAIL)) {
 			usuarioLogin.setEmail(login.getUsuario().getEmail());			
 		}
-		usuarioLogin.setFotoPerfil(uploadService.getProfilePhoto(usuarioLogin.getId()));
 		return usuarioLogin;
 	}
 

@@ -104,11 +104,11 @@ public class UploadService {
 		arquivo.setTipoArquivo(TipoArquivo.buildFromExtension(extension));
 	}
 
-	public Arquivo getProfilePhoto(Long id) {
+	public Arquivo getProfilePhoto() {
 		Arquivo arquivo = null;
 		try {
 			TypedQuery<Arquivo> tp = appManager.getEntityManager().createNamedQuery(ArquivoContant.LOAD_FILE_KEY, Arquivo.class);
-			tp.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, id);
+			tp.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, appManager.getAppService().getUsuario().getId());
 			arquivo = tp.getSingleResult();
 			createByteArray(arquivo);
 		} catch (IOException e) {

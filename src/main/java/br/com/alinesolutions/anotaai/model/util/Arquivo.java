@@ -115,7 +115,7 @@ public class Arquivo extends BaseEntity<Long, Arquivo> {
 		this.file = file;
 	}
 
-	public interface ArquivoContant {
+	public interface ArquivoContant {	
 		String FIELD_PATH = "path";
 		String LOAD_FILE_KEY= "Arquivo.loadFile";
 		String LOAD_FILE_QUERY = "select new br.com.alinesolutions.anotaai.model.util.Arquivo(a.path, a.name, a.tipoArquivo) from Usuario u join u.fotoPerfil a where u.id = :id";

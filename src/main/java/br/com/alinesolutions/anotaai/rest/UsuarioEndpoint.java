@@ -180,12 +180,14 @@ public class UsuarioEndpoint {
 	}
 	
 	@GET
-	@Path("/profilePhoto/{id:[0-9][0-9]*}")
-	public Response profilePhoto(@PathParam("id") Long id) {
+	@Path("/profilePhoto")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response profilePhoto() {
 		ResponseBuilder builder = null;
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
-			responseEntity.setEntity(uploadService.getProfilePhoto(id));
+			responseEntity.setEntity(uploadService.getProfilePhoto());
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
