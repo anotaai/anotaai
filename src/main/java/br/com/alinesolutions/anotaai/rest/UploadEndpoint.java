@@ -32,6 +32,7 @@ public class UploadEndpoint {
 		ResponseEntity responseEntity = null;
 		try {
 			responseEntity = upload.saveProfileFile(arquivo);
+			responseEntity.setIsValid(Boolean.TRUE);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.ok(e.getResponseEntity());

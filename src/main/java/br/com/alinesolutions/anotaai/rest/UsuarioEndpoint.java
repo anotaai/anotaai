@@ -182,7 +182,7 @@ public class UsuarioEndpoint {
 	@GET
 	@Path("/profilePhoto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response profilePhoto() {
 		ResponseBuilder builder = null;
 		ResponseEntity responseEntity = new ResponseEntity();
