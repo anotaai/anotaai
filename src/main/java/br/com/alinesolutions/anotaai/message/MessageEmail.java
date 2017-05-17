@@ -1,8 +1,5 @@
 package br.com.alinesolutions.anotaai.message;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.event.Event;
@@ -37,12 +34,8 @@ public class MessageEmail implements AnotaaiSendMessage {
 	@Override
 	public void notificacaoRegistroUsuario(Usuario usuario) {
 		
-		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
-		
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.CONFIRMACAO_CADASTRO_USUARIO_EMAIL);
-		StringBuilder host = new StringBuilder(request.getScheme());
-		host.append(":").append("//").append(request.getHeader("Host"));
-		StringBuilder link = new StringBuilder(host);
+		StringBuilder link = new StringBuilder(RequestUtils.getRequest().getClientHost());
 		link.append("/main.html#/access/Activate/");
 		link.append(usuario.getCodigoAtivacao());
 		String linkShort = shortener.shortener(link.toString());
@@ -82,7 +75,7 @@ public class MessageEmail implements AnotaaiSendMessage {
 		
 		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.SOLICITACAO_EDICAO_CADASTRO_EMAIL);
-		StringBuilder link = new StringBuilder(request.getScheme());
+		StringBuilder link = new StringBuilder(RequestUtils.getRequest().getClientHost()).append("/login");
 		link.append(":").append("//").append(request.getHeader("Host"));
 		link.append("/main.html#/access/Login");
 		Usuario usuarioCliente = clienteConsumidor.getCliente().getUsuario();
@@ -100,11 +93,8 @@ public class MessageEmail implements AnotaaiSendMessage {
 	@Override
 	public void notificacaoAssociacaoConsumidorCliente(ClienteConsumidor clienteConsumidor) {
 		
-		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.CONFIRMACAO_ASSOCIACAO_CONSUMIDOR_EMAIL);
-		StringBuilder link = new StringBuilder(request.getScheme());
-		link.append(":").append("//").append(request.getHeader("Host"));
-		link.append("/main.html#/access/Login");
+		StringBuilder link = new StringBuilder(RequestUtils.getRequest().getClientHost()).append("/login");
 		Usuario usuarioCliente = clienteConsumidor.getCliente().getUsuario();
 		Usuario usuarioConsumidor = clienteConsumidor.getConsumidor().getUsuario();
 		htmlMensagem = htmlMensagem.replace("{nomeCliente}", usuarioCliente.getNome());
@@ -118,27 +108,16 @@ public class MessageEmail implements AnotaaiSendMessage {
 	
 	@Override
 	public void notificacaoRenewPassword(Usuario usuario) {
-		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.NOTIFICACAO_RENEW_PASSWORD_EMAIL);
-		StringBuilder host = new StringBuilder();
-
-		try {
-			URL u = new URL(request.getHeader("Referer"));
-			host.append(u.getProtocol() + "://" + u.getHost() + ":" + u.getPort());
-			StringBuilder urlRenewPassword = new StringBuilder(host).append("/renew/");
-			urlRenewPassword.append(usuario.getCodigoAtivacao());
-			String link = shortener.shortener(urlRenewPassword.toString());
-			
-			htmlMensagem = htmlMensagem.replace("{nome}", usuario.getNome());
-			htmlMensagem = htmlMensagem.replace("{linkRedefinicao}", link.toString());
-			
-			Email email = new Email("📝  Anota ai - Redefinição de Senha", htmlMensagem.toString(), usuario.getEmail());
-			event.fire(email);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		StringBuilder urlRenewPassword = new StringBuilder(RequestUtils.getRequest().getClientHost()).append("/renew/");
+		urlRenewPassword.append(usuario.getCodigoAtivacao());
+		String link = shortener.shortener(urlRenewPassword.toString());
+		
+		htmlMensagem = htmlMensagem.replace("{nome}", usuario.getNome());
+		htmlMensagem = htmlMensagem.replace("{linkRedefinicao}", link.toString());
+		
+		Email email = new Email("📝  Anota ai - Redefinição de Senha", htmlMensagem.toString(), usuario.getEmail());
+		event.fire(email);
 	}
 	
 }

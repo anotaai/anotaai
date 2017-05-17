@@ -189,8 +189,6 @@ public class UsuarioEndpoint {
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
-		} catch (Exception e) {
-			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
 		return builder.build();
 	}
