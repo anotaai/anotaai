@@ -43,6 +43,7 @@ public class UsuarioEndpoint {
 	private UploadService uploadService;
 
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Usuario usuario) {
 		ResponseBuilder builder = null;
