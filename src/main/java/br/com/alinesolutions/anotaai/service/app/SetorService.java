@@ -105,7 +105,10 @@ public class SetorService {
 		}
 		final List<Setor> results = findAllQuery.getResultList();
 		responseList.setItens(results);
-		responseList.setQtdTotalItens(em.createNamedQuery(SetorConstant.LIST_ALL_COUNT, Integer.class).getSingleResult());
+		TypedQuery<Long> listAllCount  = em.createNamedQuery(SetorConstant.LIST_ALL_COUNT, Long.class);
+		listAllCount.setParameter(Constant.Entity.CLIENTE, cliente);
+		
+		responseList.setQtdTotalItens(listAllCount.getSingleResult());
 		return responseEntity;
 	}
 

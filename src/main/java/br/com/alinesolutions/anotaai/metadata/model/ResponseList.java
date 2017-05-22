@@ -6,7 +6,7 @@ public class ResponseList {
 
 	private List<?> itens;
 
-	private Integer qtdTotalItens;
+	private Long qtdTotalItens;
 
 	public List<?> getItens() {
 		return itens;
@@ -16,11 +16,11 @@ public class ResponseList {
 		this.itens = itens;
 	}
 
-	public Integer getQtdTotalItens() {
+	public Long getQtdTotalItens() {
 		return qtdTotalItens;
 	}
 
-	public void setQtdTotalItens(Integer qtdTotalItens) {
+	public void setQtdTotalItens(Long qtdTotalItens) {
 		this.qtdTotalItens = qtdTotalItens;
 	}
 
