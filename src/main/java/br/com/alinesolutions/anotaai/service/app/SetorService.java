@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
+import br.com.alinesolutions.anotaai.metadata.model.ResponseList;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto.GrupoProdutoConstant;
@@ -89,10 +90,13 @@ public class SetorService {
 		return entity;
 	}
 
-	public List<Setor> listAll(Integer startPosition, Integer maxResult) throws AppException {
+	public ResponseEntity listAll(Integer startPosition, Integer maxResult) throws AppException {
 		Cliente cliente = appService.getCliente();
 		TypedQuery<Setor> findAllQuery = em.createNamedQuery(SetorConstant.LIST_ALL_KEY, Setor.class);
 		findAllQuery.setParameter(Constant.Entity.CLIENTE, cliente);
+		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseList responseList = new ResponseList();
+		responseEntity.setItens(responseList);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
 		}
@@ -100,7 +104,9 @@ public class SetorService {
 			findAllQuery.setMaxResults(maxResult);
 		}
 		final List<Setor> results = findAllQuery.getResultList();
-		return results;
+		responseList.setItens(results);
+		responseList.setQtdTotalItens(em.createNamedQuery(SetorConstant.LIST_ALL_COUNT, Integer.class).getSingleResult());
+		return responseEntity;
 	}
 
 	public ResponseEntity update(Long id, Setor entity) throws AppException {

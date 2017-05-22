@@ -1,7 +1,5 @@
 package br.com.alinesolutions.anotaai.rest;
 
-import java.util.List;
-
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -25,7 +23,7 @@ import br.com.alinesolutions.anotaai.service.app.SetorService;
 
 @Path("/setor")
 public class SetorEndpoint {
-	
+
 	@EJB
 	private SetorService setorService;
 
@@ -44,7 +42,7 @@ public class SetorEndpoint {
 		}
 		return builder.build();
 	}
-	
+
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
@@ -65,7 +63,7 @@ public class SetorEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") Long id) {
-		
+
 		ResponseBuilder builder = null;
 		ResponseEntity responseEntity = null;
 		try {
@@ -82,10 +80,8 @@ public class SetorEndpoint {
 	@RolesAllowed("CLIENTE")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Setor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-		List<Setor> setores = null;
-		setores = setorService.listAll(startPosition, maxResult);
-		return setores;
+	public ResponseEntity listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
+		return setorService.listAll(startPosition, maxResult);
 	}
 
 	@PUT
