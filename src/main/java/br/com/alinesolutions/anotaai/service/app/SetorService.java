@@ -90,25 +90,43 @@ public class SetorService {
 		return entity;
 	}
 
-	public ResponseEntity<Setor> listAll(Integer startPosition, Integer maxResult) throws AppException {
+	public ResponseEntity<Setor> listAll(Integer startPosition, Integer maxResult, String nomeSetor) throws AppException {
+		
 		Cliente cliente = appService.getCliente();
-		TypedQuery<Setor> findAllQuery = em.createNamedQuery(SetorConstant.LIST_ALL_KEY, Setor.class);
-		findAllQuery.setParameter(Constant.Entity.CLIENTE, cliente);
+		TypedQuery<Setor> setorQuery = null;
+		
+		if(!"".equals(nomeSetor)) {
+			setorQuery =  em.createNamedQuery(SetorConstant.FIND_BY_NOME_KEY, Setor.class);
+		    setorQuery.setParameter("nome", nomeSetor);
+		} else  {
+			setorQuery =  em.createNamedQuery(SetorConstant.LIST_ALL_KEY, Setor.class);
+		}
+		    
+		
+		setorQuery.setParameter(Constant.Entity.CLIENTE, cliente);
 		ResponseEntity<Setor> responseEntity = new ResponseEntity<>();
 		ResponseList<Setor> responseList = new ResponseList<Setor>();
 		responseEntity.setItens(responseList);
 		if (startPosition != null) {
-			findAllQuery.setFirstResult(startPosition);
+			setorQuery.setFirstResult(startPosition);
 		}
 		if (maxResult != null) {
-			findAllQuery.setMaxResults(maxResult);
+			setorQuery.setMaxResults(maxResult);
 		}
-		final List<Setor> results = findAllQuery.getResultList();
+		final List<Setor> results = setorQuery.getResultList();
 		responseList.setItens(results);
-		TypedQuery<Long> listAllCount  = em.createNamedQuery(SetorConstant.LIST_ALL_COUNT, Long.class);
-		listAllCount.setParameter(Constant.Entity.CLIENTE, cliente);
 		
-		responseList.setQtdTotalItens(listAllCount.getSingleResult());
+		TypedQuery<Long> countAll = null;
+		
+		if(!"".equals(nomeSetor)) {
+			countAll  = em.createNamedQuery(SetorConstant.FIND_BY_NOME_COUNT, Long.class);
+			countAll.setParameter("nome", nomeSetor);
+		} else {
+			countAll  = em.createNamedQuery(SetorConstant.LIST_ALL_COUNT, Long.class);
+		}
+		 
+		countAll.setParameter(Constant.Entity.CLIENTE, cliente);
+		responseList.setQtdTotalItens(countAll.getSingleResult());
 		return responseEntity;
 	}
 
