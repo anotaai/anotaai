@@ -41,10 +41,10 @@ public class SetorService {
 	@Resource
 	private SessionContext sessionContext;
 
-	public ResponseEntity create(Setor setor) throws AppException {
+	public ResponseEntity<Setor> create(Setor setor) throws AppException {
 		TypedQuery<Setor> q = null;
 		Cliente cliente = appService.getCliente();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Setor> responseEntity = new ResponseEntity<>();
 		try {
 			q = em.createNamedQuery(SetorConstant.FIND_BY_NOME_KEY, Setor.class);
 			q.setParameter(GrupoProdutoConstant.FIELD_NOME, setor.getNome());
@@ -65,8 +65,8 @@ public class SetorService {
 		return responseEntity;
 	}
 
-	public ResponseEntity deleteById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<Setor> deleteById(Long id) throws AppException {
+		ResponseEntity<Setor> entity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteSetor = null;
 		Setor setor = null;
@@ -90,12 +90,12 @@ public class SetorService {
 		return entity;
 	}
 
-	public ResponseEntity listAll(Integer startPosition, Integer maxResult) throws AppException {
+	public ResponseEntity<Setor> listAll(Integer startPosition, Integer maxResult) throws AppException {
 		Cliente cliente = appService.getCliente();
 		TypedQuery<Setor> findAllQuery = em.createNamedQuery(SetorConstant.LIST_ALL_KEY, Setor.class);
 		findAllQuery.setParameter(Constant.Entity.CLIENTE, cliente);
-		ResponseEntity responseEntity = new ResponseEntity();
-		ResponseList responseList = new ResponseList();
+		ResponseEntity<Setor> responseEntity = new ResponseEntity<>();
+		ResponseList<Setor> responseList = new ResponseList<Setor>();
 		responseEntity.setItens(responseList);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
@@ -112,10 +112,10 @@ public class SetorService {
 		return responseEntity;
 	}
 
-	public ResponseEntity update(Long id, Setor entity) throws AppException {
+	public ResponseEntity<Setor> update(Long id, Setor entity) throws AppException {
 		Setor setor = null;
 		AnotaaiMessage message = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Setor> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			setor = em.find(Setor.class, id);
@@ -139,8 +139,8 @@ public class SetorService {
 		newSetor.setDescricao(oldSetor.getDescricao());
 	}
 
-	public ResponseEntity findById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<Setor> findById(Long id) throws AppException {
+		ResponseEntity<Setor> entity = new ResponseEntity<>();
 		Cliente cliente = appService.getCliente();
 		try {
 			TypedQuery<Setor> query = em.createNamedQuery(SetorConstant.FIND_BY_ID_KEY, Setor.class);

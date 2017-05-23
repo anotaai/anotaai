@@ -31,7 +31,7 @@ public class SetorEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Setor entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Setor> responseEntity = null;
 		try {
 			responseEntity = setorService.create(entity);
 			builder = Response.ok(responseEntity);
@@ -47,7 +47,7 @@ public class SetorEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Setor> responseEntity = null;
 		try {
 			responseEntity = setorService.deleteById(id);
 			builder = Response.ok(responseEntity);
@@ -65,7 +65,7 @@ public class SetorEndpoint {
 	public Response findById(@PathParam("id") Long id) {
 
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Setor> responseEntity = null;
 		try {
 			responseEntity = setorService.findById(id);
 			builder = Response.ok(responseEntity);
@@ -80,7 +80,7 @@ public class SetorEndpoint {
 	@RolesAllowed("CLIENTE")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
+	public ResponseEntity<Setor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
 		return setorService.listAll(startPosition, maxResult);
 	}
 
@@ -89,7 +89,7 @@ public class SetorEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") Long id, Setor entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Setor> responseEntity = null;
 		try {
 			responseEntity = setorService.update(id, entity);
 			builder = Response.ok(responseEntity);

@@ -11,13 +11,13 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 @JsonInclude(Include.NON_NULL)
-public class ResponseEntity implements Serializable {
+public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private BaseEntity<?, ?> entity;
+	private T entity;
 
-	private ResponseList itens;
+	private ResponseList<T> itens;
 
 	private Login login;
 
@@ -35,7 +35,7 @@ public class ResponseEntity implements Serializable {
 		super();
 	}
 
-	public ResponseEntity(BaseEntity<?, ?> entity) {
+	public ResponseEntity(T entity) {
 		this();
 		this.entity = entity;
 	}
@@ -44,11 +44,11 @@ public class ResponseEntity implements Serializable {
 		addMessage(mensagem);
 	}
 
-	public BaseEntity<?, ?> getEntity() {
+	public T getEntity() {
 		return entity;
 	}
 
-	public void setEntity(BaseEntity<?, ?> entity) {
+	public void setEntity(T entity) {
 		this.entity = entity;
 	}
 
@@ -84,11 +84,11 @@ public class ResponseEntity implements Serializable {
 		this.login = login;
 	}
 
-	public ResponseList getItens() {
+	public ResponseList<T> getItens() {
 		return itens;
 	}
 
-	public void setItens(ResponseList itens) {
+	public void setItens(ResponseList<T> itens) {
 		this.itens = itens;
 	}
 

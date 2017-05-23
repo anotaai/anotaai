@@ -8,19 +8,18 @@ public class AppException extends EJBException {
 
 	private static final long serialVersionUID = 1L;
 
-	private ResponseEntity responseEntity;
+	private ResponseEntity<?> responseEntity;
 
-	public AppException(ResponseEntity responseEntity) {
+	public AppException(ResponseEntity<?> responseEntity) {
 		this.responseEntity = responseEntity;
 	}
 
-	public ResponseEntity getResponseEntity() {
+	public ResponseEntity<?> getResponseEntity() {
 		return responseEntity;
 	}
 
-	public void setResponseEntity(ResponseEntity responseEntity) {
+	public void setResponseEntity(ResponseEntity<?> responseEntity) {
 		this.responseEntity = responseEntity;
 	}
 
-	
 }

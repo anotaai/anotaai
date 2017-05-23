@@ -2,17 +2,19 @@ package br.com.alinesolutions.anotaai.metadata.model;
 
 import java.util.List;
 
-public class ResponseList {
+import br.com.alinesolutions.anotaai.model.BaseEntity;
 
-	private List<?> itens;
+public class ResponseList <T extends BaseEntity<?, ?>> {
+
+	private List<T> itens;
 
 	private Long qtdTotalItens;
 
-	public List<?> getItens() {
+	public List<T> getItens() {
 		return itens;
 	}
 
-	public void setItens(List<?> itens) {
+	public void setItens(List<T> itens) {
 		this.itens = itens;
 	}
 
