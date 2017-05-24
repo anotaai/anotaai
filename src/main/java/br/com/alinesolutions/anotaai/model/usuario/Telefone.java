@@ -88,21 +88,6 @@ public class Telefone extends BaseEntity<Long, Telefone> {
 		String FIELD_NUMERO = "numero";
 		
 	}
-	
-	@Override
-	public void clone(Telefone entity) {
-		super.clone(entity);
-		if (entity != null) {
-			if (entity.getDdi() != null) {
-				this.ddi = entity.getDdi();
-			}
-			if (entity.getDdd() != null) {
-				this.ddd = entity.getDdd();
-			}
-			if (entity.getNumero() != null) {
-				this.numero = entity.getNumero();
-			}
-		}
-	}
+
 }
 

@@ -85,7 +85,7 @@ public class UsuarioService {
 
 	private void validarUsuario(Usuario usuario) throws AppException {
 		AnotaaiUtil util = AnotaaiUtil.getInstance();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		TypedQuery<Long> queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_EMAIL_KEY, Long.class);
 		String email = appService.atulaizarEmail(usuario.getEmail());
 		queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
@@ -118,10 +118,10 @@ public class UsuarioService {
 		senderEmail.notificacaoRegistroUsuario(usuario);
 	}
 
-	public ResponseEntity findUserByActivationCode(String codigoAtivacao) throws AppException {
+	public ResponseEntity<Usuario> findUserByActivationCode(String codigoAtivacao) throws AppException {
 		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
 		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		try {
 			Usuario usuario = q.getSingleResult();
 			if (usuario.getSituacao().equals(SituacaoUsuario.NAO_REGISTRADO)) {
@@ -138,10 +138,10 @@ public class UsuarioService {
 		return responseEntity;
 	}
 
-	public ResponseEntity activateAccount(String codigoAtivacao) throws AppException {
+	public ResponseEntity<Usuario> activateAccount(String codigoAtivacao) throws AppException {
 		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_ACTIVATE_KEY, Usuario.class);
 		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		Usuario usuario = null;
 		try {
@@ -161,9 +161,9 @@ public class UsuarioService {
 		return responseEntity;
 	}
 
-	public ResponseEntity findByTelefone(Telefone telefone) {
+	public ResponseEntity<Usuario> findByTelefone(Telefone telefone) {
 		Usuario usuario = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		try {
 			usuario = findUsuarioByTelefone(telefone);
 			if (usuario.getSituacao().equals(SituacaoUsuario.NAO_REGISTRADO)) {
@@ -201,7 +201,7 @@ public class UsuarioService {
 			login.setSessionID(sessaoUsuario.getSessionID());
 		} else {
 			// senha nao confere
-			ResponseEntity responseEntity = new ResponseEntity();
+			ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 			responseEntity.addMessage(Constant.Message.USUARIO_SENHA_INVALIDO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			throw new AppException(responseEntity);
@@ -219,7 +219,7 @@ public class UsuarioService {
 		return sessaoUsuario;
 	}
 
-	public ResponseEntity login(Login login) throws AppException {
+	public ResponseEntity<Usuario> login(Login login) throws AppException {
 
 		AppException appException = null;
 		Usuario usuarioLogin = null;
@@ -227,7 +227,7 @@ public class UsuarioService {
 		Long time = Constant.Message.KEEP_ALIVE_TIME_VIEW;
 		String key = null;
 		String senha = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.FALSE);
 		try {
 			usuarioLogin = loadUsuario(login);
@@ -291,14 +291,14 @@ public class UsuarioService {
 		return usuarioLogin;
 	}
 
-	public ResponseEntity update(Long id, Usuario entity) throws AppException {
+	public ResponseEntity<Usuario> update(Long id, Usuario entity) throws AppException {
 		Usuario usuario = null;
 		AnotaaiMessage message = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			usuario = em.find(Usuario.class, id);
-			usuario.clone(entity);
+			usuario = entity.clone();
 			entity = em.merge(usuario);
 			message = new AnotaaiMessage(Constant.Message.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, usuario.getNome());
 			responseEntity.setMessages(new ArrayList<>());
@@ -323,8 +323,8 @@ public class UsuarioService {
 		return usuario;
 	}
 
-	public ResponseEntity logout(Login login) throws AppException {
-		ResponseEntity responseEntity = new ResponseEntity();
+	public ResponseEntity<Usuario> logout(Login login) throws AppException {
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		Query query = em.createNamedQuery(SessaoUsuarioConstant.REMOVE_SESSION_KEY);
 		query.setParameter(SessaoUsuarioConstant.FIELD_SESSION_ID, login.getSessionID());
 		query.executeUpdate();
@@ -332,8 +332,9 @@ public class UsuarioService {
 		return responseEntity;
 	}
 
+	//TODO retornar ResponseEntity
 	public Usuario loadByEmail(String email) {
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.FALSE);
 		try {
 			
@@ -349,7 +350,7 @@ public class UsuarioService {
 	}
 
 	public Usuario loadByTelefone(Telefone telefone) {
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		try {
 			TypedQuery<Usuario> query = em.createNamedQuery(Usuario.UsuarioConstant.FIND_BY_TELEFONE_PERSIST_KEY, Usuario.class);
 			query.setParameter(Telefone.TelefoneConstant.FIELD_DDI, telefone.getDdi());
@@ -368,10 +369,10 @@ public class UsuarioService {
 	 * @param usuarioRequest
 	 * @throws AppException
 	 */
-	public ResponseEntity solicitarMensagemAlteracaoSenha(Usuario usuario) throws AppException {
+	public ResponseEntity<Usuario> solicitarMensagemAlteracaoSenha(Usuario usuario) throws AppException {
 		
 		Usuario usuarioDataBase = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		try {
 			StringBuilder mensagem = new StringBuilder();
 			if(usuario.getTelefone() != null && usuario.getTelefone().getNumero() != null) {
@@ -398,10 +399,10 @@ public class UsuarioService {
 		return responseEntity;
 	}
 	
-	public ResponseEntity findUserByActivationCodeRecuperarSenha(String codigoAtivacao) throws AppException {
+	public ResponseEntity<Usuario> findUserByActivationCodeRecuperarSenha(String codigoAtivacao) throws AppException {
 		TypedQuery<Usuario> q = em.createNamedQuery(Usuario.UsuarioConstant.FIND_FOR_REGISTER_BY_CODIGO_ATIVACAO_KEY, Usuario.class);
 		q.setParameter(Usuario.UsuarioConstant.FIELD_CODIGO_ATIVACAO, codigoAtivacao);
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		try {
 			Usuario usuario = q.getSingleResult();
 			if (usuario.getSituacao().equals(SituacaoUsuario.ATIVO) || usuario.getSituacao().equals(SituacaoUsuario.PENDENTE_VALIDACAO)) {
@@ -419,10 +420,10 @@ public class UsuarioService {
 		return responseEntity;
 	}
 	
-	public ResponseEntity alterarSenha(Usuario entity) throws AppException {
+	public ResponseEntity<Usuario> alterarSenha(Usuario entity) throws AppException {
 		Usuario usuario = null;
 		AnotaaiMessage message = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && entity.getEmail() != null) {
 			usuario = loadByEmail(entity.getEmail());
@@ -430,7 +431,7 @@ public class UsuarioService {
 				entity.setSituacao(SituacaoUsuario.ATIVO);
 				entity.setCodigoAtivacao(UUID.randomUUID().toString());
 				entity.setSenha(Criptografia.criptografar(entity.getSenha()));
-				usuario.clone(entity);
+				usuario = entity.clone();
 				em.merge(usuario);
 				entity.setCodigoAtivacao(null);
 				message = new AnotaaiMessage(Constant.Message.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, usuario.getNome());

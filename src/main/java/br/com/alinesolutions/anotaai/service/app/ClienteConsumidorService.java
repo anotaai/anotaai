@@ -55,7 +55,7 @@ public class ClienteConsumidorService {
 	public void create(ClienteConsumidor clienteConsumidor) throws AppException {
 		TypedQuery<Usuario> q = null;
 		Usuario usuarioDatabase = null;
-		ResponseEntity response;
+		ResponseEntity<ClienteConsumidor> response;
 		Cliente cliente = appManager.getAppService().getCliente();
 		clienteConsumidor.setCliente(cliente);
 		clienteConsumidor.setDataAssociacao(new Date());
@@ -86,7 +86,7 @@ public class ClienteConsumidorService {
 				queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
 				Long cont = queryCount.getSingleResult();
 				if (cont > 0) {
-					response = new ResponseEntity();
+					response = new ResponseEntity<>();
 					response.setIsValid(Boolean.FALSE);
 					AnotaaiMessage message = new AnotaaiMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR,
 							Constant.Message.DEFAULT_TIME_VIEW, usuario.getEmail());
@@ -166,7 +166,7 @@ public class ClienteConsumidorService {
 	}
 
 	public Response deleteById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+		ResponseEntity<ClienteConsumidor> entity = new ResponseEntity<>();
 		ResponseBuilder builder = null;
 		try {
 			ClienteConsumidor clienteConsumidor = em.find(ClienteConsumidor.class, id);
@@ -202,9 +202,9 @@ public class ClienteConsumidorService {
 	@Path("/findby/telefone")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity findByTelefone(Telefone telefone) throws AppException {
+	public ResponseEntity<ClienteConsumidor> findByTelefone(Telefone telefone) throws AppException {
 		Usuario usuario = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = null;
 		ClienteConsumidor clienteConsumidor = null;
 		AnotaaiMessage message = null;
 		try {
@@ -214,7 +214,7 @@ public class ClienteConsumidorService {
 			clienteConsumidor.setConsumidor(new Consumidor());
 			clienteConsumidor.getConsumidor().setUsuario(usuario);
 			String nome = clienteConsumidor.getConsumidor().getUsuario().getNome();
-			responseEntity = new ResponseEntity(clienteConsumidor);
+			responseEntity = new ResponseEntity<>(clienteConsumidor);
 			try {
 				clienteConsumidor = validarConsumidorJaCadastrado(telefone);
 				responseEntity.addMessage(new AnotaaiMessage(Constant.Message.CONSUMIDOR_JA_CADASTRADO, TipoMensagem.ERROR,
@@ -229,7 +229,7 @@ public class ClienteConsumidorService {
 			}
 			responseEntity.setIsValid(Boolean.FALSE);
 		} catch (NoResultException nre) {
-			responseEntity = new ResponseEntity();
+			responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.TRUE);
 		}
 		return responseEntity;

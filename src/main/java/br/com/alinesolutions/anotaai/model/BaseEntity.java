@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @MappedSuperclass
 @JsonInclude(Include.NON_NULL)
@@ -101,12 +103,11 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	 * 
 	 * @param entity
 	 */
-	public void clone(T entity) {
-		if (entity != null) {
-			if (entity.getAtivo() != null) {
-				this.setAtivo(entity.getAtivo());
-			}
-		}
+	public T clone() {
+		Gson gson = new GsonBuilder().create();
+		String entityStr = gson.toJson(this);
+		T clone = gson.fromJson(entityStr, this.getClass());
+		return clone;
 	}
 
 }

@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model.usuario;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -247,43 +246,5 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 		String LOAD_FILE_QUERY = "select new br.com.alinesolutions.anotaai.model.util.Arquivo(a.path, a.name) from Usuario u join u.fotoPerfil a where u.id = :id";
 
 	}
-
-	@Override
-	public void clone(Usuario entity) {
-		super.clone(entity);
-		if (entity != null) {
-			if (entity.getNome() != null) {
-				this.setNome(entity.getNome());
-			}
-			if (entity.getEmail() != null) {
-				this.setEmail(entity.getEmail());
-			}
-			if (entity.getSenha() != null) {
-				this.setSenha(entity.getSenha());
-			}
-			if (entity.getSituacao() != null) {
-				this.setSituacao(entity.getSituacao());
-			}			
-			if (entity.getCodigoAtivacao() != null) {
-				this.setCodigoAtivacao(entity.getCodigoAtivacao());
-			}
-			if (entity.getTelefone() != null) {
-				if (this.telefone == null) {
-					this.telefone = new Telefone();
-				}
-				this.telefone.clone(entity.getTelefone());
-			}
-			if (entity.getPerfis() != null) {
-				if (this.perfis != null) {
-					setPerfis(new ArrayList<>());
-				}
-				this.perfis.clear();
-				entity.getPerfis().stream().forEach(usuarioPerfil -> {
-					UsuarioPerfil newUsuarioPerfil = new UsuarioPerfil();
-					newUsuarioPerfil.clone(usuarioPerfil);
-					this.perfis.add(newUsuarioPerfil);
-				});
-			}
-		}
-	}
+	
 }

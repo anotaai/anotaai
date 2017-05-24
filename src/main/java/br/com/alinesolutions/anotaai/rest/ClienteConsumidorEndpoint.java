@@ -85,7 +85,7 @@ public class ClienteConsumidorEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findByTelefone(Telefone telefone) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = null;
 		try {
 			responseEntity = service.findByTelefone(telefone);
 			builder = Response.ok(responseEntity);
