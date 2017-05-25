@@ -1,6 +1,7 @@
 package br.com.alinesolutions.anotaai.model;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -106,7 +107,8 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	public T clone() {
 		Gson gson = new GsonBuilder().create();
 		String entityStr = gson.toJson(this);
-		T clone = gson.fromJson(entityStr, this.getClass());
+		final ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+		T clone = gson.fromJson(entityStr, type.getActualTypeArguments()[1]);
 		return clone;
 	}
 
