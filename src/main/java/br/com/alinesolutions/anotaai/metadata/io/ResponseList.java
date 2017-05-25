@@ -1,4 +1,4 @@
-package br.com.alinesolutions.anotaai.metadata.model;
+package br.com.alinesolutions.anotaai.metadata.io;
 
 import java.util.List;
 

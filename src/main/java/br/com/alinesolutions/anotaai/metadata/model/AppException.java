@@ -3,6 +3,8 @@ package br.com.alinesolutions.anotaai.metadata.model;
 import javax.ejb.ApplicationException;
 import javax.ejb.EJBException;
 
+import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
+
 @ApplicationException
 public class AppException extends EJBException {
 

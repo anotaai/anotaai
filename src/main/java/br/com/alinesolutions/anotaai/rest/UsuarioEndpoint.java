@@ -18,9 +18,9 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
-import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.model.util.Arquivo;

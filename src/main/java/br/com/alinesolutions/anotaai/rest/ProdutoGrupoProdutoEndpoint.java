@@ -12,8 +12,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
-import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto;
 import br.com.alinesolutions.anotaai.service.app.ProdutoGrupoProdutoService;
 

@@ -13,9 +13,9 @@ import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
+import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
-import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Disponibilidade;

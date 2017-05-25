@@ -3,8 +3,8 @@ package br.com.alinesolutions.anotaai.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
-import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 
 public class Criptografia {

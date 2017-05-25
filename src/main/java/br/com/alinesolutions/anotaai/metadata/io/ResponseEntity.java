@@ -1,4 +1,4 @@
-package br.com.alinesolutions.anotaai.metadata.model;
+package br.com.alinesolutions.anotaai.metadata.io;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
+import br.com.alinesolutions.anotaai.metadata.model.Login;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 

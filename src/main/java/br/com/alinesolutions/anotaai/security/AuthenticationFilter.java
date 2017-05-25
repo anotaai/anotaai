@@ -23,10 +23,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSession;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
-import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
