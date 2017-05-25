@@ -257,8 +257,8 @@ public class ClienteConsumidorService {
 		return usuario;
 	}
 
-	public ResponseEntity isEditable(Usuario usuario) {
-		ResponseEntity responseEntity = new ResponseEntity();
+	public ResponseEntity<Usuario> isEditable(Usuario usuario) {
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		Long qtdClientes = null;
 		TypedQuery<SituacaoUsuario> querySituacao = em.createNamedQuery(Usuario.UsuarioConstant.SITUACAO_USUARIO_KEY,
 				SituacaoUsuario.class);
@@ -284,11 +284,14 @@ public class ClienteConsumidorService {
 		return responseEntity;
 	}
 
-	public ResponseEntity recomendarEdicao(ClienteConsumidor clienteConsumidor) throws AppException {
+	public ResponseEntity<ClienteConsumidor> recomendarEdicao(ClienteConsumidor clienteConsumidor) throws AppException {
 
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<ClienteConsumidor> responseEntity = new ResponseEntity<>();
 		clienteConsumidor.setCliente(appManager.getAppService().getCliente());
+		AnotaaiMessage message = new AnotaaiMessage(Constant.Message.RECOMENDACAO_EDICAO_ENVIADA, TipoMensagem.INFO, Constant.Message.LONG_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
+		responseEntity.addMessage(message);
 		appManager.getSenderMail().recomendarEdicaoDeCadastro(clienteConsumidor);
+		responseEntity.setEntity(clienteConsumidor);
 		responseEntity.setIsValid(Boolean.TRUE);
 		return responseEntity;
 	}

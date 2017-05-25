@@ -23,6 +23,7 @@ import br.com.alinesolutions.anotaai.metadata.model.Login;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
+import br.com.alinesolutions.anotaai.model.util.Arquivo;
 import br.com.alinesolutions.anotaai.service.app.UploadService;
 import br.com.alinesolutions.anotaai.service.app.UsuarioService;
 
@@ -47,7 +48,7 @@ public class UsuarioEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Usuario usuario) {
 		ResponseBuilder builder = null;
-		ResponseEntity entity = new ResponseEntity();
+		ResponseEntity<Usuario> entity = new ResponseEntity<>();
 		try {
 			usuarioService.create(usuario);
 			entity.setIsValid(Boolean.TRUE);
@@ -81,7 +82,7 @@ public class UsuarioEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response activateAccount(String codigoAtivacao) {
-		ResponseEntity entity = null;
+		ResponseEntity<?> entity = null;
 		ResponseBuilder builder = null;
 		try {
 			entity = usuarioService.activateAccount(codigoAtivacao);
@@ -98,7 +99,7 @@ public class UsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findUserByActivationCode(String codigoAtivacao) {
 		ResponseBuilder builder = null;
-		ResponseEntity entity = null;
+		ResponseEntity<Usuario> entity = null;
 		try {
 			entity = usuarioService.findUserByActivationCode(codigoAtivacao);
 			builder = Response.ok(entity);
@@ -133,7 +134,7 @@ public class UsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logout(Login login) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<?> responseEntity = null;
 		try {
 			responseEntity = usuarioService.logout(login);
 			builder = Response.ok(responseEntity);
@@ -151,7 +152,7 @@ public class UsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findByTelefone(Telefone telefone) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Usuario> responseEntity = null;
 		try {
 			responseEntity = usuarioService.findByTelefone(telefone);
 			builder = Response.ok(responseEntity);
@@ -168,7 +169,7 @@ public class UsuarioEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") Long id, Usuario entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Usuario> responseEntity = null;
 		try {
 			responseEntity = usuarioService.update(id, entity);
 			builder = Response.ok(responseEntity);
@@ -186,7 +187,7 @@ public class UsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response profilePhoto() {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Arquivo> responseEntity = new ResponseEntity<>();
 		try {
 			responseEntity.setEntity(uploadService.getProfilePhoto());
 			builder = Response.ok(responseEntity);
@@ -202,7 +203,7 @@ public class UsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response solicitarMensagemAlteracaoSenha(Usuario usuario) {
 		ResponseBuilder builder = null;
-		ResponseEntity entity = null;
+		ResponseEntity<Usuario> entity = null;
 		try {
 			entity = usuarioService.solicitarMensagemAlteracaoSenha(usuario);
 			builder = Response.ok(entity);
@@ -221,7 +222,7 @@ public class UsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response recuperarUsuarioAlteracaoSenha(String codigoAtivacao) {
 		ResponseBuilder builder = null;
-		ResponseEntity entity = null;
+		ResponseEntity<Usuario> entity = null;
 		try {
 			entity = usuarioService.findUserByActivationCodeRecuperarSenha(codigoAtivacao);
 			builder = Response.ok(entity);
@@ -249,13 +250,13 @@ public class UsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response alterarSenha(Usuario usuario) throws AppException {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		try {
 			responseEntity = usuarioService.alterarSenha(usuario);
+			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			responseEntity = e.getResponseEntity();
+			builder = Response.ok(e.getResponseEntity());
 		}
-		builder = Response.ok(responseEntity);
 		return builder.build();
 	}
 

@@ -41,10 +41,10 @@ public class GrupoProdutoService {
 	@Resource
 	private SessionContext sessionContext;
 
-	public ResponseEntity create(GrupoProduto grupoProduto) throws AppException {
+	public ResponseEntity<GrupoProduto> create(GrupoProduto grupoProduto) throws AppException {
 		TypedQuery<GrupoProduto> q = null;
 		Cliente cliente = appService.getCliente();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<GrupoProduto> responseEntity = new ResponseEntity<>();
 		try {
 			validarGrupoProduto(grupoProduto);
 			q = em.createNamedQuery(GrupoProdutoConstant.FIND_BY_NOME_KEY, GrupoProduto.class);
@@ -65,14 +65,12 @@ public class GrupoProdutoService {
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO,
 					TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, grupoProduto.getNome()));
-		} catch (AppException e) {
-			responseEntity = e.getResponseEntity();
 		}
 		return responseEntity;
 	}
 
 	private void validarGrupoProduto(GrupoProduto grupoProduto) throws AppException {
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<GrupoProduto> responseEntity = new ResponseEntity<>();
 		if (grupoProduto.getDescricao() == null || grupoProduto.getDescricao().equals("")) {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.CAMPO_OBRIGATORIO_NAO_INFORMADO, TipoMensagem.ERROR,
@@ -89,8 +87,8 @@ public class GrupoProdutoService {
 		}
 	}
 
-	public ResponseEntity deleteById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<GrupoProduto> deleteById(Long id) throws AppException {
+		ResponseEntity<GrupoProduto> entity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteGrupoProduto = null;
 		GrupoProduto grupoProduto = null;
@@ -115,8 +113,8 @@ public class GrupoProdutoService {
 		return entity;
 	}
 
-	public ResponseEntity deleteProdutoGrupoProdutoById(Long idProdutoGrupoProduto) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<GrupoProduto> deleteProdutoGrupoProdutoById(Long idProdutoGrupoProduto) throws AppException {
+		ResponseEntity<GrupoProduto> entity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteGrupoProduto = null;
 		ProdutoGrupoProduto produtoGrupoProduto = null;
@@ -157,10 +155,10 @@ public class GrupoProdutoService {
 		return results;
 	}
 
-	public ResponseEntity update(Long id, GrupoProduto entity) throws AppException {
+	public ResponseEntity<GrupoProduto> update(Long id, GrupoProduto entity) throws AppException {
 		GrupoProduto grupoProduto = null;
 		AnotaaiMessage message = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<GrupoProduto> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			grupoProduto = em.find(GrupoProduto.class, id);
@@ -196,7 +194,7 @@ public class GrupoProdutoService {
 			produtos.addAll(query.getResultList());
 			grupoProduto.setProdutos(produtos);
 		} catch (Exception e) {
-			ResponseEntity entity = new ResponseEntity();
+			ResponseEntity<GrupoProduto> entity = new ResponseEntity<>();
 			entity.setIsValid(Boolean.FALSE);
 			responseUtil.buildIllegalArgumentException(entity);
 		}
@@ -213,8 +211,8 @@ public class GrupoProdutoService {
 		return produtos;
 	}
 
-	public ResponseEntity findById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<GrupoProduto> findById(Long id) throws AppException {
+		ResponseEntity<GrupoProduto> entity = new ResponseEntity<>();
 		Cliente cliente = appService.getCliente();
 		try {
 			TypedQuery<GrupoProduto> query = em.createNamedQuery(GrupoProdutoConstant.FIND_BY_ID_KEY, GrupoProduto.class);

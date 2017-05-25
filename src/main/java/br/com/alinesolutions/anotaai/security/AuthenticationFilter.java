@@ -126,8 +126,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		}
 	}
 
-	private ResponseEntity buildResponseEntity(String key) {
-		ResponseEntity responseEntity = new ResponseEntity();
+	private ResponseEntity<?> buildResponseEntity(String key) {
+		ResponseEntity<?> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.FALSE);
 		responseEntity.addMessage(key, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
 		return responseEntity;

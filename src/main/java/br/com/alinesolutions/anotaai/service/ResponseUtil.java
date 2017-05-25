@@ -11,7 +11,7 @@ import br.com.alinesolutions.anotaai.util.Constant;
 @Startup
 public class ResponseUtil {
 
-	public void buildIllegalArgumentException(ResponseEntity entity) {
+	public void buildIllegalArgumentException(ResponseEntity<?> entity) {
 		entity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
 		entity.setIsValid(Boolean.FALSE);
 	}

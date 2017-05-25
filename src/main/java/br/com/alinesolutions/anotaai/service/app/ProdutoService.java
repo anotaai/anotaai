@@ -48,9 +48,9 @@ public class ProdutoService {
 	@EJB
 	private GeradorCodigoInterno geradorCodigo;
 
-	public ResponseEntity findById(Long id) throws AppException {
+	public ResponseEntity<Produto> findById(Long id) throws AppException {
 		Cliente cliente = appService.getCliente();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Produto> responseEntity = new ResponseEntity<>();
 		TypedQuery<Produto> query = em.createNamedQuery(Produto.ProdutoConstant.EDIT_KEY, Produto.class);
 		query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, id);
 		Produto produto = query.getSingleResult();
@@ -65,10 +65,10 @@ public class ProdutoService {
 		return responseEntity;
 	}
 
-	public ResponseEntity create(Produto produto) throws AppException {
+	public ResponseEntity<Produto> create(Produto produto) throws AppException {
 		TypedQuery<Produto> q = null;
 		Cliente cliente = appService.getCliente();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Produto> responseEntity = new ResponseEntity<>();
 		if (produto.getCodigoGerado() != null && produto.getCodigoGerado()) {
 			produto.setCodigo(geradorCodigo.gerarCodigoProduto(cliente));
 		}
@@ -104,8 +104,8 @@ public class ProdutoService {
 		return responseEntity;
 	}
 
-	public ResponseEntity deleteById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<Produto> deleteById(Long id) throws AppException {
+		ResponseEntity<Produto> entity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteProduto = null;
 		Produto produto = null;
@@ -183,7 +183,7 @@ public class ProdutoService {
 	 * @return
 	 * @throws AppException
 	 */
-	public ResponseEntity update(Long id, Produto entity) throws AppException {
+	public ResponseEntity<Produto> update(Long id, Produto entity) throws AppException {
 		Produto produtoUpdate = em.find(Produto.class, entity.getId());
 		Iterator<Disponibilidade> iterator = produtoUpdate.getDiasDisponibilidade().iterator();
 		Disponibilidade disp = null;
@@ -209,14 +209,14 @@ public class ProdutoService {
 		produtoUpdate.setPrecoVenda(entity.getPrecoVenda());
 		produtoUpdate.setEhInsumo(entity.getEhInsumo() != null ? entity.getEhInsumo() : Boolean.FALSE);
 		em.merge(produtoUpdate);
-		ResponseEntity responseEntity = new ResponseEntity(entity);
+		ResponseEntity<Produto> responseEntity = new ResponseEntity<>(entity);
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.addMessage(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO, TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, produtoUpdate.getDescricao()));
 		return responseEntity;
 	}
 
-	public ResponseEntity loadItensReceita(Produto produto) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<Produto> loadItensReceita(Produto produto) throws AppException {
+		ResponseEntity<Produto> entity = new ResponseEntity<>();
 		try {
 			List<ItemReceita> itensReceita = loadItensReceitaAction(produto);
 			produto.setItensReceita(itensReceita);
@@ -241,8 +241,8 @@ public class ProdutoService {
 		return itensReceita;
 	}
 
-	public ResponseEntity loadDisponibilidades(Produto produto) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<Produto> loadDisponibilidades(Produto produto) throws AppException {
+		ResponseEntity<Produto> entity = new ResponseEntity<>();
 		try {
 			List<Disponibilidade> diasDisponibilidade = loadDiasDisponibilidadeAction(produto);
 			produto.setDiasDisponibilidade(diasDisponibilidade);
@@ -267,9 +267,9 @@ public class ProdutoService {
 		return diasDisponibilidade;
 	}
 
-	public ResponseEntity addItemReceita(ItemReceita itemReceita) {
+	public ResponseEntity<ItemReceita> addItemReceita(ItemReceita itemReceita) {
 		em.persist(itemReceita);
-		ResponseEntity responseEntity = new ResponseEntity(itemReceita);
+		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>(itemReceita);
 		responseEntity.setIsValid(Boolean.TRUE);
 		AnotaaiMessage message = new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO, TipoMensagem.SUCCESS,
 				Constant.Message.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
@@ -277,11 +277,11 @@ public class ProdutoService {
 		return responseEntity;
 	}
 
-	public ResponseEntity editItemReceita(ItemReceita itemReceita) {
+	public ResponseEntity<ItemReceita> editItemReceita(ItemReceita itemReceita) {
 		ItemReceita old = em.find(ItemReceita.class, itemReceita.getId());
 		old.setQuantidade(itemReceita.getQuantidade());
 		em.merge(old);
-		ResponseEntity responseEntity = new ResponseEntity(itemReceita);
+		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>(itemReceita);
 		responseEntity.setIsValid(Boolean.TRUE);
 		AnotaaiMessage message = new AnotaaiMessage(Constant.Message.ENTIDADE_EDITADA_SUCESSO, TipoMensagem.SUCCESS,
 				Constant.Message.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
@@ -289,10 +289,10 @@ public class ProdutoService {
 		return responseEntity;
 	}
 
-	public ResponseEntity deleteItemReceita(ItemReceita itemReceita) {
+	public ResponseEntity<ItemReceita> deleteItemReceita(ItemReceita itemReceita) {
 		ItemReceita old = em.find(ItemReceita.class, itemReceita.getId());
 		em.remove(old);
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.TRUE);
 		AnotaaiMessage message = new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO, TipoMensagem.SUCCESS,
 				Constant.Message.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());

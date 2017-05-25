@@ -38,7 +38,7 @@ public class VendaEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(Produto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Produto> responseEntity = null;
 		try {
 			responseEntity = vendaService.create(entity);
 			builder = Response.ok(responseEntity);
@@ -52,7 +52,7 @@ public class VendaEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
- 		ResponseEntity responseEntity = null;
+ 		ResponseEntity<?> responseEntity = null;
 		try {
 			responseEntity = vendaService.deleteById(id);
 			builder = Response.ok(responseEntity);
@@ -69,7 +69,7 @@ public class VendaEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<?> responseEntity = null;
 		try {
 			responseEntity = vendaService.findById(id);
 			builder = Response.ok(responseEntity);

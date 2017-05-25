@@ -113,7 +113,7 @@ public class AppService {
 				cep = gson.fromJson(resultado, Cep.class);
 			}
 		} catch (Exception e) {
-			ResponseEntity responseEntity = new ResponseEntity();
+			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(new AnotaaiMessage("cep.nao.cadastrado", TipoMensagem.WARNING,
 					Constant.Message.DEFAULT_TIME_VIEW, cep.toString()));

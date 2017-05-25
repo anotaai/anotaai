@@ -33,11 +33,11 @@ public class DisponibilidadeService {
 	@EJB
 	private ResponseUtil responseUtil;
 	
-	public ResponseEntity create(Disponibilidade disponibilidade) throws AppException {
+	public ResponseEntity<Disponibilidade> create(Disponibilidade disponibilidade) throws AppException {
 		TypedQuery<Cliente> q = null;
 		Cliente clienteLogado = appService.getCliente();
 		Cliente cliente = null;
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Disponibilidade> responseEntity = new ResponseEntity<>();
 		try {
 			q = em.createNamedQuery(ClienteConstant.FIND_BY_PRODUTO_KEY, Cliente.class);
 			q.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, disponibilidade.getProduto().getId());
@@ -58,8 +58,8 @@ public class DisponibilidadeService {
 		return responseEntity;
 	}
 	
-	public ResponseEntity deleteById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<Disponibilidade> deleteById(Long id) throws AppException {
+		ResponseEntity<Disponibilidade> entity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteDisponibilidade = null;
 		Disponibilidade disponibilidade = null;

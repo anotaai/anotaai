@@ -35,9 +35,9 @@ public class UploadService {
 	private ShardingResourceFactory appManager;
 
 
-	public ResponseEntity saveProfileFile(Arquivo arquivo) throws AppException {
+	public ResponseEntity<Arquivo> saveProfileFile(Arquivo arquivo) throws AppException {
 		
-		ResponseEntity entity = new ResponseEntity();
+		ResponseEntity<Arquivo> entity = new ResponseEntity<>();
 		try {
 			File file = getProfileFile(arquivo);
 			buildTypeFile(arquivo);

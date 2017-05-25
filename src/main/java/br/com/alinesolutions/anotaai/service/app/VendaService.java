@@ -46,9 +46,9 @@ public class VendaService {
 	@EJB
 	private ResponseUtil responseUtil;
 
-	public ResponseEntity findById(Long id) throws AppException {
+	public ResponseEntity<Venda> findById(Long id) throws AppException {
 		Cliente cliente = appService.getCliente();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Venda> responseEntity = new ResponseEntity<>();
 		TypedQuery<Venda> query = em.createNamedQuery(Venda.VendaConstant.FIND_BY_ID_KEY, Venda.class);
 		query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, id);
 		query.setParameter(Constant.Entity.CLIENTE, cliente);
@@ -58,10 +58,10 @@ public class VendaService {
 		return responseEntity;
 	}
 
-	public ResponseEntity create(Produto produto) throws AppException {
+	public ResponseEntity<Produto> create(Produto produto) throws AppException {
 		TypedQuery<Produto> q = null;
 		Cliente cliente = appService.getCliente();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Produto> responseEntity = new ResponseEntity<>();
 		try {
 			q = em.createNamedQuery(ProdutoConstant.PRODUTO_BY_CODIGO_KEY, Produto.class);
 			q.setParameter(ProdutoConstant.FIELD_CODIGO, produto.getCodigo());
@@ -81,11 +81,8 @@ public class VendaService {
 			produto.getEstoque().setProduto(produto);
 			produto.getEstoque().setQuantidadeEstoque(0L);
 			em.persist(produto);
-			Produto produtoNovo = new Produto(produto.getId(), produto.getDescricao(), produto.getDescricaoResumida(),
-					produto.getPrecoVenda(), produto.getIconClass(), produto.getEstoque().getId(), null, null,
-					produto.getCodigo(), produto.getUnidadeMedida());
 			responseEntity.setIsValid(Boolean.TRUE);
-			responseEntity.setEntity(produtoNovo);
+			responseEntity.setEntity(produto.clone());
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO,
 					TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, produto.getDescricao()));
@@ -93,8 +90,8 @@ public class VendaService {
 		return responseEntity;
 	}
 
-	public ResponseEntity deleteById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<?> deleteById(Long id) throws AppException {
+		ResponseEntity<?> entity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteProduto = null;
 		Produto produto = null;

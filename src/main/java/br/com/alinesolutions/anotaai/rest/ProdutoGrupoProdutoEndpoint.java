@@ -28,7 +28,7 @@ public class ProdutoGrupoProdutoEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<ProdutoGrupoProduto> responseEntity = null;
 		try {
 			responseEntity = service.deleteById(id);
 			builder = Response.ok(responseEntity);
@@ -44,7 +44,7 @@ public class ProdutoGrupoProdutoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(ProdutoGrupoProduto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<ProdutoGrupoProduto> responseEntity = null;
 		try {
 			responseEntity = service.create(entity);
 			builder = Response.ok(responseEntity);

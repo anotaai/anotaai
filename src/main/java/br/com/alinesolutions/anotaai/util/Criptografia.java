@@ -17,7 +17,7 @@ public class Criptografia {
 		try {
 			md = MessageDigest.getInstance(ALGORITHM);
 		} catch (NoSuchAlgorithmException ex) {
-			ResponseEntity responseEntity = new ResponseEntity();
+			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
 			throw new AppException(responseEntity);
@@ -33,7 +33,7 @@ public class Criptografia {
 			}
 			return hexString.toString();
 		} catch (Exception e) {
-			ResponseEntity responseEntity = new ResponseEntity();
+			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
 			throw new AppException(responseEntity);

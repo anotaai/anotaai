@@ -33,7 +33,7 @@ public class GrupoProdutoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(GrupoProduto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<GrupoProduto> responseEntity = null;
 		try {
 			responseEntity = grupoProdutoService.create(entity);
 			builder = Response.ok(responseEntity);
@@ -47,7 +47,7 @@ public class GrupoProdutoEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<GrupoProduto> responseEntity = null;
 		try {
 			responseEntity = grupoProdutoService.deleteById(id);
 			builder = Response.ok(responseEntity);
@@ -63,7 +63,7 @@ public class GrupoProdutoEndpoint {
 	public Response findById(@PathParam("id") Long id) {
 		
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<GrupoProduto> responseEntity = null;
 		try {
 			responseEntity = grupoProdutoService.findById(id);
 			builder = Response.ok(responseEntity);
@@ -97,7 +97,7 @@ public class GrupoProdutoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") Long id, GrupoProduto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<GrupoProduto> responseEntity = null;
 		try {
 			responseEntity = grupoProdutoService.update(id, entity);
 			builder = Response.ok(responseEntity);

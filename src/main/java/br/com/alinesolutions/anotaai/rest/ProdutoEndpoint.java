@@ -35,7 +35,7 @@ public class ProdutoEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(Produto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Produto> responseEntity = null;
 		try {
 			responseEntity = produtoService.create(entity);
 			builder = Response.ok(responseEntity);
@@ -49,7 +49,7 @@ public class ProdutoEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Produto> responseEntity = null;
 		try {
 			responseEntity = produtoService.deleteById(id);
 			builder = Response.ok(responseEntity);
@@ -66,7 +66,7 @@ public class ProdutoEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Produto> responseEntity = null;
 		try {
 			responseEntity = produtoService.findById(id);
 			builder = Response.ok(responseEntity);
@@ -124,7 +124,7 @@ public class ProdutoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/addItemReceita")
 	public Response addItemReceita(ItemReceita itemReceita) {
-		ResponseEntity entity = produtoService.addItemReceita(itemReceita);
+		ResponseEntity<ItemReceita> entity = produtoService.addItemReceita(itemReceita);
 		return Response.ok(entity).build();
 	}
 	
@@ -134,7 +134,7 @@ public class ProdutoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/editItemReceita")
 	public Response editItemReceita(ItemReceita itemReceita) {
-		ResponseEntity entity = produtoService.editItemReceita(itemReceita);
+		ResponseEntity<ItemReceita> entity = produtoService.editItemReceita(itemReceita);
 		return Response.ok(entity).build();
 	}
 	
@@ -144,7 +144,7 @@ public class ProdutoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/deleteItemReceita")
 	public Response deleteItemReceita(ItemReceita itemReceita) {
-		ResponseEntity entity = produtoService.deleteItemReceita(itemReceita);
+		ResponseEntity<ItemReceita> entity = produtoService.deleteItemReceita(itemReceita);
 		return Response.ok(entity).build();
 	}
 	
@@ -153,7 +153,7 @@ public class ProdutoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") Long id, Produto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Produto> responseEntity = null;
 		try {
 			responseEntity = produtoService.update(id, entity);
 			builder = Response.ok(responseEntity);
@@ -171,7 +171,7 @@ public class ProdutoEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response loadItensReceita(Produto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Produto> responseEntity = null;
 		try {
 			responseEntity = produtoService.loadItensReceita(entity);
 			builder = Response.ok(responseEntity);
@@ -189,7 +189,7 @@ public class ProdutoEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response loadDisponibilidades(Produto entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Produto> responseEntity = null;
 		try {
 			responseEntity = produtoService.loadDisponibilidades(entity);
 			builder = Response.ok(responseEntity);

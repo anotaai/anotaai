@@ -29,7 +29,7 @@ public class UploadEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadProfilePhoto(@MultipartForm Arquivo arquivo) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Arquivo> responseEntity = null;
 		try {
 			responseEntity = upload.saveProfileFile(arquivo);
 			responseEntity.setIsValid(Boolean.TRUE);

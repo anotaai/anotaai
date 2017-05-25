@@ -31,7 +31,7 @@ public class DisponibilidadeEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Disponibilidade entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Disponibilidade> responseEntity = null;
 		try {
 			responseEntity = disponibilidadeService.create(entity);
 			builder = Response.ok(responseEntity);
@@ -45,7 +45,7 @@ public class DisponibilidadeEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Disponibilidade> responseEntity = null;
 		try {
 			responseEntity = disponibilidadeService.deleteById(id);
 			builder = Response.ok(responseEntity);

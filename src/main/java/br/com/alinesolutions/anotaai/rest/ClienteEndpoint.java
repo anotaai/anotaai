@@ -26,6 +26,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
@@ -69,7 +70,7 @@ public class ClienteEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)  
 	public Response create(Cliente entity) {
-
+		ResponseBuilder builder = null;
 		entity.setDataCadastro(new Date());
 		entity.getUsuario().setDataCadastro(new Date());
 		entity.getUsuario().setCodigoAtivacao(UUID.randomUUID().toString());
@@ -79,7 +80,7 @@ public class ClienteEndpoint {
 		entity.getUsuario().setSenha(Criptografia.criptografar(entity.getUsuario().getSenha()));
 		entity.setSituacaoCliente(SituacaoCliente.BLOQUEADO);
 		entity.getUsuario().setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
-		ResponseEntity response = new ResponseEntity();
+		ResponseEntity<Cliente> response = new ResponseEntity<>();
 		try {
 			validarCliente(entity);
 			entity.setSequences(new ArrayList<>());
@@ -88,10 +89,11 @@ public class ClienteEndpoint {
 			em.persist(entity);
 			sender.notificacaoRegistroUsuario(entity.getUsuario());
 			response.setIsValid(Boolean.TRUE);
+			builder = Response.ok(response);
 		} catch (AppException e) {
-			response = e.getResponseEntity();
+			builder = Response.ok(e.getResponseEntity());
 		}
-		return Response.ok(response).build();
+		return builder.build();
 	}
 
 	@DELETE
@@ -150,7 +152,7 @@ public class ClienteEndpoint {
 		String telefoneJaCadastrado = Constant.Message.TELEFONE_JA_CADASTRADO;
 		Usuario usuario = cliente.getUsuario();
 		AnotaaiUtil util = AnotaaiUtil.getInstance();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<Cliente> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.FALSE);
 		Boolean hasException = Boolean.FALSE;
 		TypedQuery<Long> queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_EMAIL_KEY, Long.class);

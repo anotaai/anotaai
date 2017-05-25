@@ -44,9 +44,9 @@ public class ProdutoGrupoProdutoService {
 	@Resource
 	private SessionContext sessionContext;
 
-	public ResponseEntity create(ProdutoGrupoProduto produtoGrupoProduto) throws AppException {
+	public ResponseEntity<ProdutoGrupoProduto> create(ProdutoGrupoProduto produtoGrupoProduto) throws AppException {
 		Cliente cliente = appService.getCliente();
-		ResponseEntity responseEntity = new ResponseEntity();
+		ResponseEntity<ProdutoGrupoProduto> responseEntity = new ResponseEntity<>();
 
 		validarProdutoGrupoProduto(cliente, produtoGrupoProduto);
 		em.persist(produtoGrupoProduto);
@@ -76,7 +76,7 @@ public class ProdutoGrupoProdutoService {
 			queryGrupoProduto.setParameter(Constant.Entity.CLIENTE, cliente);
 			queryGrupoProduto.getSingleResult();
 		} catch (NoResultException e) {
-			ResponseEntity responseEntity = new ResponseEntity();
+			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			throw new AppException(responseEntity);
@@ -84,8 +84,8 @@ public class ProdutoGrupoProdutoService {
 
 	}
 
-	public ResponseEntity deleteById(Long id) throws AppException {
-		ResponseEntity entity = new ResponseEntity();
+	public ResponseEntity<ProdutoGrupoProduto> deleteById(Long id) throws AppException {
+		ResponseEntity<ProdutoGrupoProduto> entity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteGrupoProduto = null;
 		ProdutoGrupoProduto produtoGrupoProduto = null;

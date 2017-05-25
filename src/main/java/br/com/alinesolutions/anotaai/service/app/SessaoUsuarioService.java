@@ -77,12 +77,12 @@ public class SessaoUsuarioService {
 		query.executeUpdate();
 	}
 
-	public ResponseEntity isActive(String sessionID) {
-		ResponseEntity responseEntity = null;
+	public ResponseEntity<?> isActive(String sessionID) {
+		ResponseEntity<?> responseEntity = null;
 		TypedQuery<Long> query = em.createNamedQuery(SessaoUsuarioConstant.COUNT_KEY, Long.class);
 		query.setParameter(SessaoUsuario.SessaoUsuarioConstant.FIELD_SESSION_ID, sessionID);
 		Long qtd = query.getSingleResult();
-		responseEntity = new ResponseEntity();
+		responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(qtd > 0);
 		if (!responseEntity.getIsValid()) {
 			responseEntity.addMessage(Constant.Message.SECURITY_SECURITY_SESSION_TIMEOUT, TipoMensagem.ERROR, Constant.Message.LONG_TIME_VIEW);
@@ -97,7 +97,7 @@ public class SessaoUsuarioService {
 		try {
 			sessaoUsuario = querySessaoUsuario.getSingleResult();
 		} catch (NoResultException e) {
-			ResponseEntity responseEntity = new ResponseEntity();
+			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(Constant.Message.SECURITY_SECURITY_SESSION_TIMEOUT, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
 			throw new AppException(responseEntity );

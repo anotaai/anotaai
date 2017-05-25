@@ -27,7 +27,7 @@ public class SessaoUsuarioEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response isActive(String sessionID) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<?> responseEntity = null;
 		try {
 			responseEntity = service.isActive(sessionID);
 			builder = Response.ok(responseEntity);

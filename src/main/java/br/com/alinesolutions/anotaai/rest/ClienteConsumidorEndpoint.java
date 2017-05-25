@@ -17,16 +17,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.ResponseEntity;
-import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.service.app.ClienteConsumidorService;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Path("/clienteconsumidor")
 public class ClienteConsumidorEndpoint {
@@ -101,7 +98,7 @@ public class ClienteConsumidorEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response isEditable(Usuario usuario) {
 		ResponseBuilder builder = null;
-		ResponseEntity responseEntity = null;
+		ResponseEntity<Usuario> responseEntity = null;
 		try {
 			responseEntity = service.isEditable(usuario);
 			builder = Response.ok(responseEntity);
@@ -117,12 +114,8 @@ public class ClienteConsumidorEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response recomendarEdicao(ClienteConsumidor clienteConsumidor) {
 		ResponseBuilder builder = null;
-		AnotaaiMessage message = null;
-		ResponseEntity responseEntity = null;
 		try {
-			service.recomendarEdicao(clienteConsumidor);
-			message = new AnotaaiMessage(Constant.Message.RECOMENDACAO_EDICAO_ENVIADA, TipoMensagem.INFO, Constant.Message.LONG_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
-			responseEntity = new ResponseEntity(message);
+			ResponseEntity<ClienteConsumidor> responseEntity = service.recomendarEdicao(clienteConsumidor);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.ok().entity(e.getResponseEntity());
