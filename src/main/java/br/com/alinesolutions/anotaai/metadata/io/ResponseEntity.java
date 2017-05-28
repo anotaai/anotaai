@@ -19,7 +19,7 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 
 	private T entity;
 
-	private ResponseList<T> itens;
+	private ResponseList<T> list;
 
 	private Login login;
 
@@ -86,12 +86,12 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 		this.login = login;
 	}
 
-	public ResponseList<T> getItens() {
-		return itens;
+	public ResponseList<T> getList() {
+		return list;
 	}
 
-	public void setItens(ResponseList<T> itens) {
-		this.itens = itens;
+	public void setList(ResponseList<T> list) {
+		this.list = list;
 	}
 
 	public void addMessage(AnotaaiMessage message) {

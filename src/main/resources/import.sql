@@ -1,6 +1,7 @@
 insert into Endereco (bairro, cep, cidade, complemento, estado, logradouro, ativo) values ('Calafate', '30411580', 'Belo Horizonte', 'apartamento 102', 10, 'rua da paz', true);
 insert into Telefone (ddd, ddi, numero, operadora, ativo) values (31, 55, 997749131, 1, true);
-insert into Usuario (dataCadastro, email, fotoPerfil_id, nome, senha, telefone_id, situacao, codigoativacao, ativo) values (Now(), 'anotaai@gmail.com', null, 'Anota ai', '5A8D23E9E52765D58E75534EDDEFCA6DE8F88E99284FFA09E445D5BE52267922', 1, 0, '0cf81e55-8a22-48ed-bd8f-b3e5166eca90', true);
+insert into Preferencia (itensPerPage, ativo) values (5, true); 
+insert into Usuario (dataCadastro, email, fotoPerfil_id, nome, senha, telefone_id, situacao, codigoativacao, preferencia_id, ativo) values (Now(), 'anotaai@gmail.com', null, 'Anota ai', '5A8D23E9E52765D58E75534EDDEFCA6DE8F88E99284FFA09E445D5BE52267922', 1, 0, '0cf81e55-8a22-48ed-bd8f-b3e5166eca90', 1, true);
 insert into UsuarioPerfil (perfil, usuario_id, ativo) values (1, 1, true);
 insert into UsuarioPerfil (perfil, usuario_id, ativo) values (2, 1, true);
 insert into Cliente (cpf, dataCadastro, endereco_id, nomeComercial, situacaoCliente, usuario_id, ativo) values (55546265302, Now(), 1, 'A Line Solutions', 0, 1, true);
@@ -9,7 +10,8 @@ insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUE
 
 insert into Endereco (bairro, cep, cidade, complemento, estado, logradouro, ativo) values ('Conjunto Água Branca', '32370500', 'Contagem', 'casa', 68, 'rua m', true);
 insert into Telefone (ddd, ddi, numero, operadora, ativo) values (31, 55, 988300083, 1, true);
-insert into Usuario (dataCadastro, email, fotoPerfil_id, nome, senha, telefone_id, situacao, codigoativacao, ativo) values (Now(), 'gleidsongmoura@gmail.com', null, 'Gleidson Guimarães Moura', '5A8D23E9E52765D58E75534EDDEFCA6DE8F88E99284FFA09E445D5BE52267922', 2, 0, '0cf81e55-8a22-48ed-bd8f-b3e5166eca85', true);
+insert into Preferencia (itensPerPage, ativo) values (5, true);
+insert into Usuario (dataCadastro, email, fotoPerfil_id, nome, senha, telefone_id, situacao, codigoativacao, preferencia_id, ativo) values (Now(), 'gleidsongmoura@gmail.com', null, 'Gleidson Guimarães Moura', '5A8D23E9E52765D58E75534EDDEFCA6DE8F88E99284FFA09E445D5BE52267922', 2, 0, '0cf81e55-8a22-48ed-bd8f-b3e5166eca85', 2, true);
 insert into UsuarioPerfil (perfil, usuario_id, ativo) values (1, 2, true);
 insert into UsuarioPerfil (perfil, usuario_id, ativo) values (2, 2, true);
 insert into Cliente (cpf, dataCadastro, endereco_id, nomeComercial, situacaoCliente, usuario_id, ativo) values (55546265303, Now(), 2, 'Lanchonete da hora', 0, 2, true);

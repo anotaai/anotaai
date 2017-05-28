@@ -30,6 +30,7 @@ import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario.SessaoUsuarioConstant;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.usuario.Preferencia;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone.TelefoneConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
@@ -73,6 +74,9 @@ public class UsuarioService {
 		usuario.setPerfis(new ArrayList<UsuarioPerfil>());
 		usuario.getPerfis().add(new UsuarioPerfil(usuario, Perfil.CONSUMIDOR));
 		usuario.setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
+		Preferencia preferencia = new Preferencia();
+		preferencia.setItensPerPage(Constant.App.DEFAULT_ITENS_PER_PAGE);
+		usuario.setPreferencia(preferencia);
 		usuario.setSenha(Criptografia.criptografar(usuario.getSenha()));
 		validarUsuario(usuario);
 		Consumidor consumidor = new Consumidor();

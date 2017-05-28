@@ -106,7 +106,7 @@ public class SetorService {
 		setorQuery.setParameter(Constant.Entity.CLIENTE, cliente);
 		ResponseEntity<Setor> responseEntity = new ResponseEntity<>();
 		ResponseList<Setor> responseList = new ResponseList<Setor>();
-		responseEntity.setItens(responseList);
+		responseEntity.setList(responseList);
 		if (startPosition != null) {
 			setorQuery.setFirstResult(startPosition);
 		}

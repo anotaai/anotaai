@@ -78,6 +78,9 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Telefone telefone;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Preferencia preferencia;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
 	private List<UsuarioPerfil> perfis;
@@ -215,6 +218,15 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 	public void setSituacao(SituacaoUsuario situacao) {
 		this.situacao = situacao;
 	}
+
+	public Preferencia getPreferencia() {
+		return preferencia;
+	}
+
+	public void setPreferencia(Preferencia preferencia) {
+		this.preferencia = preferencia;
+	}
+
 
 	public interface UsuarioConstant {
 		

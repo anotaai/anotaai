@@ -7,6 +7,7 @@ public interface Constant {
 		Long SESSION_TIME = 30L;
 		String COOKIE_SESSION_NAME = "globals";
 		String NAME_FOTO_PERFIL = "fotoPerfil";
+		Integer DEFAULT_ITENS_PER_PAGE = 5;
 	}
 	
 	public interface Message {
