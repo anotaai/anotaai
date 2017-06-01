@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
+import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -140,19 +141,46 @@ public class GrupoProdutoService {
 		return entity;
 	}
 
-	public List<GrupoProduto> listAll(Integer startPosition, Integer maxResult) throws AppException {
+	public ResponseEntity<GrupoProduto> listAll(Integer startPosition, Integer maxResult, String nome) throws AppException {
+		
 		Cliente cliente = appService.getCliente();
-		TypedQuery<GrupoProduto> findAllQuery = em.createNamedQuery(GrupoProdutoConstant.LIST_ALL_KEY,
-				GrupoProduto.class);
-		findAllQuery.setParameter(Constant.Entity.CLIENTE, cliente);
+		
+		TypedQuery<GrupoProduto> grupoProdutoQuery = null;
+		
+		if(!"".equals(nome)) {
+			grupoProdutoQuery =  em.createNamedQuery(GrupoProdutoConstant.FIND_BY_NOME_KEY, GrupoProduto.class);
+			grupoProdutoQuery.setParameter("nome", nome);
+		} else  {
+			grupoProdutoQuery =  em.createNamedQuery(GrupoProdutoConstant.LIST_ALL_KEY,GrupoProduto.class);
+		}
+		
+		grupoProdutoQuery.setParameter(Constant.Entity.CLIENTE, cliente);
+		ResponseEntity<GrupoProduto> responseEntity = new ResponseEntity<>();
+		ResponseList<GrupoProduto> responseList = new ResponseList<GrupoProduto>();
+		responseEntity.setList(responseList);
+		
 		if (startPosition != null) {
-			findAllQuery.setFirstResult(startPosition);
+			grupoProdutoQuery.setFirstResult(startPosition);
 		}
 		if (maxResult != null) {
-			findAllQuery.setMaxResults(maxResult);
+			grupoProdutoQuery.setMaxResults(maxResult);
 		}
-		final List<GrupoProduto> results = findAllQuery.getResultList();
-		return results;
+		final List<GrupoProduto> results = grupoProdutoQuery.getResultList();
+		responseList.setItens(results);
+		
+		TypedQuery<Long> countAll = null;
+		
+		if(!"".equals(nome)) {
+			countAll  = em.createNamedQuery(GrupoProdutoConstant.FIND_BY_NOME_COUNT, Long.class);
+			countAll.setParameter("nome", nome);
+		} else {
+			countAll  = em.createNamedQuery(GrupoProdutoConstant.LIST_ALL_COUNT, Long.class);
+		}
+		 
+		countAll.setParameter(Constant.Entity.CLIENTE, cliente);
+		responseList.setQtdTotalItens(countAll.getSingleResult());
+		
+		return responseEntity;
 	}
 
 	public ResponseEntity<GrupoProduto> update(Long id, GrupoProduto entity) throws AppException {

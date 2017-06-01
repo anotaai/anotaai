@@ -76,10 +76,8 @@ public class GrupoProdutoEndpoint {
 	@RolesAllowed("CLIENTE")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<GrupoProduto> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-		List<GrupoProduto> gruposProduto = null;
-		gruposProduto = grupoProdutoService.listAll(startPosition, maxResult);
-		return gruposProduto;
+	public ResponseEntity<GrupoProduto> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nome) {
+		return grupoProdutoService.listAll(startPosition, maxResult,nome);
 	}
 	
 	@RolesAllowed("CLIENTE")

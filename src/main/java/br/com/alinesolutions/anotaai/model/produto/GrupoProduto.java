@@ -17,8 +17,10 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto.GrupoProdutoConstant;
 
 @NamedQueries({
+		@NamedQuery(name = GrupoProdutoConstant.FIND_BY_NOME_COUNT, query = GrupoProdutoConstant.FIND_BY_NOME_QUERY_COUNT),
 		@NamedQuery(name = GrupoProdutoConstant.FIND_BY_NOME_KEY, query = GrupoProdutoConstant.FIND_BY_NOME_QUERY),
 		@NamedQuery(name = GrupoProdutoConstant.LIST_ALL_KEY, query = GrupoProdutoConstant.LIST_ALL_QUERY),
+		@NamedQuery(name = GrupoProdutoConstant.LIST_ALL_COUNT, query = GrupoProdutoConstant.LIST_ALL_QUERY_COUNT),
 		@NamedQuery(name = GrupoProdutoConstant.ALL_BY_SETOR_KEY, query = GrupoProdutoConstant.ALL_BY_SETOR_QUERY),
 		@NamedQuery(name = GrupoProdutoConstant.FIND_BY_ID_KEY, query = GrupoProdutoConstant.FIND_BY_ID_QUERY) })
 @Entity
@@ -111,8 +113,12 @@ public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 		String FIELD_SESSION_ID = "sessionID";
 		String FIELD_ULTIMO_ACESSO = "ultimoAcesso";
 		String FIELD_PRODUTOS = "produtos";
+		String LIST_ALL_COUNT = "GrupoProduto.listAllCount";
 		String LIST_ALL_KEY = "GrupoProduto.listAll";
 		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.cliente = :cliente order by gp.nome";
+		String LIST_ALL_QUERY_COUNT = "select count(gp) from GrupoProduto gp join gp.setor s where s.cliente = :cliente";
+		String FIND_BY_NOME_COUNT = "GrupoProduto.findByNameCount";
+		String FIND_BY_NOME_QUERY_COUNT = "select count(s) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and gp.nome = :nome";
 		String FIND_BY_NOME_KEY = "GrupoProduto.findByName";
 		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and gp.nome = :nome and s.nome = :nomeSetor";
 		String FIND_BY_ID_KEY = "GrupoProduto.findByID";
