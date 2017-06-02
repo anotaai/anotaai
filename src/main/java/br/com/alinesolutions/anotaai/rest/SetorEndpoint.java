@@ -82,7 +82,7 @@ public class SetorEndpoint {
 	@RolesAllowed("CLIENTE")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity<Setor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nomeSetor") String nomeSetor) {
+	public ResponseEntity<Setor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nomeSetor) {
 		return setorService.listAll(startPosition, maxResult , nomeSetor);
 	}
 
