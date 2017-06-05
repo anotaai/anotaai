@@ -97,11 +97,10 @@ public class SetorService {
 		
 		if(!"".equals(nomeSetor)) {
 			setorQuery =  em.createNamedQuery(SetorConstant.FIND_BY_NOME_KEY, Setor.class);
-		    setorQuery.setParameter("nome", nomeSetor);
+			setorQuery.setParameter("nome", nomeSetor);
 		} else  {
 			setorQuery =  em.createNamedQuery(SetorConstant.LIST_ALL_KEY, Setor.class);
 		}
-		    
 		
 		setorQuery.setParameter(Constant.Entity.CLIENTE, cliente);
 		ResponseEntity<Setor> responseEntity = new ResponseEntity<>();
