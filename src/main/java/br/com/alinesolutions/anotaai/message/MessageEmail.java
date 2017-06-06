@@ -36,7 +36,7 @@ public class MessageEmail implements AnotaaiSendMessage {
 		
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.CONFIRMACAO_CADASTRO_USUARIO_EMAIL);
 		StringBuilder link = new StringBuilder(RequestUtils.getRequest().getClientHost());
-		link.append("/main.html#/access/Activate/");
+		link.append("/activate/");
 		link.append(usuario.getCodigoAtivacao());
 		String linkShort = shortener.shortener(link.toString());
 		htmlMensagem = htmlMensagem.replace("{linkAtivacao}", linkShort);
@@ -77,7 +77,7 @@ public class MessageEmail implements AnotaaiSendMessage {
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.SOLICITACAO_EDICAO_CADASTRO_EMAIL);
 		StringBuilder link = new StringBuilder(RequestUtils.getRequest().getClientHost()).append("/login");
 		link.append(":").append("//").append(request.getHeader("Host"));
-		link.append("/main.html#/access/Login");
+		link.append("/login");
 		Usuario usuarioCliente = clienteConsumidor.getCliente().getUsuario();
 		Usuario usuarioConsumidor = clienteConsumidor.getConsumidor().getUsuario();
 		htmlMensagem = htmlMensagem.replace("{nomeCliente}", usuarioCliente.getNome());
