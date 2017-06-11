@@ -1,4 +1,4 @@
-package br.com.alinesolutions.anotaai.rest;
+package br.com.alinesolutions.anotaai.rest.util;
 
 import javax.ejb.Singleton;
 import javax.ws.rs.GET;

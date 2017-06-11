@@ -1,8 +1,6 @@
-package br.com.alinesolutions.anotaai.rest;
+package br.com.alinesolutions.anotaai.rest.util;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,9 +10,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.alinesolutions.anotaai.i18n.ITranslate;
-import br.com.alinesolutions.anotaai.i18n.TranslateEN;
-import br.com.alinesolutions.anotaai.i18n.TranslatePT;
-import br.com.alinesolutions.anotaai.i18n.Locale;;
+import br.com.alinesolutions.anotaai.i18n.Locale;
+import br.com.alinesolutions.anotaai.i18n.en.TranslateEN;
+import br.com.alinesolutions.anotaai.i18n.pt.TranslatePT;;
 
 @Path("/i18n")
 public class MessageEndpoint {
@@ -22,11 +20,8 @@ public class MessageEndpoint {
 	@GET
 	@Path("/locales")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Locale> getLocales() throws IOException {
-		List<Locale> locales = new ArrayList<>();
-		locales.add(new Locale("en", "English", "en-US"));
-		locales.add(new Locale("pt", "Português", "pt-BR"));
-		return locales;
+	public Response perfil() throws Exception {
+		return Response.ok(Locale.values()).build();
 	}
 	
 	@GET

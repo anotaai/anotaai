@@ -1,40 +1,38 @@
 package br.com.alinesolutions.anotaai.i18n;
 
-public class Locale {
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-	private String key;
-	private String label;
-	private String code;
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum Locale {
 
-	public Locale(String key, String label, String code) {
-		super();
+	PT("pt", "Portugues", "pt-BR"),
+	EN("en", "English", "en-US");
+
+	private Locale(String key, String label, String code) {
 		this.key = key;
 		this.label = label;
 		this.code = code;
 	}
 
+	private String key;
+	private String label;
+	private String code;
+
 	public String getKey() {
 		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
 	}
 
 	public String getLabel() {
 		return label;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
 	public String getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	@Override
+	public String toString() {
+		return super.toString().toLowerCase();
 	}
 
 }
