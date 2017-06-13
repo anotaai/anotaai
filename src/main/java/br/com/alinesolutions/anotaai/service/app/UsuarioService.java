@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import br.com.alinesolutions.anotaai.i18n.Locale;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.message.qualifier.SMS;
@@ -76,6 +77,7 @@ public class UsuarioService {
 		usuario.setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
 		Preferencia preferencia = new Preferencia();
 		preferencia.setItensPerPage(Constant.App.DEFAULT_ITENS_PER_PAGE);
+		preferencia.setLocale(Locale.PT);
 		usuario.setPreferencia(preferencia);
 		usuario.setSenha(Criptografia.criptografar(usuario.getSenha()));
 		validarUsuario(usuario);

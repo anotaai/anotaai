@@ -50,7 +50,7 @@ public class GrupoProdutoService {
 			validarGrupoProduto(grupoProduto);
 			q = em.createNamedQuery(GrupoProdutoConstant.FIND_BY_NOME_KEY, GrupoProduto.class);
 			q.setParameter(GrupoProdutoConstant.FIELD_NOME, grupoProduto.getNome());
-			q.setParameter(Constant.Entity.SETOR, grupoProduto.getSetor());
+			q.setParameter(GrupoProdutoConstant.FIELD_NOME_SETOR, grupoProduto.getSetor().getNome());
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			grupoProduto = q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
@@ -72,6 +72,7 @@ public class GrupoProdutoService {
 
 	private void validarGrupoProduto(GrupoProduto grupoProduto) throws AppException {
 		ResponseEntity<GrupoProduto> responseEntity = new ResponseEntity<>();
+		responseEntity.setIsValid(Boolean.TRUE);
 		if (grupoProduto.getDescricao() == null || grupoProduto.getDescricao().equals("")) {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.CAMPO_OBRIGATORIO_NAO_INFORMADO, TipoMensagem.ERROR,

@@ -31,6 +31,7 @@ public class GrupoProdutoEndpoint {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(GrupoProduto entity) {
 		ResponseBuilder builder = null;
 		ResponseEntity<GrupoProduto> responseEntity = null;
