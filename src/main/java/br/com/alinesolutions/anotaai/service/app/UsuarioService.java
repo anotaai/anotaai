@@ -434,10 +434,10 @@ public class UsuarioService {
 		if (entity != null && entity.getEmail() != null) {
 			usuario = loadByEmail(entity.getEmail());
 			if (entity.getCodigoAtivacao().equals(usuario.getCodigoAtivacao())) {
-				entity.setSituacao(SituacaoUsuario.ATIVO);
-				entity.setCodigoAtivacao(UUID.randomUUID().toString());
-				entity.setSenha(Criptografia.criptografar(entity.getSenha()));
-				usuario = entity.clone();
+				usuario.setSituacao(SituacaoUsuario.ATIVO);
+				usuario.setCodigoAtivacao(UUID.randomUUID().toString());
+				usuario.setSenha(Criptografia.criptografar(entity.getSenha()));
+				//usuario = entity.clone();
 				em.merge(usuario);
 				entity.setCodigoAtivacao(null);
 				message = new AnotaaiMessage(Constant.Message.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, usuario.getNome());
