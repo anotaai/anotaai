@@ -18,6 +18,7 @@ import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.produto.GrupoProduto;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto.GrupoProdutoConstant;
 import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.model.produto.Setor.SetorConstant;
@@ -169,6 +170,15 @@ public class SetorService {
 			responseUtil.buildIllegalArgumentException(entity);
 		}
 		return entity;
+	}
+	
+	public List<Setor> recuperarPorNome(String nome, Integer startPosition, Integer maxResult) throws AppException {
+		Cliente cliente = appService.getCliente();
+		TypedQuery<Setor> query = em.createNamedQuery(SetorConstant.FIND_BY_NOME_LIKE_KEY, Setor.class);
+		query.setParameter(Constant.Entity.CLIENTE, cliente);
+		query.setParameter(SetorConstant.FIELD_NOME, new StringBuilder("%").append(nome.toUpperCase()).append("%").toString());
+		List<Setor> setores = query.getResultList();
+		return setores;
 	}
 
 }

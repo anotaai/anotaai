@@ -20,6 +20,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 
 @NamedQueries({
 	@NamedQuery(name = SetorConstant.FIND_BY_NOME_KEY, query = SetorConstant.FIND_BY_NOME_QUERY),
+	@NamedQuery(name = SetorConstant.FIND_BY_NOME_LIKE_KEY, query = SetorConstant.FIND_BY_NOME_LIKE_QUERY),
 	@NamedQuery(name = SetorConstant.FIND_BY_ID_KEY, query = SetorConstant.FIND_BY_ID_QUERY),
 	@NamedQuery(name = SetorConstant.FIND_GRUPO_PRODUTO_KEY, query = SetorConstant.FIND_GRUPO_PRODUTO_QUERY),
 	@NamedQuery(name = SetorConstant.LIST_ALL_KEY, query = SetorConstant.LIST_ALL_QUERY),
@@ -91,7 +92,9 @@ public class Setor extends BaseEntity<Long, Setor> {
 	public interface SetorConstant {
 		String FIELD_NOME = "nome";
 		String FIND_BY_NOME_KEY = "Setor.findByName";
+		String FIND_BY_NOME_LIKE_KEY = "Setor.findByNameLike";
 		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Setor(s.id, s.nome, s.descricao) from Setor s where s.cliente = :cliente and s.nome = :nome";
+		String FIND_BY_NOME_LIKE_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Setor(s.id, s.nome, s.descricao) from Setor s where s.cliente = :cliente and upper(s.nome) like :nome";
 		String FIND_BY_ID_KEY = "Setor.findById";
 		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Setor(s.id, s.nome, s.descricao) from Setor s where s.cliente = :cliente and s.id = :id";
 		String LIST_ALL_KEY = "Setor.listAll";

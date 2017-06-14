@@ -1,5 +1,7 @@
 package br.com.alinesolutions.anotaai.rest;
 
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -18,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
+import br.com.alinesolutions.anotaai.model.produto.GrupoProduto;
 import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.service.app.SetorService;
 
@@ -85,6 +88,17 @@ public class SetorEndpoint {
 	public ResponseEntity<Setor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nomeSetor) {
 		return setorService.listAll(startPosition, maxResult , nomeSetor);
 	}
+	
+	
+	@RolesAllowed("CLIENTE")
+	@GET
+	@Path("/recuperarPorNome")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Setor> recuperarPorNome(@QueryParam("nome") String nome, @QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
+		List<Setor> setores = setorService.recuperarPorNome(nome, startPosition, maxResult);
+		return setores;
+	}
+	
 
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
