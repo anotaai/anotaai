@@ -60,12 +60,12 @@ public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 		this.descricao = descricao;
 	}
 	
-	public GrupoProduto(Long id, String nome, String descricao, Setor setor) {
+	public GrupoProduto(Long id, String nome, String descricao, Long idSetor , String nomeSetor , String descricaoSetor) {
 		super();
 		setId(id);
 		this.nome = nome;
 		this.descricao = descricao;
-		this.setor = setor;
+		this.setor = new Setor(idSetor,nomeSetor,descricaoSetor);
 	}
 	
 	public String getDescricao() {
@@ -131,7 +131,7 @@ public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 		String FIND_BY_NOME_KEY = "GrupoProduto.findByName";
 		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and gp.nome = :nome and s.nome = :nomeSetor";
 		String FIND_BY_ID_KEY = "GrupoProduto.findByID";
-		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao, gp.setor) from GrupoProduto gp join gp.setor s where gp.id = :id and s.cliente = :cliente";
+		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao, gp.setor.id,gp.setor.nome,gp.setor.descricao) from GrupoProduto gp join gp.setor s where gp.id = :id and s.cliente = :cliente";
 		String ALL_BY_SETOR_KEY = "GrupoProduto.findBySetor";
 		String ALL_BY_SETOR_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.id = :id and s.nome like :nome and s.cliente = :cliente";
 	}
