@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -57,6 +58,14 @@ public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 		setId(id);
 		this.nome = nome;
 		this.descricao = descricao;
+	}
+	
+	public GrupoProduto(Long id, String nome, String descricao, Setor setor) {
+		super();
+		setId(id);
+		this.nome = nome;
+		this.descricao = descricao;
+		this.setor = setor;
 	}
 	
 	public String getDescricao() {
@@ -122,7 +131,7 @@ public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 		String FIND_BY_NOME_KEY = "GrupoProduto.findByName";
 		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and gp.nome = :nome and s.nome = :nomeSetor";
 		String FIND_BY_ID_KEY = "GrupoProduto.findByID";
-		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where gp.id = :id and s.cliente = :cliente";
+		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao, gp.setor) from GrupoProduto gp join gp.setor s where gp.id = :id and s.cliente = :cliente";
 		String ALL_BY_SETOR_KEY = "GrupoProduto.findBySetor";
 		String ALL_BY_SETOR_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.id = :id and s.nome like :nome and s.cliente = :cliente";
 	}

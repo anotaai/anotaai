@@ -21,6 +21,7 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto.GrupoProdutoConstant;
 import br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto;
+import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto.ProdutoGrupoProdutoConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.service.AppService;
@@ -58,6 +59,8 @@ public class GrupoProdutoService {
 					TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW, grupoProduto.getNome()));
 		} catch (NoResultException e) {
 			grupoProduto.getSetor().setCliente(cliente);
+			Setor setor = em.getReference(Setor.class, grupoProduto.getSetor().getId());
+			grupoProduto.setSetor(setor);
 			em.persist(grupoProduto);
 			GrupoProduto grupoNovo = new GrupoProduto(grupoProduto.getId(), grupoProduto.getNome(),
 					grupoProduto.getDescricao());
