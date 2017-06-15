@@ -1,7 +1,5 @@
 package br.com.alinesolutions.anotaai.rest;
 
-import java.util.List;
-
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -71,10 +69,10 @@ public class ClienteConsumidorEndpoint {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("CLIENTE")
-	public List<Consumidor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-		List<Consumidor> results = service.listAll(startPosition, maxResult);
-		return results;
+	public ResponseEntity<Consumidor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nome) {
+	  return service.listAll(startPosition, maxResult, nome);
 	}
+	
 
 	@POST
 	@Path("/findby/telefone")

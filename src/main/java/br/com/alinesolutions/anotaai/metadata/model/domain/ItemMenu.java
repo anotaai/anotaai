@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ItemMenu {
 
-	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icon.GLYPHICON_USER, Perfil.CLIENTE, Icon.USER, "/cliente"),
+	CADASTRO_CONSUMIDOR("Consumidor", "app.cliente-consumidor", Menu.PRINCIPAL, Icon.GLYPHICON_USER, Perfil.CLIENTE, Icon.USER, "/consumidor"),
 	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icon.GLYPHICON_TH, Perfil.CLIENTE, Icon.TH, "/grupoproduto"),
 	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icon.GLYPHICON_LIST, Perfil.CLIENTE, Icon.TH_LIST, "/setor"),
 	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icon.GLYPHICON_BARCODE, Perfil.CLIENTE, Icon.BARCODE, "/produto"),

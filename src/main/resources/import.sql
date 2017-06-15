@@ -49,3 +49,7 @@ insert into Disponibilidade (dia, produto_id, ativo) values (4, 2, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (5, 2, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (6, 2, true);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo) values (2, 3, true);
+
+
+insert into Consumidor(ativo,dataCadastro, usuario_id) values (true,Now(),1);
+insert into ClienteConsumidor(ativo,cliente_id,consumidor_id,dataAssociacao,situacao) values (true,1,1,Now(),1);

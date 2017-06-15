@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
+import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
@@ -183,19 +184,46 @@ public class ClienteConsumidorService {
 		return builder.build();
 	}
 
-	public List<Consumidor> listAll(Integer startPosition, Integer maxResult) throws AppException {
-		TypedQuery<Consumidor> findAllQuery = em
-				.createNamedQuery(Consumidor.ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, Consumidor.class);
+	public ResponseEntity<Consumidor> listAll(Integer startPosition, Integer maxResult, String nome) throws AppException {
+		TypedQuery<Consumidor> consumidorQuery = null;
 		Cliente cliente = appManager.getAppService().getCliente();
-		findAllQuery.setParameter(Consumidor.ConsumidorConstant.FIELD_CLIENTE, cliente);
+		
+		if(!"".equals(nome)) {
+			consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_BY_NOME_KEY, Consumidor.class);
+			consumidorQuery.setParameter("nome", nome);
+		} else  {
+			consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY,Consumidor.class);
+		}
+		
+		consumidorQuery.setParameter(Consumidor.ConsumidorConstant.FIELD_CLIENTE, cliente);
+		
 		if (startPosition != null) {
-			findAllQuery.setFirstResult(startPosition);
+			consumidorQuery.setFirstResult(startPosition);
 		}
 		if (maxResult != null) {
-			findAllQuery.setMaxResults(maxResult);
+			consumidorQuery.setMaxResults(maxResult);
 		}
-		final List<Consumidor> results = findAllQuery.getResultList();
-		return results;
+ 
+		ResponseEntity<Consumidor> responseEntity = new ResponseEntity<>();
+		ResponseList<Consumidor> responseList = new ResponseList<Consumidor>();
+		responseEntity.setList(responseList);
+		
+		final List<Consumidor> results = consumidorQuery.getResultList();
+		responseList.setItens(results);
+		
+		TypedQuery<Long> countAll = null;
+		
+		if(!"".equals(nome)) {
+			countAll  = em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_BY_NOME_COUNT, Long.class);
+			countAll.setParameter("nome", nome);
+		} else {
+			countAll  = em.createNamedQuery(Consumidor.ConsumidorConstant.LIST_ALL_COUNT, Long.class);
+		}
+		 
+		countAll.setParameter(Constant.Entity.CLIENTE, cliente);
+		responseList.setQtdTotalItens(countAll.getSingleResult());
+		
+		return responseEntity;
 	}
 
 	@POST

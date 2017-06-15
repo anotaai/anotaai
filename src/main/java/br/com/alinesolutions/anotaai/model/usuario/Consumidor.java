@@ -24,7 +24,10 @@ import br.com.alinesolutions.anotaai.model.venda.ConsumidorVenda;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Consumidor.class)
 @NamedQueries({
-		@NamedQuery(name = ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, query = ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_QUERY) })
+		@NamedQuery(name = ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, query = ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_QUERY),
+		@NamedQuery(name = ConsumidorConstant.FIND_BY_NOME_COUNT, query = ConsumidorConstant.FIND_BY_NOME_QUERY_COUNT),
+		@NamedQuery(name = ConsumidorConstant.FIND_BY_NOME_KEY, query = ConsumidorConstant.FIND_BY_NOME_QUERY),
+		@NamedQuery(name = ConsumidorConstant.LIST_ALL_COUNT, query = ConsumidorConstant.LIST_ALL_QUERY_COUNT)})
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update Consumidor set ativo = false where id = ?")
@@ -104,5 +107,15 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 		String LIST_CLIENTE_CONSUMIDOR_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente order by u.nome";
 		String FIELD_USUARIO = "usuario";
 		String FIELD_CLIENTE = "cliente";
+		String FIND_BY_NOME_KEY = "Consumidor.findByName";
+		String FIND_BY_NOME_COUNT = "Consumidor.findByNameCount";
+		String LIST_ALL_COUNT = "Consumidor.listAllCount";
+		
+		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and u.nome =:nome order by u.nome";
+		String FIND_BY_NOME_QUERY_COUNT = "select count(c) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and u.nome =:nome";
+		String LIST_ALL_QUERY_COUNT = "select count(c) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente";
+		
+		
+		
 	}
 }
