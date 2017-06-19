@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -27,8 +28,11 @@ import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
+import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoConsumidor;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
+import br.com.alinesolutions.anotaai.model.produto.Setor;
+import br.com.alinesolutions.anotaai.model.produto.Setor.SetorConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
@@ -37,6 +41,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone.TelefoneConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario.UsuarioConstant;
+import br.com.alinesolutions.anotaai.service.ResponseUtil;
 import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 import br.com.alinesolutions.anotaai.util.Constant;
 import br.com.alinesolutions.anotaai.util.ShardingResourceFactory;
@@ -53,16 +58,20 @@ public class ClienteConsumidorService {
 	@Resource
 	private SessionContext sessionContext;
 
-	public void create(ClienteConsumidor clienteConsumidor) throws AppException {
+	@EJB
+	private ResponseUtil responseUtil;
+	
+	public ResponseEntity<ClienteConsumidor> create(ClienteConsumidor clienteConsumidor) throws AppException {
 		TypedQuery<Usuario> q = null;
 		Usuario usuarioDatabase = null;
-		ResponseEntity<ClienteConsumidor> response;
+		ResponseEntity<ClienteConsumidor> responseEntity = new ResponseEntity<>();
 		Cliente cliente = appManager.getAppService().getCliente();
 		clienteConsumidor.setCliente(cliente);
 		clienteConsumidor.setDataAssociacao(new Date());
 		clienteConsumidor.getConsumidor().setDataCadastro(new Date());
 		clienteConsumidor.setSituacao(SituacaoConsumidor.ATIVO);
 		Usuario usuario = clienteConsumidor.getConsumidor().getUsuario();
+		usuario.setId(null);
 		usuario.setDataCadastro(new Date());
 		usuario.setPerfis(new ArrayList<>());
 		usuario.getPerfis().add(new UsuarioPerfil(usuario, Perfil.CONSUMIDOR));
@@ -87,12 +96,12 @@ public class ClienteConsumidorService {
 				queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
 				Long cont = queryCount.getSingleResult();
 				if (cont > 0) {
-					response = new ResponseEntity<>();
-					response.setIsValid(Boolean.FALSE);
+					responseEntity = new ResponseEntity<>();
+					responseEntity.setIsValid(Boolean.FALSE);
 					AnotaaiMessage message = new AnotaaiMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR,
 							Constant.Message.DEFAULT_TIME_VIEW, usuario.getEmail());
-					response.addMessage(message);
-					throw new AppException(response);
+					responseEntity.addMessage(message);
+					throw new AppException(responseEntity);
 				}
 				usuario.setCodigoAtivacao(UUID.randomUUID().toString());
 				if (usuario.getEmail() != null) {
@@ -102,8 +111,16 @@ public class ClienteConsumidorService {
 				clienteConsumidor.getConsumidor().setUsuario(usuario);
 			}
 		}
+		
 		em.persist(clienteConsumidor);
 		notify(clienteConsumidor, isNewUser);
+		ClienteConsumidor newClienteConsumidor = new ClienteConsumidor(clienteConsumidor.getId());
+		responseEntity.setIsValid(Boolean.TRUE);
+		responseEntity.setEntity(newClienteConsumidor);
+		responseEntity.setIsValid(Boolean.TRUE);
+		responseEntity.setMessages(new ArrayList<>());
+		responseEntity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO,TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, usuario.getNome()));
+		return responseEntity;
 	}
 
 	private void notify(ClienteConsumidor clienteConsumidor, Boolean isNewUser) {
@@ -166,22 +183,22 @@ public class ClienteConsumidorService {
 		}
 	}
 
-	public Response deleteById(Long id) throws AppException {
+	public ResponseEntity<ClienteConsumidor> deleteById(Long id) throws AppException {
 		ResponseEntity<ClienteConsumidor> entity = new ResponseEntity<>();
-		ResponseBuilder builder = null;
+		 
 		try {
 			ClienteConsumidor clienteConsumidor = em.find(ClienteConsumidor.class, id);
+			clienteConsumidor.getConsumidor().setAtivo(Boolean.FALSE);
 			clienteConsumidor.setSituacao(SituacaoConsumidor.INATIVO);
 			em.merge(clienteConsumidor);
 			entity.setIsValid(Boolean.TRUE);
-			builder = Response.ok(entity);
-		} catch (Exception e) {
-			entity.addMessage(new AnotaaiMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,
-					Constant.Message.KEEP_ALIVE_TIME_VIEW));
-			entity.setIsValid(Boolean.FALSE);
-			builder = Response.ok(entity);
+			entity.setMessages(new ArrayList<>());
+			entity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO,TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
+		} catch (NoResultException e) {
+			responseUtil.buildIllegalArgumentException(entity);
 		}
-		return builder.build();
+		return entity;
+		 
 	}
 
 	public ResponseEntity<Consumidor> listAll(Integer startPosition, Integer maxResult, String nome) throws AppException {
@@ -322,6 +339,53 @@ public class ClienteConsumidorService {
 		responseEntity.setEntity(clienteConsumidor);
 		responseEntity.setIsValid(Boolean.TRUE);
 		return responseEntity;
+	}
+	
+	public ResponseEntity<ClienteConsumidor> findById(Long id) throws AppException {
+		ResponseEntity<ClienteConsumidor> entity = new ResponseEntity<>();
+		Cliente cliente = appManager.getAppService().getCliente();
+		try {
+			TypedQuery<ClienteConsumidor> query = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_ID_KEY, ClienteConsumidor.class);
+			query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, id);
+			query.setParameter(Constant.Entity.CLIENTE, cliente);
+			entity.setEntity(query.getSingleResult());
+			entity.setIsValid(Boolean.TRUE);
+		} catch (NoResultException e) {
+			responseUtil.buildIllegalArgumentException(entity);
+		}
+		return entity;
+	}
+	
+	public ResponseEntity<ClienteConsumidor> update(Long id, ClienteConsumidor entity) throws AppException {
+		ClienteConsumidor clienteConsumidor = null;
+		AnotaaiMessage message = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = new ResponseEntity<>();
+		AppException appException = null;
+		if (entity != null && id != null && id.equals(entity.getId())) {
+			clienteConsumidor = em.find(ClienteConsumidor.class, id);
+			//Usuario oldUsuario =  em.find(Usuario.class, clienteConsumidor.getConsumidor().getUsuario().getId());
+			mergeUsuario(entity.getConsumidor().getUsuario(), clienteConsumidor.getConsumidor().getUsuario());
+			em.merge(clienteConsumidor.getConsumidor().getUsuario());
+			message = new AnotaaiMessage(Constant.Message.ENTIDADE_EDITADA_SUCESSO, TipoMensagem.SUCCESS,Constant.Message.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
+			responseEntity.setMessages(new ArrayList<>());
+			responseEntity.getMessages().add(message);
+		} else {
+			responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			appException = new AppException(responseEntity);
+			throw appException;
+		}
+		return responseEntity;
+	}
+	
+	private void mergeUsuario(Usuario newUsuario, Usuario oldUsuario) {
+	
+		oldUsuario.setNome(newUsuario.getNome());
+		oldUsuario.setEmail(newUsuario.getEmail());
+		oldUsuario.getTelefone().setNumero(newUsuario.getTelefone().getNumero());
+		oldUsuario.getTelefone().setDdd(newUsuario.getTelefone().getDdd());
+		oldUsuario.getTelefone().setDdi(newUsuario.getTelefone().getDdi());
+		
+		
 	}
 
 }

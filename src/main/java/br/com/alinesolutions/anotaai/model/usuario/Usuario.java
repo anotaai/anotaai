@@ -99,6 +99,19 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 		this.nome = nome;
 		this.email = email;
 	}
+	
+	public Usuario(Long id, String nome, String email, Long idTelefone,Integer ddi, Integer ddd,
+			Integer numero) {
+		super();
+		super.setId(id);
+		this.nome = nome;
+		this.email = email;
+		this.telefone = new Telefone();
+		this.telefone.setId(idTelefone);
+		this.telefone.setDdi(ddi);
+		this.telefone.setDdd(ddd);
+		this.telefone.setNumero(numero);
+	}
 
 	public Usuario(Long id, String nome, String email, SituacaoUsuario situacao) {
 		this(id, nome, email);

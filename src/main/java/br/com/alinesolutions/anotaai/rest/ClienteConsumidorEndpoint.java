@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -30,12 +31,15 @@ public class ClienteConsumidorEndpoint {
 	private ClienteConsumidorService service;
 
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(ClienteConsumidor clienteConsumidor) {
 		ResponseBuilder builder = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = null;
+		
 		try {
-			service.create(clienteConsumidor);
-			builder = Response.noContent();
+			responseEntity = service.create(clienteConsumidor);
+			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
@@ -48,11 +52,12 @@ public class ClienteConsumidorEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = null;
 		try {
 			service.deleteById(id);
-			builder = Response.noContent();
+			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok().entity(e.getResponseEntity());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
@@ -63,7 +68,17 @@ public class ClienteConsumidorEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") Long id) {
-		return Response.ok().build();
+		ResponseBuilder builder = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = null;
+		try {
+			responseEntity = service.findById(id);
+			builder = Response.ok(responseEntity);
+		} catch (AppException e) {
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
+		} catch (Exception e) {
+			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+		}
+		return builder.build();
 	}
 
 	@GET
@@ -117,6 +132,22 @@ public class ClienteConsumidorEndpoint {
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.ok().entity(e.getResponseEntity());
+		}
+		return builder.build();
+	}
+	
+	@PUT
+	@Path("/{id:[0-9][0-9]*}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response update(@PathParam("id") Long id, ClienteConsumidor clienteConsumidor) {
+		ResponseBuilder builder = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = null;
+		try {
+			responseEntity = service.update(id, clienteConsumidor);
+			builder = Response.ok(responseEntity);
+		} catch (AppException e) {
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		}
 		return builder.build();
 	}
