@@ -50,11 +50,12 @@ public class ClienteConsumidorEndpoint {
 
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
 		ResponseEntity<ClienteConsumidor> responseEntity = null;
 		try {
-			service.deleteById(id);
+			responseEntity = service.deleteById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.ok(e.getResponseEntity());
