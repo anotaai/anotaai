@@ -45,6 +45,7 @@ public class GrupoProdutoEndpoint {
 	}
 	
 	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
