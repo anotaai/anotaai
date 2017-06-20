@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
+import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -169,12 +170,44 @@ public class ProdutoService {
 		return results;
 	}
 
-	public List<Produto> listAll() throws AppException {
+	public ResponseEntity<Produto> listAll(Integer startPosition, Integer maxResult, String descricao) throws AppException {
+		 
 		Cliente cliente = appService.getCliente();
-		TypedQuery<Produto> findAllQuery = em.createNamedQuery(Produto.ProdutoConstant.LIST_ALL_KEY, Produto.class);
-		findAllQuery.setParameter(Constant.Entity.CLIENTE, cliente);
-		final List<Produto> results = findAllQuery.getResultList();
-		return results;
+		TypedQuery<Produto> produtoQuery = null;
+		
+		if(!"".equals(descricao)) {
+			produtoQuery =  em.createNamedQuery(Produto.ProdutoConstant.FIND_BY_NOME_KEY, Produto.class);
+			produtoQuery.setParameter("descricao", descricao);
+		} else  {
+			produtoQuery =  em.createNamedQuery(Produto.ProdutoConstant.LIST_ALL_KEY, Produto.class);
+		}
+		
+		produtoQuery.setParameter(Constant.Entity.CLIENTE, cliente);
+		ResponseEntity<Produto> responseEntity = new ResponseEntity<>();
+		ResponseList<Produto> responseList = new ResponseList<Produto>();
+		responseEntity.setList(responseList);
+		if (startPosition != null) {
+			produtoQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			produtoQuery.setMaxResults(maxResult);
+		}
+		final List<Produto> results = produtoQuery.getResultList();
+		responseList.setItens(results);
+		
+		TypedQuery<Long> countAll = null;
+		
+		if(!"".equals(descricao)) {
+			countAll  = em.createNamedQuery(Produto.ProdutoConstant.FIND_BY_NOME_COUNT, Long.class);
+			countAll.setParameter("descricao", descricao);
+		} else {
+			countAll  = em.createNamedQuery(Produto.ProdutoConstant.LIST_ALL_COUNT, Long.class);
+		}
+		 
+		countAll.setParameter(Constant.Entity.CLIENTE, cliente);
+		responseList.setQtdTotalItens(countAll.getSingleResult());
+		
+		return responseEntity;
 	}
 
 	/**

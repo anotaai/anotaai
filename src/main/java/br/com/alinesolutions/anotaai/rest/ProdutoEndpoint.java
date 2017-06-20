@@ -22,6 +22,7 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.ItemReceita;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
+import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.service.app.ProdutoService;
 
 @Path("/produto")
@@ -46,6 +47,7 @@ public class ProdutoEndpoint {
 	}
 	
 	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		ResponseBuilder builder = null;
@@ -82,10 +84,8 @@ public class ProdutoEndpoint {
 	@RolesAllowed("CLIENTE")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Produto> listAll(@QueryParam("query") String query, @QueryParam("start") Integer startPosition, 
-								 @QueryParam("max") Integer maxResult, @QueryParam("idGrupoProduto") Long idGrupoProduto) {
-		List<Produto> produto = produtoService.listAll();
-		return produto;
+	public ResponseEntity<Produto> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String descricao) {
+		return produtoService.listAll(startPosition, maxResult , descricao);
 	}
 
 	@RolesAllowed("CLIENTE")

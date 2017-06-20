@@ -35,7 +35,10 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 	@NamedQuery(name = ProdutoConstant.PRODUTO_BY_CODIGO_KEY, query = ProdutoConstant.PRODUTO_BY_CODIGO_QUERY),
 	@NamedQuery(name = ProdutoConstant.DISPONIBILIDADE_BY_PRODUTO_KEY, query = ProdutoConstant.DISPONIBILIDADE_BY_PRODUTO_QUERY),
 	@NamedQuery(name = ProdutoConstant.EDIT_KEY, query = ProdutoConstant.EDIT_QUERY),
-	@NamedQuery(name = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_KEY, query = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_QUERY)
+	@NamedQuery(name = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_KEY, query = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_QUERY),
+    @NamedQuery(name = ProdutoConstant.LIST_ALL_COUNT, query = ProdutoConstant.LIST_ALL_QUERY_COUNT),
+	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_COUNT, query = ProdutoConstant.FIND_BY_NOME_QUERY_COUNT),
+	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_KEY, query = ProdutoConstant.FIND_BY_NOME_QUERY)
 })
 @Entity
 @Where(clause = "ativo = true")
@@ -250,6 +253,17 @@ public class Produto extends BaseEntity<Long, Produto> {
 	public interface ProdutoConstant {
 
 		String FIELD_CODIGO = "codigo";
+		
+		String LIST_ALL_COUNT = "Produto.listAllCount";
+		String LIST_ALL_QUERY_COUNT = "select count(p) from Produto p left join p.estoque e where p.cliente = :cliente";
+		
+		String FIND_BY_NOME_COUNT = "Produto.findByNameCount";
+		String FIND_BY_NOME_QUERY_COUNT = "select count(p) from Produto p left join p.estoque e where p.cliente = :cliente and p.descricao =:descricao";
+		
+		
+		String FIND_BY_NOME_KEY = "Produto.findByName";
+		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida) from Produto p left join p.estoque e where p.cliente = :cliente and p.descricao =:descricao order by p.descricao";
+		
 
 		String LIST_ALL_KEY = "Produto.listAll";
 		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida) from Produto p left join p.estoque e where p.cliente = :cliente order by p.descricao";
