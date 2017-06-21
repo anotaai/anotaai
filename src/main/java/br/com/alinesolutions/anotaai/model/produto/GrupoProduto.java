@@ -128,7 +128,7 @@ public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 		String FIND_BY_NOME_COUNT = "GrupoProduto.findByNameCount";
 		String FIND_BY_NOME_QUERY_COUNT = "select count(s) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and gp.nome = :nome";
 		String FIND_BY_NOME_KEY = "GrupoProduto.findByName";
-		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and gp.nome = :nome and s.nome = :nomeSetor";
+		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and gp.nome = :nome";
 		String FIND_BY_ID_KEY = "GrupoProduto.findByID";
 		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao, gp.setor.id,gp.setor.nome,gp.setor.descricao) from GrupoProduto gp join gp.setor s where gp.id = :id and s.cliente = :cliente";
 		String ALL_BY_SETOR_KEY = "GrupoProduto.findBySetor";
