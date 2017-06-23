@@ -49,24 +49,24 @@ public class MessageEmail implements AnotaaiSendMessage {
 	}
 
 	public void notificacaoRegistroConsumidor(ClienteConsumidor clienteConsumidor) {
-
-		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
+		
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.CONFIRMACAO_CADASTRO_CONSUMIDOR_EMAIL);
 		Usuario usuarioCliente = clienteConsumidor.getCliente().getUsuario();
 		Usuario usuarioConsumidor = clienteConsumidor.getConsumidor().getUsuario();
-		StringBuilder host = new StringBuilder(request.getScheme());
-		host.append(":").append("//").append(request.getHeader("Host"));
-		StringBuilder urlAtivacaoCadastro = new StringBuilder(host).append("/main.html#/access/RegisterUsuario/");
-		urlAtivacaoCadastro.append(usuarioConsumidor.getCodigoAtivacao());
-		String link = shortener.shortener(urlAtivacaoCadastro.toString());
-		htmlMensagem = htmlMensagem.replace("{linkAtivacao}", link);
+		
+		StringBuilder link = new StringBuilder(RequestUtils.getRequest().getClientHost());
+		link.append("/comprador/");
+		link.append(usuarioConsumidor.getCodigoAtivacao());
+		 
+  
+		String linkShort = shortener.shortener(link.toString());
+		htmlMensagem = htmlMensagem.replace("{linkAtivacao}", linkShort);
 		int index = usuarioConsumidor.getNome().indexOf(" ") > 0 ? usuarioConsumidor.getNome().indexOf(" ")
 				: usuarioConsumidor.getNome().length();
 		htmlMensagem = htmlMensagem.replace("{nomeConsumidor}", usuarioConsumidor.getNome().substring(0, index));
 		htmlMensagem = htmlMensagem.replace("{nomeUsuario}", usuarioCliente.getNome());
 
-		Email email = new Email("📝  Anota ai - Gerenciamento de caderneta online, " + usuarioCliente.getNome(),
-				htmlMensagem.toString(), usuarioConsumidor.getEmail());
+		Email email = new Email("📝  Anota ai - Gerenciamento de caderneta online, " + usuarioCliente.getNome(),htmlMensagem.toString(), usuarioConsumidor.getEmail());
 		event.fire(email);
 	}
 
