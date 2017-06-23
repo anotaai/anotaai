@@ -73,11 +73,9 @@ public class MessageEmail implements AnotaaiSendMessage {
 	@Override
 	public void recomendarEdicaoDeCadastro(ClienteConsumidor clienteConsumidor) {
 		
-		HttpServletRequest request = RequestUtils.getRequest().getUniqueRequest();
+		
 		String htmlMensagem = resourceFile.getFile(Constant.FileNane.SOLICITACAO_EDICAO_CADASTRO_EMAIL);
 		StringBuilder link = new StringBuilder(RequestUtils.getRequest().getClientHost()).append("/login");
-		link.append(":").append("//").append(request.getHeader("Host"));
-		link.append("/login");
 		Usuario usuarioCliente = clienteConsumidor.getCliente().getUsuario();
 		Usuario usuarioConsumidor = clienteConsumidor.getConsumidor().getUsuario();
 		htmlMensagem = htmlMensagem.replace("{nomeCliente}", usuarioCliente.getNome());
