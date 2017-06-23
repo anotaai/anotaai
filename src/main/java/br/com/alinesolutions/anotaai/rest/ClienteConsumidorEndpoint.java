@@ -75,7 +75,7 @@ public class ClienteConsumidorEndpoint {
 			responseEntity = service.findById(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
+			builder = Response.ok(e.getResponseEntity());
 		} catch (Exception e) {
 			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}

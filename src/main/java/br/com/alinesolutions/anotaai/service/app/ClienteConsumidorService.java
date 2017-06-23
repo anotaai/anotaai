@@ -328,6 +328,8 @@ public class ClienteConsumidorService {
 		}
 		return responseEntity;
 	}
+	
+	
 
 	public ResponseEntity<ClienteConsumidor> recomendarEdicao(ClienteConsumidor clienteConsumidor) throws AppException {
 
@@ -348,7 +350,29 @@ public class ClienteConsumidorService {
 			TypedQuery<ClienteConsumidor> query = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_ID_KEY, ClienteConsumidor.class);
 			query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, id);
 			query.setParameter(Constant.Entity.CLIENTE, cliente);
-			entity.setEntity(query.getSingleResult());
+			ClienteConsumidor clienteConsumidor = query.getSingleResult();
+			entity.setEntity(clienteConsumidor);
+			
+			Long qtdClientes = null;
+			
+			
+			if (!clienteConsumidor.getConsumidor().getUsuario().getSituacao().equals(SituacaoUsuario.NAO_REGISTRADO)) {
+				entity.addMessage(new AnotaaiMessage(Constant.Message.EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, Constant.Message.KEEP_ALIVE_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
+				entity.setIsValid(Boolean.FALSE);
+				return entity;
+			} else {
+				TypedQuery<Long> queryCont = em.createNamedQuery(ClienteConsumidor.ClienteConsumidorConstant.COUNT_USUARIO_KEY, Long.class);
+				queryCont.setParameter(Consumidor.ConsumidorConstant.FIELD_USUARIO, clienteConsumidor.getConsumidor().getUsuario());
+				qtdClientes = queryCont.getSingleResult();
+				// exites apenas um clietne associado ao usuario
+				entity.setIsValid(qtdClientes == 1);
+				if (!entity.getIsValid()) {
+					entity.addMessage(new AnotaaiMessage(Constant.Message.EDICAO_EXCLUSIVA_USUARIO_MULTIPLOS_CLIENTES,TipoMensagem.WARNING, Constant.Message.KEEP_ALIVE_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
+				}
+			}
+			
+			
+			
 			entity.setIsValid(Boolean.TRUE);
 		} catch (NoResultException e) {
 			responseUtil.buildIllegalArgumentException(entity);

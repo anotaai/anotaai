@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoConsumidor;
+import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = ClienteConsumidor.class)
@@ -56,11 +57,11 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 	}
 	
 	public ClienteConsumidor(Long id,Long idUsuarioConsumidor, String nomeUsuarioConsumidor,String emailUsuarioConsumidor,
-			Long idTelefoneConsumidor,Integer ddd, Integer ddi, Integer numero){
+			Long idTelefoneConsumidor,Integer ddd, Integer ddi, Integer numero, SituacaoUsuario situacaoUsuario){
 		this();
 		this.setId(id);
 		this.setConsumidor(new Consumidor());
-		this.consumidor.setUsuario(new Usuario(idUsuarioConsumidor, nomeUsuarioConsumidor, emailUsuarioConsumidor,idTelefoneConsumidor,ddd,ddi,numero));
+		this.consumidor.setUsuario(new Usuario(idUsuarioConsumidor, nomeUsuarioConsumidor, emailUsuarioConsumidor,idTelefoneConsumidor,ddd,ddi,numero, situacaoUsuario));
 	}
 
 	public ClienteConsumidor(Long id, Long idCliente, Long idUsuarioCliente, String nomeUsuarioCliente,
@@ -116,7 +117,7 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		String FIND_BY_TELEFONE_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, cl.id, ucl.id, ucl.nome, ucl.email, co.id, uco.id, uco.nome, uco.email) from ClienteConsumidor cc join cc.cliente cl join cl.usuario ucl join cc.consumidor co join co.usuario uco join uco.telefone t where t.ddi = :ddi and t.ddd = :ddd and t.numero = :numero and cl = :cliente";
 		String COUNT_USUARIO_KEY = "ClienteConsumidor.countUsuario";
 		String COUNT_USUARIO_QUERY = "select count(cc) from ClienteConsumidor cc join cc.consumidor c join c.usuario u where cc.consumidor.usuario = :usuario";
-		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id,cc.consumidor.usuario.id,cc.consumidor.usuario.nome,cc.consumidor.usuario.email,cc.consumidor.usuario.telefone.id,cc.consumidor.usuario.telefone.ddd,cc.consumidor.usuario.telefone.ddi,cc.consumidor.usuario.telefone.numero) from ClienteConsumidor cc where cc.cliente = :cliente and cc.id = :id";
+		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id,cc.consumidor.usuario.id,cc.consumidor.usuario.nome,cc.consumidor.usuario.email,cc.consumidor.usuario.telefone.id,cc.consumidor.usuario.telefone.ddd,cc.consumidor.usuario.telefone.ddi,cc.consumidor.usuario.telefone.numero,cc.consumidor.usuario.situacao ) from ClienteConsumidor cc where cc.cliente = :cliente and cc.id = :id";
 		
 	}
 }

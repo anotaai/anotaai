@@ -100,8 +100,8 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 		this.email = email;
 	}
 	
-	public Usuario(Long id, String nome, String email, Long idTelefone,Integer ddi, Integer ddd,
-			Integer numero) {
+	public Usuario(Long id, String nome, String email, Long idTelefone,Integer ddd, Integer ddi,
+			Integer numero,SituacaoUsuario situacaoUsuario) {
 		super();
 		super.setId(id);
 		this.nome = nome;
@@ -111,6 +111,7 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 		this.telefone.setDdi(ddi);
 		this.telefone.setDdd(ddd);
 		this.telefone.setNumero(numero);
+		this.setSituacao(situacaoUsuario);
 	}
 
 	public Usuario(Long id, String nome, String email, SituacaoUsuario situacao) {
