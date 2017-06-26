@@ -9,8 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.alinesolutions.anotaai.i18n.ITranslate;
 import br.com.alinesolutions.anotaai.i18n.Locale;
+import br.com.alinesolutions.anotaai.i18n.base.ITranslate;
 import br.com.alinesolutions.anotaai.i18n.en.TranslateEN;
 import br.com.alinesolutions.anotaai.i18n.pt.TranslatePT;;
 

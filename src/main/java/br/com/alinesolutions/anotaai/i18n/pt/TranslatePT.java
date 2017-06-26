@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.i18n.pt;
 
-import br.com.alinesolutions.anotaai.i18n.ITranslate;
+import br.com.alinesolutions.anotaai.i18n.base.ITranslate;
 
 public final class TranslatePT implements ITranslate {
 
@@ -21,24 +21,35 @@ public final class TranslatePT implements ITranslate {
 	}
 
 	public final String app = "Anota ai";
-	public final Message message = new Message();
-	public final Entidade entidade = new Entidade();
 
-	final static class Message {
-		public final String defultError = "Erro inesperado";
-	}
-
-	final static class Login {
-		public final String forbidden = "Sessão expirada, favor efetuar o login novamente.";
-		public final String confirmacaoSenha = "A senha não confere com a confirmação de senha. Informe novamente.";
-	}
-	
-	final static class Entidade {
-		public final EntidadeDeletada editada = new EntidadeDeletada();
+	@Override
+	public String getApp() {
+		return "Anota ai";
 	}
 
-	final static class EntidadeDeletada {
-		public final String sucesso = "{0} editada com sucesso.";
+	@Override
+	public IMessage getMessage() {
+		return new IMessage() {
+			@Override
+			public String getDefultError() {
+				return "Erro inesperado";
+			}
+		};
 	}
-	
+
+	@Override
+	public ILogin getLogin() {
+		return new ILogin() {
+
+			@Override
+			public String getForbidden() {
+				return "Sessão expirada, favor efetuar o login novamente.";
+			}
+
+			@Override
+			public String getConfirmacaoSenha() {
+				return "A senha não confere com a confirmação de senha. Informe novamente.";
+			}
+		};
+	}
 }
