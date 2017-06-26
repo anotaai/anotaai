@@ -10,7 +10,7 @@ public enum SituacaoItemBalanco {
 
 	FALTOU("Sobrou"),
 	SOBROU("Faltou"),
-	CONFERIU("Conferiu");
+	COINCIDIU("Coincidiu");
 	
 	private SituacaoItemBalanco(String descricao) {
 		this.descricao = descricao;
