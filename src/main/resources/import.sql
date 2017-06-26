@@ -50,10 +50,15 @@ insert into Disponibilidade (dia, produto_id, ativo) values (5, 2, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (6, 2, true);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo) values (2, 3, true);
 
+insert into EntradaMercadoria (ativo, dataEntrada) values (true, now());
+insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 1200, 0, 0, 1);
+insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 1.89, 1, 2);
+insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
+
 insert into Venda (ativo, dataVenda) values (true, now());
 insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 12, 0, 1, 1);
-insert into ItemVenda (ativo, precoCusto, precoVenda, movimentacao_id, venda_id) values (true, 2, 3, 1, 1);
-insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'VENDA', 1, 1);
+insert into ItemVenda (ativo, precoCusto, precoVenda, movimentacaoProduto_id, venda_id) values (true, 2, 3, 1, 1);
+insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'VENDA', 2, 1);
 
 insert into Consumidor(ativo,dataCadastro, usuario_id) values (true,Now(),1);
 insert into ClienteConsumidor(ativo,cliente_id,consumidor_id,dataAssociacao,situacao) values (true,1,1,Now(),1);

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoMovimentacao {
 
-	ENTRADA("Entrada", 1),
+	ENTRADA("EntradaMercadoria", 1),
 	SAIDA("Saída", -1);
 
 	private TipoMovimentacao(String descricao, Integer atualizador) {

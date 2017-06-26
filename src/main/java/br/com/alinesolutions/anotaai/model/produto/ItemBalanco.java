@@ -42,7 +42,7 @@ public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovim
 	 * contagem seja divergente da quantidade atual do estoque
 	 */
 	@ManyToOne(cascade = CascadeType.ALL)
-	private MovimentacaoProduto movimentacao;
+	private MovimentacaoProduto movimentacaoProduto;
 
 	/**
 	 * Quantidade do estoque no inicio do balanco
@@ -56,12 +56,12 @@ public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovim
 
 	private SituacaoItemBalanco situacao;
 
-	public MovimentacaoProduto getMovimentacao() {
-		return movimentacao;
+	public MovimentacaoProduto getMovimentacaoProduto() {
+		return movimentacaoProduto;
 	}
 
-	public void setMovimentacao(MovimentacaoProduto movimentacao) {
-		this.movimentacao = movimentacao;
+	public void setMovimentacaoProduto(MovimentacaoProduto movimentacaoProduto) {
+		this.movimentacaoProduto = movimentacaoProduto;
 	}
 
 	public Balanco getBalanco() {

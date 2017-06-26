@@ -20,19 +20,19 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 @DiscriminatorValue("ENTRADA")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Entrada.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = EntradaMercadoria.class)
 @Entity
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update Entrada set ativo = false where id = ?")
+@SQLDelete(sql = "update EntradaMercadoria set ativo = false where id = ?")
 @XmlRootElement
-public class Entrada extends BaseEntity<Long, Entrada> {
+public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "entrada", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
+	@OneToMany(mappedBy = "entradaMercadoria", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	private List<ItemEntrada> itens;
 
-	private Date data;
+	private Date dataEntrada;
 
 	public List<ItemEntrada> getItens() {
 		return itens;
@@ -42,12 +42,12 @@ public class Entrada extends BaseEntity<Long, Entrada> {
 		this.itens = itens;
 	}
 
-	public Date getData() {
-		return data;
+	public Date getDataEntrada() {
+		return dataEntrada;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setDataEntrada(Date dataEntrada) {
+		this.dataEntrada = dataEntrada;
 	}
 
 }

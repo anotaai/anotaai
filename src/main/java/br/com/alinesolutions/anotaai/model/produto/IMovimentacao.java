@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 })
 public interface IMovimentacao {
 	
-	MovimentacaoProduto getMovimentacao();
+	MovimentacaoProduto getMovimentacaoProduto();
 
-	void setMovimentacao(MovimentacaoProduto movimentacao);
+	void setMovimentacaoProduto(MovimentacaoProduto movimentacao);
 
 }

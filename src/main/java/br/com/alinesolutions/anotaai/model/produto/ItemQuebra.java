@@ -36,7 +36,7 @@ public class ItemQuebra extends BaseEntity<Long, ItemQuebra> implements IMovimen
 	 * Atualiza o estoque removendo os itens desta movimentacao
 	 */
 	@ManyToOne(cascade = CascadeType.ALL)
-	private MovimentacaoProduto movimentacao;
+	private MovimentacaoProduto movimentacaoProduto;
 
 	/**
 	 * Custo da mercadoria no momento em qeu foi descartada
@@ -54,12 +54,12 @@ public class ItemQuebra extends BaseEntity<Long, ItemQuebra> implements IMovimen
 		this.quebra = quebra;
 	}
 
-	public MovimentacaoProduto getMovimentacao() {
-		return movimentacao;
+	public MovimentacaoProduto getMovimentacaoProduto() {
+		return movimentacaoProduto;
 	}
 
-	public void setMovimentacao(MovimentacaoProduto movimentacao) {
-		this.movimentacao = movimentacao;
+	public void setMovimentacaoProduto(MovimentacaoProduto movimentacaoProduto) {
+		this.movimentacaoProduto = movimentacaoProduto;
 	}
 
 	public MotivoQuebra getMotivoQuebra() {

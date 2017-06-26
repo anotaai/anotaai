@@ -37,7 +37,7 @@ public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IM
 	 * movimentacao
 	 */
 	@ManyToOne(cascade = CascadeType.ALL)
-	private MovimentacaoProduto movimentacao;
+	private MovimentacaoProduto movimentacaoProduto;
 
 	/**
 	 * preco que a mercadoria foi comprada
@@ -46,15 +46,15 @@ public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IM
 
 	@Enumerated(EnumType.ORDINAL)
 	private MotivoDevolucao motivo;
-	
+
 	private String descricao;
 
-	public MovimentacaoProduto getMovimentacao() {
-		return movimentacao;
+	public MovimentacaoProduto getMovimentacaoProduto() {
+		return movimentacaoProduto;
 	}
 
-	public void setMovimentacao(MovimentacaoProduto movimentacao) {
-		this.movimentacao = movimentacao;
+	public void setMovimentacaoProduto(MovimentacaoProduto movimentacaoProduto) {
+		this.movimentacaoProduto = movimentacaoProduto;
 	}
 
 	public Devolucao getDevolucao() {

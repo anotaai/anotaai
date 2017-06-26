@@ -44,7 +44,7 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 	 * Atualiza o estoque removendo os itens desta venda
 	 */
 	@ManyToOne(cascade = CascadeType.ALL)
-	private MovimentacaoProduto movimentacao;
+	private MovimentacaoProduto movimentacaoProduto;
 
 	public Double getPrecoCusto() {
 		return precoCusto;
@@ -70,12 +70,12 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 		this.venda = venda;
 	}
 
-	public MovimentacaoProduto getMovimentacao() {
-		return movimentacao;
+	public MovimentacaoProduto getMovimentacaoProduto() {
+		return movimentacaoProduto;
 	}
 
-	public void setMovimentacao(MovimentacaoProduto movimentacao) {
-		this.movimentacao = movimentacao;
+	public void setMovimentacaoProduto(MovimentacaoProduto movimentacaoProduto) {
+		this.movimentacaoProduto = movimentacaoProduto;
 	}
 
 }
