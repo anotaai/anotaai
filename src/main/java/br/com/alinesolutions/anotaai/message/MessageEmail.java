@@ -5,7 +5,6 @@ import javax.ejb.Startup;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import br.com.alinesolutions.anotaai.metadata.model.Email;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
