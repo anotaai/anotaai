@@ -1,5 +1,7 @@
 package br.com.alinesolutions.anotaai.i18n.en;
 
+import java.util.AbstractMap.SimpleEntry;
+
 import br.com.alinesolutions.anotaai.i18n.base.ITranslate;
 
 public final class TranslateEN implements ITranslate {
@@ -20,6 +22,8 @@ public final class TranslateEN implements ITranslate {
 		return instance;
 	}
 
+	public final String app = "Anota ai";
+
 	@Override
 	public String getApp() {
 		return "Anota ai";
@@ -29,8 +33,8 @@ public final class TranslateEN implements ITranslate {
 	public IMessage getMessage() {
 		return new IMessage() {
 			@Override
-			public String getDefultError() {
-				return "Erro inesperado";
+			public SimpleEntry<String, String> getDefultError() {
+				return new SimpleEntry<String, String>("message.defulterror.value", "Erro não identificado");
 			}
 		};
 	}
@@ -38,17 +42,14 @@ public final class TranslateEN implements ITranslate {
 	@Override
 	public ILogin getLogin() {
 		return new ILogin() {
-			
 			@Override
-			public String getForbidden() {
-				return "Sessão expirada, favor efetuar o login novamente.";
+			public SimpleEntry<String, String> getForbidden() {
+				return new SimpleEntry<String, String>("login.forbidden.value", "Sessão expirada, favor efetuar o login novamente.");
 			}
-			
 			@Override
-			public String getConfirmacaoSenha() {
-				return "A senha não confere com a confirmação de senha. Informe novamente.";
+			public SimpleEntry<String, String> getConfirmacaoSenha() {
+				return new SimpleEntry<String, String>("login.confirmacaoSenha.value", "A senha não confere com a confirmação de senha. Informe novamente.");
 			}
 		};
 	}
-
 }
