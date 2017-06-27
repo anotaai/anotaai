@@ -22,7 +22,6 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.ItemReceita;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
-import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.service.app.ProdutoService;
 
 @Path("/produto")
