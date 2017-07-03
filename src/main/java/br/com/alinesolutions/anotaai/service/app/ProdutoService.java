@@ -20,6 +20,7 @@ import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Disponibilidade;
+import br.com.alinesolutions.anotaai.model.produto.Estoque;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto;
 import br.com.alinesolutions.anotaai.model.produto.ItemReceita;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
@@ -90,6 +91,7 @@ public class ProdutoService {
 			}
 			produto.setCliente(cliente);
 			produto.setEhInsumo(produto.getEhInsumo() != null ? produto.getEhInsumo() : Boolean.FALSE);
+			produto.setEstoque(new Estoque());
 			produto.getEstoque().setProduto(produto);
 			produto.getEstoque().setQuantidadeEstoque(0L);
 			em.persist(produto);
