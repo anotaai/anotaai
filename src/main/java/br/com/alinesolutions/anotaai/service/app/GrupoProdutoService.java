@@ -51,7 +51,6 @@ public class GrupoProdutoService {
 			validarGrupoProduto(grupoProduto);
 			q = em.createNamedQuery(GrupoProdutoConstant.FIND_BY_NOME_KEY, GrupoProduto.class);
 			q.setParameter(GrupoProdutoConstant.FIELD_NOME, grupoProduto.getNome());
-			q.setParameter(GrupoProdutoConstant.FIELD_NOME_SETOR, grupoProduto.getSetor().getNome());
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			grupoProduto = q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
