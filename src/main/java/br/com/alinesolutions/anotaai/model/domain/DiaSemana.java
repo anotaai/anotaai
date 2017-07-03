@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 public enum DiaSemana {
 
 	DOMINGO("Domingo", "Dom"),
-	SEGUNA_FEIRA("Segunda Feira", "Seg"),
+	SEGUNDA_FEIRA("Segunda Feira", "Seg"),
 	TERCA_FEIRA("Terça Feira", "Ter"),
 	QUARTA_FEIRA("Quarta Feira", "Qua"),
 	QUINTA_FEIRA("Quinta Feira", "Qui"),
