@@ -149,6 +149,7 @@ public class ProdutoEndpoint {
 	
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")	
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") Long id, Produto entity) {
 		ResponseBuilder builder = null;
