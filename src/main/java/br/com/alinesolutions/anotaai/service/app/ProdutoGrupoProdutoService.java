@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -55,8 +56,8 @@ public class ProdutoGrupoProdutoService {
 		responseEntity.setEntity(produtoGrupoProduto);
 		responseEntity.setMessages(new ArrayList<>());
 		responseEntity.getMessages()
-				.add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO, TipoMensagem.SUCCESS,
-						Constant.Message.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
+				.add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,
+						IMessage.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
 		return responseEntity;
 	}
 
@@ -77,7 +78,7 @@ public class ProdutoGrupoProdutoService {
 			queryGrupoProduto.getSingleResult();
 		} catch (NoResultException e) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
-			responseEntity.addMessage(Constant.Message.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			throw new AppException(responseEntity);
 		}
@@ -100,8 +101,8 @@ public class ProdutoGrupoProdutoService {
 				em.remove(produtoGrupoProduto);
 				entity.setMessages(new ArrayList<>());
 				entity.getMessages()
-						.add(new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO, TipoMensagem.SUCCESS,
-								Constant.Message.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
+						.add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,
+								IMessage.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}

@@ -1,0 +1,16 @@
+{
+
+    "app": "Anota ai",
+    "message": {
+        "defulterror": "Erro inesperado...",
+        "login": {
+            "forbidden": "Sessão expirada, favor efetuar o login novamente.",
+            "confirmacaosenha": "A senha não confere com a confirmação de senha. Informe novamente."
+        }
+    },
+    "label": {
+        "comprador": "Comprador",
+        "vendedor": "Vendedor"
+    },
+    "nome": "Nome Translate"
+}

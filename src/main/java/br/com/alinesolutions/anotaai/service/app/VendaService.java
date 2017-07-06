@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Hibernate;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
@@ -68,7 +69,7 @@ public class VendaService {
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(Constant.Message.ENTIDADE_JA_CADASTRADA, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
+			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
 		} catch (NoResultException e) {
 			for (Disponibilidade disponibilidade : produto.getDiasDisponibilidade()) {
 				disponibilidade.setProduto(produto);
@@ -84,8 +85,8 @@ public class VendaService {
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.setEntity(produto.clone());
 			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO,
-					TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, produto.getDescricao()));
+			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
+					TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao()));
 		}
 		return responseEntity;
 	}
@@ -104,8 +105,8 @@ public class VendaService {
 				produto = em.find(Produto.class, id);
 				em.remove(produto);
 				entity.setMessages(new ArrayList<>());
-				entity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO,
-						TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, produto.getDescricao()));
+				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
+						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}

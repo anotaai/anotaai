@@ -23,6 +23,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSession;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -86,14 +87,14 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 				RequestUtils.putRequest(anotaaiSession);
 			} catch (AppException e) {
 				requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-						.entity(buildResponseEntity(Constant.Message.SECURITY_ACCESS_FORBIDDEN)).build());
+						.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
 			}
 		}
 
 		// se for proibido para todos bloqueia o acesso
 		if (method.isAnnotationPresent(DenyAll.class)) {
 			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-					.entity(buildResponseEntity(Constant.Message.SECURITY_ACCESS_FORBIDDEN)).build());
+					.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
 		} else if (method.isAnnotationPresent(RolesAllowed.class)) {// se for um metodo com permissao
 			if (login != null) {
 				RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
@@ -102,10 +103,10 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 					// o usuario nao tem acesso a funcionalidade ou a sessao expirou
 					if (!isSessionActive(sessaoUsuario)) {
 						requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-								.entity(buildResponseEntity(Constant.Message.SECURITY_ACCESS_DENIED)).build());
+								.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_DENIED)).build());
 					} else if (!isUserAllowed(usuarioDatabase, rolesSet)) {
 						requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-								.entity(buildResponseEntity(Constant.Message.SECURITY_ACCESS_FORBIDDEN)).build());
+								.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
 					} else {
 						//acesso a funcionalidade liberado reinicia o tempo de sessao do usuario
 						sessaoUsuario.setUltimoAcesso(new Date());
@@ -113,12 +114,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 					}
 				} catch (AppException e) {// se o usuario ou a sessao nao existirem
 					requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-							.entity(buildResponseEntity(Constant.Message.SECURITY_SECURITY_SESSION_TIMEOUT)).build());
+							.entity(buildResponseEntity(IMessage.SECURITY_SECURITY_SESSION_TIMEOUT)).build());
 				}
 			} else {
 				// sessao expirou, solicitar um novo login
 				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-						.entity(buildResponseEntity(Constant.Message.SECURITY_ACCESS_DENIED)).build());
+						.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_DENIED)).build());
 			}
 		} else {
 			AnotaaiSession anotaaiSession = new AnotaaiSession(request, sessaoUsuario);
@@ -129,7 +130,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	private ResponseEntity<?> buildResponseEntity(String key) {
 		ResponseEntity<?> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.FALSE);
-		responseEntity.addMessage(key, TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW);
+		responseEntity.addMessage(key, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
 		return responseEntity;
 	}
 

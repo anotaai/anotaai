@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -19,7 +20,6 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente.ClienteConstant;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 public class DisponibilidadeService {
@@ -47,8 +47,8 @@ public class DisponibilidadeService {
 				responseEntity.setIsValid(Boolean.TRUE);
 				responseEntity.setEntity(disponibilidade);
 				responseEntity.setMessages(new ArrayList<>());
-				responseEntity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO,
-						TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
+				responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
+						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(responseEntity);
 			}
@@ -72,8 +72,8 @@ public class DisponibilidadeService {
 				disponibilidade = em.find(Disponibilidade.class, id);
 				em.remove(disponibilidade);
 				entity.setMessages(new ArrayList<>());
-				entity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO,
-						TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
+				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
+						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}

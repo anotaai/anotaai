@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
@@ -80,8 +81,8 @@ public class ProdutoService {
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(Constant.Message.ENTIDADE_JA_CADASTRADA,
-					TipoMensagem.ERROR, Constant.Message.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
+			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA,
+					TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
 		} catch (NoResultException e) {
 			for (Disponibilidade disponibilidade : produto.getDiasDisponibilidade()) {
 				disponibilidade.setProduto(produto);
@@ -101,8 +102,8 @@ public class ProdutoService {
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.setEntity(produtoNovo);
 			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO,
-					TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, produto.getDescricao()));
+			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
+					TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao()));
 		}
 		return responseEntity;
 	}
@@ -121,8 +122,8 @@ public class ProdutoService {
 				produto = em.find(Produto.class, id);
 				em.remove(produto);
 				entity.setMessages(new ArrayList<>());
-				entity.getMessages().add(new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO,
-						TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, produto.getDescricao()));
+				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
+						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}
@@ -246,7 +247,7 @@ public class ProdutoService {
 		em.merge(produtoUpdate);
 		ResponseEntity<Produto> responseEntity = new ResponseEntity<>(entity);
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.addMessage(new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO, TipoMensagem.SUCCESS, Constant.Message.DEFAULT_TIME_VIEW, produtoUpdate.getDescricao()));
+		responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produtoUpdate.getDescricao()));
 		return responseEntity;
 	}
 
@@ -306,8 +307,8 @@ public class ProdutoService {
 		em.persist(itemReceita);
 		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>(itemReceita);
 		responseEntity.setIsValid(Boolean.TRUE);
-		AnotaaiMessage message = new AnotaaiMessage(Constant.Message.ENTIDADE_GRAVADA_SUCESSO, TipoMensagem.SUCCESS,
-				Constant.Message.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
+		AnotaaiMessage message = new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,
+				IMessage.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
 		responseEntity.addMessage(message);
 		return responseEntity;
 	}
@@ -318,8 +319,8 @@ public class ProdutoService {
 		em.merge(old);
 		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>(itemReceita);
 		responseEntity.setIsValid(Boolean.TRUE);
-		AnotaaiMessage message = new AnotaaiMessage(Constant.Message.ENTIDADE_EDITADA_SUCESSO, TipoMensagem.SUCCESS,
-				Constant.Message.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
+		AnotaaiMessage message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS,
+				IMessage.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
 		responseEntity.addMessage(message);
 		return responseEntity;
 	}
@@ -329,8 +330,8 @@ public class ProdutoService {
 		em.remove(old);
 		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.TRUE);
-		AnotaaiMessage message = new AnotaaiMessage(Constant.Message.ENTIDADE_DELETADA_SUCESSO, TipoMensagem.SUCCESS,
-				Constant.Message.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
+		AnotaaiMessage message = new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,
+				IMessage.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
 		responseEntity.addMessage(message);
 		return responseEntity;
 	}

@@ -25,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -116,7 +117,7 @@ public class AppService {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(new AnotaaiMessage("cep.nao.cadastrado", TipoMensagem.WARNING,
-					Constant.Message.DEFAULT_TIME_VIEW, cep.toString()));
+					IMessage.DEFAULT_TIME_VIEW, cep.toString()));
 			throw new AppException(responseEntity);
 		}
 		return cep;

@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
@@ -148,8 +149,8 @@ public class ClienteEndpoint {
 	}
 
 	private void validarCliente(Cliente cliente) throws AppException {
-		Long defaultTimeView = Constant.Message.DEFAULT_TIME_VIEW;
-		String telefoneJaCadastrado = Constant.Message.TELEFONE_JA_CADASTRADO;
+		Long defaultTimeView = IMessage.DEFAULT_TIME_VIEW;
+		String telefoneJaCadastrado = IMessage.TELEFONE_JA_CADASTRADO;
 		Usuario usuario = cliente.getUsuario();
 		AnotaaiUtil util = AnotaaiUtil.getInstance();
 		ResponseEntity<Cliente> responseEntity = new ResponseEntity<>();
@@ -163,7 +164,7 @@ public class ClienteEndpoint {
 		queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, usuario.getEmail());
 		Long cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			responseEntity.addMessage(new AnotaaiMessage(Constant.Message.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, defaultTimeView, usuario.getEmail()));
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, defaultTimeView, usuario.getEmail()));
 			hasException = Boolean.TRUE;
 		}
 		queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_TELEFONE_KEY, Long.class);

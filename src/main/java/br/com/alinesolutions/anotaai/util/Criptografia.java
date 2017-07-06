@@ -3,6 +3,7 @@ package br.com.alinesolutions.anotaai.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -19,7 +20,7 @@ public class Criptografia {
 		} catch (NoSuchAlgorithmException ex) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
 			throw new AppException(responseEntity);
 		}
 	}
@@ -35,7 +36,7 @@ public class Criptografia {
 		} catch (Exception e) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(Constant.Message.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.Message.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
 			throw new AppException(responseEntity);
 		}
 	}
