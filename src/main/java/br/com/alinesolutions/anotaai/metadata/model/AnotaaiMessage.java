@@ -34,7 +34,7 @@ public class AnotaaiMessage implements Serializable {
 
 	private void addParams(String[] params) {
 		for (int i = 0; i < params.length; i++) {
-			this.params.put(String.valueOf(i), params[i]);
+			this.addParams(String.valueOf(i), params[i]);
 		}
 	}
 	
