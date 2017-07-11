@@ -38,8 +38,7 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 	@ManyToOne(optional = false)
 	private Cliente cliente;
 
-	@ManyToOne(optional = false, cascade = CascadeType.PERSIST
-			)
+	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
 	private Consumidor consumidor;
 
 	private Date dataAssociacao;

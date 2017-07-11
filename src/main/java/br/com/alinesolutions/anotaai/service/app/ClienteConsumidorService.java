@@ -34,6 +34,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.usuario.Preferencia;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone.TelefoneConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
@@ -72,6 +73,7 @@ public class ClienteConsumidorService {
 		usuario.setDataCadastro(new Date());
 		usuario.setPerfis(new ArrayList<>());
 		usuario.getPerfis().add(new UsuarioPerfil(usuario, Perfil.CONSUMIDOR));
+		usuario.setPreferencia(new Preferencia());
 		usuario.setSituacao(SituacaoUsuario.NAO_REGISTRADO);
 		Boolean isNewUser = Boolean.TRUE;
 		try {

@@ -21,6 +21,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.hibernate.Hibernate;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -88,6 +89,7 @@ public class AppService {
 			query.setParameter(Cliente.ClienteConstant.FIELD_USUARIO, usuario);
 			try {
 				cliente = query.getSingleResult();
+				Hibernate.initialize(cliente.getUsuario());
 				UsuarioUtils.putCliente(cliente);
 			} catch (NoResultException e) {
 				throw new IllegalArgumentException(e);
