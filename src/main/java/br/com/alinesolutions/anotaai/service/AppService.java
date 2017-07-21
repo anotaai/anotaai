@@ -33,6 +33,7 @@ import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Cep;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario;
+import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
@@ -162,6 +163,21 @@ public class AppService {
 		Integer ddd = Integer.parseInt(telefoneStr.substring(2, 4));
 		Integer numero = Integer.parseInt(telefoneStr.substring(4, telefoneStr.length()));
 		return new Telefone(ddi, ddd, numero);
+	}
+	
+	
+	/**
+	 * 
+	 * @param oldDate
+	 * @return
+	 * @throws AppException
+	 */
+	
+	public Date addDayHtml5Date(Date oldDate) throws AppException {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(oldDate);
+		cal.add(Calendar.DATE, +1);
+		return cal.getTime();
 	}
 
 }
