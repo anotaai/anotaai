@@ -237,6 +237,37 @@ public class ProdutoService {
 				produtoUpdate.getDiasDisponibilidade().add(disponibilidade);
 			}
 		}
+		
+			 
+		if (produtoUpdate.getItensReceita() == null || produtoUpdate.getItensReceita().isEmpty()) {
+
+			produtoUpdate.setItensReceita(new ArrayList<>());
+
+			for (ItemReceita itemReceita : entity.getItensReceita()) {
+				produtoUpdate.getItensReceita().add(itemReceita);
+			}
+
+		} else {
+
+			Iterator<ItemReceita> iteratorReceitas = produtoUpdate.getItensReceita().iterator();
+			ItemReceita i = null;
+
+			while (iteratorReceitas.hasNext()) {
+				i = iteratorReceitas.next();
+				if (!entity.getItensReceita().contains(i)) {
+					em.remove(i);
+					iteratorReceitas.remove();
+				}
+			}
+
+			for (ItemReceita itemReceita : entity.getItensReceita()) {
+				if(i.getId() == null) {
+					produtoUpdate.getItensReceita().add(itemReceita);
+				}
+				
+			}
+		}
+			
 		produtoUpdate.setCodigo(entity.getCodigo());
 		produtoUpdate.setEhInsumo(entity.getEhInsumo() != null ? entity.getEhInsumo() : Boolean.FALSE);
 		produtoUpdate.setDescricao(entity.getDescricao());

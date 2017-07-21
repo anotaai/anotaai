@@ -20,12 +20,12 @@ insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUE
 
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Liquido', 'Setor teste', 1, true)
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bebidas', 'Produtos Líquidos', 1, true);
-insert into Estoque (precocusto, quantidadeestoque, ativo) values (1.8, 1000, true);
+insert into Estoque (precocusto, quantidadeestoque, ativo) values (55.50, 150, true);
 insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo) values ('Cerveja Brahma 350ml', 'Brahma 350ml', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 7891149010301, false, false, true);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo) values (1, 1, true);
 
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Salgados', 'Produtos Fritos', 1, true);
-insert into Estoque (precocusto, quantidadeestoque, ativo) values (8.2, 300, true);
+insert into Estoque (precocusto, quantidadeestoque, ativo) values (10.50, 1200, true);
 insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo) values ('Coxinha de Frango', 'Coxinha', 3.5, 7, 'GLYPHICON_CLOUD', 1, 2, 7894568551258, false, false, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (0, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (1, 1, true);
@@ -38,21 +38,30 @@ insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo) values (2, 
 
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Padaria', 'Setor dois', 2, true)
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bolos', 'Grupo Produto Bolos', 2, true);
-insert into Estoque (precocusto, quantidadeestoque, ativo) values (0.09, 875, true);
+insert into Estoque (precocusto, quantidadeestoque, ativo) values (0, 0, true);
 insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo) values ('Sacola Plástica', 'Sacola', 3.5, 7, 'GLYPHICON_STAR', 2, 3, 7893214568825, false, false, true);
 insert into ItemReceita (produto_id, ingrediente_id, quantidade, ativo) values (2, 1, 12, true);
-insert into Disponibilidade (dia, produto_id, ativo) values (0, 2, true);
-insert into Disponibilidade (dia, produto_id, ativo) values (1, 2, true);
-insert into Disponibilidade (dia, produto_id, ativo) values (2, 2, true);
-insert into Disponibilidade (dia, produto_id, ativo) values (3, 2, true);
-insert into Disponibilidade (dia, produto_id, ativo) values (4, 2, true);
-insert into Disponibilidade (dia, produto_id, ativo) values (5, 2, true);
-insert into Disponibilidade (dia, produto_id, ativo) values (6, 2, true);
+insert into Disponibilidade (dia, produto_id, ativo) values (0, 3, true);
+insert into Disponibilidade (dia, produto_id, ativo) values (1, 3, true);
+insert into Disponibilidade (dia, produto_id, ativo) values (2, 3, true);
+insert into Disponibilidade (dia, produto_id, ativo) values (3, 3, true);
+insert into Disponibilidade (dia, produto_id, ativo) values (4, 3, true);
+insert into Disponibilidade (dia, produto_id, ativo) values (5, 3, true);
+insert into Disponibilidade (dia, produto_id, ativo) values (6, 3, true);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo) values (2, 3, true);
 
 insert into EntradaMercadoria (ativo, dataEntrada) values (true, now());
-insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 1200, 0, 0, 1);
-insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 1.89, 1, 2);
+insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 1200, 0, 0, 2);
+insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 10.50, 1, 1);
+insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
+
+insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 50, 0, 0, 1);
+insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 5.25  , 1, 2);
+insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
+
+insert into EntradaMercadoria (ativo, dataEntrada) values (true, now());
+insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 100, 0, 0, 1);
+insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 50.25, 2, 3);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
 insert into Venda (ativo, dataVenda) values (true, now());

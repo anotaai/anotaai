@@ -180,5 +180,14 @@ public class SetorService {
 		List<Setor> setores = query.getResultList();
 		return setores;
 	}
+	
+	
+	public List<Setor> recuperarSetor() throws AppException {
+		Cliente cliente = appService.getCliente();
+		TypedQuery<Setor> query = em.createNamedQuery(SetorConstant.LIST_ALL_KEY, Setor.class);
+		query.setParameter(Constant.Entity.CLIENTE, cliente);
+		List<Setor> setores = query.getResultList();
+		return setores;
+	}
 
 }

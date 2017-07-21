@@ -6,11 +6,11 @@
 			"erro": "Erro ao gravar a(0) <b>{0}</b>"
 		},
 		"edicao": {
-			"sucesso": "<b>{0}</b> editada(o) com sucesso!",
+			"sucesso": "<b>{0}</b>&#160;editada(o) com sucesso!",
 			"erro": "Erro ao editar a(0) <b>{0}</b>"
 		},
 		"exclusao": {
-			"sucesso": "<b>{0}</b> excluida(o) com sucesso!",
+			"sucesso": "<b>{0}</b>&#160;excluida(o) com sucesso!",
 			"erro": "Erro ao excluir a(0) <b>{0}</b>"
 		}
 	},

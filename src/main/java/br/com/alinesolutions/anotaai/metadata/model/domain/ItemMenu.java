@@ -18,7 +18,7 @@ public enum ItemMenu {
 	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icon.GLYPHICON_FILE, Perfil.CONSUMIDOR, Icon.FILE, "/pedido"),
 	ANOTA_AI_HOME("Anota ai", "home", Menu.SUPERIOR, Icon.GLYPHICON_FIRE, Perfil.CLIENTE, null, null),
 	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icon.GLYPHICON_USER, Perfil.CLIENTE, null, null),
-	ENTRADA_MERCADORIA("EntradaMercadoria de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icon.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE, Icon.ARROW_LEFT, "/entradamercadoria");
+	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icon.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE, Icon.ARROW_LEFT, "/entradamercadoria");
 	
 	private ItemMenu(String descricao, String action, Menu menu, Icon icon, Perfil perfil, Icon iconeMaterial, String url) {
 		this.descricao = descricao;

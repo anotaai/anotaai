@@ -26,7 +26,7 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private EntradaMercadoria entradaMercadoria;
 
 	/**
@@ -35,6 +35,27 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	 */
 	@ManyToOne(cascade = CascadeType.ALL)
 	private MovimentacaoProduto movimentacaoProduto;
+
+	public ItemEntrada() {
+
+	}
+
+	public ItemEntrada(Double precoCusto) {
+		setPrecoCusto(precoCusto);
+	}
+
+	public ItemEntrada(Long id, Double precoCusto,Long idMovimentacao, Long quantidade , Long idProduto, String descricaoProduto) {
+         setId(id);
+         this.precoCusto = precoCusto;
+         MovimentacaoProduto movimentacaoProduto = new MovimentacaoProduto();
+         Produto produto = new Produto();
+         produto.setId(idProduto);
+         produto.setDescricao(descricaoProduto);
+         movimentacaoProduto.setId(idMovimentacao);
+         movimentacaoProduto.setProduto(produto);
+         movimentacaoProduto.setQuantidade(quantidade);
+         setMovimentacaoProduto(movimentacaoProduto);
+	}
 
 	/**
 	 * preco que a mercadoria foi comprada
@@ -64,5 +85,7 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	public void setPrecoCusto(Double precoCusto) {
 		this.precoCusto = precoCusto;
 	}
+
+ 
 
 }

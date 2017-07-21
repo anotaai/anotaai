@@ -97,6 +97,14 @@ public class Produto extends BaseEntity<Long, Produto> {
 	public Produto() {
 		super();
 	}
+	
+	public Produto(Long id) {
+		 setId(id);
+	}
+	
+	public Produto(Estoque estoque) {
+		  this.estoque = estoque;
+	}
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass) {
 		this();

@@ -98,6 +98,15 @@ public class SetorEndpoint {
 		return setores;
 	}
 	
+	@RolesAllowed("CLIENTE")
+	@GET
+	@Path("/recuperarSetor")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Setor> recuperarSetor() {
+		List<Setor> setores = setorService.recuperarSetor();
+		return setores;
+	}
+	
 
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
