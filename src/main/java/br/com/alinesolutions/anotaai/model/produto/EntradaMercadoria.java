@@ -107,7 +107,7 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 		String ITEM_ENTRADA_BY_ENTRADA_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.ItemEntrada(ie.id, ie.precoCusto, mov.id, mov.quantidade, p.id, p.descricao) from ItemEntrada ie left join ie.movimentacaoProduto mov left join mov.produto p where ie.entradaMercadoria = :entradaMercadoria";
 
 		String FIND_BY_ENTRADA_MERCADORIA = "ItemEntrada.findByName";
-		String FIND_BY_ENTRADA_MERCADORIA_QUERY = "select new ItemEntrada(i.precoCusto) from ItemEntrada i where i.entradaMercadoria.id =:idEntradaMercadoria";
+		String FIND_BY_ENTRADA_MERCADORIA_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.ItemEntrada(i.precoCusto) from ItemEntrada i where i.entradaMercadoria.id =:idEntradaMercadoria";
 
 		String LIST_ALL_KEY = "EntradaMercadoria.listAll";
 		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria(e.id,e.dataEntrada) from EntradaMercadoria e order by e.dataEntrada";

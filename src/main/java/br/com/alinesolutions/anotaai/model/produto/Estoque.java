@@ -82,7 +82,7 @@ public class Estoque extends BaseEntity<Long, Estoque> {
 	
 	public interface EstoqueConstant {
 		String FIND_BY_PRODUTO_KEY = "Estoque.findByProduto";
-		String FIND_BY_PRODUTO_QUERY = "from Estoque e where e.produto.id =:id";
+		String FIND_BY_PRODUTO_QUERY = "select e from Estoque e where e.produto.id =:id";
 	}
 	
 }
