@@ -1,7 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.List;
-
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
@@ -11,8 +9,6 @@ import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.domain.TipoAtualizacaoEstoque;
-import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;

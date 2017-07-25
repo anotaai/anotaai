@@ -1,5 +1,6 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -27,6 +28,9 @@ public class ProdutoGrupoProduto extends BaseEntity<Long, ProdutoGrupoProduto> {
 
 	@ManyToOne(optional = false)
 	private GrupoProduto grupoProduto;
+	
+	@Column(nullable = false)
+	private Boolean ehPrincipal;
 
 	public ProdutoGrupoProduto() {
 		super();
@@ -38,6 +42,15 @@ public class ProdutoGrupoProduto extends BaseEntity<Long, ProdutoGrupoProduto> {
 		this.produto.setId(idProduto);
 		this.produto.setDescricao(descricao);
 		this.produto.setPrecoVenda(precoVendaProduto);
+	}
+	
+	
+	public Boolean getEhPrincipal() {
+		return ehPrincipal;
+	}
+	
+	public void setEhPrincipal(Boolean ehPrincipal) {
+		this.ehPrincipal = ehPrincipal;
 	}
 
 	public Produto getProduto() {

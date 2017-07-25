@@ -33,7 +33,7 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	 * Atualiza a quantidade de estoque somando a quantidade de itens desta
 	 * movimentacao
 	 */
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST } )
 	private MovimentacaoProduto movimentacaoProduto;
 
 	public ItemEntrada() {
