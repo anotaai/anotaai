@@ -166,15 +166,7 @@ public class EntradaMercadoriaService {
 		entradaMercadoria.setDataEntrada(appService.addDayHtml5Date(entradaMercadoria.getDataEntrada()));
 		
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
-		
-		for (ItemEntrada itemEntrada : entradaMercadoria.getItens()) {
-			itemEntrada.setEntradaMercadoria(entradaMercadoria);
-		    inserirEstoque(itemEntrada);
-			em.persist(itemEntrada);
-		}
-		
 		em.persist(entradaMercadoria);
-	
 		EntradaMercadoria e = new EntradaMercadoria(entradaMercadoria.getId());
 		responseEntity.setEntity(e);	
 		responseEntity.setIsValid(Boolean.TRUE);

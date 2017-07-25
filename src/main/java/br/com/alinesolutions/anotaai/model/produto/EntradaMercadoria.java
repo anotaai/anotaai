@@ -46,7 +46,7 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "entradaMercadoria", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
+	@OneToMany(mappedBy = "entradaMercadoria", cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST })
 	private List<ItemEntrada> itens;
 
 	private Date dataEntrada;
