@@ -30,6 +30,7 @@ public class EstoqueService {
 
 	@Asynchronous
 	public void send(@Observes List<ItemEntrada> itensEntrada) {
+		process(itensEntrada);
 	}
 	
 	private void process(List<ItemEntrada> itensMovimentacao) {
