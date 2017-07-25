@@ -28,13 +28,13 @@ public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 
 	@Enumerated(EnumType.ORDINAL)
 	private TipoMovimentacao tipoMovimentacao;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	private TipoAtualizacaoEstoque tipoAtualizacao;
-	
+
 	private Long quantidade;
-	
-	@ManyToOne(cascade=CascadeType.DETACH)
+
+	@ManyToOne(cascade = CascadeType.DETACH)
 	private Produto produto;
 
 	public TipoMovimentacao getTipoMovimentacao() {
@@ -59,6 +59,14 @@ public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	public TipoAtualizacaoEstoque getTipoAtualizacao() {
+		return tipoAtualizacao;
+	}
+
+	public void setTipoAtualizacao(TipoAtualizacaoEstoque tipoAtualizacao) {
+		this.tipoAtualizacao = tipoAtualizacao;
 	}
 
 }
