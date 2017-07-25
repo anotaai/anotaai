@@ -18,7 +18,7 @@ insert into Cliente (cpf, dataCadastro, endereco_id, nomeComercial, situacaoClie
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'PRODUTO', 2);
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'CUPOM', 2);
 
-insert into Setor (nome, descricao, cliente_id, ativo) values ('Liquido', 'Setor teste', 1, true)
+insert into Setor (nome, descricao, cliente_id, ativo) values ('Liquido', 'Setor teste', 1, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bebidas', 'Produtos Líquidos', 1, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (55.50, 150, true);
 insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo) values ('Cerveja Brahma 350ml', 'Brahma 350ml', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 7891149010301, false, false, true);
@@ -36,7 +36,7 @@ insert into Disponibilidade (dia, produto_id, ativo) values (5, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (6, 1, true);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo) values (2, 2, true);
 
-insert into Setor (nome, descricao, cliente_id, ativo) values ('Padaria', 'Setor dois', 2, true)
+insert into Setor (nome, descricao, cliente_id, ativo) values ('Padaria', 'Setor dois', 2, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bolos', 'Grupo Produto Bolos', 2, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (0, 0, true);
 insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo) values ('Sacola Plástica', 'Sacola', 3.5, 7, 'GLYPHICON_STAR', 2, 3, 7893214568825, false, false, true);
