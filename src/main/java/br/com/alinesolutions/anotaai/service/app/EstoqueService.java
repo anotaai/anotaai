@@ -29,7 +29,7 @@ public class EstoqueService {
 	private EntityManager em;
 
 	@Asynchronous
-	public void send(@Observes List<ItemEntrada> itensEntrada) {
+	public void sendItemEntrada(@Observes List<ItemEntrada> itensEntrada) {
 		process(itensEntrada);
 	}
 	
