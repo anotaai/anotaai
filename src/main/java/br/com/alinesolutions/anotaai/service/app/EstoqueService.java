@@ -31,20 +31,10 @@ public class EstoqueService {
 	private EntityManager em;
 
 	@Asynchronous
-	public void sendItemEntrada(@Observes List<ItemEntrada> itensEntrada) {
-		process(itensEntrada);
+	public void sendItemEntrada(@Observes ItemEntrada itensEntrada) {
+		atualizar(itensEntrada);
 	}
-	
-	private void process(List<ItemEntrada> itensMovimentacao) {
-		try {			
-			itensMovimentacao.stream().forEach(item -> {
-				atualizar(item);
-			});
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-	
+
 	public void atualizar(IMovimentacao itemEntrada)  throws AppException  {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
 		final Produto produto = itemEntrada.getMovimentacaoProduto().getProduto();
@@ -52,5 +42,5 @@ public class EstoqueService {
 		Estoque estoque = estoqueQuery.getSingleResult();		
 		itemEntrada.getMovimentacaoProduto().getTipoAtualizacao().atualizarEstoque(estoque, itemEntrada.getMovimentacaoProduto());
 	}
-	
+		
 }

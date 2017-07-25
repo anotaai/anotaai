@@ -49,7 +49,7 @@ public class EntradaMercadoriaService {
 	
 	@Inject
 	@Any
-	private Event<List<ItemEntrada>> event;
+	private Event<ItemEntrada> event;
 
 	@EJB
 	private ResponseUtil responseUtil;
@@ -174,7 +174,7 @@ public class EntradaMercadoriaService {
 		entradaMercadoria.getItens().stream().forEach(e -> {e.setEntradaMercadoria(entradaMercadoria);});
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		em.persist(entradaMercadoria);
-		event.fire(entradaMercadoria.getItens());
+		publish(entradaMercadoria.getItens());
 		EntradaMercadoria e = new EntradaMercadoria(entradaMercadoria.getId());
 		responseEntity.setEntity(e);	
 		responseEntity.setIsValid(Boolean.TRUE);
@@ -183,6 +183,12 @@ public class EntradaMercadoriaService {
 		return responseEntity;
 	}
 	
+	private void publish(List<ItemEntrada> itens) {
+		itens.stream().forEach(item -> {
+			event.fire(item);
+		});
+	}
+
 	public void removerEstoque(ItemEntrada itemEntrada) throws AppException {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
 		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, itemEntrada.getMovimentacaoProduto().getProduto().getId());
@@ -216,7 +222,7 @@ public class EntradaMercadoriaService {
 			}
 		}
 		
-		event.fire(entradaMercadoria.getItens());
+		publish(entradaMercadoria.getItens());
 				
 		entradaMercadoriaUpdate.setDataEntrada(entradaMercadoria.getDataEntrada());
 	
