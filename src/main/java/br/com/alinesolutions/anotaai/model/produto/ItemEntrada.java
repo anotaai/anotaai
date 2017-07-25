@@ -44,17 +44,17 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 		setPrecoCusto(precoCusto);
 	}
 
-	public ItemEntrada(Long id, Double precoCusto,Long idMovimentacao, Long quantidade , Long idProduto, String descricaoProduto) {
-         setId(id);
-         this.precoCusto = precoCusto;
-         MovimentacaoProduto movimentacaoProduto = new MovimentacaoProduto();
-         Produto produto = new Produto();
-         produto.setId(idProduto);
-         produto.setDescricao(descricaoProduto);
-         movimentacaoProduto.setId(idMovimentacao);
-         movimentacaoProduto.setProduto(produto);
-         movimentacaoProduto.setQuantidade(quantidade);
-         setMovimentacaoProduto(movimentacaoProduto);
+	public ItemEntrada(Long id, Double precoCusto, Long idMovimentacao, Long quantidade, Long idProduto, String descricaoProduto) {
+		setId(id);
+		this.precoCusto = precoCusto;
+		MovimentacaoProduto movimentacaoProduto = new MovimentacaoProduto();
+		Produto produto = new Produto();
+		produto.setId(idProduto);
+		produto.setDescricao(descricaoProduto);
+		movimentacaoProduto.setId(idMovimentacao);
+		movimentacaoProduto.setProduto(produto);
+		movimentacaoProduto.setQuantidade(quantidade);
+		setMovimentacaoProduto(movimentacaoProduto);
 	}
 
 	/**
@@ -85,7 +85,5 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	public void setPrecoCusto(Double precoCusto) {
 		this.precoCusto = precoCusto;
 	}
-
- 
 
 }
