@@ -171,7 +171,11 @@ public class EntradaMercadoriaService {
 	public ResponseEntity<EntradaMercadoria> create(EntradaMercadoria entradaMercadoria) throws AppException {	
 		
 		entradaMercadoria.setDataEntrada(appService.addDayHtml5Date(entradaMercadoria.getDataEntrada()));
-		entradaMercadoria.getItens().stream().forEach(e -> {e.setEntradaMercadoria(entradaMercadoria);});
+		entradaMercadoria.getItens().stream().forEach(e -> {
+			e.getMovimentacaoProduto().setTipoMovimentacao(TipoMovimentacao.ENTRADA);
+			e.getMovimentacaoProduto().setTipoAtualizacao(TipoAtualizacaoEstoque.ACRESCENTA);
+			e.setEntradaMercadoria(entradaMercadoria);
+		});
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		em.persist(entradaMercadoria);
 		publish(entradaMercadoria.getItens());
