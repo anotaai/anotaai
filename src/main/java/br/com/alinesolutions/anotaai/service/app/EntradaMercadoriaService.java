@@ -12,6 +12,9 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Any;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -43,6 +46,10 @@ public class EntradaMercadoriaService {
 
 	@PersistenceContext(unitName = Constant.App.UNIT_NAME)
 	private EntityManager em;
+	
+	@Inject
+	@Any
+	private Event<List<ItemEntrada>> event;
 
 	@EJB
 	private ResponseUtil responseUtil;
@@ -164,32 +171,21 @@ public class EntradaMercadoriaService {
 	public ResponseEntity<EntradaMercadoria> create(EntradaMercadoria entradaMercadoria) throws AppException {	
 		
 		entradaMercadoria.setDataEntrada(appService.addDayHtml5Date(entradaMercadoria.getDataEntrada()));
-		
+		entradaMercadoria.getItens().stream().forEach(e -> {e.setEntradaMercadoria(entradaMercadoria);});
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		em.persist(entradaMercadoria);
+		event.fire(entradaMercadoria.getItens());
 		EntradaMercadoria e = new EntradaMercadoria(entradaMercadoria.getId());
 		responseEntity.setEntity(e);	
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setMessages(new ArrayList<>());
 		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
-		
 		return responseEntity;
 	}
 	
-	public void inserirEstoque(ItemEntrada itemEntrada)  throws AppException  {
-		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
-		estoqueQuery.setParameter("id", itemEntrada.getMovimentacaoProduto().getProduto().getId());
-		Estoque estoque = estoqueQuery.getSingleResult();		
-		itemEntrada.getMovimentacaoProduto().setTipoMovimentacao(TipoMovimentacao.ENTRADA);
-		TipoAtualizacaoEstoque.ACRESCENTA.atualizarEstoque(estoque, itemEntrada.getMovimentacaoProduto());
-		TipoAtualizacaoEstoque.ACRESCENTA.atualizarCusto(estoque, itemEntrada.getMovimentacaoProduto() , itemEntrada.getPrecoCusto());
-		em.merge(estoque);
-	}
-	
-	
 	public void removerEstoque(ItemEntrada itemEntrada) throws AppException {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
-		estoqueQuery.setParameter("id", itemEntrada.getMovimentacaoProduto().getProduto().getId());
+		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, itemEntrada.getMovimentacaoProduto().getProduto().getId());
 		Estoque estoque = estoqueQuery.getSingleResult();	
 		itemEntrada.getMovimentacaoProduto().setTipoMovimentacao(TipoMovimentacao.SAIDA);
 		TipoAtualizacaoEstoque.ACRESCENTA.atualizarEstoque(estoque, itemEntrada.getMovimentacaoProduto());
@@ -220,14 +216,7 @@ public class EntradaMercadoriaService {
 			}
 		}
 		
-		for (ItemEntrada itemEntrada : entradaMercadoria.getItens()) {
-			if (itemEntrada.getId() == null) {
-				itemEntrada.setEntradaMercadoria(entradaMercadoriaUpdate);
-				itemEntrada.getMovimentacaoProduto().setTipoMovimentacao(TipoMovimentacao.ENTRADA);
-				inserirEstoque(itemEntrada);
-				entradaMercadoriaUpdate.getItens().add(itemEntrada);
-			}
-		}
+		event.fire(entradaMercadoria.getItens());
 				
 		entradaMercadoriaUpdate.setDataEntrada(entradaMercadoria.getDataEntrada());
 	
