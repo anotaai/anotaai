@@ -15,6 +15,7 @@ import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
+import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 import br.com.alinesolutions.anotaai.util.Constant;
 
 /**
@@ -28,8 +29,11 @@ public class EstoqueService {
 	private EntityManager em;
 
 	@Asynchronous
-	public void send(@Observes List<IMovimentacao> itensMovimentacao) {
-		try {
+	public void send(@Observes List<ItemEntrada> itensEntrada) {
+	}
+	
+	private void process(List<ItemEntrada> itensMovimentacao) {
+		try {			
 			itensMovimentacao.stream().forEach(item -> {
 				inserirEstoque(item);
 			});
