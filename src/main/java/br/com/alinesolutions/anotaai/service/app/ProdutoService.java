@@ -26,6 +26,7 @@ import br.com.alinesolutions.anotaai.model.produto.GrupoProduto;
 import br.com.alinesolutions.anotaai.model.produto.ItemReceita;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.model.produto.Produto.ProdutoConstant;
+import br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.GeradorCodigoInterno;
@@ -61,6 +62,7 @@ public class ProdutoService {
 		if (responseEntity.getIsValid()) {
 			produto.setItensReceita(loadItensReceitaAction(produto));
 			produto.setDiasDisponibilidade(loadDiasDisponibilidadeAction(produto));
+			produto.setGrupos(loadGrupos(produto));
 			responseEntity.setEntity(produto);
 		} else {
 			responseUtil.buildIllegalArgumentException(responseEntity);
@@ -89,6 +91,10 @@ public class ProdutoService {
 			}
 			for (ItemReceita itemReceita : produto.getItensReceita()) {
 				itemReceita.setProduto(produto);
+			}
+			
+			for (ProdutoGrupoProduto produtoGrupoProduto : produto.getGrupos()) {
+				produtoGrupoProduto.setProduto(produto);
 			}
 			produto.setCliente(cliente);
 			produto.setEhInsumo(produto.getEhInsumo() != null ? produto.getEhInsumo() : Boolean.FALSE);
@@ -221,6 +227,25 @@ public class ProdutoService {
 	 */
 	public ResponseEntity<Produto> update(Long id, Produto entity) throws AppException {
 		Produto produtoUpdate = em.find(Produto.class, entity.getId());
+		updateDisponibilidade(produtoUpdate,entity);
+		updateItensReceita(produtoUpdate,entity);
+		updateGrupos(produtoUpdate,entity);
+		produtoUpdate.setCodigo(entity.getCodigo());
+		produtoUpdate.setEhInsumo(entity.getEhInsumo() != null ? entity.getEhInsumo() : Boolean.FALSE);
+		produtoUpdate.setDescricao(entity.getDescricao());
+		produtoUpdate.setDescricaoResumida(entity.getDescricaoResumida());
+		produtoUpdate.setUnidadeMedida(entity.getUnidadeMedida());
+		produtoUpdate.setPrecoVenda(entity.getPrecoVenda());
+		produtoUpdate.setEhInsumo(entity.getEhInsumo() != null ? entity.getEhInsumo() : Boolean.FALSE);
+		em.merge(produtoUpdate);
+		ResponseEntity<Produto> responseEntity = new ResponseEntity<>(entity);
+		responseEntity.setIsValid(Boolean.TRUE);
+		responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produtoUpdate.getDescricao()));
+		return responseEntity;
+	}
+	
+	private void updateDisponibilidade(Produto produtoUpdate, Produto entity) {
+
 		Iterator<Disponibilidade> iterator = produtoUpdate.getDiasDisponibilidade().iterator();
 		Disponibilidade disp = null;
 		while (iterator.hasNext()) {
@@ -237,13 +262,59 @@ public class ProdutoService {
 				produtoUpdate.getDiasDisponibilidade().add(disponibilidade);
 			}
 		}
-		
-			 
+
+	}
+	
+	private void updateGrupos(Produto produtoUpdate, Produto entity) {
+
+		if (produtoUpdate.getGrupos() == null || produtoUpdate.getGrupos().isEmpty()) {
+
+			produtoUpdate.setGrupos(new ArrayList<>());
+
+			for (ProdutoGrupoProduto produtoGrupoProduto : entity.getGrupos()) {
+				produtoGrupoProduto.setProduto(new Produto(produtoUpdate.getId()));
+				produtoUpdate.getGrupos().add(produtoGrupoProduto);
+			}
+
+		} else {
+
+			Iterator<ProdutoGrupoProduto> iteratorGrupos = produtoUpdate.getGrupos().iterator();
+			ProdutoGrupoProduto g = null;
+
+			while (iteratorGrupos.hasNext()) {
+				g = iteratorGrupos.next();
+				if (!entity.getGrupos().contains(g)) {
+					em.remove(g);
+					iteratorGrupos.remove();
+				}
+			}
+
+			for (ProdutoGrupoProduto produtoGrupoProduto : entity.getGrupos()) {
+				if (produtoGrupoProduto.getId() == null) {
+					produtoGrupoProduto.setProduto(new Produto(produtoUpdate.getId()));
+					produtoUpdate.getGrupos().add(produtoGrupoProduto);
+				} else {
+					for (ProdutoGrupoProduto produtoGrupoProdutoUpdate : produtoUpdate.getGrupos()) {
+						if (produtoGrupoProdutoUpdate.getId().equals(produtoGrupoProduto.getId())) {
+							produtoGrupoProdutoUpdate.setEhPrincipal(produtoGrupoProduto.getEhPrincipal());
+							break;
+						}
+					}
+				}
+			}
+
+		}
+
+	}
+	
+	private void updateItensReceita(Produto produtoUpdate, Produto entity) {
+
 		if (produtoUpdate.getItensReceita() == null || produtoUpdate.getItensReceita().isEmpty()) {
 
 			produtoUpdate.setItensReceita(new ArrayList<>());
 
 			for (ItemReceita itemReceita : entity.getItensReceita()) {
+				itemReceita.setProduto(produtoUpdate);
 				produtoUpdate.getItensReceita().add(itemReceita);
 			}
 
@@ -261,25 +332,14 @@ public class ProdutoService {
 			}
 
 			for (ItemReceita itemReceita : entity.getItensReceita()) {
-				if(i.getId() == null) {
+				if (itemReceita.getId() == null) {
+					itemReceita.setProduto(produtoUpdate);
 					produtoUpdate.getItensReceita().add(itemReceita);
 				}
-				
+
 			}
 		}
-			
-		produtoUpdate.setCodigo(entity.getCodigo());
-		produtoUpdate.setEhInsumo(entity.getEhInsumo() != null ? entity.getEhInsumo() : Boolean.FALSE);
-		produtoUpdate.setDescricao(entity.getDescricao());
-		produtoUpdate.setDescricaoResumida(entity.getDescricaoResumida());
-		produtoUpdate.setUnidadeMedida(entity.getUnidadeMedida());
-		produtoUpdate.setPrecoVenda(entity.getPrecoVenda());
-		produtoUpdate.setEhInsumo(entity.getEhInsumo() != null ? entity.getEhInsumo() : Boolean.FALSE);
-		em.merge(produtoUpdate);
-		ResponseEntity<Produto> responseEntity = new ResponseEntity<>(entity);
-		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produtoUpdate.getDescricao()));
-		return responseEntity;
+
 	}
 
 	public ResponseEntity<Produto> loadItensReceita(Produto produto) throws AppException {
@@ -306,6 +366,15 @@ public class ProdutoService {
 			itemReceita.setProduto(produto);
 		}
 		return itensReceita;
+	}
+	
+	private List<ProdutoGrupoProduto> loadGrupos(Produto produto) {
+		Cliente cliente = appService.getCliente();
+		TypedQuery<ProdutoGrupoProduto> query = em.createNamedQuery(ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_KEY,ProdutoGrupoProduto.class);
+		query.setParameter(Constant.Entity.PRODUTO, produto);
+		query.setParameter(Constant.Entity.CLIENTE, cliente);
+		List<ProdutoGrupoProduto> grupos = query.getResultList();
+		return grupos;
 	}
 
 	public ResponseEntity<Produto> loadDisponibilidades(Produto produto) throws AppException {

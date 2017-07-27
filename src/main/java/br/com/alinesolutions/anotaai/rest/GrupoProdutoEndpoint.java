@@ -107,4 +107,14 @@ public class GrupoProdutoEndpoint {
 		}
 		return builder.build();
 	}
+	
+	
+	@RolesAllowed("CLIENTE")
+	@GET
+	@Path("/recuperarPorNome")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<GrupoProduto> recuperarPorNome(@QueryParam("nome") String nome, @QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
+		List<GrupoProduto> grupos = grupoProdutoService.recuperarPorNome(nome, startPosition, maxResult);
+		return grupos;
+	}
 }

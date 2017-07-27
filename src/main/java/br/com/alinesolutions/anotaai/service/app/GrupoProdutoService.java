@@ -260,5 +260,15 @@ public class GrupoProdutoService {
 		}
 		return entity;
 	}
+	
+	
+	public List<GrupoProduto> recuperarPorNome(String nome, Integer startPosition, Integer maxResult) throws AppException {
+		Cliente cliente = appService.getCliente();
+		TypedQuery<GrupoProduto> query = em.createNamedQuery(GrupoProdutoConstant.FIND_BY_NOME_LIKE_KEY, GrupoProduto.class);
+		query.setParameter(Constant.Entity.CLIENTE, cliente);
+		query.setParameter(GrupoProdutoConstant.FIELD_NOME, new StringBuilder("%").append(nome.toUpperCase()).append("%").toString());
+		List<GrupoProduto> grupos = query.getResultList();
+		return grupos;
+	}
 
 }
