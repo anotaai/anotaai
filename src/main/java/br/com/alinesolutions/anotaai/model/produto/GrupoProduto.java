@@ -22,6 +22,7 @@ import br.com.alinesolutions.anotaai.model.produto.GrupoProduto.GrupoProdutoCons
 		@NamedQuery(name = GrupoProdutoConstant.LIST_ALL_KEY, query = GrupoProdutoConstant.LIST_ALL_QUERY),
 		@NamedQuery(name = GrupoProdutoConstant.LIST_ALL_COUNT, query = GrupoProdutoConstant.LIST_ALL_QUERY_COUNT),
 		@NamedQuery(name = GrupoProdutoConstant.ALL_BY_SETOR_KEY, query = GrupoProdutoConstant.ALL_BY_SETOR_QUERY),
+		@NamedQuery(name = GrupoProdutoConstant.FIND_BY_NOME_LIKE_KEY , query = GrupoProdutoConstant.FIND_BY_NOME_LIKE_QUERY),
 		@NamedQuery(name = GrupoProdutoConstant.FIND_BY_ID_KEY, query = GrupoProdutoConstant.FIND_BY_ID_QUERY) })
 @Entity
 @Where(clause = "ativo = true")
@@ -116,6 +117,9 @@ public class GrupoProduto extends BaseEntity<Long, GrupoProduto> {
 	}
 
 	public interface GrupoProdutoConstant {
+		
+		String FIND_BY_NOME_LIKE_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.GrupoProduto(gp.id, gp.nome, gp.descricao) from GrupoProduto gp join gp.setor s where s.cliente = :cliente and upper(gp.nome) like :nome";
+		String FIND_BY_NOME_LIKE_KEY = "GrupoProduto.findByNameLike";
 		String FIELD_NOME = "nome";
 		String FIELD_NOME_SETOR = "nomeSetor";
 		String FIELD_SESSION_ID = "sessionID";
