@@ -37,7 +37,7 @@ public class EstoqueService {
 		final Produto produto = itemEntrada.getMovimentacaoProduto().getProduto();
 		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
 		Estoque estoque = estoqueQuery.getSingleResult();		
-		itemEntrada.getMovimentacaoProduto().getTipoAtualizacao().atualizarEstoque(estoque, itemEntrada.getMovimentacaoProduto());
+		itemEntrada.getTipoMovimentacao().getTipoAtualizacao().atualizarEstoque(estoque, itemEntrada);
 		return estoque;
 	}
 		

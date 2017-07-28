@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
 
 @DiscriminatorValue("VENDA")
@@ -27,6 +28,12 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public TipoMovimentacao getTipoMovimentacao() {
+		return TipoMovimentacao.SAIDA;
+	}
+
+	
 	/**
 	 * Custo da mercadoria no momento em qeu foi vendida
 	 */

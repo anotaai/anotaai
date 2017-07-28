@@ -192,9 +192,8 @@ public class EntradaMercadoriaService {
 	public void removerEstoque(ItemEntrada itemEntrada) throws AppException {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
 		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, itemEntrada.getMovimentacaoProduto().getProduto().getId());
-		Estoque estoque = estoqueQuery.getSingleResult();	
-		itemEntrada.getMovimentacaoProduto().setTipoMovimentacao(TipoMovimentacao.SAIDA);
-		TipoAtualizacaoEstoque.ACRESCENTA.atualizarEstoque(estoque, itemEntrada.getMovimentacaoProduto());
+		Estoque estoque = estoqueQuery.getSingleResult();
+		//TODO - implementar extorno de produto
 		em.merge(estoque);
 	}
 	
@@ -202,8 +201,6 @@ public class EntradaMercadoriaService {
 	public void updateItemEntrada(EntradaMercadoria entradaMercadoria) {
 		
 		entradaMercadoria.getItens().stream().forEach(e -> {
-			e.getMovimentacaoProduto().setTipoMovimentacao(TipoMovimentacao.ENTRADA);
-			e.getMovimentacaoProduto().setTipoAtualizacao(TipoAtualizacaoEstoque.ACRESCENTA);
 			e.setEntradaMercadoria(entradaMercadoria);
 		});
 		

@@ -8,17 +8,21 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoMovimentacao {
 
-	ENTRADA("EntradaMercadoria", 1),
-	SAIDA("Saída", -1);
+	ENTRADA("EntradaMercadoria", 1, TipoAtualizacaoEstoque.ACRESCENTA),
+	SAIDA("Saída", -1, TipoAtualizacaoEstoque.ACRESCENTA),
+	ALTERACAO("Alteração", 0, TipoAtualizacaoEstoque.SUBSTITUI);
 
-	private TipoMovimentacao(String descricao, Integer atualizador) {
+	private TipoMovimentacao(String descricao, Integer atualizador, TipoAtualizacaoEstoque tipoAtualizacao) {
 		this.descricao = descricao;
 		this.atualizador = atualizador;
+		this.tipoAtualizacao = tipoAtualizacao;
 	}
 
 	private String descricao;
 
 	private Integer atualizador;
+	
+	private TipoAtualizacaoEstoque tipoAtualizacao;
 
 	public String getDescricao() {
 		return descricao;
@@ -32,6 +36,10 @@ public enum TipoMovimentacao {
 	 */
 	public Integer getAtualizador() {
 		return atualizador;
+	}
+	
+	public TipoAtualizacaoEstoque getTipoAtualizacao() {
+		return tipoAtualizacao;
 	}
 	
 	// TODO - Adicionar metodos dinamicamente

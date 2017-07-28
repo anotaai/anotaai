@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
+import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
+
 @JsonTypeInfo(use = Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
 	@Type(value = ItemBalanco.class, name="balanco"),
@@ -18,5 +20,7 @@ public interface IMovimentacao {
 	MovimentacaoProduto getMovimentacaoProduto();
 
 	void setMovimentacaoProduto(MovimentacaoProduto movimentacao);
+	
+	TipoMovimentacao getTipoMovimentacao();
 
 }

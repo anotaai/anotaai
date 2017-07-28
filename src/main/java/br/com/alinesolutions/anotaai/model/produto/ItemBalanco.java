@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoItemBalanco;
+import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 
 /**
  * Item de um balanco, depois que o resultado for lancado nao serah mais
@@ -33,6 +34,11 @@ import br.com.alinesolutions.anotaai.model.domain.SituacaoItemBalanco;
 public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public TipoMovimentacao getTipoMovimentacao() {
+		return TipoMovimentacao.ALTERACAO;
+	}
 
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Balanco balanco;

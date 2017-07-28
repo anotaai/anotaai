@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.MotivoQuebra;
+import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 
 @DiscriminatorValue("QUEBRA")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -29,6 +30,11 @@ public class ItemQuebra extends BaseEntity<Long, ItemQuebra> implements IMovimen
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public TipoMovimentacao getTipoMovimentacao() {
+		return TipoMovimentacao.SAIDA;
+	}
+	
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Quebra quebra;
 

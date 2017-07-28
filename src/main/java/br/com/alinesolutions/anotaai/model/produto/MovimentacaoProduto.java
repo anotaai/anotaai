@@ -13,7 +13,6 @@ import org.hibernate.annotations.Where;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.TipoAtualizacaoEstoque;
-import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 
 @NamedQueries({
 
@@ -25,25 +24,14 @@ import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 
 	private static final long serialVersionUID = 1L;
-
-	@Enumerated(EnumType.ORDINAL)
-	private TipoMovimentacao tipoMovimentacao;
-
-	@Enumerated(EnumType.ORDINAL)
-	private TipoAtualizacaoEstoque tipoAtualizacao;
+//
+//	@Enumerated(EnumType.ORDINAL)
+//	private TipoAtualizacaoEstoque tipoAtualizacao;
 
 	private Long quantidade;
 
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Produto produto;
-
-	public TipoMovimentacao getTipoMovimentacao() {
-		return tipoMovimentacao;
-	}
-
-	public void setTipoMovimentacao(TipoMovimentacao tipoMovimentacao) {
-		this.tipoMovimentacao = tipoMovimentacao;
-	}
 
 	public Long getQuantidade() {
 		return quantidade;
@@ -60,13 +48,13 @@ public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-
-	public TipoAtualizacaoEstoque getTipoAtualizacao() {
-		return tipoAtualizacao;
-	}
-
-	public void setTipoAtualizacao(TipoAtualizacaoEstoque tipoAtualizacao) {
-		this.tipoAtualizacao = tipoAtualizacao;
-	}
+//
+//	public TipoAtualizacaoEstoque getTipoAtualizacao() {
+//		return tipoAtualizacao;
+//	}
+//
+//	public void setTipoAtualizacao(TipoAtualizacaoEstoque tipoAtualizacao) {
+//		this.tipoAtualizacao = tipoAtualizacao;
+//	}
 
 }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
-import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
+import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.util.EnumSerialize;
 
 @EnumSerialize
@@ -15,9 +15,9 @@ public enum TipoAtualizacaoEstoque {
 
 	ACRESCENTA("Acrescenta") {
 		@Override
-		public void atualizarEstoque(Estoque estoque, MovimentacaoProduto movimentacao) {
+		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
 			Long quantidadeEstoque = estoque.getQuantidadeEstoque();
-			Long quantidadeMovimentacao = movimentacao.getQuantidade();
+			Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
 			long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * movimentacao.getTipoMovimentacao().getAtualizador();
 			
 			if(novaQuantidadeEstoque < 0){
@@ -29,8 +29,8 @@ public enum TipoAtualizacaoEstoque {
 	},
 	SUBSTITUI("Substitui") {
 		@Override
-		public void atualizarEstoque(Estoque estoque, MovimentacaoProduto movimentacao) {
-			estoque.setQuantidadeEstoque(movimentacao.getQuantidade());
+		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
+			estoque.setQuantidadeEstoque(movimentacao.getMovimentacaoProduto().getQuantidade());
 		}
 		
 	};
@@ -45,7 +45,7 @@ public enum TipoAtualizacaoEstoque {
 		return descricao;
 	}
 
-	public abstract void atualizarEstoque(Estoque estoque, MovimentacaoProduto movimentacao);
+	public abstract void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao);
 
 	// TODO - Adicionar metodos dinamicamente
 	public String getType() {

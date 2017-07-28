@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 
 @DiscriminatorValue("ENTRADA")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,6 +27,11 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public TipoMovimentacao getTipoMovimentacao() {
+		return TipoMovimentacao.ENTRADA;
+	}
+	
 	@ManyToOne
 	private EntradaMercadoria entradaMercadoria;
 

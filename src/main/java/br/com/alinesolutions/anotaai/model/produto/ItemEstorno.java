@@ -3,8 +3,6 @@ package br.com.alinesolutions.anotaai.model.produto;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -16,49 +14,59 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.domain.MotivoDevolucao;
 import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 
-/**
- * Mercadorias que foram compradas e posteriormente devolvidas pelos consumidores
- * @author Gleidson
- *
- */
-@DiscriminatorValue("ENTRADA")
+@DiscriminatorValue("ESTORNO")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = ItemDevolucao.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = ItemEstorno.class)
 @Entity
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update ItemDevolucao set ativo = false where id = ?")
+@SQLDelete(sql = "update ItemEstorno set ativo = false where id = ?")
 @XmlRootElement
-public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IMovimentacao {
+public class ItemEstorno extends BaseEntity<Long, ItemEstorno> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public TipoMovimentacao getTipoMovimentacao() {
-		return TipoMovimentacao.ENTRADA;
+		return TipoMovimentacao.SAIDA;
 	}
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Devolucao devolucao;
+
+	@ManyToOne
+	private EntradaMercadoria entradaMercadoria;
 
 	/**
-	 * Atualiza a quantidade de estoque somando a quantidade de itens desta
+	 * Atualiza a quantidade de estoque removendo a quantidade de itens desta
 	 * movimentacao
 	 */
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	private MovimentacaoProduto movimentacaoProduto;
+
+	public ItemEstorno() {
+
+	}
+
+	public ItemEstorno(Double precoCusto) {
+		setPrecoCusto(precoCusto);
+	}
+
+	public ItemEstorno(Long id, Double precoCusto, Long idMovimentacao, Long quantidade, Long idProduto, String descricaoProduto) {
+		setId(id);
+		this.precoCusto = precoCusto;
+		MovimentacaoProduto movimentacaoProduto = new MovimentacaoProduto();
+		Produto produto = new Produto();
+		produto.setId(idProduto);
+		produto.setDescricao(descricaoProduto);
+		movimentacaoProduto.setId(idMovimentacao);
+		movimentacaoProduto.setProduto(produto);
+		movimentacaoProduto.setQuantidade(quantidade);
+		setMovimentacaoProduto(movimentacaoProduto);
+	}
 
 	/**
 	 * preco que a mercadoria foi comprada
 	 */
 	private Double precoCusto;
-
-	@Enumerated(EnumType.ORDINAL)
-	private MotivoDevolucao motivo;
-
-	private String descricao;
 
 	public MovimentacaoProduto getMovimentacaoProduto() {
 		return movimentacaoProduto;
@@ -68,12 +76,12 @@ public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IM
 		this.movimentacaoProduto = movimentacaoProduto;
 	}
 
-	public Devolucao getDevolucao() {
-		return devolucao;
+	public EntradaMercadoria getEntradaMercadoria() {
+		return entradaMercadoria;
 	}
 
-	public void setDevolucao(Devolucao devolucao) {
-		this.devolucao = devolucao;
+	public void setEntradaMercadoria(EntradaMercadoria entradaMercadoria) {
+		this.entradaMercadoria = entradaMercadoria;
 	}
 
 	public Double getPrecoCusto() {
@@ -82,22 +90,6 @@ public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IM
 
 	public void setPrecoCusto(Double precoCusto) {
 		this.precoCusto = precoCusto;
-	}
-
-	public MotivoDevolucao getMotivo() {
-		return motivo;
-	}
-
-	public void setMotivo(MotivoDevolucao motivo) {
-		this.motivo = motivo;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
 	}
 
 }
