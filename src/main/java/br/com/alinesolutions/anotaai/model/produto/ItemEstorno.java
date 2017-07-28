@@ -16,6 +16,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 
+/**
+ * Item utilizado para devolver itens de entrada equivocada
+ * 
+ * @author gleidsonmoura
+ *
+ */
 @DiscriminatorValue("ESTORNO")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = ItemEstorno.class)
@@ -26,14 +32,14 @@ import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 public class ItemEstorno extends BaseEntity<Long, ItemEstorno> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public void atualizarQuantidadeEstoque(Estoque estoque) {
 		TipoMovimentacao.SAIDA.atualizarEstoque(estoque, this);
 	}
 
 	@ManyToOne
-	private EntradaMercadoria entradaMercadoria;
+	private Estorno estorno;
 
 	/**
 	 * Atualiza a quantidade de estoque removendo a quantidade de itens desta
@@ -46,28 +52,6 @@ public class ItemEstorno extends BaseEntity<Long, ItemEstorno> implements IMovim
 
 	}
 
-	public ItemEstorno(Double precoCusto) {
-		setPrecoCusto(precoCusto);
-	}
-
-	public ItemEstorno(Long id, Double precoCusto, Long idMovimentacao, Long quantidade, Long idProduto, String descricaoProduto) {
-		setId(id);
-		this.precoCusto = precoCusto;
-		MovimentacaoProduto movimentacaoProduto = new MovimentacaoProduto();
-		Produto produto = new Produto();
-		produto.setId(idProduto);
-		produto.setDescricao(descricaoProduto);
-		movimentacaoProduto.setId(idMovimentacao);
-		movimentacaoProduto.setProduto(produto);
-		movimentacaoProduto.setQuantidade(quantidade);
-		setMovimentacaoProduto(movimentacaoProduto);
-	}
-
-	/**
-	 * preco que a mercadoria foi comprada
-	 */
-	private Double precoCusto;
-
 	public MovimentacaoProduto getMovimentacaoProduto() {
 		return movimentacaoProduto;
 	}
@@ -76,20 +60,12 @@ public class ItemEstorno extends BaseEntity<Long, ItemEstorno> implements IMovim
 		this.movimentacaoProduto = movimentacaoProduto;
 	}
 
-	public EntradaMercadoria getEntradaMercadoria() {
-		return entradaMercadoria;
+	public Estorno getEstorno() {
+		return estorno;
 	}
 
-	public void setEntradaMercadoria(EntradaMercadoria entradaMercadoria) {
-		this.entradaMercadoria = entradaMercadoria;
-	}
-
-	public Double getPrecoCusto() {
-		return precoCusto;
-	}
-
-	public void setPrecoCusto(Double precoCusto) {
-		this.precoCusto = precoCusto;
+	public void setEstorno(Estorno estorno) {
+		this.estorno = estorno;
 	}
 
 }
