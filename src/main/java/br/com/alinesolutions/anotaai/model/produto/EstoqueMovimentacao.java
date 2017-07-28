@@ -47,7 +47,8 @@ public class EstoqueMovimentacao extends BaseEntity<Long, EstoqueMovimentacao> {
 			@MetaValue(targetEntity = ItemEntrada.class, value = "ENTRADA"),
 			@MetaValue(targetEntity = ItemVenda.class, value = "VENDA"),
 			@MetaValue(targetEntity = ItemQuebra.class, value = "QUEBRA"),
-			@MetaValue(targetEntity = ItemDevolucao.class, value = "DEVOLUCAO")
+			@MetaValue(targetEntity = ItemDevolucao.class, value = "DEVOLUCAO"),
+			@MetaValue(targetEntity = ItemEstorno.class, value = "ESTORNO")
 		}
 	)
 	@JoinColumn(name="movimentacao_id" )
