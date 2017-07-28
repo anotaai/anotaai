@@ -195,7 +195,6 @@ public class EntradaMercadoriaService {
 		Estoque estoque = estoqueQuery.getSingleResult();	
 		itemEntrada.getMovimentacaoProduto().setTipoMovimentacao(TipoMovimentacao.SAIDA);
 		TipoAtualizacaoEstoque.ACRESCENTA.atualizarEstoque(estoque, itemEntrada.getMovimentacaoProduto());
-		TipoAtualizacaoEstoque.ACRESCENTA.atualizarCusto(estoque, itemEntrada.getMovimentacaoProduto() , itemEntrada.getPrecoCusto());
 		em.merge(estoque);
 	}
 	

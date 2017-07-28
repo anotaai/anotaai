@@ -27,16 +27,18 @@ public class EstoqueService {
 	private EntityManager em;
 
 	@Asynchronous
-	public void sendItemEntrada(@Observes ItemEntrada itensEntrada) {
-		atualizar(itensEntrada);
+	public void sendItemEntrada(@Observes ItemEntrada itenEntrada) {
+		Estoque estoque = atualizarEstoque(itenEntrada);
+		estoque.setPrecoCusto(itenEntrada.getPrecoCusto());
 	}
 
-	public void atualizar(IMovimentacao itemEntrada)  throws AppException  {
+	public Estoque atualizarEstoque(IMovimentacao itemEntrada)  throws AppException  {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
 		final Produto produto = itemEntrada.getMovimentacaoProduto().getProduto();
 		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
 		Estoque estoque = estoqueQuery.getSingleResult();		
 		itemEntrada.getMovimentacaoProduto().getTipoAtualizacao().atualizarEstoque(estoque, itemEntrada.getMovimentacaoProduto());
+		return estoque;
 	}
 		
 }

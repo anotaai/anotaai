@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -24,7 +23,7 @@ public class ProdutoGrupoProduto extends BaseEntity<Long, ProdutoGrupoProduto> {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(optional = false , cascade = CascadeType.DETACH)
+	@ManyToOne(optional = false)
 	private Produto produto;
 
 	@ManyToOne(optional = false)

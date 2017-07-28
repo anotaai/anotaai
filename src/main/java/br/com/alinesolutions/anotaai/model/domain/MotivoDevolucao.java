@@ -8,7 +8,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MotivoDevolucao {
 
-	DEFEITO("Defeito");
+	DEFEITO("Defeito"),
+	ERRO_LANCAMENTO("Erro de lançamento");
 	
 	private MotivoDevolucao(String descricao) {
 		this.descricao = descricao;
