@@ -27,8 +27,6 @@ import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.domain.TipoAtualizacaoEstoque;
-import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMercadoriaConstant;
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
