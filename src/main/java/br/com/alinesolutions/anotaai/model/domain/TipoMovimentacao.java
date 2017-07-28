@@ -14,6 +14,7 @@ public enum TipoMovimentacao {
 	ENTRADA("EntradaMercadoria", 1) {
 		@Override
 		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
+			validarEstoque(estoque);
 			Long quantidadeEstoque = estoque.getQuantidadeEstoque();
 			Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
 			long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * getAtualizador();
@@ -28,6 +29,7 @@ public enum TipoMovimentacao {
 	SAIDA("Saída", -1) {
 		@Override
 		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
+			validarEstoque(estoque);
 			Long quantidadeEstoque = estoque.getQuantidadeEstoque();
 			Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
 			long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * getAtualizador();
@@ -41,6 +43,7 @@ public enum TipoMovimentacao {
 	ALTERACAO("Alteração", 0) {
 		@Override
 		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
+			validarEstoque(estoque);
 			estoque.setQuantidadeEstoque(movimentacao.getMovimentacaoProduto().getQuantidade());
 		}
 	};
@@ -48,6 +51,12 @@ public enum TipoMovimentacao {
 	private TipoMovimentacao(String descricao, Integer atualizador) {
 		this.descricao = descricao;
 		this.atualizador = atualizador;
+	}
+
+	protected void validarEstoque(Estoque estoque) {
+		if (estoque == null || estoque.getQuantidadeEstoque() == null) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	private String descricao;
