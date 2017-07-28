@@ -21,6 +21,6 @@ public interface IMovimentacao {
 
 	void setMovimentacaoProduto(MovimentacaoProduto movimentacao);
 	
-	TipoMovimentacao getTipoMovimentacao();
+	void atualizarQuantidadeEstoque(Estoque estoque);
 
 }

@@ -29,10 +29,9 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public TipoMovimentacao getTipoMovimentacao() {
-		return TipoMovimentacao.SAIDA;
+	public void atualizarQuantidadeEstoque(Estoque estoque) {
+		TipoMovimentacao.SAIDA.atualizarEstoque(estoque, this);
 	}
-
 	
 	/**
 	 * Custo da mercadoria no momento em qeu foi vendida

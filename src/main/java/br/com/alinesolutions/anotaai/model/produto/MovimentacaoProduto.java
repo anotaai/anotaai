@@ -2,8 +2,6 @@ package br.com.alinesolutions.anotaai.model.produto;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,7 +10,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.domain.TipoAtualizacaoEstoque;
 
 @NamedQueries({
 
@@ -24,9 +21,6 @@ import br.com.alinesolutions.anotaai.model.domain.TipoAtualizacaoEstoque;
 public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 
 	private static final long serialVersionUID = 1L;
-//
-//	@Enumerated(EnumType.ORDINAL)
-//	private TipoAtualizacaoEstoque tipoAtualizacao;
 
 	private Long quantidade;
 
@@ -48,13 +42,5 @@ public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-//
-//	public TipoAtualizacaoEstoque getTipoAtualizacao() {
-//		return tipoAtualizacao;
-//	}
-//
-//	public void setTipoAtualizacao(TipoAtualizacaoEstoque tipoAtualizacao) {
-//		this.tipoAtualizacao = tipoAtualizacao;
-//	}
 
 }

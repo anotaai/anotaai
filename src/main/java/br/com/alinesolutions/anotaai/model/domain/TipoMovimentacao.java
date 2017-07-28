@@ -5,24 +5,56 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
+import br.com.alinesolutions.anotaai.model.produto.Estoque;
+import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
+
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoMovimentacao {
 
-	ENTRADA("EntradaMercadoria", 1, TipoAtualizacaoEstoque.ACRESCENTA),
-	SAIDA("Saída", -1, TipoAtualizacaoEstoque.ACRESCENTA),
-	ALTERACAO("Alteração", 0, TipoAtualizacaoEstoque.SUBSTITUI);
+	ENTRADA("EntradaMercadoria", 1) {
+		@Override
+		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
+			Long quantidadeEstoque = estoque.getQuantidadeEstoque();
+			Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
+			long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * getAtualizador();
+			
+			if(novaQuantidadeEstoque < 0){
+				novaQuantidadeEstoque = 0;
+			}
+			estoque.setQuantidadeEstoque(novaQuantidadeEstoque);
+		}
+	},
+	
+	SAIDA("Saída", -1) {
+		@Override
+		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
+			Long quantidadeEstoque = estoque.getQuantidadeEstoque();
+			Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
+			long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * getAtualizador();
+			if(novaQuantidadeEstoque < 0){
+				novaQuantidadeEstoque = 0;
+			}
+			estoque.setQuantidadeEstoque(novaQuantidadeEstoque);
+		}
+	},
+	
+	ALTERACAO("Alteração", 0) {
+		@Override
+		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
+			estoque.setQuantidadeEstoque(movimentacao.getMovimentacaoProduto().getQuantidade());
+		}
+	};
 
-	private TipoMovimentacao(String descricao, Integer atualizador, TipoAtualizacaoEstoque tipoAtualizacao) {
+	private TipoMovimentacao(String descricao, Integer atualizador) {
 		this.descricao = descricao;
 		this.atualizador = atualizador;
-		this.tipoAtualizacao = tipoAtualizacao;
 	}
 
 	private String descricao;
 
 	private Integer atualizador;
 	
-	private TipoAtualizacaoEstoque tipoAtualizacao;
+	public abstract void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao);
 
 	public String getDescricao() {
 		return descricao;
@@ -36,10 +68,6 @@ public enum TipoMovimentacao {
 	 */
 	public Integer getAtualizador() {
 		return atualizador;
-	}
-	
-	public TipoAtualizacaoEstoque getTipoAtualizacao() {
-		return tipoAtualizacao;
 	}
 	
 	// TODO - Adicionar metodos dinamicamente

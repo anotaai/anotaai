@@ -36,8 +36,8 @@ public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovim
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-	public TipoMovimentacao getTipoMovimentacao() {
-		return TipoMovimentacao.ALTERACAO;
+	public void atualizarQuantidadeEstoque(Estoque estoque) {
+		TipoMovimentacao.ALTERACAO.atualizarEstoque(estoque, this);
 	}
 
 	@ManyToOne(cascade = CascadeType.DETACH)

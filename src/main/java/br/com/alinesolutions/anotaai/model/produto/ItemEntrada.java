@@ -28,8 +28,8 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public TipoMovimentacao getTipoMovimentacao() {
-		return TipoMovimentacao.ENTRADA;
+	public void atualizarQuantidadeEstoque(Estoque estoque) {
+		TipoMovimentacao.ENTRADA.atualizarEstoque(estoque, this);
 	}
 	
 	@ManyToOne

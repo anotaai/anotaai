@@ -26,10 +26,10 @@ import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 public class ItemEstorno extends BaseEntity<Long, ItemEstorno> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
-	public TipoMovimentacao getTipoMovimentacao() {
-		return TipoMovimentacao.SAIDA;
+	public void atualizarQuantidadeEstoque(Estoque estoque) {
+		TipoMovimentacao.SAIDA.atualizarEstoque(estoque, this);
 	}
 
 	@ManyToOne

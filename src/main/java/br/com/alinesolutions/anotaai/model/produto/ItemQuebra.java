@@ -31,8 +31,8 @@ public class ItemQuebra extends BaseEntity<Long, ItemQuebra> implements IMovimen
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public TipoMovimentacao getTipoMovimentacao() {
-		return TipoMovimentacao.SAIDA;
+	public void atualizarQuantidadeEstoque(Estoque estoque) {
+		TipoMovimentacao.SAIDA.atualizarEstoque(estoque, this);
 	}
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
