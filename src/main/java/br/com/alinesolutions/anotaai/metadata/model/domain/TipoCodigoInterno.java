@@ -18,6 +18,17 @@ public enum TipoCodigoInterno {
 			codigoStr.append(leftPad(sequencial.toString(), 8));
 			return Long.parseLong(codigoStr.toString());
 		}
+	},
+	
+	ENTRADA_MERCADORIA() {
+
+		@Override
+		public Long gerarCodigo(Long codigo, Long sequencial) {
+			StringBuilder codigoStr = new StringBuilder(codigo.toString());
+			codigoStr.append(leftPad(sequencial.toString(), 8));
+			return Long.parseLong(codigoStr.toString());
+		}
+		
 	};
 
 	public abstract Long gerarCodigo(Long codigo, Long sequencial);

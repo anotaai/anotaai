@@ -28,6 +28,10 @@ public class GeradorCodigoInterno {
 		return gerarCodigo(cliente, TipoCodigoInterno.CUPOM);
 	}
 	
+	public Long gerarCodigoEntradaMercadoria(Cliente cliente) {
+		return gerarCodigo(cliente, TipoCodigoInterno.CUPOM);
+	}
+	
 	private Long gerarCodigo(Cliente cliente, TipoCodigoInterno tipoCodigoInterno) {
 		TypedQuery<AnotaaiSequencial> query = appManager.getEntityManager().createNamedQuery(AnotaaiSequenceConstant.GET_SEQUENCE_KEY, AnotaaiSequencial.class);
 		query.setParameter(Constant.Entity.CLIENTE, cliente);

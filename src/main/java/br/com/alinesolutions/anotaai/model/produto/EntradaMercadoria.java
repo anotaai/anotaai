@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -22,8 +23,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMercadoriaConstant;
 
-@NamedQueries({
-		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_NOME_KEY, query = EntradaMercadoriaConstant.FIND_BY_NOME_QUERY),
+@NamedQueries({ @NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_NOME_KEY, query = EntradaMercadoriaConstant.FIND_BY_NOME_QUERY),
 		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_DATE_KEY, query = EntradaMercadoriaConstant.FIND_BY_DATE_QUERY),
 		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_DATE_COUNT, query = EntradaMercadoriaConstant.FIND_BY_DATE_QUERY_COUNT),
 		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_NOME_AND_DATE_KEY, query = EntradaMercadoriaConstant.FIND_BY_NOME_AND_DATE_QUERY),
@@ -45,6 +45,9 @@ import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMerc
 public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	private static final long serialVersionUID = 1L;
+
+	@Column(nullable = false)
+	private Long codigo;
 
 	@OneToMany(mappedBy = "entradaMercadoria", cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST })
 	private List<ItemEntrada> itens;
@@ -79,7 +82,7 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 	}
 
 	public EntradaMercadoria(Long id) {
-       setId(id);
+		setId(id);
 	}
 
 	public EntradaMercadoria() {
@@ -91,8 +94,16 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 		setDataEntrada(dataEntrada);
 	}
 
+	public Long getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
+
 	public interface EntradaMercadoriaConstant {
-		
+
 		String ENTRADA_MERCADORIA = "Entrada de mercadoria";
 		String FIELD_NOME = "nome";
 		String FIND_BY_NOME_KEY = "EntradaMercadoria.findByName";

@@ -7,6 +7,7 @@ insert into UsuarioPerfil (perfil, usuario_id, ativo) values (2, 1, true);
 insert into Cliente (cpf, dataCadastro, endereco_id, nomeComercial, situacaoCliente, usuario_id, ativo) values (55546265302, Now(), 1, 'A Line Solutions', 0, 1, true);
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'PRODUTO', 1);
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'CUPOM', 1);
+insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'ENTRADA_MERCADORIA', 1);
 
 insert into Endereco (bairro, cep, cidade, complemento, estado, logradouro, ativo) values ('Conjunto Água Branca', '32370500', 'Contagem', 'casa', 68, 'rua m', true);
 insert into Telefone (ddd, ddi, numero, operadora, ativo) values (31, 55, 988300083, 1, true);
@@ -17,6 +18,7 @@ insert into UsuarioPerfil (perfil, usuario_id, ativo) values (2, 2, true);
 insert into Cliente (cpf, dataCadastro, endereco_id, nomeComercial, situacaoCliente, usuario_id, ativo) values (55546265303, Now(), 2, 'Lanchonete da hora', 0, 2, true);
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'PRODUTO', 2);
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'CUPOM', 2);
+insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'ENTRADA_MERCADORIA', 2);
 
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Liquido', 'Setor teste', 1, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bebidas', 'Produtos Líquidos', 1, true);

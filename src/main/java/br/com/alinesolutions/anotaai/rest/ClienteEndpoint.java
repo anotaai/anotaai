@@ -1,6 +1,7 @@
 package br.com.alinesolutions.anotaai.rest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -85,8 +86,9 @@ public class ClienteEndpoint {
 		try {
 			validarCliente(entity);
 			entity.setSequences(new ArrayList<>());
-			entity.getSequences().add(new AnotaaiSequencial(TipoCodigoInterno.PRODUTO, entity));
-			entity.getSequences().add(new AnotaaiSequencial(TipoCodigoInterno.CUPOM, entity));
+			Arrays.asList(TipoCodigoInterno.values()).stream().forEach(tipoCodigo -> {
+				entity.getSequences().add(new AnotaaiSequencial(tipoCodigo, entity));
+			});
 			em.persist(entity);
 			sender.notificacaoRegistroUsuario(entity.getUsuario());
 			response.setIsValid(Boolean.TRUE);
