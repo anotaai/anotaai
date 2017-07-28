@@ -1,8 +1,5 @@
 package br.com.alinesolutions.anotaai.model.domain;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,19 +26,6 @@ public enum TipoAtualizacaoEstoque {
 				
 			estoque.setQuantidadeEstoque(novaQuantidadeEstoque);
 		}
-
-		@Override
-		public void atualizarCusto(Estoque estoque, MovimentacaoProduto movimentacao , Double custo) {
-			Double novoPrecoCusto = estoque.getPrecoCusto() + custo * movimentacao.getTipoMovimentacao().getAtualizador();
-			BigDecimal bd = new BigDecimal(novoPrecoCusto);
-			bd = bd.setScale(2, RoundingMode.HALF_UP);
-			
-			if(bd.doubleValue() < 0){
-				bd = new BigDecimal(0);
-			}
-			
-			estoque.setPrecoCusto(bd.doubleValue());
-		}
 	},
 	SUBSTITUI("Substitui") {
 		@Override
@@ -49,12 +33,6 @@ public enum TipoAtualizacaoEstoque {
 			estoque.setQuantidadeEstoque(movimentacao.getQuantidade());
 		}
 		
-		@Override
-		public void atualizarCusto(Estoque estoque, MovimentacaoProduto movimentacao , Double custo) {
-			BigDecimal bd = new BigDecimal(custo);
-			bd = bd.setScale(2, RoundingMode.HALF_UP);
-			estoque.setPrecoCusto(bd.doubleValue());
-		}
 	};
 
 	private TipoAtualizacaoEstoque(String descricao) {
@@ -68,8 +46,6 @@ public enum TipoAtualizacaoEstoque {
 	}
 
 	public abstract void atualizarEstoque(Estoque estoque, MovimentacaoProduto movimentacao);
-	
-	public abstract void atualizarCusto(Estoque estoque, MovimentacaoProduto movimentacao , Double custo);
 
 	// TODO - Adicionar metodos dinamicamente
 	public String getType() {

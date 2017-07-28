@@ -18,6 +18,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.MotivoDevolucao;
 
+/**
+ * Mercadorias que foram compradas e posteriormente devolvidas pelos consumidores
+ * @author Gleidson
+ *
+ */
 @DiscriminatorValue("ENTRADA")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = ItemDevolucao.class)
