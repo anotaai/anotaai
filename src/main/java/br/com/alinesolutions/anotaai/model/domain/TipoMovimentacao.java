@@ -14,29 +14,14 @@ public enum TipoMovimentacao {
 	ENTRADA("EntradaMercadoria", 1) {
 		@Override
 		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
-			validarEstoque(estoque);
-			Long quantidadeEstoque = estoque.getQuantidadeEstoque();
-			Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
-			long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * getAtualizador();
-			
-			if(novaQuantidadeEstoque < 0){
-				novaQuantidadeEstoque = 0;
-			}
-			estoque.setQuantidadeEstoque(novaQuantidadeEstoque);
+			atualizar(estoque, movimentacao);
 		}
 	},
 	
 	SAIDA("Saída", -1) {
 		@Override
 		public void atualizarEstoque(Estoque estoque, IMovimentacao movimentacao) {
-			validarEstoque(estoque);
-			Long quantidadeEstoque = estoque.getQuantidadeEstoque();
-			Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
-			long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * getAtualizador();
-			if(novaQuantidadeEstoque < 0){
-				novaQuantidadeEstoque = 0;
-			}
-			estoque.setQuantidadeEstoque(novaQuantidadeEstoque);
+			atualizar(estoque, movimentacao);
 		}
 	},
 	
@@ -59,6 +44,14 @@ public enum TipoMovimentacao {
 		}
 	}
 
+	protected void atualizar(Estoque estoque, IMovimentacao movimentacao) {
+		validarEstoque(estoque);
+		Long quantidadeEstoque = estoque.getQuantidadeEstoque();
+		Long quantidadeMovimentacao = movimentacao.getMovimentacaoProduto().getQuantidade();
+		long novaQuantidadeEstoque = quantidadeEstoque + quantidadeMovimentacao * getAtualizador();
+		estoque.setQuantidadeEstoque(novaQuantidadeEstoque);
+	}
+	
 	private String descricao;
 
 	private Integer atualizador;
