@@ -152,6 +152,7 @@ public class EntradaMercadoriaService {
 		updateItemEntrada(entradaMercadoria);
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		entradaMercadoria.setCodigo(geradorCodigo.gerarCodigoEntradaMercadoria(appService.getCliente()));
+		entradaMercadoria.setCliente(appService.getCliente());
 		em.persist(entradaMercadoria);
 		publish(entradaMercadoria.getItens());
 		EntradaMercadoria e = new EntradaMercadoria(entradaMercadoria.getId());
@@ -211,6 +212,8 @@ public class EntradaMercadoriaService {
 		updateItemEntrada(entradaMercadoria);
 		
 		publish(entradaMercadoria.getItens());
+		
+		entradaMercadoria.setCliente(appService.getCliente());
 				
 		entradaMercadoriaUpdate.setDataEntrada(entradaMercadoria.getDataEntrada());
 	
