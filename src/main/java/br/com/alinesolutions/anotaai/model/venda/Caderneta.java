@@ -31,6 +31,14 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * O Cliente pode anotar em locais diferentes, e para cada local ele pode ter uma caderneta diferente
+	 * 
+	 * Ex, caderneta da faculdade
+	 *     caderneta do trabalho
+	 */
+	private String descricao;
+	
 	@Temporal(TemporalType.DATE)
 	private Date dataAbertura;
 
@@ -74,7 +82,13 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	
 
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
 }

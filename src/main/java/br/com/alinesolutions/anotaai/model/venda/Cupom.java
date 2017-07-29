@@ -23,9 +23,9 @@ import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 	
 })
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update CupomFiscal set ativo = false where id = ?")
+@SQLDelete(sql = "update Cupom set ativo = false where id = ?")
 @XmlRootElement
-public class CupomFiscal extends BaseEntity<Long, CupomFiscal> {
+public class Cupom extends BaseEntity<Long, Cupom> {
 
 	private static final long serialVersionUID = 1L;
 

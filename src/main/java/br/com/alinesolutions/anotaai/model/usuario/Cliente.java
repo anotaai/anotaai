@@ -23,7 +23,7 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoCliente;
 import br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente.ClienteConstant;
-import br.com.alinesolutions.anotaai.model.venda.CupomFiscal;
+import br.com.alinesolutions.anotaai.model.venda.Cupom;
 
 @NamedQueries({ 
 	@NamedQuery(name = ClienteConstant.FIND_BY_USUARIO_KEY, query = ClienteConstant.FIND_BY_USUARIO_QUERY),
@@ -57,7 +57,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 	private List<ClienteConsumidor> consumidores;
 
 	@OneToMany
-	private List<CupomFiscal> cuponsFiscais;
+	private List<Cupom> cuponsFiscais;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
@@ -155,11 +155,11 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		this.situacaoCliente = situacaoCliente;
 	}
 
-	public List<CupomFiscal> getCuponsFiscais() {
+	public List<Cupom> getCuponsFiscais() {
 		return cuponsFiscais;
 	}
 
-	public void setCuponsFiscais(List<CupomFiscal> cuponsFiscais) {
+	public void setCuponsFiscais(List<Cupom> cuponsFiscais) {
 		this.cuponsFiscais = cuponsFiscais;
 	}
 
