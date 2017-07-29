@@ -29,7 +29,7 @@ public class GeradorCodigoInterno {
 	}
 	
 	public Long gerarCodigoEntradaMercadoria(Cliente cliente) {
-		return gerarCodigo(cliente, TipoCodigoInterno.CUPOM);
+		return gerarCodigo(cliente, TipoCodigoInterno.ENTRADA_MERCADORIA);
 	}
 	
 	private Long gerarCodigo(Cliente cliente, TipoCodigoInterno tipoCodigoInterno) {

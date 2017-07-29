@@ -1,7 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +31,7 @@ import br.com.alinesolutions.anotaai.model.produto.Estoque;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 import br.com.alinesolutions.anotaai.service.AppService;
+import br.com.alinesolutions.anotaai.service.GeradorCodigoInterno;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
 import br.com.alinesolutions.anotaai.util.Constant;
 
@@ -48,6 +47,9 @@ public class EntradaMercadoriaService {
 	@Inject
 	@Any
 	private Event<ItemEntrada> event;
+	
+	@EJB
+	private GeradorCodigoInterno geradorCodigo;
 
 	@EJB
 	private ResponseUtil responseUtil;
@@ -121,27 +123,6 @@ public class EntradaMercadoriaService {
 		}
 
 		final List<EntradaMercadoria> results = entradaMercadoriaQuery.getResultList();
-
-		if (results != null && !results.isEmpty()) {
-
-			for (EntradaMercadoria entradaMercadoria : results) {
-
-				TypedQuery<ItemEntrada> itemEntradaQuery = em.createNamedQuery(EntradaMercadoriaConstant.FIND_BY_ENTRADA_MERCADORIA, ItemEntrada.class);
-				itemEntradaQuery.setParameter("idEntradaMercadoria", entradaMercadoria.getId());
-
-				final List<ItemEntrada> itens = itemEntradaQuery.getResultList();
-				Double qtdCusto = new Double(0);
-				for (ItemEntrada itemEntrada : itens) {
-					qtdCusto += itemEntrada.getPrecoCusto().doubleValue();
-				}
-				
-				BigDecimal bd = new BigDecimal(qtdCusto);
-			    bd = bd.setScale(2, RoundingMode.HALF_UP);
-		        entradaMercadoria.setQuantitativoCusto(bd.doubleValue());
-			}
-
-		}
-
 		responseList.setItens(results);
 
 		TypedQuery<Long> countAll = null;
@@ -167,10 +148,10 @@ public class EntradaMercadoriaService {
 	
 
 	public ResponseEntity<EntradaMercadoria> create(EntradaMercadoria entradaMercadoria) throws AppException {	
-		
 		entradaMercadoria.setDataEntrada(appService.addDayHtml5Date(entradaMercadoria.getDataEntrada()));
 		updateItemEntrada(entradaMercadoria);
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
+		entradaMercadoria.setCodigo(geradorCodigo.gerarCodigoEntradaMercadoria(appService.getCliente()));
 		em.persist(entradaMercadoria);
 		publish(entradaMercadoria.getItens());
 		EntradaMercadoria e = new EntradaMercadoria(entradaMercadoria.getId());

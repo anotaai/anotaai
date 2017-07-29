@@ -7,10 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMercadoriaConstant;
+import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 
 @NamedQueries({ @NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_NOME_KEY, query = EntradaMercadoriaConstant.FIND_BY_NOME_QUERY),
 		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_DATE_KEY, query = EntradaMercadoriaConstant.FIND_BY_DATE_QUERY),
@@ -33,8 +35,8 @@ import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMerc
 		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_NOME_COUNT, query = EntradaMercadoriaConstant.FIND_BY_NOME_QUERY_COUNT),
 		@NamedQuery(name = EntradaMercadoriaConstant.LIST_ALL_COUNT, query = EntradaMercadoriaConstant.LIST_ALL_QUERY_COUNT),
 		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_ENTRADA_MERCADORIA, query = EntradaMercadoriaConstant.FIND_BY_ENTRADA_MERCADORIA_QUERY),
-		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_ID_KEY, query = EntradaMercadoriaConstant.FIND_BY_ID_QUERY) })
-
+		@NamedQuery(name = EntradaMercadoriaConstant.FIND_BY_ID_KEY, query = EntradaMercadoriaConstant.FIND_BY_ID_QUERY)
+})
 @DiscriminatorValue("ENTRADA")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = EntradaMercadoria.class)
@@ -54,16 +56,8 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	private Date dataEntrada;
 
-	@Transient
-	private Double quantitativoCusto;
-
-	public Double getQuantitativoCusto() {
-		return quantitativoCusto;
-	}
-
-	public void setQuantitativoCusto(Double quantitativoCusto) {
-		this.quantitativoCusto = quantitativoCusto;
-	}
+	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
+	private Cliente cliente;
 
 	public List<ItemEntrada> getItens() {
 		return itens;
@@ -100,6 +94,14 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public interface EntradaMercadoriaConstant {
