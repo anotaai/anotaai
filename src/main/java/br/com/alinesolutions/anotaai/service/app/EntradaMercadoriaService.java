@@ -68,6 +68,11 @@ public class EntradaMercadoriaService {
 		}
 		return entity;
 	}
+	
+	public ResponseEntity<EntradaMercadoria> deleteCommodity(Long id) throws AppException {
+		 //TODO - verificação de perfil
+		return findById(id);
+	}
 
 	private void loadItensEntrada(EntradaMercadoria entradaMercadoria) {
 
