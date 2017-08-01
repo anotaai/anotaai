@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -41,6 +42,10 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	 */
 	@ManyToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	private MovimentacaoProduto movimentacaoProduto;
+	
+	@Transient
+	private Boolean estornar;
+	
 
 	public ItemEntrada() {
 
@@ -90,6 +95,14 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 
 	public void setPrecoCusto(Double precoCusto) {
 		this.precoCusto = precoCusto;
+	}
+	
+	public Boolean getEstornar() {
+		return estornar;
+	}
+	
+	public void setEstornar(Boolean estornar) {
+		this.estornar = estornar;
 	}
 
 }

@@ -58,14 +58,14 @@ public class EntradaMercadoriaEndpoint {
 	
 	
 	@GET
-	@Path("/deleteCommodity/{id:[0-9][0-9]*}")
+	@Path("/getCommodityForDelete/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteCommodity(@PathParam("id") Long id) {
+	public Response getCommodityForDelete(@PathParam("id") Long id) {
 
 		ResponseBuilder builder = null;
 		ResponseEntity<EntradaMercadoria> responseEntity = null;
 		try {
-			responseEntity = entradaMercadoriaService.deleteCommodity(id);
+			responseEntity = entradaMercadoriaService.getCommodityForDelete(id);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
