@@ -52,22 +52,22 @@ insert into Disponibilidade (dia, produto_id, ativo) values (5, 3, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (6, 3, true);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo, ehPrincipal) values (2, 3, true, true);
 
-insert into EntradaMercadoria (ativo, dataEntrada) values (true, now());
-insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 1200, 0, 0, 2);
+insert into EntradaMercadoria (ativo, dataEntrada,codigo,cliente_id) values (true, now(),7894568551258,1);
+insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 1200, 2);
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 10.50, 1, 1);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
-insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 50, 0, 0, 1);
+insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 50, 1);
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 5.25  , 1, 2);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
-insert into EntradaMercadoria (ativo, dataEntrada) values (true, now());
-insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 100, 0, 0, 1);
+insert into EntradaMercadoria (ativo, dataEntrada,codigo,cliente_id) values (true, now(),7893214568825,1);
+insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 100, 1);
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 50.25, 2, 3);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
 insert into Venda (ativo, dataVenda) values (true, now());
-insert into MovimentacaoProduto (ativo, quantidade, tipoAtualizacao, tipoMovimentacao, produto_id) values (true, 12, 0, 1, 1);
+insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 12, 1);
 insert into ItemVenda (ativo, precoCusto, precoVenda, movimentacaoProduto_id, venda_id) values (true, 2, 3, 1, 1);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'VENDA', 2, 1);
 
