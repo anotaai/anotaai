@@ -36,7 +36,7 @@ insert into Disponibilidade (dia, produto_id, ativo) values (3, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (4, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (5, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (6, 1, true);
-insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo) values (2, 2, true, true);
+insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo, ehPrincipal) values (2, 2, true, true);
 
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Padaria', 'Setor dois', 2, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bolos', 'Grupo Produto Bolos', 2, true);
