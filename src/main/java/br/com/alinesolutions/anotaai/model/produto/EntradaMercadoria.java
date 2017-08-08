@@ -111,7 +111,8 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 	}
 
 	public interface EntradaMercadoriaConstant {
-
+		
+		String ITEM_MERCADORIA = "Item(s) de mercadoria";
 		String ENTRADA_MERCADORIA = "Entrada de mercadoria";
 		String FIELD_NOME = "nome";
 		String FIND_BY_NOME_KEY = "EntradaMercadoria.findByName";

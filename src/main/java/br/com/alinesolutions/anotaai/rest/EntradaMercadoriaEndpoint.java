@@ -112,24 +112,23 @@ public class EntradaMercadoriaEndpoint {
 		return builder.build();
 	}
 	
-	
-	@DELETE
-	@Path("/{id:[0-9][0-9]*}")
+	@PUT
+	@Path("/rejectCommodity")	
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteById(@PathParam("id") Long id) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response rejectCommodity(EntradaMercadoria entity) {
 		ResponseBuilder builder = null;
 		ResponseEntity<EntradaMercadoria> responseEntity = null;
 		try {
-			responseEntity = entradaMercadoriaService.deleteById(id);
+			responseEntity = entradaMercadoriaService.rejectCommodity(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
-			builder = Response.ok(e.getResponseEntity());
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {
-			builder = Response.status(Status.BAD_REQUEST);
+			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
 		}
 		return builder.build();
 	}
-	
 	
 
 }

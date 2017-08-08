@@ -13,6 +13,7 @@ import br.com.alinesolutions.anotaai.model.domain.DiaSemana;
 import br.com.alinesolutions.anotaai.model.domain.Estado;
 import br.com.alinesolutions.anotaai.model.domain.Operadora;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoCliente;
+import br.com.alinesolutions.anotaai.model.domain.TipoArmazenamento;
 import br.com.alinesolutions.anotaai.model.domain.UnidadeMedida;
 
 @Singleton
@@ -66,5 +67,12 @@ public class EnumEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response tiposAcesso() throws Exception {
 		return Response.ok(TipoAcesso.values()).build();
+	}
+	
+	@GET
+	@Path("/tiposArmazenamento")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response tiposArmazenamento() throws Exception {
+		return Response.ok(TipoArmazenamento.values()).build();
 	}
 }

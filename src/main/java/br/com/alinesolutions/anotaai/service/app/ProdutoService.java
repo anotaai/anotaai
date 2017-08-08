@@ -104,7 +104,7 @@ public class ProdutoService {
 			em.persist(produto);
 			Produto produtoNovo = new Produto(produto.getId(), produto.getDescricao(), produto.getDescricaoResumida(),
 					produto.getPrecoVenda(), produto.getIconClass(), produto.getEstoque().getId(), null, null,
-					produto.getCodigo(), produto.getUnidadeMedida());
+					produto.getCodigo(), produto.getUnidadeMedida(),produto.getTipoArmazenamento());
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.setEntity(produtoNovo);
 			responseEntity.setMessages(new ArrayList<>());
@@ -236,6 +236,7 @@ public class ProdutoService {
 		produtoUpdate.setDescricaoResumida(entity.getDescricaoResumida());
 		produtoUpdate.setUnidadeMedida(entity.getUnidadeMedida());
 		produtoUpdate.setPrecoVenda(entity.getPrecoVenda());
+		produtoUpdate.setTipoArmazenamento(entity.getTipoArmazenamento());
 		produtoUpdate.setEhInsumo(entity.getEhInsumo() != null ? entity.getEhInsumo() : Boolean.FALSE);
 		em.merge(produtoUpdate);
 		ResponseEntity<Produto> responseEntity = new ResponseEntity<>(entity);

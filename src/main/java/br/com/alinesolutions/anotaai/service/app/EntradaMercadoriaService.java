@@ -27,8 +27,6 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMercadoriaConstant;
-import br.com.alinesolutions.anotaai.model.produto.Estoque;
-import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.GeradorCodigoInterno;
@@ -174,13 +172,7 @@ public class EntradaMercadoriaService {
 		});
 	}
 
-	public void removerEstoque(ItemEntrada itemEntrada) throws AppException {
-		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
-		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, itemEntrada.getMovimentacaoProduto().getProduto().getId());
-		Estoque estoque = estoqueQuery.getSingleResult();
-		//TODO - implementar extorno de produto
-		em.merge(estoque);
-	}
+ 
 	
 	
 	public void updateItemEntrada(EntradaMercadoria entradaMercadoria) {
@@ -200,21 +192,7 @@ public class EntradaMercadoriaService {
 		
 		EntradaMercadoria entradaMercadoriaUpdate = em.find(EntradaMercadoria.class, entradaMercadoria.getId());
 		entradaMercadoriaUpdate.setDataEntrada(entradaMercadoria.getDataEntrada());
-		Iterator<ItemEntrada> iterator = entradaMercadoriaUpdate.getItens().iterator();
-		
-		ItemEntrada itemEntradaRemove = null;
-		
-		while (iterator.hasNext()) {
-			itemEntradaRemove = iterator.next();
-			if (!entradaMercadoria.getItens().contains(itemEntradaRemove)) {
-				removerEstoque(itemEntradaRemove);
-				em.remove(itemEntradaRemove);
-				iterator.remove();
-			}
-		}
-		
-		
-		updateItemEntrada(entradaMercadoria);
+	    updateItemEntrada(entradaMercadoria);
 		
 		publish(entradaMercadoria.getItens());
 		
@@ -234,26 +212,35 @@ public class EntradaMercadoriaService {
 	}
 
 	
-	public ResponseEntity<EntradaMercadoria> deleteById(Long id) throws AppException {
-		ResponseEntity<EntradaMercadoria> entity = new ResponseEntity<>();
 
-		try {
-			EntradaMercadoria entradaMercadoria  = em.find(EntradaMercadoria.class, id);
-			entity.setIsValid(Boolean.TRUE);
-			
-			if(entradaMercadoria.getItens() != null && !entradaMercadoria.getItens().isEmpty()) {
-				for (ItemEntrada itemEntrada : entradaMercadoria.getItens()) {
-					removerEstoque(itemEntrada);
-				}
+	
+	
+	public ResponseEntity<EntradaMercadoria> rejectCommodity(EntradaMercadoria entradaMercadoria) throws AppException {
+		
+		Iterator<ItemEntrada> iterator = entradaMercadoria.getItens().iterator();
+		
+        ItemEntrada itemEntradaRemove = null;
+		
+		while (iterator.hasNext()) {
+			itemEntradaRemove = iterator.next();
+			if (itemEntradaRemove.getEstornar()) {
+				ItemEntrada itemEntrada = em.find(ItemEntrada.class, itemEntradaRemove.getId());
+				//TODO - publish decrementando ou alterando..
+				em.remove(itemEntrada);
+				iterator.remove();
 			}
-			em.remove(entradaMercadoria);
-			entity.setMessages(new ArrayList<>());
-			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
-			 
-		} catch (NoResultException e) {
-			responseUtil.buildIllegalArgumentException(entity);
 		}
-		return entity;
-	}
+		
+		
+		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
+		responseEntity.setEntity(new EntradaMercadoria(entradaMercadoria.getId()));
+		responseEntity.setIsValid(Boolean.TRUE);
+		responseEntity.setMessages(new ArrayList<>());
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ITEM_MERCADORIA));
+		
+		
+		return responseEntity;
+		
+	} 
 
 }

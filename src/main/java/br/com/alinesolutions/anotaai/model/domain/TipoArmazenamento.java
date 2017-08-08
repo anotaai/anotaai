@@ -1,14 +1,27 @@
 package br.com.alinesolutions.anotaai.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoArmazenamento {
 
-	AMBIENTE, 
-	RESFRIADO,
-	CONGELADO;
+	AMBIENTE("Ambiente"), 
+	RESFRIADO("Resfriado"),
+	CONGELADO("Congelado");
+	
+    private String descricao;
+    
+    public String getDescricao() {
+		return descricao;
+	}
+	
+	private TipoArmazenamento(String descricao) {
+		this.descricao = descricao;
+	}
 
 	// TODO - Adicionar metodos dinamicamente
 	public String getType() {

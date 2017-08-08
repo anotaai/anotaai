@@ -117,7 +117,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 	}
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass,
-			Long idEstoque, Long quantidadeEstoque, Double precoCusto, Long codigo, UnidadeMedida unidadeMedida) {
+			Long idEstoque, Long quantidadeEstoque, Double precoCusto, Long codigo, UnidadeMedida unidadeMedida, TipoArmazenamento tipoArmazenamento) {
 		this(id, descricao, descricaoResumida, precoVenda, iconClass);
 		this.estoque = new Estoque();
 		this.estoque.setId(idEstoque);
@@ -125,16 +125,18 @@ public class Produto extends BaseEntity<Long, Produto> {
 		this.estoque.setPrecoCusto(precoCusto);
 		this.codigo = codigo;
 		this.unidadeMedida = unidadeMedida;
+		this.tipoArmazenamento = tipoArmazenamento;
 	}
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Long codigo,
-			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente) {
+			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente,TipoArmazenamento tipoArmazenamento) {
 		this(id, descricao, descricaoResumida, precoVenda, iconClass);
 		this.ehInsumo = ehInsumo;
 		this.codigo = codigo;
 		this.unidadeMedida = unidadeMedida;
 		this.cliente = new Cliente();
 		this.cliente.setId(idCliente);
+		this.tipoArmazenamento = tipoArmazenamento;
 	}
 
 	public String getDescricao() {
@@ -271,14 +273,14 @@ public class Produto extends BaseEntity<Long, Produto> {
 		
 		
 		String FIND_BY_NOME_KEY = "Produto.findByName";
-		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida) from Produto p left join p.estoque e where p.cliente = :cliente and p.descricao =:descricao order by p.descricao";
+		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida, p.tipoArmazenamento) from Produto p left join p.estoque e where p.cliente = :cliente and p.descricao =:descricao order by p.descricao";
 		
 
 		String LIST_ALL_KEY = "Produto.listAll";
-		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida) from Produto p left join p.estoque e where p.cliente = :cliente order by p.descricao";
+		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida, p.tipoArmazenamento) from Produto p left join p.estoque e where p.cliente = :cliente order by p.descricao";
 
 		String EDIT_KEY = "Produto.editProduto";
-		String EDIT_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, p.codigo, p.unidadeMedida, p.ehInsumo, c.id) from Produto p join p.cliente c where p.id = :id";
+		String EDIT_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, p.codigo, p.unidadeMedida, p.ehInsumo, c.id, p.tipoArmazenamento) from Produto p join p.cliente c where p.id = :id";
 
 		String LIST_SEARCH_BY_GRUPO_PRODUTO_KEY = "Produto.listByGrupoProduto";
 		String LIST_SEARCH_BY_GRUPO_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass) from Produto p where p.cliente = :cliente and p.id not in (select pgp.produto.id from ProdutoGrupoProduto pgp where pgp.grupoProduto = :grupoProduto) and upper(p.descricao) like upper(concat('%', :query, '%')) order by p.descricao";
