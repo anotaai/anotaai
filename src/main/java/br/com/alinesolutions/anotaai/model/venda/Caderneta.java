@@ -50,6 +50,9 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
+	
+	@ManyToOne
+	private ConfiguracaoCaderneta configuracao;
 
 	public Date getDataAbertura() {
 		return dataAbertura;
@@ -89,6 +92,14 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public ConfiguracaoCaderneta getConfiguracao() {
+		return configuracao;
+	}
+
+	public void setConfiguracao(ConfiguracaoCaderneta configuracao) {
+		this.configuracao = configuracao;
 	}
 	
 }
