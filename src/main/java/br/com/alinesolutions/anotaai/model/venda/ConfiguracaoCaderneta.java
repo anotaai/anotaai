@@ -1,8 +1,10 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,7 +20,10 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	private Integer qtdDiasDuracaoFolha;
 
-	private Date dataInicioAnotacao;
+	private Date diaBase;
+
+	@OneToMany(mappedBy = "configuracao")
+	private List<Caderneta> cadernetas;
 
 	public Integer getQtdDiasDuracaoFolha() {
 		return qtdDiasDuracaoFolha;
@@ -28,12 +33,20 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 		this.qtdDiasDuracaoFolha = qtdDiasDuracaoFolha;
 	}
 
-	public Date getDataInicioAnotacao() {
-		return dataInicioAnotacao;
+	public Date getDiaBase() {
+		return diaBase;
 	}
 
-	public void setDataInicioAnotacao(Date dataInicioAnotacao) {
-		this.dataInicioAnotacao = dataInicioAnotacao;
+	public void setDiaBase(Date diaBase) {
+		this.diaBase = diaBase;
+	}
+
+	public List<Caderneta> getCadernetas() {
+		return cadernetas;
+	}
+
+	public void setCadernetas(List<Caderneta> cadernetas) {
+		this.cadernetas = cadernetas;
 	}
 
 }
