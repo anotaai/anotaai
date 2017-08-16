@@ -20,7 +20,7 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	private Integer qtdDiasDuracaoFolha;
 
-	private Date diaBase;
+	private Integer diaBase;
 
 	@OneToMany(mappedBy = "configuracao")
 	private List<Caderneta> cadernetas;
@@ -33,11 +33,11 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 		this.qtdDiasDuracaoFolha = qtdDiasDuracaoFolha;
 	}
 
-	public Date getDiaBase() {
+	public Integer getDiaBase() {
 		return diaBase;
 	}
 
-	public void setDiaBase(Date diaBase) {
+	public void setDiaBase(Integer diaBase) {
 		this.diaBase = diaBase;
 	}
 
