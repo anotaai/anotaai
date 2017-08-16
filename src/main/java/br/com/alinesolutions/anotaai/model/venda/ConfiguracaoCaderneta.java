@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
