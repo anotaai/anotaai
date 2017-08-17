@@ -2,7 +2,15 @@
 	"app": "Anota ai",
 	"usuario": {
 		"senha": {
-			"invalido": "Usuário ou senha inválido!"
+			"invalido": "Usuário ou senha inválido!",
+			"fraca": "Senha fraca, escolha uma senha com no mínimo seis caracteres",
+			"naoconfere": "Senhas não conferem"
+		},
+		"cadastro" : {
+			"ativado": {
+				"efetuado": "O usuário <strong>{0}</strong> já possui acesso ao sistema, envie uma recomendação de edição deste cadastro!",
+				"sucesso": "Cadastro ativado com sucesso. você receberá um email para validar o casdastro."
+			}
 		}
 	},
 	"entidade": {

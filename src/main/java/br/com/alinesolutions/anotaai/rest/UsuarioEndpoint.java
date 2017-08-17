@@ -67,8 +67,8 @@ public class UsuarioEndpoint {
 	public Response ativarUsuario(Usuario usuario) {
 		ResponseBuilder builder = null;
 		try {
-			usuarioService.ativarUsuario(usuario);
-			builder = Response.ok();
+			ResponseEntity<Usuario> responseEntity = usuarioService.ativarUsuario(usuario);
+			builder = Response.ok().entity(responseEntity);
 		} catch (AppException e) {
 			builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getResponseEntity());
 		} catch (Exception e) {

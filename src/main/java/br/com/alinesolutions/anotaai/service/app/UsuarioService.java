@@ -116,13 +116,19 @@ public class UsuarioService {
 		}
 	}
 
-	public void ativarUsuario(Usuario usuario) throws AppException {
+	public ResponseEntity<Usuario> ativarUsuario(Usuario usuario) throws AppException {
 		Usuario usuarioDatabase = em.find(Usuario.class, usuario.getId());
 		usuarioDatabase.setSenha(Criptografia.criptografar(usuario.getSenha()));
 		usuarioDatabase.setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
 		usuario.setCodigoAtivacao(usuarioDatabase.getCodigoAtivacao());
 		em.merge(usuarioDatabase);
 		senderEmail.notificacaoRegistroUsuario(usuario);
+		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
+		responseEntity.addMessage(IMessage.USUARIO_CADASTRO_ATIVADO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW);
+		responseEntity.setIsValid(Boolean.TRUE);
+		
+		return responseEntity;
+		
 	}
 
 	public ResponseEntity<Usuario> findUserByActivationCode(String codigoAtivacao) throws AppException {

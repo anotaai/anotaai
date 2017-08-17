@@ -17,9 +17,10 @@ public interface IMessage {
 	String CONSUMIDOR_JA_CADASTRADO = "consumidor.ja.cadastrado";
 	String CONSUMIDOR_JA_REGISTRADO = "consumidor.ja.registrado";
 	String USUARIO_SENHA_INVALIDO = "usuario.senha.invalido";
-	String EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO = "edicao.exclusiva.usuario.ja.cadastrado";
+	String EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO = "usuario.cadastro.ativado.efetuado";
 	String EDICAO_EXCLUSIVA_USUARIO_MULTIPLOS_CLIENTES = "edicao.exclusiva.usuario.multiplos.clientes";
 	String USUARIO_JA_CADASTRADO = "usuario.ja.cadastrado";
+	String USUARIO_CADASTRO_ATIVADO_SUCESSO = "usuario.cadastro.ativado.sucesso";
 	String CODIGO_ATIVACAO_INVALIDO = "codigo.ativacao.invalido";
 	String USUARIO_PENDENTE_VALIDACAO = "usuario.pendente.validacao";
 	String USUARIO_NAO_ENCONTRADO = "usuario.nao.encontrado";
