@@ -54,7 +54,6 @@ public class EstoqueService {
 		}
 	}
 
-
 	public Estoque atualizarEstoque(IMovimentacao itemEntrada)  throws AppException  {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
 		final Produto produto = itemEntrada.getMovimentacaoProduto().getProduto();
