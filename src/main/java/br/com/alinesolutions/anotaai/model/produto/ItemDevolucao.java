@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoItemMovimentacao;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.MotivoDevolucao;
 import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
@@ -35,6 +36,11 @@ public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IM
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public TipoItemMovimentacao getTipoItemMovimentacao() {
+		return TipoItemMovimentacao.ITEM_DEVOLUCAO;
+	}
+	
 	@Override
 	public void atualizarQuantidadeEstoque(Estoque estoque) {
 		TipoMovimentacao.ENTRADA.atualizarEstoque(estoque, this);

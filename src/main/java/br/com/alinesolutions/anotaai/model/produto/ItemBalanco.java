@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoItemMovimentacao;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoItemBalanco;
 import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
@@ -34,6 +35,11 @@ import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
 public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public TipoItemMovimentacao getTipoItemMovimentacao() {
+		return TipoItemMovimentacao.ITEM_BALANCO;
+	}
 	
 	@Override
 	public void atualizarQuantidadeEstoque(Estoque estoque) {

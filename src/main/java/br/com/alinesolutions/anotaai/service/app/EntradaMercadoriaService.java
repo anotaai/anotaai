@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -27,6 +26,7 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMercadoriaConstant;
+import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.GeradorCodigoInterno;
@@ -45,6 +45,10 @@ public class EntradaMercadoriaService {
 	@Inject
 	@Any
 	private Event<ItemEntrada> event;
+	
+	@Inject
+	@Any
+	private Event<IMovimentacao> eventMovimentacao;
 	
 	@EJB
 	private GeradorCodigoInterno geradorCodigo;
@@ -217,20 +221,10 @@ public class EntradaMercadoriaService {
 	
 	public ResponseEntity<EntradaMercadoria> rejectCommodity(EntradaMercadoria entradaMercadoria) throws AppException {
 		
-		Iterator<ItemEntrada> iterator = entradaMercadoria.getItens().iterator();
-		
-        ItemEntrada itemEntradaRemove = null;
-		
-		while (iterator.hasNext()) {
-			itemEntradaRemove = iterator.next();
-			if (itemEntradaRemove.getEstornar()) {
-				ItemEntrada itemEntrada = em.find(ItemEntrada.class, itemEntradaRemove.getId());
-				//TODO - publish decrementando ou alterando..
-				em.remove(itemEntrada);
-				iterator.remove();
-			}
-		}
-		
+		entradaMercadoria.getItens().forEach(itemEntrada -> {
+			em.remove(em.find(ItemEntrada.class, itemEntrada.getId()));
+			eventMovimentacao.fire(itemEntrada);
+		});
 		
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		responseEntity.setEntity(new EntradaMercadoria(entradaMercadoria.getId()));

@@ -12,7 +12,7 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
-import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
+import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.util.Constant;
 
@@ -27,10 +27,33 @@ public class EstoqueService {
 	private EntityManager em;
 
 	@Asynchronous
-	public void sendItemEntrada(@Observes ItemEntrada itenEntrada) {
-		Estoque estoque = atualizarEstoque(itenEntrada);
-		estoque.setPrecoCusto(itenEntrada.getPrecoCusto());
+	public void sendItemMovimentacao(@Observes IMovimentacao itemMovimentacao) {
+		Estoque estoque = atualizarEstoque(itemMovimentacao);
+		switch (itemMovimentacao.getTipoItemMovimentacao()) {
+			case ITEM_BALANCO:
+				
+				break;
+			case ITEM_DEVOLUCAO:
+
+				break;
+			case ITEM_ENTRADA:
+				
+				break;
+			case ITEM_ESTORNO:
+				
+				break;
+			case ITEM_QUEBRA:
+				
+				break;
+			case ITEM_VENDA:
+				estoque.setPrecoCusto(((ItemVenda)itemMovimentacao).getPrecoCusto());
+				break;
+
+			default:
+				break;
+		}
 	}
+
 
 	public Estoque atualizarEstoque(IMovimentacao itemEntrada)  throws AppException  {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
