@@ -44,10 +44,6 @@ public class EntradaMercadoriaService {
 	
 	@Inject
 	@Any
-	private Event<ItemEntrada> event;
-	
-	@Inject
-	@Any
 	private Event<IMovimentacao> eventMovimentacao;
 	
 	@EJB
@@ -172,7 +168,7 @@ public class EntradaMercadoriaService {
 	
 	private void publish(List<ItemEntrada> itens) {
 		itens.stream().forEach(item -> {
-			event.fire(item);
+			eventMovimentacao.fire(item);
 		});
 	}
 
