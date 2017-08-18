@@ -12,7 +12,7 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
-import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
+import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.util.Constant;
 
@@ -22,7 +22,6 @@ import br.com.alinesolutions.anotaai.util.Constant;
 @Stateless
 public class EstoqueService {
 	
-
 	@PersistenceContext(unitName = Constant.App.UNIT_NAME)
 	private EntityManager em;
 
@@ -37,6 +36,7 @@ public class EstoqueService {
 
 				break;
 			case ITEM_ENTRADA:
+				estoque.setPrecoCusto(((ItemEntrada)itemMovimentacao).getPrecoCusto());
 				
 				break;
 			case ITEM_ESTORNO:
@@ -46,7 +46,6 @@ public class EstoqueService {
 				
 				break;
 			case ITEM_VENDA:
-				estoque.setPrecoCusto(((ItemVenda)itemMovimentacao).getPrecoCusto());
 				break;
 
 			default:
