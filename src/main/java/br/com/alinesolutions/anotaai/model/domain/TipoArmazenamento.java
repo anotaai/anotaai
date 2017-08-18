@@ -10,8 +10,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 public enum TipoArmazenamento {
 
 	AMBIENTE("Ambiente"), 
-	RESFRIADO("Resfriado"),
-	CONGELADO("Congelado");
+	AQUECIDO("Aquecido"),
+	CONGELADO("Congelado"),
+	RESFRIADO("Resfriado"); 
 	
     private String descricao;
     
