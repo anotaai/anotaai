@@ -67,14 +67,15 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 				equal = Boolean.FALSE;
 			} else if (getClass() != obj.getClass()) {
 				equal = Boolean.FALSE;
-			}
-			BaseEntity<?, ?> other = (BaseEntity<?, ?>) obj;
-			if (id == null) {
-				if (other.id != null) {
+			} else {
+				BaseEntity<?, ?> other = (BaseEntity<?, ?>) obj;
+				if (id == null) {
+					if (other.id != null) {
+						equal = Boolean.FALSE;
+					}
+				} else if (!id.equals(other.id)) {
 					equal = Boolean.FALSE;
-				}
-			} else if (!id.equals(other.id)) {
-				equal = Boolean.FALSE;
+				}				
 			}
 		}
 		return equal;
