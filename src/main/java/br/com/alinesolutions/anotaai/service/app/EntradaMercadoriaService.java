@@ -24,9 +24,12 @@ import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.domain.MotivoDevolucao;
+import br.com.alinesolutions.anotaai.model.produto.Devolucao;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria.EntradaMercadoriaConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
+import br.com.alinesolutions.anotaai.model.produto.ItemDevolucao;
 import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.GeradorCodigoInterno;
@@ -217,8 +220,16 @@ public class EntradaMercadoriaService {
 	
 	public ResponseEntity<EntradaMercadoria> rejectCommodity(EntradaMercadoria entradaMercadoria) throws AppException {
 		
+		Devolucao devolucao = new Devolucao();
+		devolucao.setProdutos(new ArrayList<>());
+		devolucao.setData(new Date());
+		devolucao.setCliente(appService.getCliente());
 		entradaMercadoria.getItens().forEach(itemEntrada -> {
-			em.remove(em.find(ItemEntrada.class, itemEntrada.getId()));
+			final ItemDevolucao itemDevolucao = new ItemDevolucao();
+			itemDevolucao.setDevolucao(devolucao);
+			itemDevolucao.setMotivo(MotivoDevolucao.ERRO_LANCAMENTO);
+			//TODO ANOTAAI continuar implementacao
+			devolucao.getProdutos().add(itemDevolucao);
 			eventMovimentacao.fire(itemEntrada);
 		});
 		
