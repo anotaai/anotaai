@@ -2,6 +2,7 @@ package br.com.alinesolutions.anotaai.model.venda;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -21,8 +22,22 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	private Integer diaBase;
 
-	@OneToMany(mappedBy = "configuracao")
+	@OneToMany(mappedBy = "configuracao",cascade = { CascadeType.ALL })
 	private List<Caderneta> cadernetas;
+	
+	public ConfiguracaoCaderneta() {
+		
+	}
+	
+	public ConfiguracaoCaderneta(Long id) {
+		setId(id);
+	}
+	
+	public ConfiguracaoCaderneta(Long id,Integer qtdDiasDuracaoFolha,Integer diaBase) {
+		setId(id);
+		this.qtdDiasDuracaoFolha = qtdDiasDuracaoFolha;
+		this.diaBase = diaBase;
+	}
 
 	public Integer getQtdDiasDuracaoFolha() {
 		return qtdDiasDuracaoFolha;

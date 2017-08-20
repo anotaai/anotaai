@@ -3,9 +3,12 @@ package br.com.alinesolutions.anotaai.model.venda;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,7 +23,17 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
+import br.com.alinesolutions.anotaai.model.venda.Caderneta.CadernetaConstant;
 
+@NamedQueries({
+	@NamedQuery(name = CadernetaConstant.FIND_BY_DESCRICAO_LIKE_KEY, query = CadernetaConstant.FIND_BY_DESCRICAO_LIKE_QUERY),
+	@NamedQuery(name = CadernetaConstant.FIND_BY_DESCRICAO_COUNT, query = CadernetaConstant.FIND_BY_DESCRICAO_QUERY_COUNT),	
+	@NamedQuery(name = CadernetaConstant.LIST_ALL_KEY, query = CadernetaConstant.LIST_ALL_QUERY),
+	@NamedQuery(name = CadernetaConstant.EDIT_KEY, query = CadernetaConstant.EDIT_QUERY),
+	@NamedQuery(name = CadernetaConstant.CADERNETA_BY_CONFIGURACAO_KEY, query = CadernetaConstant.CADERNETA_BY_CONFIGURACAO_QUERY),
+	@NamedQuery(name = CadernetaConstant.CADERNETA_BY_KEYS, query = CadernetaConstant.CADERNETA_BY_KEYS_QUERY),
+	@NamedQuery(name = CadernetaConstant.LIST_ALL_COUNT, query = CadernetaConstant.LIST_ALL_QUERY_COUNT)
+})
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update Caderneta set ativo = false where id = ?")
@@ -48,11 +61,28 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	@OneToMany(mappedBy="caderneta")
 	private List<FolhaCaderneta> folhas;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;
 	
 	@ManyToOne
 	private ConfiguracaoCaderneta configuracao;
+	
+	public Caderneta() {
+		
+	}
+	
+	public Caderneta(Long id,Long idConfiguracao, String descricao, Date dataAbertura, Date dataFechamento) {
+		setId(id);
+		this.configuracao = new ConfiguracaoCaderneta(idConfiguracao);
+		this.descricao = descricao;
+		this.dataAbertura = dataAbertura;
+		this.dataFechamento = dataFechamento;
+	}
+	
+	public Caderneta(Long id,String descricao) {
+		setId(id);
+		this.descricao = descricao;
+	}
 
 	public Date getDataAbertura() {
 		return dataAbertura;
@@ -100,6 +130,30 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 
 	public void setConfiguracao(ConfiguracaoCaderneta configuracao) {
 		this.configuracao = configuracao;
+	}
+	
+	
+	public interface CadernetaConstant {
+		
+		String CADERNETA = "Caderneta";
+		String FIELD_DESCRICAO = "descricao";
+		String FIELD_DIA_BASE = "diaBase";
+		String FIELD_QTD_DIAS_DURACAO = "qtdDiasDuracaoFolha";
+		String FIND_BY_DESCRICAO_LIKE_KEY = "Caderneta.findByNameLike"; 
+		String FIND_BY_DESCRICAO_LIKE_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, c.configuracao.id, c.descricao, c.dataAbertura, c.dataFechamento) from Caderneta c where c.cliente = :cliente and upper(c.descricao) like :descricao";
+		String LIST_ALL_KEY = "Caderneta.listAll";
+		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, c.configuracao.id, c.descricao, c.dataAbertura, c.dataFechamento) from Caderneta c where c.cliente = :cliente order by c.descricao";
+		String LIST_ALL_COUNT = "Caderneta.listAllCount";
+		String FIND_BY_DESCRICAO_COUNT = "Caderneta.findByNameCount";
+		String FIND_BY_DESCRICAO_QUERY_COUNT = "select count(c) from Caderneta c where c.cliente = :cliente and upper(c.descricao) like :descricao";
+		String LIST_ALL_QUERY_COUNT = "select count(c) from Caderneta c where c.cliente = :cliente";
+		String EDIT_KEY = "Caderneta.editCaderneta";
+		String EDIT_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta(cc.id, cc.qtdDiasDuracaoFolha, cc.diaBase) from ConfiguracaoCaderneta cc  where cc.id = :id";
+		String CADERNETA_BY_CONFIGURACAO_KEY = "Caderneta.cadernetaByConfiguracao";
+		String CADERNETA_BY_CONFIGURACAO_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, c.descricao) from Caderneta c  where c.configuracao = :configuracao";
+        String CADERNETA_BY_KEYS = "Caderneta.cadernetaByKeys";
+        String CADERNETA_BY_KEYS_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta(cc.id, cc.qtdDiasDuracaoFolha, cc.diaBase) from ConfiguracaoCaderneta cc join cc.cadernetas c where c.cliente = :cliente and cc.diaBase =:diaBase and cc.qtdDiasDuracaoFolha =:qtdDiasDuracaoFolha";
+		
 	}
 	
 }

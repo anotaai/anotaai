@@ -22,6 +22,7 @@ public interface Constant {
 		String PRODUTO = "produto";
 		String GRUPO_PRODUTO = "grupoProduto";
 		String SETOR = "setor";
+		String CONFIGURACAO_CADERNETA = "configuracao";
 	}
 	
 	public interface FileNane {
