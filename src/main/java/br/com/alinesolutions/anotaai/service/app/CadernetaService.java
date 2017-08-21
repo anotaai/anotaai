@@ -109,36 +109,26 @@ public class CadernetaService {
 		return cadernetas;
 	}
 
-	public ResponseEntity<ConfiguracaoCaderneta> create(ConfiguracaoCaderneta configuracaoCaderneta) throws AppException {
-		 
-		TypedQuery<ConfiguracaoCaderneta> q = null;
+	public ResponseEntity<ConfiguracaoCaderneta> create(ConfiguracaoCaderneta configuracaoCaderneta)
+			throws AppException {
+
 		Cliente cliente = appService.getCliente();
 		ResponseEntity<ConfiguracaoCaderneta> responseEntity = new ResponseEntity<>();
-		
-		try {
-			q = em.createNamedQuery(CadernetaConstant.CADERNETA_BY_KEYS, ConfiguracaoCaderneta.class);
-			q.setParameter(CadernetaConstant.FIELD_QTD_DIAS_DURACAO, configuracaoCaderneta.getQtdDiasDuracaoFolha());
-			q.setParameter(CadernetaConstant.FIELD_DIA_BASE, configuracaoCaderneta.getDiaBase());
-			q.setParameter(Constant.Entity.CLIENTE, cliente);
-			q.getSingleResult();
-			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA,TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW, CadernetaConstant.CADERNETA);
-		} catch (NoResultException e) {
-			
-			for (Caderneta caderneta : configuracaoCaderneta.getCadernetas()) {
-				caderneta.setDataAbertura(new Date());
-				caderneta.setDataFechamento(new Date());
-				caderneta.setCliente(cliente);
-				caderneta.setConfiguracao(configuracaoCaderneta);;
-			}
-			
-			em.persist(configuracaoCaderneta);
-			ConfiguracaoCaderneta caderdetaNova = new ConfiguracaoCaderneta(configuracaoCaderneta.getId());
-			responseEntity.setIsValid(Boolean.TRUE);
-			responseEntity.setEntity(caderdetaNova);
-			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+
+		for (Caderneta caderneta : configuracaoCaderneta.getCadernetas()) {
+			caderneta.setDataAbertura(new Date());
+			caderneta.setDataFechamento(new Date());
+			caderneta.setCliente(cliente);
+			caderneta.setConfiguracao(configuracaoCaderneta);
 		}
+
+		em.persist(configuracaoCaderneta);
+		ConfiguracaoCaderneta caderdetaNova = new ConfiguracaoCaderneta(configuracaoCaderneta.getId());
+		responseEntity.setIsValid(Boolean.TRUE);
+		responseEntity.setEntity(caderdetaNova);
+		responseEntity.setMessages(new ArrayList<>());
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+
 		return responseEntity;
 	}
 
@@ -199,6 +189,30 @@ public class CadernetaService {
 					}
 				}
 			}
+
+	}
+	
+	
+	public ResponseEntity<ConfiguracaoCaderneta> checkSameConfiguration(ConfiguracaoCaderneta entity) throws AppException {
+
+		Cliente cliente = appService.getCliente();
+		ResponseEntity<ConfiguracaoCaderneta> responseEntity = new ResponseEntity<>();
+		responseEntity.setIsValid(Boolean.TRUE);
+		
+		try {
+			TypedQuery<ConfiguracaoCaderneta> configuracaoCadernetaQuery = em.createNamedQuery(CadernetaConstant.CADERNETA_BY_KEYS, ConfiguracaoCaderneta.class);
+			configuracaoCadernetaQuery.setParameter("qtdDiasDuracaoFolha", entity.getQtdDiasDuracaoFolha());
+			configuracaoCadernetaQuery.setParameter("diaBase", entity.getDiaBase());
+			configuracaoCadernetaQuery.setParameter("cliente", cliente);
+			configuracaoCadernetaQuery.setParameter("id", entity.getId() == null ? 0 : entity.getId());
+			ConfiguracaoCaderneta configuracaoCaderneta = configuracaoCadernetaQuery.getSingleResult();
+		    responseEntity.setEntity(configuracaoCaderneta);
+			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.WARNING,IMessage.KEEP_ALIVE_TIME_VIEW, CadernetaConstant.CADERNETA);
+		} catch (NoResultException e) {
+            return responseEntity;
+		}
+
+		return responseEntity;
 
 	}
 

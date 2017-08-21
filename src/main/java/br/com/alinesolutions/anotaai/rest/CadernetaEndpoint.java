@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
-import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta;
 import br.com.alinesolutions.anotaai.service.app.CadernetaService;
@@ -47,6 +46,24 @@ public class CadernetaEndpoint {
 		ResponseEntity<ConfiguracaoCaderneta> responseEntity = null;
 		try {
 			responseEntity = cadernetaService.findById(id);
+			builder = Response.ok(responseEntity);
+		} catch (AppException e) {
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
+		} catch (Exception e) {
+			builder = Response.status(Status.INTERNAL_SERVER_ERROR);
+		}
+		return builder.build();
+	}
+	
+	@POST
+	@Path("/checkSameConfiguration")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response checkSameConfiguration(ConfiguracaoCaderneta entity) {
+
+		ResponseBuilder builder = null;
+		ResponseEntity<ConfiguracaoCaderneta> responseEntity = null;
+		try {
+			responseEntity = cadernetaService.checkSameConfiguration(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
 			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
