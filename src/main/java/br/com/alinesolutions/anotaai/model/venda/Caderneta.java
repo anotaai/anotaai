@@ -52,10 +52,10 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	 */
 	private String descricao;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataAbertura;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataFechamento;
 	
 	@OneToMany(mappedBy="caderneta")
