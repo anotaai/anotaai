@@ -143,7 +143,14 @@ public class CadernetaService {
 			if(configuracaoCaderneta.getCadernetas().size() == 1) {
 				em.remove(configuracaoCaderneta);
 			} else {
-				em.remove(caderneta);
+				 for (Iterator<Caderneta> iterator = configuracaoCaderneta.getCadernetas().iterator(); iterator.hasNext();) {
+					Caderneta c = (Caderneta) iterator.next();
+					if(c.getId().equals(id)) {
+						em.remove(c);
+						iterator.remove();
+					}
+					
+				}
 			}
 			
 			entity.setIsValid(Boolean.TRUE);
