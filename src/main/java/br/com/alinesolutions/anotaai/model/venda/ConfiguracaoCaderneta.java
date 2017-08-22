@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.SQLDelete;
@@ -22,7 +23,7 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	private Integer diaBase;
 
-	@OneToMany(mappedBy = "configuracao",cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "configuracao",cascade = { CascadeType.ALL } , fetch = FetchType.LAZY)
 	private List<Caderneta> cadernetas;
 	
 	public ConfiguracaoCaderneta() {

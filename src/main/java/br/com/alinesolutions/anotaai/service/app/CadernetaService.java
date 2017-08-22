@@ -52,7 +52,7 @@ public class CadernetaService {
 
 		if (!"".equals(descricao)) {
 			cadernetaQuery = em.createNamedQuery(CadernetaConstant.FIND_BY_DESCRICAO_LIKE_KEY, Caderneta.class);
-			cadernetaQuery.setParameter("descricao", descricao.toUpperCase());
+			cadernetaQuery.setParameter(CadernetaConstant.FIELD_DESCRICAO , descricao.toUpperCase());
 		} else {
 			cadernetaQuery = em.createNamedQuery(CadernetaConstant.LIST_ALL_KEY, Caderneta.class);
 		}
@@ -75,7 +75,7 @@ public class CadernetaService {
 
 		if (!"".equals(descricao)) {
 			countAll = em.createNamedQuery(CadernetaConstant.FIND_BY_DESCRICAO_COUNT, Long.class);
-			countAll.setParameter("descricao", descricao.toUpperCase());
+			countAll.setParameter(CadernetaConstant.FIELD_DESCRICAO , descricao.toUpperCase());
 		} else {
 			countAll = em.createNamedQuery(CadernetaConstant.LIST_ALL_COUNT, Long.class);
 		}
@@ -132,6 +132,29 @@ public class CadernetaService {
 		return responseEntity;
 	}
 
+	public ResponseEntity<ConfiguracaoCaderneta> removeByBookId(Long id) throws AppException {
+		ResponseEntity<ConfiguracaoCaderneta> entity = new ResponseEntity<>();
+
+		try {
+			Caderneta caderneta = em.find(Caderneta.class, id);
+			ConfiguracaoCaderneta configuracaoCaderneta = em.find(ConfiguracaoCaderneta.class, caderneta.getConfiguracao().getId());
+		 
+			if(configuracaoCaderneta.getCadernetas().size() == 1) {
+				em.remove(configuracaoCaderneta);
+			} else {
+				em.remove(caderneta);
+			}
+			
+			entity.setIsValid(Boolean.TRUE);
+			entity.setMessages(new ArrayList<>());
+			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+		} catch (NoResultException e) {
+			responseUtil.buildIllegalArgumentException(entity);
+		}
+		return entity;
+	}
+	
+	
 	public ResponseEntity<ConfiguracaoCaderneta> deleteById(Long id) throws AppException {
 		ResponseEntity<ConfiguracaoCaderneta> entity = new ResponseEntity<>();
 

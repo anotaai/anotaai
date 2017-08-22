@@ -107,6 +107,23 @@ public class CadernetaEndpoint {
 		return builder.build();
 	}
 	
+	@DELETE
+	@Path("/removeByBookId/{id:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response removeByBookId(@PathParam("id") Long id) {
+		ResponseBuilder builder = null;
+		ResponseEntity<ConfiguracaoCaderneta> responseEntity = null;
+		try {
+			responseEntity = cadernetaService.removeByBookId(id);
+			builder = Response.ok(responseEntity);
+		} catch (AppException e) {
+			builder = Response.ok(e.getResponseEntity());
+		} catch (Exception e) {
+			builder = Response.status(Status.BAD_REQUEST);
+		}
+		return builder.build();
+	}
+	
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes(MediaType.APPLICATION_JSON)
