@@ -43,6 +43,7 @@ public class CadernetaService {
 
 	@Resource
 	private SessionContext sessionContext;
+	
 
 	public ResponseEntity<Caderneta> listAll(Integer startPosition, Integer maxResult, String descricao)
 			throws AppException {

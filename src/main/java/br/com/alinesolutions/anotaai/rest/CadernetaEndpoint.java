@@ -107,6 +107,7 @@ public class CadernetaEndpoint {
 		return builder.build();
 	}
 	
+	
 	@DELETE
 	@Path("/removeByBookId/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
