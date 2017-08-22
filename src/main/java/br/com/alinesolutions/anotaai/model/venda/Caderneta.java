@@ -155,7 +155,7 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 		String CADERNETA_BY_CONFIGURACAO_KEY = "Caderneta.cadernetaByConfiguracao";
 		String CADERNETA_BY_CONFIGURACAO_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, c.descricao) from Caderneta c  where c.configuracao = :configuracao";
         String CADERNETA_BY_KEYS = "Caderneta.cadernetaByKeys";
-        String CADERNETA_BY_KEYS_QUERY = "select distinct new ConfiguracaoCaderneta(cc.id) from ConfiguracaoCaderneta cc join cc.cadernetas c where c.cliente =:cliente and cc.diaBase =:diaBase and cc.qtdDiasDuracaoFolha =:qtdDiasDuracaoFolha and cc.id <> :id";
+        String CADERNETA_BY_KEYS_QUERY = "select distinct new br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta(cc.id) from ConfiguracaoCaderneta cc join cc.cadernetas c where c.cliente =:cliente and cc.diaBase =:diaBase and cc.qtdDiasDuracaoFolha =:qtdDiasDuracaoFolha and cc.id <> :id";
 		
 	}
 	
