@@ -15,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonTypeInfo(use = Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ 
 	@Type(value = VendaAnotada.class, name = "vendaAnotada"),
-	@Type(value = VendaAVista.class, name = "vendaAVista") 
+	@Type(value = VendaAVistaAnonima.class, name = "vendaAVistaAnonima"), 
+	@Type(value = VendaAVistaConsumidor.class, name = "vendaAVistaConsumidor") 
 })
 public interface IVenda {
 

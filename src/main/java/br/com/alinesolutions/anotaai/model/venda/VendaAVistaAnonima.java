@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAVista.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAVistaAnonima.class)
 @NamedQueries({})
 @Entity
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update VendaAVista set ativo = false where id = ?")
+@SQLDelete(sql = "update VendaAVistaConsumidor set ativo = false where id = ?")
 @XmlRootElement
-public class VendaAVista extends BaseEntity<Long, VendaAVista> implements IVenda {
+public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> implements IVenda {
 
 	private static final long serialVersionUID = 1L;
 
