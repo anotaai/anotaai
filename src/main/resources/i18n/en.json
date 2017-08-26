@@ -1,5 +1,10 @@
 {
 	"app": "Anota ai",
+	"usuario": {
+		"senha": {
+			"invalido": "Usuário ou senha inválido!"
+		}
+	},
 	"entidade": {
 		"gravacao" : {
 			"sucesso": "<b>{0}</b>&#160;gravada(o) com sucesso!",
