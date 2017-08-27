@@ -10,7 +10,8 @@
 			"ativado": {
 				"efetuado": "O usuário <strong>{0}</strong> já possui acesso ao sistema, envie uma recomendação de edição deste cadastro!",
 				"sucesso": "Cadastro ativado com sucesso. você receberá um email para validar o casdastro."
-			}
+			},
+			"recomendacaoedicao": "Recomendação de edição de cadastro enviada com sucesso."
 		}
 	},
 	"entidade": {

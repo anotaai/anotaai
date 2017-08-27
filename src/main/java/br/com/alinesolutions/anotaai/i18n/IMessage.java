@@ -29,7 +29,7 @@ public interface IMessage {
 	String USUARIO_BLOQUEADO = "usuario.bloqueado";
 	String USUARIO_EDITADO_SUCESSO = "usuario.editado.sucesso";
 	String ILLEGAL_ARGUMENT = "illegal.argument.exception";
-	String RECOMENDACAO_EDICAO_ENVIADA = "recomendacao.edicao.enviada";
+	String RECOMENDACAO_EDICAO_ENVIADA = "usuario.cadastro.recomendacaoedicao";
 	String ENTIDADE_JA_CADASTRADA = "entidade.ja.cadastrada";
 	String SECURITY_ACCESS_FORBIDDEN = "security.access.forbidden";
 	String SECURITY_ACCESS_DENIED = "security.access.denied";
