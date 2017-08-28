@@ -12,6 +12,7 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 
@@ -58,4 +59,8 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 		this.folhaCaderneta = folhaCaderneta;
 	}
 
+	@Override
+	public TipoVenda getTipoVenda() {
+		return TipoVenda.A_VISTA_CONSUMIDOR;
+	}
 }

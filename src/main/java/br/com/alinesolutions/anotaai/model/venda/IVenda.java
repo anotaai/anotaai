@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
+
 /**
  * As vendas podem ser a vista ou anotadas, esta interface define que todo tido
  * de venda referese a uma venda
@@ -23,5 +25,7 @@ public interface IVenda {
 	Venda getVenda();
 
 	void setVenda(Venda venda);
+	
+	TipoVenda getTipoVenda();
 
 }

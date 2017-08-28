@@ -11,6 +11,7 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAnotada.class)
@@ -43,6 +44,11 @@ public class VendaAnotada extends BaseEntity<Long, VendaAnotada> implements IVen
 
 	public void setFolhaCaderneta(FolhaCadernetaVenda folhaCaderneta) {
 		this.folhaCaderneta = folhaCaderneta;
+	}
+
+	@Override
+	public TipoVenda getTipoVenda() {
+		return TipoVenda.ANOTADA;
 	}
 
 }
