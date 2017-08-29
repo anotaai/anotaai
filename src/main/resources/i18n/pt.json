@@ -39,5 +39,31 @@
 		"comprador": "Comprador",
 		"vendedor": "Vendedor"
 	},
-	"nome": "Nome Translate"
+	"nome": "Nome Translate",
+	"br": {
+		"com": {
+			"alinesolutions": {
+				"anotaai": {
+					"metadata": {
+						"model": {
+							"domain": {
+								"categoriaicone": "Categoria de Ícone",
+								"icon": "Ícone",
+								"itemmenu": "Ítem de Menú",
+								"menu": "Menu",
+								"path": "Path",
+								"perfil": "Perfil",
+								"tipoacesso": "Tipo de Acesso",
+								"tipocodigointerno": "Tipo De Código Interno",
+								"tipoitemmovimentacao": "Tipo De Ítem de Movimentação",
+								"tipomensagem": "Tipo de Menságem",
+								"tipopessoa": "Tipo de Pessoa",
+								"tipovenda": "Tipo de Venda"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
