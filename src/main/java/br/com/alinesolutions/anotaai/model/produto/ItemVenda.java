@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -30,6 +31,7 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	@Transient
 	public TipoItemMovimentacao getTipoItemMovimentacao() {
 		return TipoItemMovimentacao.ITEM_VENDA;
 	}

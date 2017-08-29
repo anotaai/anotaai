@@ -30,6 +30,7 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	@Transient
 	public TipoItemMovimentacao getTipoItemMovimentacao() {
 		return TipoItemMovimentacao.ITEM_ENTRADA;
 	}

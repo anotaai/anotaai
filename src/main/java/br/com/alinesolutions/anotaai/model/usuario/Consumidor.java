@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -17,6 +18,7 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoPessoa;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.Operadora;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor.ConsumidorConstant;
@@ -70,6 +72,12 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 		this.usuario.getTelefone().setNumero(numero);
 	}
 
+	@Override
+	@Transient
+	public TipoPessoa getTipoPessoa() {
+		return TipoPessoa.CONSUMIDOR;
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}

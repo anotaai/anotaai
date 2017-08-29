@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -37,6 +38,7 @@ public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovim
 	private static final long serialVersionUID = 1L;
 	
 	@Override
+	@Transient
 	public TipoItemMovimentacao getTipoItemMovimentacao() {
 		return TipoItemMovimentacao.ITEM_BALANCO;
 	}

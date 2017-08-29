@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -60,6 +61,7 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 	}
 
 	@Override
+	@Transient
 	public TipoVenda getTipoVenda() {
 		return TipoVenda.A_VISTA_ANONIMA;
 	}

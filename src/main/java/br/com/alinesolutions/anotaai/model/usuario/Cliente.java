@@ -14,11 +14,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSequencial;
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoPessoa;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoCliente;
 import br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto;
@@ -83,6 +85,12 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		this.getUsuario().setNome(nomeUsuario);
 	}
 
+	@Override
+	@Transient
+	public TipoPessoa getTipoPessoa() {
+		return TipoPessoa.CLIENTE;
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}

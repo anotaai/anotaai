@@ -3,6 +3,7 @@ package br.com.alinesolutions.anotaai.model.venda;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -47,6 +48,7 @@ public class VendaAnotada extends BaseEntity<Long, VendaAnotada> implements IVen
 	}
 
 	@Override
+	@Transient
 	public TipoVenda getTipoVenda() {
 		return TipoVenda.ANOTADA;
 	}
