@@ -48,20 +48,20 @@
 						"metadata": {
 							"model": {
 								"domain": {
-									"categoriaicone": "Categoria de √çcone",
-									"icon": "√çcone",
-									"itemmenu": "√çtem de Men√∫",
+									"categoriaicone": "Categoria de Õcone",
+									"icon": "Õcone",
+									"itemmenu": "Õcone de Menu",
 									"menu": "Menu",
 									"path": "Path",
 									"perfil": "Perfil",
 									"tipoacesso": "Tipo de Acesso",
-									"tipocodigointerno": "Tipo De C√≥digo Interno",
-									"tipoitemmovimentacao": "Tipo De √çtem de Movimenta√ß√£o",
-									"tipomensagem": "Tipo de Mens√°gem",
+									"tipocodigointerno": "Tipo De CÛdigo Interno",
+									"tipoitemmovimentacao": "Tipo De Item de MovimentaÁ„oo",
+									"tipomensagem": "Tipo de Mensagem",
 									"tipopessoa": "Tipo de Pessoa",
 									"tipovenda": {
 										"anotada": "Anotada",
-										"a_vista_anonima": "√Ä Vista",
+										"a_vista_anonima": "A Vista",
 										"a_vista_consumidor": "A Vista Consumidor"
 									}
 								}
