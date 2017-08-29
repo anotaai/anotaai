@@ -59,7 +59,11 @@
 									"tipoitemmovimentacao": "Tipo De Ítem de Movimentação",
 									"tipomensagem": "Tipo de Menságem",
 									"tipopessoa": "Tipo de Pessoa",
-									"tipovenda": "Tipo de Venda"
+									"tipovenda": {
+										"anotada": "Anotada",
+										"a_vista_anonima": "À Vista",
+										"a_vista_consumidor": "A Vista Consumidor"
+									}
 								}
 							}
 						}

@@ -16,9 +16,9 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
  */
 @JsonTypeInfo(use = Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ 
-	@Type(value = VendaAnotada.class, name = "vendaAnotada"),
-	@Type(value = VendaAVistaAnonima.class, name = "vendaAVistaAnonima"), 
-	@Type(value = VendaAVistaConsumidor.class, name = "vendaAVistaConsumidor") 
+	@Type(value = VendaAnotada.class, name = "ANOTADA"),
+	@Type(value = VendaAVistaAnonima.class, name = "A_VISTA_ANONIMA"), 
+	@Type(value = VendaAVistaConsumidor.class, name = "A_VISTA_CONSUMIDOR") 
 })
 public interface IVenda {
 
