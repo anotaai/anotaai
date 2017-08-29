@@ -111,9 +111,9 @@ public class ProdutoEndpoint {
 	@Path("/searchProdutosParaReceita")
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Produto> searchProdutoByDescricao(@QueryParam("query") String query, @QueryParam("start") Integer startPosition, 
+	public List<Produto> searchProdutoByDescricao(@QueryParam("query") String query, @QueryParam("insumoFilter") String insumoFilter,  @QueryParam("start") Integer startPosition, 
 			@QueryParam("max") Integer maxResult, @QueryParam("produtosDaReceita") List<Long> excludes) {
-		List<Produto> produtos = produtoService.searchByDescricao(query, startPosition, maxResult, excludes);
+		List<Produto> produtos = produtoService.searchByDescricao(query, insumoFilter ,  startPosition, maxResult, excludes);
 		return produtos;
 	}
 	

@@ -139,7 +139,7 @@ public class ProdutoService {
 		return entity;
 	}
 
-	public List<Produto> searchByDescricao(String query, Integer startPosition, Integer maxResult, List<Long> excludes)
+	public List<Produto> searchByDescricao(String query, String insumoFilter, Integer startPosition, Integer maxResult, List<Long> excludes)
 			throws AppException {
 		Cliente cliente = appService.getCliente();
 		TypedQuery<Produto> findProdutos = em.createNamedQuery(Produto.ProdutoConstant.LIST_SEARCH_BY_DESCRICAO_KEY,
@@ -156,6 +156,16 @@ public class ProdutoService {
 			findProdutos.setMaxResults(maxResult);
 		}
 		final List<Produto> results = findProdutos.getResultList();
+		
+		if("S".equals(insumoFilter)) {
+			for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+				Produto produto = (Produto) iterator.next();
+				if(produto.getEhInsumo()){
+					iterator.remove();
+				}
+			}
+		}
+		
 		return results;
 	}
 

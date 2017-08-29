@@ -406,8 +406,17 @@ public class ClienteConsumidorService {
 		oldUsuario.getTelefone().setNumero(newUsuario.getTelefone().getNumero());
 		oldUsuario.getTelefone().setDdd(newUsuario.getTelefone().getDdd());
 		oldUsuario.getTelefone().setDdi(newUsuario.getTelefone().getDdi());
-		
-		
+	
+	}
+	
+	public  List<Consumidor> getConsumersByName(String nome) {
+		TypedQuery<Consumidor> consumidorQuery = null;
+		Cliente cliente = appManager.getAppService().getCliente();
+		consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_BY_NOME_KEY, Consumidor.class);
+		consumidorQuery.setParameter(Consumidor.ConsumidorConstant.FIELD_CLIENTE, cliente);
+		consumidorQuery.setParameter("nome", nome);
+		final List<Consumidor> results = consumidorQuery.getResultList();
+		return results;
 	}
 
 }

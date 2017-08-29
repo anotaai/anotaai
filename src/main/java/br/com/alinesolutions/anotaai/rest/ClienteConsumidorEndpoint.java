@@ -1,5 +1,7 @@
 package br.com.alinesolutions.anotaai.rest;
 
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -151,6 +153,14 @@ public class ClienteConsumidorEndpoint {
 			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
 		}
 		return builder.build();
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getconsumersbyname")
+	public List<Consumidor> getConsumersByName(@QueryParam("query") String nome) {
+		return service.getConsumersByName(nome);
 	}
 
 }

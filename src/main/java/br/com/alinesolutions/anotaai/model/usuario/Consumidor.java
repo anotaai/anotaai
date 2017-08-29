@@ -119,7 +119,8 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 		String FIND_BY_NOME_COUNT = "Consumidor.findByNameCount";
 		String LIST_ALL_COUNT = "Consumidor.listAllCount";
 		
-		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and u.nome =:nome order by u.nome";
+		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and upper(u.nome) like upper(concat('%', :nome, '%')) order by u.nome";
+		
 		String FIND_BY_NOME_QUERY_COUNT = "select count(c) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and u.nome =:nome";
 		String LIST_ALL_QUERY_COUNT = "select count(c) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente";
 		

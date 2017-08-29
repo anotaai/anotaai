@@ -75,4 +75,11 @@ public class EnumEndpoint {
 	public Response tiposArmazenamento() throws Exception {
 		return Response.ok(TipoArmazenamento.values()).build();
 	}
+	
+	@GET
+	@Path("/tipovenda")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response tipoVenda() throws Exception {
+		return Response.ok(TipoArmazenamento.values()).build();
+	}
 }
