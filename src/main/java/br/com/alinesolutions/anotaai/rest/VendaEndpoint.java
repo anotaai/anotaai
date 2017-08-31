@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response.Status;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
+import br.com.alinesolutions.anotaai.model.venda.IVenda;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
 import br.com.alinesolutions.anotaai.service.app.VendaService;
 
@@ -36,9 +37,9 @@ public class VendaEndpoint {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(Produto entity) {
+	public Response create(IVenda entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity<Produto> responseEntity = null;
+		ResponseEntity<Venda> responseEntity = null;
 		try {
 			responseEntity = vendaService.create(entity);
 			builder = Response.ok(responseEntity);

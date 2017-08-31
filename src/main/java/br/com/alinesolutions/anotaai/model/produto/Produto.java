@@ -126,6 +126,17 @@ public class Produto extends BaseEntity<Long, Produto> {
 		this.ehInsumo = ehInsumo;
 	}
 	
+	public Produto(Long id, Long codigo, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Boolean ehInsumo) {
+		this();
+		setId(id);
+		this.codigo = codigo;
+		this.descricao = descricao;
+		this.descricaoResumida = descricaoResumida;
+		this.precoVenda = precoVenda;
+		this.iconClass = iconClass;
+		this.ehInsumo = ehInsumo;
+	}
+	
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass,
 			Long idEstoque, Long quantidadeEstoque, Double precoCusto, Long codigo, UnidadeMedida unidadeMedida, TipoArmazenamento tipoArmazenamento) {
 		this(id, descricao, descricaoResumida, precoVenda, iconClass);
@@ -296,7 +307,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 		String LIST_SEARCH_BY_GRUPO_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass) from Produto p where p.cliente = :cliente and p.id not in (select pgp.produto.id from ProdutoGrupoProduto pgp where pgp.grupoProduto = :grupoProduto) and upper(p.descricao) like upper(concat('%', :query, '%')) order by p.descricao";
 
 		String LIST_SEARCH_BY_DESCRICAO_KEY = "Produto.listByDescricao";
-		String LIST_SEARCH_BY_DESCRICAO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, p.ehInsumo) from Produto p where p.cliente = :cliente and p.id not in(:list) and upper(p.descricao) like upper(concat('%', :query, '%')) order by p.descricao";
+		String LIST_SEARCH_BY_DESCRICAO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.codigo, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, p.ehInsumo) from Produto p where p.cliente = :cliente and p.id not in(:list) and upper(p.descricao) like upper(concat('%', :query, '%')) order by p.descricao";
 
 		String PRODUTO_BY_ID_KEY = "Produto.loadProdutoByCliente";
 		String PRODUTO_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass) from Produto p where p.cliente = :cliente and p.id = :id";
