@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoAcesso;
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.domain.DiaSemana;
 import br.com.alinesolutions.anotaai.model.domain.Estado;
 import br.com.alinesolutions.anotaai.model.domain.Operadora;
@@ -80,6 +81,6 @@ public class EnumEndpoint {
 	@Path("/tipovenda")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response tipoVenda() throws Exception {
-		return Response.ok(TipoArmazenamento.values()).build();
+		return Response.ok(TipoVenda.values()).build();
 	}
 }
