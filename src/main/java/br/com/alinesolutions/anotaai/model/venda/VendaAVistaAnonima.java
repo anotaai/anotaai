@@ -32,10 +32,7 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 
 	@ManyToOne(optional = false)
 	private Cliente cliente;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	private ConsumidorVenda consumidor;
-
+	
 	public Venda getVenda() {
 		return venda;
 	}
@@ -50,14 +47,6 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	public ConsumidorVenda getConsumidor() {
-		return consumidor;
-	}
-
-	public void setConsumidor(ConsumidorVenda consumidor) {
-		this.consumidor = consumidor;
 	}
 
 	@Override
