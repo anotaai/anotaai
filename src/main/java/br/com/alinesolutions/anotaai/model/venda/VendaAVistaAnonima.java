@@ -1,7 +1,6 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.Transient;
