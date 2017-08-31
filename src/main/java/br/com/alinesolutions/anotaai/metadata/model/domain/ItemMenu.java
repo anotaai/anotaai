@@ -15,7 +15,8 @@ public enum ItemMenu {
 	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icon.GLYPHICON_BOOK, Perfil.CLIENTE, Icon.BOOK, "/caderneta"),
 	//FOLHA("Folha", "folha", Menu.PRINCIPAL, Perfil.CONSUMIDOR, Icon.GLYPHICON_SEARCH),
 	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icon.GLYPHICON_PENCIL, Perfil.CLIENTE, Icon.PENCIL, "/venda"),
-	PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icon.GLYPHICON_FILE, Perfil.CONSUMIDOR, Icon.FILE, "/pedido"),
+	//Avaliar fase 2 / adequar o modelo
+	//PEDIDO("Pedido", "app.pedido", Menu.PRINCIPAL, Icon.GLYPHICON_FILE, Perfil.CONSUMIDOR, Icon.FILE, "/pedido"),
 	ANOTA_AI_HOME("Anota ai", "home", Menu.SUPERIOR, Icon.GLYPHICON_FIRE, Perfil.CLIENTE, null, null),
 	PERFIL("Perfil", "app.cliente", Menu.SUPERIOR, Icon.GLYPHICON_USER, Perfil.CLIENTE, null, null),
 	ENTRADA_MERCADORIA("Entrada de Mercadoria", "app.entrada-mercadoria", Menu.PRINCIPAL, Icon.GLYPHICON_ARROW_LEFT, Perfil.CLIENTE, Icon.ARROW_LEFT, "/entradamercadoria");
