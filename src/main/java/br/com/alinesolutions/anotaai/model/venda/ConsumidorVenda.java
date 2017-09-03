@@ -3,6 +3,7 @@ package br.com.alinesolutions.anotaai.model.venda;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -10,12 +11,14 @@ import org.hibernate.annotations.Where;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 
+
 @Entity
 @NamedQueries({
 
 })
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ConsumidorVenda set ativo = false where id = ?")
+@XmlRootElement
 public class ConsumidorVenda extends BaseEntity<Long, ConsumidorVenda> {
 
 	private static final long serialVersionUID = 1L;

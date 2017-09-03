@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope=FolhaCaderneta.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = FolhaCaderneta.class)
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update FolhaCaderneta set ativo = false where id = ?")
@@ -33,12 +33,20 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 
 	@OneToMany(mappedBy = "folhaCaderneta", cascade = CascadeType.ALL)
 	private List<Pagamento> pagamentos;
-	
-	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.LAZY)
+
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Caderneta caderneta;
-	
+
 	@ManyToOne
 	private ConsumidorVenda consumidor;
+
+	public ConsumidorVenda getConsumidor() {
+		return consumidor;
+	}
+
+	public void setConsumidor(ConsumidorVenda consumidor) {
+		this.consumidor = consumidor;
+	}
 
 	public List<FolhaCadernetaVenda> getVendas() {
 		return vendas;
