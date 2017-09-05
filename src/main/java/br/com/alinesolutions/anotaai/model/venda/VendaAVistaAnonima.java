@@ -1,8 +1,11 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -14,7 +17,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.usuario.Cliente;
+import br.com.alinesolutions.anotaai.model.pagamento.PagamentoAnonimo;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAVistaAnonima.class)
 @NamedQueries({})
@@ -26,12 +29,21 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	@Transient
+	public TipoVenda getTipoVenda() {
+		return TipoVenda.A_VISTA_ANONIMA;
+	}
+
 	@ManyToOne(optional = false)
 	private Venda venda;
 
 	@ManyToOne(optional = false)
-	private Cliente cliente;
-	
+	private Caderneta caderneta;
+
+	@OneToMany(mappedBy = "venda")
+	private List<PagamentoAnonimo> pagamentos;
+
 	public Venda getVenda() {
 		return venda;
 	}
@@ -40,18 +52,20 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 		this.venda = venda;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Caderneta getCaderneta() {
+		return caderneta;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setCaderneta(Caderneta caderneta) {
+		this.caderneta = caderneta;
 	}
 
-	@Override
-	@Transient
-	public TipoVenda getTipoVenda() {
-		return TipoVenda.A_VISTA_ANONIMA;
+	public List<PagamentoAnonimo> getPagamentos() {
+		return pagamentos;
+	}
+
+	public void setPagamentos(List<PagamentoAnonimo> pagamentos) {
+		this.pagamentos = pagamentos;
 	}
 
 }

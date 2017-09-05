@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.pagamento.PagamentoConsumidor;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = FolhaCaderneta.class)
@@ -32,7 +33,7 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 	private List<FolhaCadernetaVenda> vendas;
 
 	@OneToMany(mappedBy = "folhaCaderneta", cascade = CascadeType.ALL)
-	private List<Pagamento> pagamentos;
+	private List<PagamentoConsumidor> pagamentos;
 
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Caderneta caderneta;
@@ -56,11 +57,11 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 		this.vendas = vendas;
 	}
 
-	public List<Pagamento> getPagamentos() {
+	public List<PagamentoConsumidor> getPagamentos() {
 		return pagamentos;
 	}
 
-	public void setPagamentos(List<Pagamento> pagamentos) {
+	public void setPagamentos(List<PagamentoConsumidor> pagamentos) {
 		this.pagamentos = pagamentos;
 	}
 }

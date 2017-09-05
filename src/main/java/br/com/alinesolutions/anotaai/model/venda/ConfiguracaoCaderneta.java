@@ -23,12 +23,11 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	private Integer diaBase;
 	
-
 	@OneToMany(mappedBy = "configuracao",cascade = { CascadeType.ALL } , fetch = FetchType.LAZY)
 	private List<Caderneta> cadernetas;
 	
 	public ConfiguracaoCaderneta() {
-		
+		super();
 	}
 	
 	public ConfiguracaoCaderneta(Long id) {

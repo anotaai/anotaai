@@ -11,8 +11,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
-import br.com.alinesolutions.anotaai.model.venda.IVenda;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
+import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
+import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
+import br.com.alinesolutions.anotaai.model.venda.VendaAnotada;
 import br.com.alinesolutions.anotaai.service.app.VendaService;
 
 @Path("/venda")
@@ -25,7 +27,7 @@ public class VendaEndpoint {
 	@Path("/createanonymoussale")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createAnonymousSale(IVenda entity) {
+	public Response createAnonymousSale(VendaAVistaAnonima entity) {
 		ResponseBuilder builder = null;
 		ResponseEntity<Venda> responseEntity = null;
 		try {
@@ -41,7 +43,7 @@ public class VendaEndpoint {
 	@Path("/creatconsumersale")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createConsumerSale(IVenda entity) {
+	public Response createConsumerSale(VendaAVistaConsumidor entity) {
 		ResponseBuilder builder = null;
 		ResponseEntity<Venda> responseEntity = null;
 		try {
@@ -57,7 +59,7 @@ public class VendaEndpoint {
 	@Path("/createappointmentbooksale")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createAppointmentBookSale(IVenda entity) {
+	public Response createAppointmentBookSale(VendaAnotada entity) {
 		ResponseBuilder builder = null;
 		ResponseEntity<Venda> responseEntity = null;
 		try {

@@ -157,15 +157,16 @@ public class ProdutoService {
 		}
 		final List<Produto> results = findProdutos.getResultList();
 		
-		if("S".equals(insumoFilter)) {
-			for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-				Produto produto = (Produto) iterator.next();
+		if("S".equals(insumoFilter)) {			
+			Iterator<Produto> iterator = results.iterator();
+			Produto produto = null;
+			while (iterator.hasNext()) {
+				produto = iterator.next();
 				if(produto.getEhInsumo()){
 					iterator.remove();
 				}
 			}
 		}
-		
 		return results;
 	}
 

@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAVistaConsumidor.class)
 @NamedQueries({})
@@ -26,14 +25,17 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	@Transient
+	public TipoVenda getTipoVenda() {
+		return TipoVenda.A_VISTA_CONSUMIDOR;
+	}
+
 	@ManyToOne(optional = false)
 	private Venda venda;
 
 	@ManyToOne(optional = false)
-	private Cliente cliente;
-
-	@ManyToOne(optional = false)
-	private FolhaCadernetaVenda folhaCaderneta;
+	private FolhaCaderneta folhaCaderneta;
 
 	public Venda getVenda() {
 		return venda;
@@ -43,25 +45,12 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 		this.venda = venda;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public FolhaCadernetaVenda getFolhaCaderneta() {
+	public FolhaCaderneta getFolhaCaderneta() {
 		return folhaCaderneta;
 	}
 
-	public void setFolhaCaderneta(FolhaCadernetaVenda folhaCaderneta) {
+	public void setFolhaCaderneta(FolhaCaderneta folhaCaderneta) {
 		this.folhaCaderneta = folhaCaderneta;
 	}
 
-	@Override
-	@Transient
-	public TipoVenda getTipoVenda() {
-		return TipoVenda.A_VISTA_CONSUMIDOR;
-	}
 }

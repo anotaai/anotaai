@@ -35,23 +35,20 @@ public class VendaService {
 	
 
     private void createSale(IVenda sale) throws AppException {
-    	
+    	em.persist(sale);
     }
 
-	public ResponseEntity<Venda> createAnonymousSale(IVenda sale) throws AppException {
-		VendaAVistaAnonima vendaAVistaAnonima = (VendaAVistaAnonima) sale;
+	public ResponseEntity<Venda> createAnonymousSale(VendaAVistaAnonima vendaAVistaAnonima) throws AppException {
 		createSale(vendaAVistaAnonima);
 		return null;
 	}
 
-	public ResponseEntity<Venda> createConsumerSale(IVenda sale) throws AppException {
-		VendaAVistaConsumidor vendaAVistaConsumidor = (VendaAVistaConsumidor) sale;
+	public ResponseEntity<Venda> createConsumerSale(VendaAVistaConsumidor vendaAVistaConsumidor) throws AppException {
 		createSale(vendaAVistaConsumidor);
 		return null;
 	}
 
-	public ResponseEntity<Venda> createAppointmentBookSale(IVenda sale) throws AppException {
-		VendaAnotada vendaAnotada = (VendaAnotada) sale;
+	public ResponseEntity<Venda> createAppointmentBookSale(VendaAnotada vendaAnotada) throws AppException {
 		createSale(vendaAnotada);
 		return null;
 	}
