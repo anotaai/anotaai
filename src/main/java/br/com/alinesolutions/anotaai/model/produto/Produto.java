@@ -53,6 +53,9 @@ public class Produto extends BaseEntity<Long, Produto> {
 	private Long codigo;
 	
 	@Column(nullable = false)
+	private Long codigoBarras;
+	
+	@Column(nullable = false)
 	private String descricao;
 	
 	private String descricaoResumida;
@@ -62,9 +65,6 @@ public class Produto extends BaseEntity<Long, Produto> {
 	
 	@Column(nullable = false)
 	private Boolean ehInsumo;
-	
-	@Column(nullable = false)
-	private Boolean codigoGerado;
 
 	@Enumerated(EnumType.STRING)
 	private Icon iconClass;
@@ -263,15 +263,15 @@ public class Produto extends BaseEntity<Long, Produto> {
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
-
-	public Boolean getCodigoGerado() {
-		return codigoGerado;
-	}
-
-	public void setCodigoGerado(Boolean codigoGerado) {
-		this.codigoGerado = codigoGerado;
-	}
 	
+	public Long getCodigoBarras() {
+		return codigoBarras;
+	}
+
+	public void setCodigoBarras(Long codigoBarras) {
+		this.codigoBarras = codigoBarras;
+	}
+
 	public TipoArmazenamento getTipoArmazenamento() {
 		return tipoArmazenamento;
 	}

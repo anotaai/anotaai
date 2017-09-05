@@ -74,9 +74,8 @@ public class ProdutoService {
 		TypedQuery<Produto> q = null;
 		Cliente cliente = appService.getCliente();
 		ResponseEntity<Produto> responseEntity = new ResponseEntity<>();
-		if (produto.getCodigoGerado() != null && produto.getCodigoGerado()) {
-			produto.setCodigo(geradorCodigo.gerarCodigoProduto(cliente));
-		}
+		produto.setCodigo(geradorCodigo.gerarCodigoProduto(cliente));
+		
 		try {
 			q = em.createNamedQuery(ProdutoConstant.PRODUTO_BY_CODIGO_KEY, Produto.class);
 			q.setParameter(ProdutoConstant.FIELD_CODIGO, produto.getCodigo());

@@ -60,7 +60,7 @@
 									"tipomensagem": "Tipo de Mensagem",
 									"tipopessoa": "Tipo de Pessoa",
 									"tipovenda": {
-										"anotada": "Anotada",
+										"anotada_consumidor": "Anotada",
 										"a_vista_anonima": "A Vista",
 										"a_vista_consumidor": "A Vista Consumidor"
 									}
