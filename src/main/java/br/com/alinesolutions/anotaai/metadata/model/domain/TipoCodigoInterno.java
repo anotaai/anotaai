@@ -6,7 +6,7 @@ public enum TipoCodigoInterno {
 		@Override
 		public Long gerarCodigo(Long codigo, Long sequencial) {
 			StringBuilder codigoStr = new StringBuilder(codigo.toString());
-			codigoStr.append(leftPad(sequencial.toString(), 6));
+			codigoStr.append(leftPad(sequencial.toString(), 8));
 			return Long.parseLong(codigoStr.toString());
 		}
 	},
