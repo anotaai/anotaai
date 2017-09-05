@@ -30,7 +30,7 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 	@ManyToOne
 	private FolhaCaderneta folhaCaderneta;
 
-	@Any(metaColumn = @Column(name = "tipo_movimentacao", length = 16), fetch = FetchType.LAZY)
+	@Any(metaColumn = @Column(name = "tipo_venda", length = 16), fetch = FetchType.LAZY)
 	@AnyMetaDef(
 		idType = "long", metaType = "string", 
 		metaValues = { 
