@@ -15,21 +15,27 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAnotada.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAnotadaConsumidor.class)
 @NamedQueries({})
 @Entity
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update VendaAnotada set ativo = false where id = ?")
+@SQLDelete(sql = "update VendaAnotadaConsumidor set ativo = false where id = ?")
 @XmlRootElement
-public class VendaAnotada extends BaseEntity<Long, VendaAnotada> implements IVenda {
+public class VendaAnotadaConsumidor extends BaseEntity<Long, VendaAnotadaConsumidor> implements IVendaConsumidor {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	@Transient
+	public TipoVenda getTipoVenda() {
+		return TipoVenda.ANOTADA_CONSUMIDOR;
+	}
 
 	@ManyToOne(optional = false)
 	private Venda venda;
 
 	@ManyToOne(optional = false)
-	private FolhaCadernetaVenda folhaCaderneta;
+	private FolhaCaderneta folhaCaderneta;
 
 	public Venda getVenda() {
 		return venda;
@@ -39,18 +45,14 @@ public class VendaAnotada extends BaseEntity<Long, VendaAnotada> implements IVen
 		this.venda = venda;
 	}
 
-	public FolhaCadernetaVenda getFolhaCaderneta() {
+	@Override
+	public FolhaCaderneta getFolhaCaderneta() {
 		return folhaCaderneta;
 	}
 
-	public void setFolhaCaderneta(FolhaCadernetaVenda folhaCaderneta) {
-		this.folhaCaderneta = folhaCaderneta;
-	}
-
 	@Override
-	@Transient
-	public TipoVenda getTipoVenda() {
-		return TipoVenda.ANOTADA;
+	public void setFolhaCaderneta(FolhaCaderneta folhaCaderneta) {
+		this.folhaCaderneta = folhaCaderneta;
 	}
 
 }

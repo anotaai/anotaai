@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 public enum TipoVenda {
 	
 	A_VISTA_ANONIMA("A vista anônima"),
-	ANOTADA("Anotada"),
+	ANOTADA_CONSUMIDOR("Anotada consumidor"),
 	A_VISTA_CONSUMIDOR("A vista consumidor");
 	
 	private String descricao;

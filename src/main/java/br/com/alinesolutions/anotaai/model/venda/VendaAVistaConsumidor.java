@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.pagamento.PagamentoConsumidor;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAVistaConsumidor.class)
 @NamedQueries({})
@@ -21,7 +22,7 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update VendaAVistaConsumidor set ativo = false where id = ?")
 @XmlRootElement
-public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumidor> implements IVenda {
+public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumidor> implements IVendaConsumidor {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,6 +38,9 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 	@ManyToOne(optional = false)
 	private FolhaCaderneta folhaCaderneta;
 
+	@ManyToOne(optional = false)
+	private PagamentoConsumidor pagamento;
+
 	public Venda getVenda() {
 		return venda;
 	}
@@ -45,10 +49,12 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 		this.venda = venda;
 	}
 
+	@Override
 	public FolhaCaderneta getFolhaCaderneta() {
 		return folhaCaderneta;
 	}
 
+	@Override
 	public void setFolhaCaderneta(FolhaCaderneta folhaCaderneta) {
 		this.folhaCaderneta = folhaCaderneta;
 	}

@@ -2,6 +2,7 @@ package br.com.alinesolutions.anotaai.model.pagamento;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -46,7 +47,7 @@ public class PagamentoAnonimo extends BaseEntity<Long, PagamentoAnonimo> impleme
 
 	private MeioPagamento meioPagamento;
 
-	@ManyToOne()
+	@ManyToOne(cascade=CascadeType.DETACH)
 	private VendaAVistaAnonima venda;
 
 	public Date getDataPagamento() {

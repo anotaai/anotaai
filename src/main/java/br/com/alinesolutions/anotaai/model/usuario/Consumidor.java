@@ -22,7 +22,7 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoPessoa;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.Operadora;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor.ConsumidorConstant;
-import br.com.alinesolutions.anotaai.model.venda.ConsumidorVenda;
+import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Consumidor.class)
 @NamedQueries({
@@ -46,8 +46,8 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 	@OneToMany(mappedBy = "consumidor", cascade = CascadeType.ALL)
 	private List<ClienteConsumidor> clientes;
 
-	@OneToMany(mappedBy = "consumidor")
-	private List<ConsumidorVenda> comparas;
+	@OneToMany(mappedBy = "folhaCaderneta")
+	private List<FolhaCadernetaVenda> comparas;
 
 	public Consumidor() {
 		super();
@@ -102,11 +102,11 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 		this.clientes = clientes;
 	}
 
-	public List<ConsumidorVenda> getComparas() {
+	public List<FolhaCadernetaVenda> getComparas() {
 		return comparas;
 	}
 
-	public void setComparas(List<ConsumidorVenda> comparas) {
+	public void setComparas(List<FolhaCadernetaVenda> comparas) {
 		this.comparas = comparas;
 	}
 
