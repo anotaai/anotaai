@@ -150,7 +150,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 	}
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Long codigo,
-			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente,TipoArmazenamento tipoArmazenamento) {
+			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente,TipoArmazenamento tipoArmazenamento,Long codigoBarras) {
 		this(id, descricao, descricaoResumida, precoVenda, iconClass);
 		this.ehInsumo = ehInsumo;
 		this.codigo = codigo;
@@ -158,6 +158,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 		this.cliente = new Cliente();
 		this.cliente.setId(idCliente);
 		this.tipoArmazenamento = tipoArmazenamento;
+		this.codigoBarras = codigoBarras;
 	}
 
 	public String getDescricao() {
@@ -301,7 +302,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida, p.tipoArmazenamento) from Produto p left join p.estoque e where p.cliente = :cliente order by p.descricao";
 
 		String EDIT_KEY = "Produto.editProduto";
-		String EDIT_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, p.codigo, p.unidadeMedida, p.ehInsumo, c.id, p.tipoArmazenamento) from Produto p join p.cliente c where p.id = :id";
+		String EDIT_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, p.codigo, p.unidadeMedida, p.ehInsumo, c.id, p.tipoArmazenamento, p.codigoBarras) from Produto p join p.cliente c where p.id = :id";
 
 		String LIST_SEARCH_BY_GRUPO_PRODUTO_KEY = "Produto.listByGrupoProduto";
 		String LIST_SEARCH_BY_GRUPO_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass) from Produto p where p.cliente = :cliente and p.id not in (select pgp.produto.id from ProdutoGrupoProduto pgp where pgp.grupoProduto = :grupoProduto) and upper(p.descricao) like upper(concat('%', :query, '%')) order by p.descricao";
