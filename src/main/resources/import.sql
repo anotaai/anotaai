@@ -23,12 +23,12 @@ insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUE
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Liquido', 'Setor teste', 1, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bebidas', 'Produtos Líquidos', 1, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (55.50, 150, true);
-insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo, tipoArmazenamento) values ('Cerveja Brahma 350ml', 'Brahma 350ml', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 7891149010301, false, false, true, 1);
+insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Cerveja Brahma 350ml', 'Brahma 350ml', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 7891149010301, false, false, true, 1);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo, ehPrincipal) values (1, 1, true, true);
 
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Salgados', 'Produtos Fritos', 1, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (10.50, 1200, true);
-insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo, tipoArmazenamento) values ('Coxinha de Frango', 'Coxinha', 3.5, 7, 'GLYPHICON_CLOUD', 1, 2, 7894568551258, false, false, true, 2);
+insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Coxinha de Frango', 'Coxinha', 3.5, 7, 'GLYPHICON_CLOUD', 1, 2, 7894568551258, false, false, true, 2);
 insert into Disponibilidade (dia, produto_id, ativo) values (0, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (1, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (2, 1, true);
@@ -41,7 +41,7 @@ insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo, ehPrincipal
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Padaria', 'Setor dois', 2, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bolos', 'Grupo Produto Bolos', 2, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (0, 0, true);
-insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoGerado, ativo, tipoArmazenamento) values ('Sacola Plástica', 'Sacola', 3.5, 7, 'GLYPHICON_STAR', 2, 3, 7893214568825, false, false, true, 0);
+insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Sacola Plástica', 'Sacola', 3.5, 7, 'GLYPHICON_STAR', 2, 3, 7893214568825, false, false, true, 0);
 insert into ItemReceita (produto_id, ingrediente_id, quantidade, ativo) values (2, 1, 12, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (0, 3, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (1, 3, true);
