@@ -1,5 +1,6 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -32,7 +33,7 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 		return TipoVenda.A_VISTA_CONSUMIDOR;
 	}
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade=CascadeType.ALL)
 	private Venda venda;
 
 	@ManyToOne(optional = false)
