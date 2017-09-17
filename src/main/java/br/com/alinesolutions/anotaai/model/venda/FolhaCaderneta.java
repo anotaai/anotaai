@@ -18,6 +18,7 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.sun.istack.NotNull;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.pagamento.PagamentoConsumidor;
@@ -42,13 +43,16 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Caderneta caderneta;
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date dataInicio;
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date dataTermino;
 
-	@Temporal(TemporalType.DATE)
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;
 
 	@ManyToOne(cascade = CascadeType.ALL)

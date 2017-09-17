@@ -9,12 +9,12 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoItemMovimentacao;
 
 @JsonTypeInfo(use = Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-	@Type(value = ItemBalanco.class, name="balanco"),
-	@Type(value = ItemEntrada.class, name="entrada"),
-	@Type(value = ItemQuebra.class, name="quebra"),
-	@Type(value = ItemVenda.class, name="venda"),
-	@Type(value = ItemDevolucao.class, name="devolucao"),
-	@Type(value = ItemEstorno.class, name="estorno")
+	@Type(value = ItemBalanco.class, name="ITEM_BALANCO"),
+	@Type(value = ItemEntrada.class, name="ITEM_ENTRADA"),
+	@Type(value = ItemQuebra.class, name="ITEM_QUEBRA"),
+	@Type(value = ItemVenda.class, name="ITEM_VENDA"),
+	@Type(value = ItemDevolucao.class, name="ITEM_DEVOLUCAO"),
+	@Type(value = ItemEstorno.class, name="ITEM_ESTORNO")
 })
 public interface IMovimentacao {
 	

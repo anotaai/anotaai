@@ -1,5 +1,8 @@
 package br.com.alinesolutions.anotaai.service.app;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -44,9 +47,33 @@ public class FolhaCadernetaService {
 	public FolhaCaderneta recuperarFolhaCaderneta(Caderneta caderneta, Consumidor consumidor) {
 		FolhaCaderneta folhaCaderneta = null;
 		try {
-			//TODO recuperar a folha de caderneta atual
+			throw new NoResultException();
 		} catch (NoResultException e) {
-			//TODO criar a folha de caderneta
+			FolhaCaderneta folha = new FolhaCaderneta();
+			folha.setConsumidor(em.getReference(Consumidor.class, consumidor.getId()));
+			caderneta = em.getReference(Caderneta.class, caderneta.getId());
+			folha.setCaderneta(caderneta);
+			folha.setDataCriacao(new Date());
+			
+			Integer diaBase = caderneta.getConfiguracao().getDiaBase();
+			Integer qtdDiasDuracaoFolha = caderneta.getConfiguracao().getQtdDiasDuracaoFolha();
+			Integer diaHoje = LocalDate.now().getDayOfMonth();
+			
+			Integer inicio = null;
+			Integer termino = null;
+
+			//se o dia base estiver entre hoje e a soma dos dias de duracao da folha
+			if (diaHoje - diaBase <= qtdDiasDuracaoFolha && qtdDiasDuracaoFolha - diaHoje >= 0) {
+				inicio = diaBase;
+				termino = qtdDiasDuracaoFolha;
+			} else {
+				//cria o periodo de acordo com o dia 
+				inicio = (diaHoje - (diaHoje % qtdDiasDuracaoFolha));
+				termino = inicio + qtdDiasDuracaoFolha;
+			}
+			System.out.println(termino);
+			
+			
 		}
 		return folhaCaderneta;
 	}

@@ -27,7 +27,7 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne()
 	private FolhaCaderneta folhaCaderneta;
 
 	@Any(metaColumn = @Column(name = "tipo_venda", length = 16), fetch = FetchType.LAZY)

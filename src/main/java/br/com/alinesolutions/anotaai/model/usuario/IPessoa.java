@@ -9,8 +9,8 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoPessoa;
 
 @JsonTypeInfo(use = Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-	@Type(value = Cliente.class, name="cliente"),
-	@Type(value = Consumidor.class, name="consumidor")
+	@Type(value = Cliente.class, name="CLIENTE"),
+	@Type(value = Consumidor.class, name="CONSUMIDOR")
 })
 public interface IPessoa {
 
