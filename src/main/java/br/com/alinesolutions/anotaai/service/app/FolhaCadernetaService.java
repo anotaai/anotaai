@@ -69,8 +69,11 @@ public class FolhaCadernetaService {
 			
 			Calendar dataInicial = Calendar.getInstance();
 			Calendar dataFinal = Calendar.getInstance();
-			
-			dataInicial.set(Calendar.DAY_OF_MONTH, (int) (diasCaderneta % qtdDiasDuracaoFolha * -1));
+			if (diasCaderneta / qtdDiasDuracaoFolha > 0) {
+				dataInicial.set(Calendar.DAY_OF_MONTH, (int) (diasCaderneta % qtdDiasDuracaoFolha * -1));				
+			} else {
+				dataInicial.setTime(caderneta.getDataAbertura());			
+			}
 			dataFinal.set(Calendar.DAY_OF_MONTH, qtdDiasDuracaoFolha);
 			
 			System.out.println(dataInicial.getTime());
