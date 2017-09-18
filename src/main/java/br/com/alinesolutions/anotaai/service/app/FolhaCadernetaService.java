@@ -62,28 +62,16 @@ public class FolhaCadernetaService {
 			folha.setCaderneta(caderneta);
 			folha.setDataCriacao(new Date());
 			
-			Integer diaBase = caderneta.getConfiguracao().getDiaBase();
 			LocalDate dataAbertura = caderneta.getDataAbertura().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			Long diasCaderneta = ChronoUnit.DAYS.between(dataAbertura, LocalDate.now());
-			Integer qtdDiasDuracaoFolha = caderneta.getConfiguracao().getQtdDiasDuracaoFolha();
 			LocalDate now = LocalDate.now();
-			
-			Integer diaHoje = now.getDayOfMonth();
-			Integer ultimoDiaDoMes = now.withDayOfMonth(now.lengthOfMonth()).getDayOfMonth();
+			Long diasCaderneta = ChronoUnit.DAYS.between(dataAbertura, now);
+			Integer qtdDiasDuracaoFolha = caderneta.getConfiguracao().getQtdDiasDuracaoFolha();
 			
 			Calendar dataInicial = Calendar.getInstance();
 			Calendar dataFinal = Calendar.getInstance();
 			
-			if (diasCaderneta / qtdDiasDuracaoFolha == 0) {
-				dataInicial.set(Calendar.DAY_OF_MONTH, (int) (diasCaderneta % qtdDiasDuracaoFolha * -1));
-				dataFinal.set(Calendar.DAY_OF_MONTH, qtdDiasDuracaoFolha);
-			}
-
-			Integer diaAbertura = dataAbertura.getDayOfMonth();
-			Long diasPrimeiroPeriodo = ChronoUnit.DAYS.between(dataAbertura, dataAbertura.plusDays(diaBase >= diaAbertura ? diaBase % qtdDiasDuracaoFolha : (dataAbertura.withDayOfMonth(dataAbertura.lengthOfMonth()).getDayOfMonth() - diaAbertura) + diaBase));
-			Integer diasJaPassadosPeriodoAtual = (int) ((diasCaderneta - diasPrimeiroPeriodo) % qtdDiasDuracaoFolha);
-			dataInicial.add(Calendar.DAY_OF_MONTH, diasJaPassadosPeriodoAtual * -1);
-			dataFinal.add(Calendar.DAY_OF_MONTH, qtdDiasDuracaoFolha - diasJaPassadosPeriodoAtual);
+			dataInicial.set(Calendar.DAY_OF_MONTH, (int) (diasCaderneta % qtdDiasDuracaoFolha * -1));
+			dataFinal.set(Calendar.DAY_OF_MONTH, qtdDiasDuracaoFolha);
 			
 			System.out.println(dataInicial.getTime());
 			System.out.println(dataFinal.getTime());
