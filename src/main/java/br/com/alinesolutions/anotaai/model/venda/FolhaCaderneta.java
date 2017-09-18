@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,17 +17,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.istack.NotNull;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.pagamento.PagamentoConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta.FolhaCadernetaConstant;
 
+@NamedQueries({
+	@NamedQuery(name=FolhaCadernetaConstant.FIND_FOLHA_VIGENTE, query=FolhaCadernetaConstant.FIND_FOLHA_VIGENTE_QUERY)
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = FolhaCaderneta.class)
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update FolhaCaderneta set ativo = false where id = ?")
@@ -112,6 +115,11 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+	
+	public interface FolhaCadernetaConstant {
+		String FIND_FOLHA_VIGENTE = "FolhaCaderneta.findFolhaVigente";
+		String FIND_FOLHA_VIGENTE_QUERY = "select folha from FolhaCaderneta folha where :hoje between folha.dataInicio and folha.dataTermino";
 	}
 
 }
