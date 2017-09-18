@@ -73,6 +73,11 @@ public class FolhaCadernetaService {
 			
 			Calendar dataInicial = Calendar.getInstance();
 			Calendar dataFinal = Calendar.getInstance();
+			
+			if (diasCaderneta / qtdDiasDuracaoFolha == 0) {
+				dataInicial.setTime(caderneta.getDataAbertura());
+				dataFinal.set(Calendar.DAY_OF_MONTH, (int) (diasCaderneta % qtdDiasDuracaoFolha * -1));
+			}
 
 			Integer diaAbertura = dataAbertura.getDayOfMonth();
 			Long diasPrimeiroPeriodo = ChronoUnit.DAYS.between(dataAbertura, dataAbertura.plusDays(diaBase >= diaAbertura ? diaBase % qtdDiasDuracaoFolha : (dataAbertura.withDayOfMonth(dataAbertura.lengthOfMonth()).getDayOfMonth() - diaAbertura) + diaBase));
