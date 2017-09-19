@@ -50,13 +50,13 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		super();
 	}
 	
-	public ClienteConsumidor(Long id){
+	public ClienteConsumidor(Long id) {
 		this();
 		this.setId(id);
 	}
 	
 	public ClienteConsumidor(Long id,Long idUsuarioConsumidor, String nomeUsuarioConsumidor,String emailUsuarioConsumidor,
-			Long idTelefoneConsumidor,Integer ddd, Integer ddi, Integer numero, SituacaoUsuario situacaoUsuario){
+			Long idTelefoneConsumidor,Integer ddd, Integer ddi, Integer numero, SituacaoUsuario situacaoUsuario) {
 		this();
 		this.setId(id);
 		this.setConsumidor(new Consumidor());
