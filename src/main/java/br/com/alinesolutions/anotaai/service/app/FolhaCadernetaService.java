@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import static java.time.temporal.TemporalAdjusters.*;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -63,23 +64,55 @@ public class FolhaCadernetaService {
 			folha.setDataCriacao(new Date());
 			
 			LocalDate dataAbertura = caderneta.getDataAbertura().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			Integer diaAbertura = dataAbertura.getDayOfMonth();
+			Integer ultimoDiaMesDataAbertura = dataAbertura.with(lastDayOfMonth()).getDayOfMonth();
+			Integer diaBase = caderneta.getConfiguracao().getDiaBase();
+			
 			LocalDate now = LocalDate.now();
 			Long diasCaderneta = ChronoUnit.DAYS.between(dataAbertura, now);
 			Integer qtdDiasDuracaoFolha = caderneta.getConfiguracao().getQtdDiasDuracaoFolha();
 			
 			Calendar dataInicial = Calendar.getInstance();
 			Calendar dataFinal = Calendar.getInstance();
+			Integer qtdDiasPeriodoInicial = diaBase >= diaAbertura ? diaBase : ultimoDiaMesDataAbertura - diaAbertura + diaBase;
 			if (diasCaderneta / qtdDiasDuracaoFolha > 0) {
-				dataInicial.set(Calendar.DAY_OF_MONTH, (int) (diasCaderneta % qtdDiasDuracaoFolha * -1));				
+				Integer equalizador = calcularEqualizador(dataAbertura, qtdDiasPeriodoInicial);
+				dataInicial.add(Calendar.DAY_OF_MONTH, (int) ((diasCaderneta - qtdDiasPeriodoInicial - equalizador) % qtdDiasDuracaoFolha * -1));
+				dataFinal.setTimeInMillis(dataInicial.getTimeInMillis());
 			} else {
-				dataInicial.setTime(caderneta.getDataAbertura());			
+				dataInicial.setTime(caderneta.getDataAbertura());
+				dataFinal.setTimeInMillis(dataInicial.getTimeInMillis());
 			}
-			dataFinal.set(Calendar.DAY_OF_MONTH, qtdDiasDuracaoFolha);
-			
+			dataFinal.add(Calendar.DAY_OF_MONTH, qtdDiasDuracaoFolha);
 			System.out.println(dataInicial.getTime());
 			System.out.println(dataFinal.getTime());
 		}
 		return folha;
+	}
+
+
+	private Integer calcularEqualizador(LocalDate dataAbertura, Integer qtdDiasPeriodoInicial) {
+		dataAbertura = dataAbertura.plusDays(qtdDiasPeriodoInicial);
+		LocalDate primeiroDiaMesAtual  = LocalDate.now().with(firstDayOfMonth());
+		Integer count = 0;
+		while (dataAbertura.isBefore(primeiroDiaMesAtual)) {
+			switch (dataAbertura.with(lastDayOfMonth()).getDayOfMonth()) {
+			case 28:
+				count -= 2;
+				break;
+			case 29:				
+				count -= 1;
+				break;
+			case 31:
+				count++;
+				break;
+			default:
+				break;
+			}
+			dataAbertura = dataAbertura.with(firstDayOfNextMonth());
+		}
+		System.out.println(count);
+		return count;
 	}
 	
 
