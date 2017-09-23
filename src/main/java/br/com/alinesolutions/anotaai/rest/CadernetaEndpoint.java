@@ -1,5 +1,7 @@
 package br.com.alinesolutions.anotaai.rest;
 
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -18,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
+import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta;
 import br.com.alinesolutions.anotaai.service.app.CadernetaService;
@@ -54,6 +57,14 @@ public class CadernetaEndpoint {
 		}
 		return builder.build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getappointmentbooks")
+	public List<Caderneta> getAppointmentBooks() {
+		return cadernetaService.getAppointmentBooks();
+	}
+	
 	
 	@POST
 	@Path("/checkSameConfiguration")

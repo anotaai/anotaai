@@ -247,4 +247,11 @@ public class CadernetaService {
 
 	}
 
+	public List<Caderneta> getAppointmentBooks() {
+		Cliente cliente = appService.getCliente();
+		TypedQuery<Caderneta> cadernetaQuery = em.createNamedQuery(CadernetaConstant.LIST_ALL_KEY, Caderneta.class);
+		cadernetaQuery.setParameter(Constant.Entity.CLIENTE, cliente);
+	    return cadernetaQuery.getResultList();
+	}
+
 }
