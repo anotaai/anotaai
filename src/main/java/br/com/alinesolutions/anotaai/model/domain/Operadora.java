@@ -8,7 +8,15 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Operadora {
 
-	VIVO("Vivo"), TIM("Tim"), CLARO("Claro"), OI("Oi"), NEXTEL("Nextel"), ALGAR("Algar"), SERCOMTEL("Sercomtel"), PORTO_SEGURO("Porto Seguro");
+	VIVO("Vivo"), 
+	TIM("Tim"), 
+	CLARO("Claro"), 
+	OI("Oi"), 
+	NEXTEL("Nextel"), 
+	ALGAR("Algar"), 
+	SERCOMTEL("Sercomtel"), 
+	PORTO_SEGURO("Porto Seguro"),
+	CORREIOS("Correios");
 
 	private Operadora(String descricao) {
 		this.descricao = descricao;
