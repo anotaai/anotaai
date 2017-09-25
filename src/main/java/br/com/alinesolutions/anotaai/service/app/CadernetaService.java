@@ -190,37 +190,36 @@ public class CadernetaService {
 	
 	private void updateCadernetas(ConfiguracaoCaderneta configuracaoUdate, ConfiguracaoCaderneta entity) {
 
-			Iterator<Caderneta> iteratorCadernetas = configuracaoUdate.getCadernetas().iterator();
-			Caderneta c = null;
-			Cliente cliente = appService.getCliente();
+		Iterator<Caderneta> iteratorCadernetas = configuracaoUdate.getCadernetas().iterator();
+		Caderneta c = null;
+		Cliente cliente = appService.getCliente();
 
-			while (iteratorCadernetas.hasNext()) {
-				c = iteratorCadernetas.next();
-				if (!entity.getCadernetas().contains(c)) {
-					em.remove(c);
-					iteratorCadernetas.remove();
-				}
+		while (iteratorCadernetas.hasNext()) {
+			c = iteratorCadernetas.next();
+			if (!entity.getCadernetas().contains(c)) {
+				em.remove(c);
+				iteratorCadernetas.remove();
 			}
+		}
 
-			for (Caderneta caderneta : entity.getCadernetas()) {
-				caderneta.setDataAbertura(new Date());
-				caderneta.setDataFechamento(new Date());
-				Cliente currentClient = new Cliente();
-				currentClient.setId(cliente.getId());
-				caderneta.setCliente(currentClient);
-				if (caderneta.getId() == null) {
-					caderneta.setConfiguracao(new ConfiguracaoCaderneta(configuracaoUdate.getId()));
-					configuracaoUdate.getCadernetas().add(caderneta);
-				} else {
-					for (Caderneta cadernetaUpdate : configuracaoUdate.getCadernetas()) {
-						if (cadernetaUpdate.getId().equals(caderneta.getId())) {
-							cadernetaUpdate.setDescricao(caderneta.getDescricao());
-							break;
-						}
+		for (Caderneta caderneta : entity.getCadernetas()) {
+			caderneta.setDataAbertura(new Date());
+			caderneta.setDataFechamento(new Date());
+			Cliente currentClient = new Cliente();
+			currentClient.setId(cliente.getId());
+			caderneta.setCliente(currentClient);
+			if (caderneta.getId() == null) {
+				caderneta.setConfiguracao(new ConfiguracaoCaderneta(configuracaoUdate.getId()));
+				configuracaoUdate.getCadernetas().add(caderneta);
+			} else {
+				for (Caderneta cadernetaUpdate : configuracaoUdate.getCadernetas()) {
+					if (cadernetaUpdate.getId().equals(caderneta.getId())) {
+						cadernetaUpdate.setDescricao(caderneta.getDescricao());
+						break;
 					}
 				}
 			}
-
+		}
 	}
 	
 	
