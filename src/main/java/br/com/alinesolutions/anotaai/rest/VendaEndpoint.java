@@ -40,7 +40,7 @@ public class VendaEndpoint {
 	}
 
 	@POST
-	@Path("/creatconsumersale")
+	@Path("/createconsumersale")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createConsumerSale(VendaAVistaConsumidor entity) {
