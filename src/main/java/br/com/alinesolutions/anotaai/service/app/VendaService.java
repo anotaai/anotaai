@@ -50,13 +50,14 @@ public class VendaService {
 	}
 
 	public ResponseEntity<Venda> createConsumerSale(VendaAVistaConsumidor vendaAVistaConsumidor) throws AppException {
-		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(null/* Selecionar */, vendaAVistaConsumidor.getFolhaCaderneta().getConsumidor());
+		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(vendaAVistaConsumidor.getFolhaCaderneta().getCaderneta(), vendaAVistaConsumidor.getFolhaCaderneta().getConsumidor());
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
+		vendaAVistaConsumidor.setFolhaCaderneta(folha);
 		/* na venda a vista consumidor deve conter o pagamento */
+		//createSale(vendaAVistaConsumidor);
 		venda.setVenda(vendaAVistaConsumidor);
 		em.persist(venda);
-		createSale(vendaAVistaConsumidor);
 
 		return null;
 	}
@@ -68,8 +69,10 @@ public class VendaService {
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
+		vendaAnotada.setFolhaCaderneta(folha);
+		em.persist(vendaAnotada);
 		venda.setVenda(vendaAnotada);
-		//em.persist(venda);
+		em.persist(venda);
 		
 		return null;
 	}

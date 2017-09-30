@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -30,7 +31,7 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 	@ManyToOne()
 	private FolhaCaderneta folhaCaderneta;
 
-	@Any(metaColumn = @Column(name = "tipo_venda", length = 16), fetch = FetchType.LAZY)
+	@Any(metaColumn = @Column(name = "tipo_venda", length = 32), fetch = FetchType.LAZY, optional=false)
 	@AnyMetaDef(
 		idType = "long", metaType = "string", 
 		metaValues = { 
@@ -38,7 +39,8 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 			@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR")
 		}
 	)
-	@JoinColumn(name="venda_id")
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	@JoinColumn(name="venda_id", nullable = false)
 	private IVendaConsumidor venda;
 
 	public FolhaCaderneta getFolhaCaderneta() {
