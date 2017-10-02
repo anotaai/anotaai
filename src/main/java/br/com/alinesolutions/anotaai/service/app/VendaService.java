@@ -1,5 +1,7 @@
 package br.com.alinesolutions.anotaai.service.app;
 
+import java.util.Date;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -50,13 +52,17 @@ public class VendaService {
 	}
 
 	public ResponseEntity<Venda> createConsumerSale(VendaAVistaConsumidor vendaAVistaConsumidor) throws AppException {
-		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(null/* Selecionar */, vendaAVistaConsumidor.getFolhaCaderneta().getConsumidor());
+		Caderneta caderneta = vendaAVistaConsumidor.getFolhaCaderneta().getCaderneta();
+		Consumidor consumidor = vendaAVistaConsumidor.getFolhaCaderneta().getConsumidor();
+		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
+		vendaAVistaConsumidor.getVenda().setDataVenda(new Date());
+		vendaAVistaConsumidor.setFolhaCaderneta(folha);
 		/* na venda a vista consumidor deve conter o pagamento */
+		//createSale(vendaAVistaConsumidor);
 		venda.setVenda(vendaAVistaConsumidor);
 		em.persist(venda);
-		createSale(vendaAVistaConsumidor);
 
 		return null;
 	}
@@ -68,8 +74,11 @@ public class VendaService {
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
+		vendaAnotada.setFolhaCaderneta(folha);
+		vendaAnotada.getVenda().setDataVenda(new Date());
+		em.persist(vendaAnotada);
 		venda.setVenda(vendaAnotada);
-		//em.persist(venda);
+		em.persist(venda);
 		
 		return null;
 	}

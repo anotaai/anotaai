@@ -1,6 +1,7 @@
 package br.com.alinesolutions.anotaai.service.app;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -62,8 +63,9 @@ public class FolhaCadernetaService {
 			Integer qtdDiasDuracaoFolha = caderneta.getConfiguracao().getQtdDiasDuracaoFolha();
 			LocalDate dataInicial = calcularDataInicioFolhaCaderneta(diaBase, qtdDiasDuracaoFolha);
 			LocalDate dataFinal = dataInicial.plusDays(qtdDiasDuracaoFolha);
-			System.out.println(dataInicial);
-			System.out.println(dataFinal);
+			folha.setDataInicio(Date.from(dataInicial.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			folha.setDataTermino(Date.from(dataFinal.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			em.persist(folha);
 		}
 		return folha;
 	}
@@ -82,7 +84,7 @@ public class FolhaCadernetaService {
 		while (dataBase.isBefore(now)) {
 			dataBase = dataBase.plusDays(qtdDiasDuracaoFolha);
 			if (dataBase.isBefore(now)) {
-				diaInicioFolhaCaderneta = dataBase;				
+				diaInicioFolhaCaderneta = dataBase;	
 			}
 		}
 		return diaInicioFolhaCaderneta;
