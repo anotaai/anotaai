@@ -1,5 +1,6 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne()
+	@ManyToOne(cascade=CascadeType.ALL)
 	private FolhaCaderneta folhaCaderneta;
 
 	@Any(metaColumn = @Column(name = "tipo_venda", length = 32), fetch = FetchType.LAZY, optional=false)

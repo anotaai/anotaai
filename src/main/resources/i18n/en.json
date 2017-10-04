@@ -33,6 +33,11 @@
 		"login": {
 			"forbidden": "Sessão expirada, favor efetuar o login novamente.",
 			"confirmacaosenha": "A senha não confere com a confirmação de senha. Informe novamente."
+		},
+		"venda": {
+			"consumidor": {
+				"naocadastrado": "Consumidor {0}, não cadastrado"
+			}
 		}
 	},
 	"label": {

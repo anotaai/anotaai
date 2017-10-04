@@ -35,6 +35,6 @@ public interface IMessage {
 	String SECURITY_ACCESS_DENIED = "security.access.denied";
 	String SECURITY_SECURITY_SESSION_TIMEOUT = "security.session.timeout";
 	String SOLICITACAO_ALTERACAO_SENHA = "mensagem.alteracao.senha";
-	
+	String CONSUMIDOR_INVALIDO = "mensagem.venda.consumidor.naocadastrado";	
 
 }

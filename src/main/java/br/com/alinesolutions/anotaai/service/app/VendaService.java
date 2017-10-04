@@ -7,21 +7,27 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
+import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
 import br.com.alinesolutions.anotaai.model.venda.IVenda;
+import br.com.alinesolutions.anotaai.model.venda.IVendaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.VendaAnotadaConsumidor;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
+import br.com.alinesolutions.anotaai.util.AnotaaiUtil;
 
 @Stateless
 public class VendaService {
@@ -57,10 +63,9 @@ public class VendaService {
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
+		folha.getVendas().add(venda);
 		vendaAVistaConsumidor.getVenda().setDataVenda(new Date());
 		vendaAVistaConsumidor.setFolhaCaderneta(folha);
-		/* na venda a vista consumidor deve conter o pagamento */
-		//createSale(vendaAVistaConsumidor);
 		venda.setVenda(vendaAVistaConsumidor);
 		em.persist(venda);
 
@@ -71,16 +76,52 @@ public class VendaService {
 		
 		Caderneta caderneta = vendaAnotada.getFolhaCaderneta().getCaderneta();
 		Consumidor consumidor = vendaAnotada.getFolhaCaderneta().getConsumidor();
-		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
-		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
-		venda.setFolhaCaderneta(folha);
-		vendaAnotada.setFolhaCaderneta(folha);
-		vendaAnotada.getVenda().setDataVenda(new Date());
-		em.persist(vendaAnotada);
-		venda.setVenda(vendaAnotada);
-		em.persist(venda);
-		
+		try {
+			validateSale(vendaAnotada);
+			FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
+			FolhaCadernetaVenda folhaCadernetaVenda = new FolhaCadernetaVenda();
+			folhaCadernetaVenda.setVenda(vendaAnotada);
+			folhaCadernetaVenda.setFolhaCaderneta(folha);
+			
+			folha.getVendas().add(folhaCadernetaVenda);
+			vendaAnotada.setFolhaCaderneta(folha);
+			vendaAnotada.getVenda().setDataVenda(new Date());
+			
+			createSale(vendaAnotada, folhaCadernetaVenda);
+		} catch (AppException e) {
+			
+		}
 		return null;
+	}
+
+	private void validateSale(IVendaConsumidor venda) throws AppException {
+
+		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = new ResponseEntity<>();
+		Consumidor consumidor = null;
+		try {
+			consumidor = venda.getFolhaCaderneta().getConsumidor();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		if (10 > 0) {
+			responseEntity.addMessage(IMessage.CONSUMIDOR_INVALIDO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, consumidor.getUsuario().getNome());
+			responseEntity.setIsValid(Boolean.FALSE);
+		}
+		
+		
+	}
+	
+	private void validateSale(IVenda venda) throws AppException {
+		AnotaaiUtil util = AnotaaiUtil.getInstance();
+		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = new ResponseEntity<>();
+		
+	}
+
+	
+
+	private void createSale(IVenda vendaAnotada, FolhaCadernetaVenda folhaCadernetaVenda) {
+		em.persist(vendaAnotada);
+		em.persist(folhaCadernetaVenda);
 	}
 
 }
