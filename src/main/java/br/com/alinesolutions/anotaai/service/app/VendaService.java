@@ -115,13 +115,6 @@ public class VendaService {
 				mergeErrorMessages(responseEntity, e.getResponseEntity());
 			}
 		}
-		if (iVenda instanceof IVendaConsumidor) {
-			try {
-				validateSale((IVendaConsumidor)iVenda);
-			} catch (AppException e) {
-				mergeErrorMessages(responseEntity, e.getResponseEntity());
-			}
-		}
 		finalizeOrThrows(responseEntity);
 	}
 
@@ -184,27 +177,29 @@ public class VendaService {
 		finalizeOrThrows(responseEntity);
 	}
 
-	private void validateSale(IVendaConsumidor venda) throws AppException {
-
-		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = new ResponseEntity<>();
-		Consumidor consumidor = venda.getFolhaCaderneta().getConsumidor();
+	private void validateSale(IVendaConsumidor iVenda) throws AppException {
+		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
+		try {
+			validateSale((IVenda)iVenda);
+		} catch (AppException e) {
+			mergeErrorMessages(responseEntity, e.getResponseEntity());
+		}
+		Consumidor consumidor = iVenda.getFolhaCaderneta().getConsumidor();
 		if (consumidor == null) {
 			responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
 			try {
 				Consumidor consumidorStorage = em.find(Consumidor.class, consumidor.getId());
-				if (true) {
-					
+				if (!consumidorStorage.getClientes().contains(appService.getCliente())) {
+					responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+					responseEntity.setIsValid(Boolean.FALSE);
 				}
 			} catch (NoResultException e) {
 				// TODO: handle exception
 			}
 		}
-		
-		
-		
-		
+		finalizeOrThrows(responseEntity);
 		
 	}
 
