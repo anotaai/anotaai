@@ -56,7 +56,7 @@ public class FolhaCadernetaService {
 			folha = query.getSingleResult();
 		} catch (NoResultException e) {
 			folha = new FolhaCaderneta();
-			folha.setConsumidor(em.getReference(Consumidor.class, consumidor.getId()));
+			folha.setConsumidor(consumidor);
 			folha.setCaderneta(em.getReference(Caderneta.class, caderneta.getId()));
 			folha.setVendas(new ArrayList<>());
 			folha.setDataCriacao(new Date());

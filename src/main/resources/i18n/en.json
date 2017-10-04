@@ -38,6 +38,19 @@
 			"consumidor": {
 				"naocadastrado": "Consumidor {0}, não cadastrado"
 			}
+		},
+		"produto": {
+			"naocadastrado": "O Produto {0} não está cadastrado"
+		},
+		"obrigatorio": {
+			"ivenda": {
+				"venda": "Erro de processamento, venda não informada",
+				"movimentacaoproduto": "O Item de Venda {0}, deve ser associado a uma Movimentação de Produto",
+				"produto": "A Movimentação de Produto do Item de Venda {0}, deve ser associada a um Produto",
+				"quantidade": "A quantidade do produto {0} deve ser informada",
+				"itemvenda": "Deve ser informado pelo menos um Item de Venda",
+				"consumidor": "Para realizar este tipo de venda deve ser informado o Consumidor"
+			}
 		}
 	},
 	"label": {

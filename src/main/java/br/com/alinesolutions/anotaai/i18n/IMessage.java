@@ -10,6 +10,16 @@ public interface IMessage {
 	String ENTIDADE_EDICAO_SUCESSO = "entidade.edicao.sucesso";
 	String ENTIDADE_EXCLUSAO_SUCESSO = "entidade.exclusao.sucesso";
 	
+	interface Message {
+		String VENDA_OBRIGATORIA = "message.obrigatorio.ivenda.venda";
+		String MOVIMENTACAO_PRODUTO_OBRIGATORIA = "message.obrigatorio.ivenda.movimentacaoproduto";
+		String PRODUTO_OBRIGATORIO = "message.obrigatorio.ivenda.produto";
+		String ITEM_VENDA_OBRIGATORIO = "message.obrigatorion.ivenda.itemvenda";
+		String CONSUMIDOR_OBRIGATORIO = "message.obrigatorion.ivenda.consumidor";
+		String PRODUTO_NAO_CADASTRADO = "message.produto.ivenda.naocadastrado";
+		String QUANTIDADE_VENDIDA = "message.produto.ivenda.quantidade";
+	}
+	
 	String EMAIL_JA_CADASTRADO = "email.ja.cadastrado";
 	String ERRO_NAO_IDENTIFICADO = "msg.erro.nao.identificado";
 	String CAMPO_OBRIGATORIO_NAO_INFORMADO = "campo.obrigatorio.nao.informado";
