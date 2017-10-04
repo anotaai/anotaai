@@ -93,6 +93,7 @@ public class UsuarioService {
 	private void validarUsuario(Usuario usuario) throws AppException {
 		AnotaaiUtil util = AnotaaiUtil.getInstance();
 		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
+		responseEntity.setIsValid(Boolean.TRUE);
 		TypedQuery<Long> queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_EMAIL_KEY, Long.class);
 		String email = appService.atulaizarEmail(usuario.getEmail());
 		queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
@@ -111,7 +112,7 @@ public class UsuarioService {
 			responseEntity.setIsValid(Boolean.FALSE);
 		}
 
-		if (responseEntity.getIsValid() != null) {
+		if (!responseEntity.getIsValid()) {
 			throw new AppException(responseEntity);
 		}
 	}

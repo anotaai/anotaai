@@ -2,6 +2,7 @@ package br.com.alinesolutions.anotaai.service.app;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -55,9 +56,9 @@ public class FolhaCadernetaService {
 			folha = query.getSingleResult();
 		} catch (NoResultException e) {
 			folha = new FolhaCaderneta();
-			folha.setConsumidor(em.getReference(Consumidor.class, consumidor.getId()));
-			caderneta = em.getReference(Caderneta.class, caderneta.getId());
-			folha.setCaderneta(caderneta);
+			folha.setConsumidor(consumidor);
+			folha.setCaderneta(em.getReference(Caderneta.class, caderneta.getId()));
+			folha.setVendas(new ArrayList<>());
 			folha.setDataCriacao(new Date());
 			Integer diaBase = caderneta.getConfiguracao().getDiaBase();
 			Integer qtdDiasDuracaoFolha = caderneta.getConfiguracao().getQtdDiasDuracaoFolha();
