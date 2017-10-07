@@ -14,8 +14,9 @@ public interface IMessage {
 		String VENDA_OBRIGATORIA = "message.obrigatorio.ivenda.venda";
 		String MOVIMENTACAO_PRODUTO_OBRIGATORIA = "message.obrigatorio.ivenda.movimentacaoproduto";
 		String PRODUTO_OBRIGATORIO = "message.obrigatorio.ivenda.produto";
-		String ITEM_VENDA_OBRIGATORIO = "message.obrigatorion.ivenda.itemvenda";
-		String CONSUMIDOR_OBRIGATORIO = "message.obrigatorion.ivenda.consumidor";
+		String ITEM_VENDA_OBRIGATORIO = "message.obrigatorio.ivenda.itemvenda";
+		String CONSUMIDOR_OBRIGATORIO = "message.obrigatorio.ivenda.consumidor";
+		String CONSUMIDOR_INVALIDO = "message.invalido.ivenda.consumidor.invalido";
 		String PRODUTO_NAO_CADASTRADO = "message.produto.ivenda.naocadastrado";
 		String QUANTIDADE_VENDIDA = "message.produto.ivenda.quantidade";
 	}

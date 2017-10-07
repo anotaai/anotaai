@@ -38,6 +38,8 @@ public interface Constant {
 		String CONFIRMACAO_ASSOCIACAO_CONSUMIDOR_SMS = "template/sms/usuario/confirmacao-associacao-cliente.txt";
 		String NOTIFICACAO_RENEW_PASSWORD_EMAIL = "template/email/usuario/renew-password.html";
 		String NOTIFICACAO_RENEW_PASSWORD_SMS = "template/sms/usuario/renew-password.txt";
+		String I18N_PT = "i18n/en.json";
+		String I18N_EN = "i18n/pt.json";
 	}
 
 }

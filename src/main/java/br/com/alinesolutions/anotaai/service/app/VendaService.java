@@ -63,8 +63,10 @@ public class VendaService {
 	}
 
 	public ResponseEntity<Venda> createConsumerSale(VendaAVistaConsumidor vendaAVistaConsumidor) throws AppException {
-		Caderneta caderneta = vendaAVistaConsumidor.getFolhaCaderneta().getCaderneta();
-		Consumidor consumidor = vendaAVistaConsumidor.getFolhaCaderneta().getConsumidor();
+
+		Caderneta caderneta = em.getReference(Caderneta.class, vendaAVistaConsumidor.getFolhaCaderneta().getCaderneta().getId());
+		Consumidor consumidor = em.getReference(Consumidor.class, vendaAVistaConsumidor.getFolhaCaderneta().getConsumidor().getId());
+
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
@@ -81,7 +83,6 @@ public class VendaService {
 		
 		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCaderneta().getCaderneta().getId());
 		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCaderneta().getConsumidor().getId());
-
 		vendaAnotada.getFolhaCaderneta().setCaderneta(caderneta);
 		vendaAnotada.getFolhaCaderneta().setConsumidor(consumidor);
 		validateSale((IVendaConsumidor)vendaAnotada);
@@ -98,6 +99,7 @@ public class VendaService {
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
 		responseEntity.setEntity(vendaAnotada);
 		return responseEntity;
+		
 	}
 	
 	private void validateSale(IVenda iVenda) throws AppException {
@@ -131,6 +133,7 @@ public class VendaService {
 	}
 
 	private void mergeErrorMessages(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity, ResponseEntity<?> target) {
+		responseEntity.setIsValid(Boolean.FALSE);
 		if (responseEntity.getMessages() == null) {
 			responseEntity.setMessages(new ArrayList<>());
 		}
