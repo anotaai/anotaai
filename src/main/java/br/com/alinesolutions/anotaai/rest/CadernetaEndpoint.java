@@ -20,7 +20,6 @@ import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
-import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta;
 import br.com.alinesolutions.anotaai.service.app.CadernetaService;
