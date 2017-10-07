@@ -55,8 +55,7 @@ public class GrupoProdutoService {
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			grupoProduto = q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_JA_CADASTRADA,
-					TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW, grupoProduto.getNome()));
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, grupoProduto.getNome()));
 		} catch (NoResultException e) {
 			grupoProduto.getSetor().setCliente(cliente);
 			Setor setor = em.getReference(Setor.class, grupoProduto.getSetor().getId());
@@ -68,7 +67,7 @@ public class GrupoProdutoService {
 			responseEntity.setEntity(grupoNovo);
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
-					TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, grupoProduto.getNome()));
+					TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome()));
 		}
 		return responseEntity;
 	}
@@ -79,12 +78,12 @@ public class GrupoProdutoService {
 		if (grupoProduto.getDescricao() == null || grupoProduto.getDescricao().equals("")) {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(new AnotaaiMessage(IMessage.CAMPO_OBRIGATORIO_NAO_INFORMADO, TipoMensagem.ERROR,
-					IMessage.DEFAULT_TIME_VIEW, "Nome"));
+					Constant.App.DEFAULT_TIME_VIEW, "Nome"));
 		}
 		if (grupoProduto.getSetor() == null) {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(new AnotaaiMessage(IMessage.CAMPO_OBRIGATORIO_NAO_INFORMADO, TipoMensagem.ERROR,
-					IMessage.DEFAULT_TIME_VIEW, "Setor"));
+					Constant.App.DEFAULT_TIME_VIEW, "Setor"));
 		}
 		if (!responseEntity.getIsValid()) {
 			responseEntity.setIsValid(Boolean.FALSE);
@@ -108,7 +107,7 @@ public class GrupoProdutoService {
 				em.remove(grupoProduto);
 				entity.setMessages(new ArrayList<>());
 				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
-						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, grupoProduto.getNome()));
+						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}
@@ -135,7 +134,7 @@ public class GrupoProdutoService {
 				entity.setMessages(new ArrayList<>());
 				entity.getMessages()
 						.add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,
-								IMessage.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
+								Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}
@@ -197,13 +196,13 @@ public class GrupoProdutoService {
 			mergeGrupoProduto(entity, grupoProduto);
 			entity = em.merge(grupoProduto);
 			message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS,
-					IMessage.DEFAULT_TIME_VIEW, grupoProduto.getNome());
+					Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome());
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(message);
 		} else {
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(new AnotaaiMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,
-					IMessage.KEEP_ALIVE_TIME_VIEW));
+					Constant.App.KEEP_ALIVE_TIME_VIEW));
 			appException = new AppException(responseEntity);
 			throw appException;
 		}

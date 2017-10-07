@@ -37,6 +37,7 @@ import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.VendaAnotadaConsumidor;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 public class VendaService {
@@ -105,10 +106,10 @@ public class VendaService {
 	private void validateSale(IVenda iVenda) throws AppException {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		if (iVenda.getVenda() == null) {
-			responseEntity.addMessage(IMessage.Message.VENDA_OBRIGATORIA, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.Message.VENDA_OBRIGATORIA, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else if (iVenda.getVenda().getProdutos() == null || iVenda.getVenda().getProdutos().isEmpty()) {
-			responseEntity.addMessage(IMessage.Message.ITEM_VENDA_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.Message.ITEM_VENDA_OBRIGATORIO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
 			try {
@@ -148,7 +149,7 @@ public class VendaService {
 		produtos.stream().forEach(itemVenda -> {
 			String indexStr = String.valueOf(index.getAndIncrement());
 			if (itemVenda.getMovimentacaoProduto() == null) {
-				responseEntity.addMessage(IMessage.Message.MOVIMENTACAO_PRODUTO_OBRIGATORIA, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, indexStr);
+				responseEntity.addMessage(IMessage.Message.MOVIMENTACAO_PRODUTO_OBRIGATORIA, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, indexStr);
 				responseEntity.setIsValid(Boolean.FALSE);
 			} else {
 				try {
@@ -164,7 +165,7 @@ public class VendaService {
 	private void validateProductMovement(MovimentacaoProduto movimentacaoProduto, String index) throws AppException {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		if (movimentacaoProduto.getProduto() == null) {
-			responseEntity.addMessage(IMessage.Message.PRODUTO_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, index);
+			responseEntity.addMessage(IMessage.Message.PRODUTO_OBRIGATORIO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, index);
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
 			Produto produto = movimentacaoProduto.getProduto();
@@ -176,12 +177,12 @@ public class VendaService {
 				if (!cliente.equals(appService.getCliente())) {
 					throw new NoResultException();
 				} else if (movimentacaoProduto.getQuantidade() <= 0) {
-					responseEntity.addMessage(IMessage.Message.QUANTIDADE_VENDIDA, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
+					responseEntity.addMessage(IMessage.Message.QUANTIDADE_VENDIDA, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
 					responseEntity.setIsValid(Boolean.FALSE);
 				}
 			} catch (NoResultException e) {
 				//TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto inexistente ou associado a outro vendedor)
-				responseEntity.addMessage(IMessage.Message.PRODUTO_NAO_CADASTRADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
+				responseEntity.addMessage(IMessage.Message.PRODUTO_NAO_CADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		}
@@ -207,7 +208,7 @@ public class VendaService {
 		}
 		Consumidor consumidor = iVenda.getFolhaCaderneta().getConsumidor();
 		if (consumidor == null) {
-			responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
 			try {
@@ -220,7 +221,7 @@ public class VendaService {
 				}
 			} catch (NoResultException e) {
 				//TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto inexistente ou associado a outro vendedor)
-				responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+				responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		}

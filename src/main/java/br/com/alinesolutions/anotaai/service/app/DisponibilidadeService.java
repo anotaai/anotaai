@@ -20,6 +20,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente.ClienteConstant;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 public class DisponibilidadeService {
@@ -48,7 +49,7 @@ public class DisponibilidadeService {
 				responseEntity.setEntity(disponibilidade);
 				responseEntity.setMessages(new ArrayList<>());
 				responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
-						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
+						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(responseEntity);
 			}
@@ -73,7 +74,7 @@ public class DisponibilidadeService {
 				em.remove(disponibilidade);
 				entity.setMessages(new ArrayList<>());
 				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
-						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
+						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}

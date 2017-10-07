@@ -99,7 +99,7 @@ public class UsuarioService {
 		queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
 		Long cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			responseEntity.addMessage(IMessage.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, usuario.getEmail());
+			responseEntity.addMessage(IMessage.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, usuario.getEmail());
 			responseEntity.setIsValid(Boolean.FALSE);
 		}
 		queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_TELEFONE_KEY, Long.class);
@@ -108,7 +108,7 @@ public class UsuarioService {
 		queryCount.setParameter(Telefone.TelefoneConstant.FIELD_NUMERO, usuario.getTelefone().getNumero());
 		cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			responseEntity.addMessage(IMessage.TELEFONE_JA_CADASTRADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, util.formatarTelefoneStr(usuario.getTelefone()));
+			responseEntity.addMessage(IMessage.TELEFONE_JA_CADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, util.formatarTelefoneStr(usuario.getTelefone()));
 			responseEntity.setIsValid(Boolean.FALSE);
 		}
 
@@ -125,7 +125,7 @@ public class UsuarioService {
 		em.merge(usuarioDatabase);
 		senderEmail.notificacaoRegistroUsuario(usuario);
 		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
-		responseEntity.addMessage(IMessage.USUARIO_CADASTRO_ATIVADO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW);
+		responseEntity.addMessage(IMessage.USUARIO_CADASTRO_ATIVADO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW);
 		responseEntity.setIsValid(Boolean.TRUE);
 		
 		return responseEntity;
@@ -142,11 +142,11 @@ public class UsuarioService {
 				responseEntity.setEntity(usuario);
 				responseEntity.setIsValid(Boolean.TRUE);
 			} else {
-				responseEntity.addMessage(IMessage.USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, IMessage.DEFAULT_TIME_VIEW);
+				responseEntity.addMessage(IMessage.USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, Constant.App.DEFAULT_TIME_VIEW);
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException e) {
-			responseEntity.addMessage(IMessage.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 		}
 		return responseEntity;
@@ -168,7 +168,7 @@ public class UsuarioService {
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException e) {
-			responseEntity.addMessage(IMessage.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			appException = new AppException(responseEntity);
 			throw appException;
 		}
@@ -185,7 +185,7 @@ public class UsuarioService {
 				responseEntity.setEntity(usuario);
 				responseEntity.setIsValid(Boolean.TRUE);
 			} else {
-				responseEntity.addMessage(IMessage.USUARIO_JA_CADASTRADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+				responseEntity.addMessage(IMessage.USUARIO_JA_CADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException nre) {
@@ -216,7 +216,7 @@ public class UsuarioService {
 		} else {
 			// senha nao confere
 			ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
-			responseEntity.addMessage(IMessage.USUARIO_SENHA_INVALIDO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.USUARIO_SENHA_INVALIDO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			throw new AppException(responseEntity);
 		}
@@ -238,7 +238,7 @@ public class UsuarioService {
 		AppException appException = null;
 		Usuario usuarioLogin = null;
 		TipoMensagem tipoMensagemErro = TipoMensagem.ERROR;
-		Long time = IMessage.KEEP_ALIVE_TIME_VIEW;
+		Long time = Constant.App.KEEP_ALIVE_TIME_VIEW;
 		String key = null;
 		String senha = null;
 		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
@@ -260,7 +260,7 @@ public class UsuarioService {
 					break;
 				case NAO_REGISTRADO:
 					key = IMessage.USUARIO_NAO_REGISTRADO;
-					time = IMessage.KEEP_ALIVE_TIME_VIEW;
+					time = Constant.App.KEEP_ALIVE_TIME_VIEW;
 					break;
 				case PENDENTE_VALIDACAO:
 					key = IMessage.USUARIO_PENDENTE_VALIDACAO;
@@ -314,11 +314,11 @@ public class UsuarioService {
 			usuario = em.find(Usuario.class, id);
 			usuario = entity.clone();
 			entity = em.merge(usuario);
-			message = new AnotaaiMessage(IMessage.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, usuario.getNome());
+			message = new AnotaaiMessage(IMessage.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome());
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(message);
 		} else {
-			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			appException = new AppException(responseEntity);
 			throw appException;
@@ -358,7 +358,7 @@ public class UsuarioService {
 			return usuario;
 			
 		} catch (NoResultException e) {
-			responseEntity.addMessage(IMessage.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, IMessage.DEFAULT_TIME_VIEW,"email");
+			responseEntity.addMessage(IMessage.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, Constant.App.DEFAULT_TIME_VIEW,"email");
 			throw new AppException(responseEntity);
 		}
 	}
@@ -372,7 +372,7 @@ public class UsuarioService {
 			query.setParameter(Telefone.TelefoneConstant.FIELD_NUMERO, telefone.getNumero());
 			return query.getSingleResult();
 		} catch (NoResultException e) {
-			responseEntity.addMessage(IMessage.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, IMessage.DEFAULT_TIME_VIEW,"telefone");
+			responseEntity.addMessage(IMessage.USUARIO_NAO_ENCONTRADO, TipoMensagem.WARNING, Constant.App.DEFAULT_TIME_VIEW,"telefone");
 			throw new AppException(responseEntity);
 		}
 		
@@ -405,10 +405,10 @@ public class UsuarioService {
 				senderEmail.notificacaoRenewPassword(usuarioDataBase);
 			}
 			responseEntity.setIsValid(Boolean.TRUE);
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.SOLICITACAO_ALTERACAO_SENHA, TipoMensagem.SUCCESS, IMessage.LONG_TIME_VIEW, mensagem.toString()));
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.SOLICITACAO_ALTERACAO_SENHA, TipoMensagem.SUCCESS, Constant.App.LONG_TIME_VIEW, mensagem.toString()));
 		} catch (AppException e) {
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(IMessage.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, IMessage.LONG_TIME_VIEW, "Parâetro");
+			responseEntity.addMessage(IMessage.USUARIO_NAO_ENCONTRADO, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW, "Parâetro");
 		}
 		return responseEntity;
 	}
@@ -423,11 +423,11 @@ public class UsuarioService {
 				responseEntity.setEntity(usuario);
 				responseEntity.setIsValid(Boolean.TRUE);
 			} else {
-				responseEntity.addMessage(IMessage.USUARIO_BLOQUEADO, TipoMensagem.ERROR, IMessage.LONG_TIME_VIEW);
+				responseEntity.addMessage(IMessage.USUARIO_BLOQUEADO, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW);
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		} catch (NoResultException e) {
-			responseEntity.addMessage(IMessage.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, IMessage.LONG_TIME_VIEW);
+			responseEntity.addMessage(IMessage.CODIGO_ATIVACAO_INVALIDO, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			throw new AppException(responseEntity);
 		}
@@ -448,18 +448,18 @@ public class UsuarioService {
 				//usuario = entity.clone();
 				em.merge(usuario);
 				entity.setCodigoAtivacao(null);
-				message = new AnotaaiMessage(IMessage.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, usuario.getNome());
+				message = new AnotaaiMessage(IMessage.USUARIO_EDITADO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome());
 				responseEntity.setIsValid(Boolean.TRUE);
 				responseEntity.setEntity(entity);
 				responseEntity.setMessages(new ArrayList<>());
 				responseEntity.getMessages().add(message);
 			} else {
-				responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
+				responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 				appException = new AppException(responseEntity);
 				throw appException;
 			}
 		} else {
-			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			appException = new AppException(responseEntity);
 			throw appException;
 		}

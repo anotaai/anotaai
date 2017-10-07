@@ -8,6 +8,9 @@ public interface Constant {
 		String COOKIE_SESSION_NAME = "globals";
 		String NAME_FOTO_PERFIL = "fotoPerfil";
 		Integer DEFAULT_ITENS_PER_PAGE = 5;
+		Long DEFAULT_TIME_VIEW = 5000L;
+		Long LONG_TIME_VIEW = 10000L;
+		Long KEEP_ALIVE_TIME_VIEW = -1L;
 	}
 		
 	public interface Persistence {
@@ -38,8 +41,8 @@ public interface Constant {
 		String CONFIRMACAO_ASSOCIACAO_CONSUMIDOR_SMS = "template/sms/usuario/confirmacao-associacao-cliente.txt";
 		String NOTIFICACAO_RENEW_PASSWORD_EMAIL = "template/email/usuario/renew-password.html";
 		String NOTIFICACAO_RENEW_PASSWORD_SMS = "template/sms/usuario/renew-password.txt";
-		String I18N_PT = "i18n/en.json";
-		String I18N_EN = "i18n/pt.json";
+		String I18N_PT = "i18n/pt.json";
+		String I18N_EN = "i18n/en.json";
 	}
 
 }

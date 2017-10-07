@@ -97,8 +97,7 @@ public class ClienteConsumidorService {
 				if (cont > 0) {
 					responseEntity = new ResponseEntity<>();
 					responseEntity.setIsValid(Boolean.FALSE);
-					AnotaaiMessage message = new AnotaaiMessage(IMessage.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR,
-							IMessage.DEFAULT_TIME_VIEW, usuario.getEmail());
+					AnotaaiMessage message = new AnotaaiMessage(IMessage.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, usuario.getEmail());
 					responseEntity.addMessage(message);
 					throw new AppException(responseEntity);
 				}
@@ -118,7 +117,7 @@ public class ClienteConsumidorService {
 		responseEntity.setEntity(newClienteConsumidor);
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, usuario.getNome()));
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome()));
 		return responseEntity;
 	}
 
@@ -192,7 +191,7 @@ public class ClienteConsumidorService {
 			em.merge(clienteConsumidor);
 			entity.setIsValid(Boolean.TRUE);
 			entity.setMessages(new ArrayList<>());
-			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
+			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
 		} catch (NoResultException e) {
 			responseUtil.buildIllegalArgumentException(entity);
 		}
@@ -261,13 +260,11 @@ public class ClienteConsumidorService {
 			responseEntity = new ResponseEntity<>(clienteConsumidor);
 			try {
 				clienteConsumidor = validarConsumidorJaCadastrado(telefone);
-				responseEntity.addMessage(new AnotaaiMessage(IMessage.CONSUMIDOR_JA_CADASTRADO, TipoMensagem.ERROR,
-						IMessage.KEEP_ALIVE_TIME_VIEW, nome));
+				responseEntity.addMessage(new AnotaaiMessage(IMessage.CONSUMIDOR_JA_CADASTRADO, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, nome));
 				// o consumidor ja esta cadastrado para este cliente
 			} catch (NoResultException e) {
 				// o consumidor ja esta cadastrado para outro cliente
-				message = new AnotaaiMessage(IMessage.CONSUMIDOR_JA_REGISTRADO, TipoMensagem.WARNING,
-						IMessage.KEEP_ALIVE_TIME_VIEW, nome);
+				message = new AnotaaiMessage(IMessage.CONSUMIDOR_JA_REGISTRADO, TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, nome);
 				responseEntity.setMessages(new ArrayList<>());
 				responseEntity.getMessages().add(message);
 			}
@@ -310,8 +307,7 @@ public class ClienteConsumidorService {
 		SituacaoUsuario situacao = querySituacao.getSingleResult();
 
 		if (!situacao.equals(SituacaoUsuario.NAO_REGISTRADO)) {
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO,
-							TipoMensagem.WARNING, IMessage.KEEP_ALIVE_TIME_VIEW, usuario.getNome()));
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, usuario.getNome()));
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
 			TypedQuery<Long> queryCont = em
@@ -322,7 +318,7 @@ public class ClienteConsumidorService {
 			responseEntity.setIsValid(qtdClientes == 1);
 			if (!responseEntity.getIsValid()) {
 				responseEntity.addMessage(new AnotaaiMessage(IMessage.EDICAO_EXCLUSIVA_USUARIO_MULTIPLOS_CLIENTES,
-								TipoMensagem.WARNING, IMessage.KEEP_ALIVE_TIME_VIEW, usuario.getNome()));
+								TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, usuario.getNome()));
 			}
 		}
 		return responseEntity;
@@ -334,7 +330,7 @@ public class ClienteConsumidorService {
 
 		ResponseEntity<ClienteConsumidor> responseEntity = new ResponseEntity<>();
 		clienteConsumidor.setCliente(appManager.getAppService().getCliente());
-		AnotaaiMessage message = new AnotaaiMessage(IMessage.RECOMENDACAO_EDICAO_ENVIADA, TipoMensagem.INFO, IMessage.LONG_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
+		AnotaaiMessage message = new AnotaaiMessage(IMessage.RECOMENDACAO_EDICAO_ENVIADA, TipoMensagem.INFO, Constant.App.LONG_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
 		responseEntity.addMessage(message);
 		appManager.getSenderMail().recomendarEdicaoDeCadastro(clienteConsumidor);
 		responseEntity.setIsValid(Boolean.TRUE);
@@ -355,7 +351,7 @@ public class ClienteConsumidorService {
 			
 			
 			if (!clienteConsumidor.getConsumidor().getUsuario().getSituacao().equals(SituacaoUsuario.NAO_REGISTRADO)) {
-				entity.addMessage(new AnotaaiMessage(IMessage.EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, IMessage.KEEP_ALIVE_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
+				entity.addMessage(new AnotaaiMessage(IMessage.EDICAO_EXCLUSIVA_USUARIO_JA_CADASTRADO, TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
 				entity.setIsValid(Boolean.FALSE);
 				return entity;
 			} else {
@@ -365,7 +361,7 @@ public class ClienteConsumidorService {
 				// exites apenas um clietne associado ao usuario
 				entity.setIsValid(qtdClientes == 1);
 				if (!entity.getIsValid()) {
-					entity.addMessage(new AnotaaiMessage(IMessage.EDICAO_EXCLUSIVA_USUARIO_MULTIPLOS_CLIENTES,TipoMensagem.WARNING, IMessage.KEEP_ALIVE_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
+					entity.addMessage(new AnotaaiMessage(IMessage.EDICAO_EXCLUSIVA_USUARIO_MULTIPLOS_CLIENTES,TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
 				}
 			}
 			
@@ -388,11 +384,11 @@ public class ClienteConsumidorService {
 			//Usuario oldUsuario =  em.find(Usuario.class, clienteConsumidor.getConsumidor().getUsuario().getId());
 			mergeUsuario(entity.getConsumidor().getUsuario(), clienteConsumidor.getConsumidor().getUsuario());
 			em.merge(clienteConsumidor.getConsumidor().getUsuario());
-			message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
+			message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(message);
 		} else {
-			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,IMessage.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			appException = new AppException(responseEntity);
 			throw appException;
 		}

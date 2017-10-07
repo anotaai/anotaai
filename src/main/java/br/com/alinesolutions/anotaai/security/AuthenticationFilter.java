@@ -130,7 +130,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	private ResponseEntity<?> buildResponseEntity(String key) {
 		ResponseEntity<?> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.FALSE);
-		responseEntity.addMessage(key, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
+		responseEntity.addMessage(key, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 		return responseEntity;
 	}
 

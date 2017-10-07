@@ -151,7 +151,7 @@ public class ClienteEndpoint {
 	}
 
 	private void validarCliente(Cliente cliente) throws AppException {
-		Long defaultTimeView = IMessage.DEFAULT_TIME_VIEW;
+		Long defaultTimeView = Constant.App.DEFAULT_TIME_VIEW;
 		String telefoneJaCadastrado = IMessage.TELEFONE_JA_CADASTRADO;
 		Usuario usuario = cliente.getUsuario();
 		AnotaaiUtil util = AnotaaiUtil.getInstance();

@@ -83,7 +83,7 @@ public class ProdutoService {
 			q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
 			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA,
-					TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
+					TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
 		} catch (NoResultException e) {
 			for (Disponibilidade disponibilidade : produto.getDiasDisponibilidade()) {
 				disponibilidade.setProduto(produto);
@@ -107,8 +107,7 @@ public class ProdutoService {
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.setEntity(produtoNovo);
 			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
-					TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao()));
+			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao()));
 		}
 		return responseEntity;
 	}
@@ -128,7 +127,7 @@ public class ProdutoService {
 				em.remove(produto);
 				entity.setMessages(new ArrayList<>());
 				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
-						TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao()));
+						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}
@@ -251,7 +250,7 @@ public class ProdutoService {
 		em.merge(produtoUpdate);
 		ResponseEntity<Produto> responseEntity = new ResponseEntity<>(entity);
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, produtoUpdate.getDescricao()));
+		responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produtoUpdate.getDescricao()));
 		return responseEntity;
 	}
 	
@@ -419,7 +418,7 @@ public class ProdutoService {
 		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>(itemReceita);
 		responseEntity.setIsValid(Boolean.TRUE);
 		AnotaaiMessage message = new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,
-				IMessage.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
+				Constant.App.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
 		responseEntity.addMessage(message);
 		return responseEntity;
 	}
@@ -431,7 +430,7 @@ public class ProdutoService {
 		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>(itemReceita);
 		responseEntity.setIsValid(Boolean.TRUE);
 		AnotaaiMessage message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS,
-				IMessage.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
+				Constant.App.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
 		responseEntity.addMessage(message);
 		return responseEntity;
 	}
@@ -442,7 +441,7 @@ public class ProdutoService {
 		ResponseEntity<ItemReceita> responseEntity = new ResponseEntity<>();
 		responseEntity.setIsValid(Boolean.TRUE);
 		AnotaaiMessage message = new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,
-				IMessage.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
+				Constant.App.DEFAULT_TIME_VIEW, itemReceita.getIngrediente().getDescricao());
 		responseEntity.addMessage(message);
 		return responseEntity;
 	}

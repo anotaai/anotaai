@@ -98,7 +98,7 @@ public class EntradaMercadoriaService {
 				dataEntrada = formatador.parse(dataEntradaStr);
 			} catch (ParseException e) {
 				responseEntity.setIsValid(Boolean.FALSE);
-				responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
+				responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 				return responseEntity;
 			}
 		}
@@ -165,7 +165,7 @@ public class EntradaMercadoriaService {
 		responseEntity.setEntity(e);	
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
 		return responseEntity;
 	}
 	
@@ -209,7 +209,7 @@ public class EntradaMercadoriaService {
 		responseEntity.setEntity(e);	
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
 		
 		return responseEntity;
 	}
@@ -237,7 +237,7 @@ public class EntradaMercadoriaService {
 		responseEntity.setEntity(new EntradaMercadoria(entradaMercadoria.getId()));
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ITEM_MERCADORIA));
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ITEM_MERCADORIA));
 		
 		
 		return responseEntity;

@@ -88,5 +88,8 @@
 				}
 			}
 		}	
+	},
+	"erro": {
+		"naoidentificado" : "Erro não identificado, por favor contate o administrador do sistema"
 	}
 }

@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Assert;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -38,9 +36,7 @@ public class I18nConstantGenerator {
 	}
 
 	private void printConstants() {
-		constants.stream().forEach(constant -> {
-			System.out.println(constant);
-		});
+		constants.stream().forEach(System.out::println);
 	}
 
 	private void build(String root, Map.Entry<String, JsonElement> entry) {

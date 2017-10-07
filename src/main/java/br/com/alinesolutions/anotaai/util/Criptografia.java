@@ -20,7 +20,7 @@ public class Criptografia {
 		} catch (NoSuchAlgorithmException ex) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(IMessage.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			throw new AppException(responseEntity);
 		}
 	}
@@ -36,7 +36,7 @@ public class Criptografia {
 		} catch (Exception e) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(IMessage.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ERRO_NAO_IDENTIFICADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			throw new AppException(responseEntity);
 		}
 	}

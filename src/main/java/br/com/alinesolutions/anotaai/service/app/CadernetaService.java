@@ -128,7 +128,7 @@ public class CadernetaService {
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setEntity(caderdetaNova);
 		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
 
 		return responseEntity;
 	}
@@ -155,7 +155,7 @@ public class CadernetaService {
 			
 			entity.setIsValid(Boolean.TRUE);
 			entity.setMessages(new ArrayList<>());
-			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
 		} catch (NoResultException e) {
 			responseUtil.buildIllegalArgumentException(entity);
 		}
@@ -171,7 +171,7 @@ public class CadernetaService {
 			em.remove(configuracaoCaderneta);
 			entity.setIsValid(Boolean.TRUE);
 			entity.setMessages(new ArrayList<>());
-			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,IMessage.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
 		} catch (NoResultException e) {
 			responseUtil.buildIllegalArgumentException(entity);
 		}
@@ -184,7 +184,7 @@ public class CadernetaService {
 		em.merge(configuracaoUdate);
 		ResponseEntity<ConfiguracaoCaderneta> responseEntity = new ResponseEntity<>(entity);
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, IMessage.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+		responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
 		return responseEntity;
 	}
 	
@@ -236,10 +236,10 @@ public class CadernetaService {
 			configuracaoCadernetaQuery.setParameter("cliente", cliente);
 			configuracaoCadernetaQuery.setParameter("id", entity.getId() == null ? 0 : entity.getId());
 			ConfiguracaoCaderneta configuracaoCaderneta = configuracaoCadernetaQuery.getSingleResult();
-		    responseEntity.setEntity(configuracaoCaderneta);
-			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.WARNING,IMessage.KEEP_ALIVE_TIME_VIEW, CadernetaConstant.CADERNETA);
+			responseEntity.setEntity(configuracaoCaderneta);
+			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, CadernetaConstant.CADERNETA);
 		} catch (NoResultException e) {
-            return responseEntity;
+			return responseEntity;
 		}
 
 		return responseEntity;
@@ -250,7 +250,7 @@ public class CadernetaService {
 		Cliente cliente = appService.getCliente();
 		TypedQuery<Caderneta> cadernetaQuery = em.createNamedQuery(CadernetaConstant.LIST_ALL_KEY, Caderneta.class);
 		cadernetaQuery.setParameter(Constant.Entity.CLIENTE, cliente);
-	    return cadernetaQuery.getResultList();
+		return cadernetaQuery.getResultList();
 	}
 
 }

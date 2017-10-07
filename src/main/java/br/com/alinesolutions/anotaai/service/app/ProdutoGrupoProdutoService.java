@@ -57,7 +57,7 @@ public class ProdutoGrupoProdutoService {
 		responseEntity.setMessages(new ArrayList<>());
 		responseEntity.getMessages()
 				.add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,
-						IMessage.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
+						Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
 		return responseEntity;
 	}
 
@@ -78,7 +78,7 @@ public class ProdutoGrupoProdutoService {
 			queryGrupoProduto.getSingleResult();
 		} catch (NoResultException e) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
-			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, IMessage.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			throw new AppException(responseEntity);
 		}
@@ -102,7 +102,7 @@ public class ProdutoGrupoProdutoService {
 				entity.setMessages(new ArrayList<>());
 				entity.getMessages()
 						.add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,
-								IMessage.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
+								Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}

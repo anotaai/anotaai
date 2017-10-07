@@ -26,7 +26,6 @@ import org.hibernate.Hibernate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -118,8 +117,7 @@ public class AppService {
 		} catch (Exception e) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(new AnotaaiMessage("cep.nao.cadastrado", TipoMensagem.WARNING,
-					IMessage.DEFAULT_TIME_VIEW, cep.toString()));
+			responseEntity.addMessage(new AnotaaiMessage("cep.nao.cadastrado", TipoMensagem.WARNING, Constant.App.DEFAULT_TIME_VIEW, cep.toString()));
 			throw new AppException(responseEntity);
 		}
 		return cep;

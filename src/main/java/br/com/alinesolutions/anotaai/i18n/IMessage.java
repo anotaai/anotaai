@@ -2,10 +2,6 @@ package br.com.alinesolutions.anotaai.i18n;
 
 public interface IMessage {
 	
-	Long DEFAULT_TIME_VIEW = 5000L;
-	Long LONG_TIME_VIEW = 10000L;
-	Long KEEP_ALIVE_TIME_VIEW = -1L;
-	
 	String ENTIDADE_GRAVACAO_SUCESSO = "entidade.gravacao.sucesso";
 	String ENTIDADE_EDICAO_SUCESSO = "entidade.edicao.sucesso";
 	String ENTIDADE_EXCLUSAO_SUCESSO = "entidade.exclusao.sucesso";
