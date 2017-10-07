@@ -118,7 +118,7 @@ public class VendaService {
 		finalizeOrThrows(responseEntity);
 	}
 
-	private void finalizeOrThrows(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity) {
+	private void finalizeOrThrows(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity) throws AppException {
 		if (responseEntity.getIsValid() != null && !responseEntity.getIsValid()) {
 			throw new AppException(responseEntity);
 		}

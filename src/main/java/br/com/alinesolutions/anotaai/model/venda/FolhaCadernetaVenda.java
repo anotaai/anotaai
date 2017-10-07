@@ -37,7 +37,8 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 		idType = "long", metaType = "string", 
 		metaValues = { 
 			@MetaValue(targetEntity = VendaAVistaConsumidor.class, value = "A_VISTA_CONSUMIDOR"), 
-			@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR")
+			@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR"),
+			@MetaValue(targetEntity = VendaAVistaAnonima.class, value = "A_VISTA_ANONIMA")
 		}
 	)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
