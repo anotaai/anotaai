@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,18 +18,16 @@ public class I18nConstantGenerator {
 	private LoadResource loader;
 	private List<String> constants;
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws Exception {
+		new I18nConstantGenerator().build();
 	}
 	
-	@Before
-	public void bootContainer() throws Exception {
+	public I18nConstantGenerator() throws Exception {
 		loader = new LoadResource();
 		constants = new ArrayList<>();
 	}
 
-	@Test
-	public void loadHtmlFileTest() throws IOException {
+	private void build() throws IOException {
 		String i18nFile = loader.getFile(Constant.FileNane.I18N_EN);
 		JsonObject o = new JsonParser().parse(i18nFile).getAsJsonObject();
 		Set<Map.Entry<String, JsonElement>> entries = o.entrySet();
@@ -39,7 +35,6 @@ public class I18nConstantGenerator {
 			build("", entry);
 		}
 		printConstants();
-		Assert.assertNotNull(i18nFile);
 	}
 
 	private void printConstants() {
