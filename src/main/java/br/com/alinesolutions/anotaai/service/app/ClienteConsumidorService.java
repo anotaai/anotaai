@@ -211,7 +211,7 @@ public class ClienteConsumidorService {
 			consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY,Consumidor.class);
 		}
 		
-		consumidorQuery.setParameter(Consumidor.ConsumidorConstant.FIELD_CLIENTE, cliente);
+		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
 		
 		if (startPosition != null) {
 			consumidorQuery.setFirstResult(startPosition);
@@ -286,7 +286,7 @@ public class ClienteConsumidorService {
 		q.setParameter(Telefone.TelefoneConstant.FIELD_DDI, telefone.getDdi());
 		q.setParameter(Telefone.TelefoneConstant.FIELD_DDD, telefone.getDdd());
 		q.setParameter(Telefone.TelefoneConstant.FIELD_NUMERO, telefone.getNumero());
-		q.setParameter(ClienteConsumidor.ClienteConsumidorConstant.FIELD_CLIENTE, cliente);
+		q.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
 		return q.getSingleResult();
 	}
 
@@ -413,7 +413,7 @@ public class ClienteConsumidorService {
 		TypedQuery<Consumidor> consumidorQuery = null;
 		Cliente cliente = appManager.getAppService().getCliente();
 		consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_BY_NOME_KEY, Consumidor.class);
-		consumidorQuery.setParameter(Consumidor.ConsumidorConstant.FIELD_CLIENTE, cliente);
+		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
 		consumidorQuery.setParameter("nome", nome);
 		final List<Consumidor> results = consumidorQuery.getResultList();
 		return results;

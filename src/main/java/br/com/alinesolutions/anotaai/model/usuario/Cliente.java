@@ -74,8 +74,14 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		super();
 	}
 
+	public Cliente(Long id, String nomeComercial) {
+		this();
+		this.setId(id);
+		this.nomeComercial = nomeComercial;
+	}
+
 	public Cliente(Long id, String nomeComercial, Long cpf, Date dataCadastro, Long idUsuario, String nomeUsuario) {
-		super();
+		this();
 		this.nomeComercial = nomeComercial;
 		this.cpf = cpf;
 		this.dataCadastro = dataCadastro;

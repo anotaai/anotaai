@@ -39,7 +39,8 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
     @NamedQuery(name = ProdutoConstant.LIST_ALL_COUNT, query = ProdutoConstant.LIST_ALL_QUERY_COUNT),
 	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_COUNT, query = ProdutoConstant.FIND_BY_NOME_QUERY_COUNT),
 	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_KEY, query = ProdutoConstant.FIND_BY_NOME_QUERY),
-	@NamedQuery(name = ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_KEY, query =  ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_QUERY)
+	@NamedQuery(name = ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_KEY, query =  ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_QUERY),
+	@NamedQuery(name = ProdutoConstant.CLIENTE_BY_PRODUTO_KEY, query =  ProdutoConstant.CLIENTE_BY_PRODUTO_QUERY),
 })
 @Entity
 @Where(clause = "ativo = true")
@@ -325,6 +326,9 @@ public class Produto extends BaseEntity<Long, Produto> {
 		String GRUPO_PRODUTO_BY_PRODUTO_KEY = "Produto.grupoProdutoByProduto";
 		String GRUPO_PRODUTO_BY_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto(pgp.id, gp.id, gp.nome, pgp.ehPrincipal) from ProdutoGrupoProduto pgp join pgp.grupoProduto gp join pgp.produto p  where pgp.produto = :produto and p.cliente = :cliente";
 
+		String CLIENTE_BY_PRODUTO_KEY = "Produto.clienteByProduto";
+		String CLIENTE_BY_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Cliente(p.cliente.id, p.cliente.nomeComercial) from Produto p where p.id = :id and p.cliente = :cliente";
+		
 	}
 
 }

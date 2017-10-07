@@ -29,7 +29,7 @@ public class VendaEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createAnonymousSale(VendaAVistaAnonima entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity<Venda> responseEntity = null;
+		ResponseEntity<VendaAVistaAnonima> responseEntity = null;
 		try {
 			responseEntity = vendaService.createAnonymousSale(entity);
 			builder = Response.ok(responseEntity);
@@ -61,7 +61,7 @@ public class VendaEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createAppointmentBookSale(VendaAnotadaConsumidor entity) {
 		ResponseBuilder builder = null;
-		ResponseEntity<Venda> responseEntity = null;
+		ResponseEntity<VendaAnotadaConsumidor> responseEntity = null;
 		try {
 			responseEntity = vendaService.createAppointmentBookSale(entity);
 			builder = Response.ok(responseEntity);

@@ -1,5 +1,6 @@
 package br.com.alinesolutions.anotaai.service.app;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
@@ -20,11 +22,14 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
 import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
+import br.com.alinesolutions.anotaai.model.produto.Produto.ProdutoConstant;
+import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
 import br.com.alinesolutions.anotaai.model.venda.IVenda;
+import br.com.alinesolutions.anotaai.model.venda.IVendaAnonima;
 import br.com.alinesolutions.anotaai.model.venda.IVendaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
@@ -52,12 +57,8 @@ public class VendaService {
 	@EJB
 	private ResponseUtil responseUtil;
 
-	private void createSale(IVenda sale) throws AppException {
-		em.persist(sale);
-	}
-
-	public ResponseEntity<Venda> createAnonymousSale(VendaAVistaAnonima vendaAVistaAnonima) throws AppException {
-		createSale(vendaAVistaAnonima);
+	public ResponseEntity<VendaAVistaAnonima> createAnonymousSale(VendaAVistaAnonima vendaAVistaAnonima) throws AppException {
+		validateSale(vendaAVistaAnonima);
 		return null;
 	}
 
@@ -76,28 +77,27 @@ public class VendaService {
 		return null;
 	}
 
-	public ResponseEntity<Venda> createAppointmentBookSale(VendaAnotadaConsumidor vendaAnotada) throws AppException {
+	public ResponseEntity<VendaAnotadaConsumidor> createAppointmentBookSale(VendaAnotadaConsumidor vendaAnotada) throws AppException {
 		
-		Caderneta caderneta = vendaAnotada.getFolhaCaderneta().getCaderneta();
-		Consumidor consumidor = vendaAnotada.getFolhaCaderneta().getConsumidor();
-		try {
-			vendaAnotada.getFolhaCaderneta().setConsumidor(em.getReference(Consumidor.class, consumidor.getId()));
-			vendaAnotada.getFolhaCaderneta().setCaderneta(em.getReference(Caderneta.class, caderneta.getId()));
-			validateSale((IVenda)vendaAnotada);
-			FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
-			FolhaCadernetaVenda folhaCadernetaVenda = new FolhaCadernetaVenda();
-			folhaCadernetaVenda.setVenda(vendaAnotada);
-			folhaCadernetaVenda.setFolhaCaderneta(folha);
-			
-			folha.getVendas().add(folhaCadernetaVenda);
-			vendaAnotada.setFolhaCaderneta(folha);
-			vendaAnotada.getVenda().setDataVenda(new Date());
-			
-			createSale(vendaAnotada, folhaCadernetaVenda);
-		} catch (AppException e) {
-			
-		}
-		return null;
+		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCaderneta().getCaderneta().getId());
+		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCaderneta().getConsumidor().getId());
+
+		vendaAnotada.getFolhaCaderneta().setCaderneta(caderneta);
+		vendaAnotada.getFolhaCaderneta().setConsumidor(consumidor);
+		validateSale((IVendaConsumidor)vendaAnotada);
+		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
+		FolhaCadernetaVenda folhaCadernetaVenda = new FolhaCadernetaVenda();
+		folhaCadernetaVenda.setVenda(vendaAnotada);
+		folhaCadernetaVenda.setFolhaCaderneta(folha);
+		
+		folha.getVendas().add(folhaCadernetaVenda);
+		vendaAnotada.setFolhaCaderneta(folha);
+		vendaAnotada.getVenda().setDataVenda(new Date());
+		
+		createSale(vendaAnotada, folhaCadernetaVenda);
+		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
+		responseEntity.setEntity(vendaAnotada);
+		return responseEntity;
 	}
 	
 	private void validateSale(IVenda iVenda) throws AppException {
@@ -119,7 +119,7 @@ public class VendaService {
 	}
 
 	private void finalizeOrThrows(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity) {
-		if (responseEntity.getIsValid() != null) {
+		if (responseEntity.getIsValid() != null && !responseEntity.getIsValid()) {
 			throw new AppException(responseEntity);
 		}
 	}
@@ -131,7 +131,12 @@ public class VendaService {
 	}
 
 	private void mergeErrorMessages(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity, ResponseEntity<?> target) {
-		responseEntity.getMessages().addAll(target.getMessages());
+		if (responseEntity.getMessages() == null) {
+			responseEntity.setMessages(new ArrayList<>());
+		}
+		if (target.getMessages() != null) {
+			responseEntity.getMessages().addAll(target.getMessages());
+		}
 	}
 
 	private void validateProcucts(List<ItemVenda> produtos) throws AppException {
@@ -161,8 +166,11 @@ public class VendaService {
 		} else {
 			Produto produto = movimentacaoProduto.getProduto();
 			try {
-				Produto produtoStorage = em.find(Produto.class, produto.getId());
-				if (!produtoStorage.getCliente().equals(appService.getCliente())) {
+				TypedQuery<Cliente> query = em.createNamedQuery(ProdutoConstant.CLIENTE_BY_PRODUTO_KEY, Cliente.class);
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
+				Cliente cliente = query.getSingleResult();
+				if (!cliente.equals(appService.getCliente())) {
 					throw new NoResultException();
 				} else if (movimentacaoProduto.getQuantidade() <= 0) {
 					responseEntity.addMessage(IMessage.Message.QUANTIDADE_VENDIDA, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
@@ -173,6 +181,16 @@ public class VendaService {
 				responseEntity.addMessage(IMessage.Message.PRODUTO_NAO_CADASTRADO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
+		}
+		finalizeOrThrows(responseEntity);
+	}
+	
+	private void validateSale(IVendaAnonima vendaAnonima) {
+		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
+		try {
+			validateSale((IVenda)vendaAnonima);
+		} catch (AppException e) {
+			mergeErrorMessages(responseEntity, e.getResponseEntity());
 		}
 		finalizeOrThrows(responseEntity);
 	}
@@ -190,17 +208,20 @@ public class VendaService {
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
 			try {
-				Consumidor consumidorStorage = em.find(Consumidor.class, consumidor.getId());
-				if (!consumidorStorage.getClientes().contains(appService.getCliente())) {
-					responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
-					responseEntity.setIsValid(Boolean.FALSE);
+				TypedQuery<Cliente> query = em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_CLIENTE_KEY, Cliente.class);
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CONSUMIDOR, consumidor);
+				Cliente clienteStorage = query.getSingleResult();
+				if (!clienteStorage.equals(appService.getCliente())) {
+					throw new NoResultException();
 				}
 			} catch (NoResultException e) {
-				// TODO: handle exception
+				//TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto inexistente ou associado a outro vendedor)
+				responseEntity.addMessage(IMessage.Message.CONSUMIDOR_OBRIGATORIO, TipoMensagem.ERROR, IMessage.DEFAULT_TIME_VIEW);
+				responseEntity.setIsValid(Boolean.FALSE);
 			}
 		}
 		finalizeOrThrows(responseEntity);
-		
 	}
 
 	private void createSale(IVenda vendaAnotada, FolhaCadernetaVenda folhaCadernetaVenda) {

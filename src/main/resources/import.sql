@@ -1,3 +1,4 @@
+insert into sessaousuario (ativo, keepAlive, sessionID, ultimoAcesso, usuario_id) values (true, true, '10481', now(), 1);
 insert into Endereco (bairro, cep, cidade, complemento, estado, logradouro, ativo) values ('Calafate', '30411580', 'Belo Horizonte', 'apartamento 102', 10, 'rua da paz', true);
 insert into Telefone (ddd, ddi, numero, operadora, ativo) values (31, 55, 997749131, 1, true);
 insert into Preferencia (itensPerPage, ativo) values (5, true); 
