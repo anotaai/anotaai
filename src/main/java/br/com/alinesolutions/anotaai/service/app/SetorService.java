@@ -52,7 +52,7 @@ public class SetorService {
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			setor = q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, setor.getNome());
+			responseEntity.addMessage(IMessage.SETOR_JACADASTRADO, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, setor.getNome());
 		} catch (NoResultException e) {
 			setor.setCliente(cliente);
 			em.persist(setor);
@@ -143,7 +143,7 @@ public class SetorService {
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(message);
 		} else {
-			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			appException = new AppException(responseEntity);
 			throw appException;
 		}

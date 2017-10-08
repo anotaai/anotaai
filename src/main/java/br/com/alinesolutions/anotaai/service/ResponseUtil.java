@@ -13,7 +13,7 @@ import br.com.alinesolutions.anotaai.util.Constant;
 public class ResponseUtil {
 
 	public void buildIllegalArgumentException(ResponseEntity<?> entity) {
-		entity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
+		entity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 		entity.setIsValid(Boolean.FALSE);
 	}
 

@@ -78,12 +78,11 @@ public class ProdutoService {
 		
 		try {
 			q = em.createNamedQuery(ProdutoConstant.PRODUTO_BY_CODIGO_KEY, Produto.class);
-			q.setParameter(ProdutoConstant.FIELD_CODIGO, produto.getCodigo());
+			q.setParameter(ProdutoConstant.FIELD_CODIGO, produto.getCodigoBarras());
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA,
-					TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
+			responseEntity.addMessage(IMessage.PRODUTO_JACADASTRADO, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, produto.getCodigo().toString());
 		} catch (NoResultException e) {
 			for (Disponibilidade disponibilidade : produto.getDiasDisponibilidade()) {
 				disponibilidade.setProduto(produto);

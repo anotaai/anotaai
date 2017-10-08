@@ -152,7 +152,7 @@ public class ClienteEndpoint {
 
 	private void validarCliente(Cliente cliente) throws AppException {
 		Long defaultTimeView = Constant.App.DEFAULT_TIME_VIEW;
-		String telefoneJaCadastrado = IMessage.TELEFONE_JA_CADASTRADO;
+		String telefoneJaCadastrado = IMessage.TELEFONE_JACADASTRADO;
 		Usuario usuario = cliente.getUsuario();
 		AnotaaiUtil util = AnotaaiUtil.getInstance();
 		ResponseEntity<Cliente> responseEntity = new ResponseEntity<>();
@@ -166,7 +166,7 @@ public class ClienteEndpoint {
 		queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, usuario.getEmail());
 		Long cont = queryCount.getSingleResult();
 		if (cont > 0) {
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.EMAIL_JA_CADASTRADO, TipoMensagem.ERROR, defaultTimeView, usuario.getEmail()));
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.EMAIL_JACADASTRADO, TipoMensagem.ERROR, defaultTimeView, usuario.getEmail()));
 			hasException = Boolean.TRUE;
 		}
 		queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_TELEFONE_KEY, Long.class);

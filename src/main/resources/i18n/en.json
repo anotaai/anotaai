@@ -1,6 +1,15 @@
 {
 	"app": "Anota ai",
 	"usuario": {
+		"jacadastrado":"Usuário <b>{0}</b>, já cadastrado",
+		"editadosucesso": "Usuário <b>{0}</b>, editado com sucesso",
+		"codigoativacaoinvalido":"Código de ativação inválido",
+		"bloqueado": "Usuário <b>{0}</b> Bloqueado, contate o administrador do sistema",
+		"inativo": "Usuário <b>{0}</b> Inativo, contate o administrador do sistema",
+		"naoregistrado": "Usuário <b>{0}</b> Não Registrado , contate o administrador do sistema",
+		"pendentevalidacao": "O Usuário <b>{0}</b> ainda não validou o cadastro",
+		"naoencontrado": "Usuário <b>{0}</b> não cadastrado",
+		"solicitacaoalteracaosenha": "Usuário <b>{0}</b> não cadastrado",
 		"senha": {
 			"invalido": "Usuário ou senha inválido!",
 			"fraca": "Senha fraca, escolha uma senha com no mínimo seis caracteres",
@@ -12,6 +21,39 @@
 				"sucesso": "Cadastro ativado com sucesso. você receberá um email para validar o casdastro."
 			},
 			"recomendacaoedicao": "Recomendação de edição de cadastro enviada com sucesso."
+		},
+		"recomendacaoedicaoenviada": "Foi enviada uma recomendação para que o Usuário <b>{0}</b>",
+		"edicaoexclusiva": "O Usuário <b>{0}</b>, já possui acesso ao sistema",
+		"edicaoexclusivamultiplosclientes": "O Usuário(a) <b>{0}</b>, está associado a mais de um Anotador, solicite que ele se cadastre no sistema e atualize os dados"
+	},
+	"grupoproduto": {
+		"jacadastrada": "Grupo de Produto <b>{0}</b> já cadastrado",
+		"setornaoinformado": "Setor é obrigatório",
+		"descricaonaoinformada": "Descrição é obrigatória"
+	},
+	"produto": {
+		"jacadastrado": "O Código de Barras <b>{0}</b>, já está associado a outro produto.",
+		"naocadastrado": "O Produto {0} não está cadastrado"
+	},
+	"setor": {
+		"jacadastrado": "Setor <b>{}</b>, já cadastrado"
+	},
+	"telefone": {
+		"jacadastrado": "Telefone <b>{}</b>, já cadastrado"
+	},
+	"venda": {
+		"consumidor": {
+			"naocadastrado": "Consumidor <b>{0}</b>, não cadastrado",
+			"invalido": "Consumidor <b>{0}</b>, inválido",
+			"jaregistrado": "Consumidor <b>{0}</b>, já registrado"
+		},
+		"obrigatorio": {
+			"venda": "Erro de processamento, venda não informada",
+			"movimentacaoproduto": "O Item de Venda {0}, deve ser associado a uma Movimentação de Produto",
+			"produto": "A Movimentação de Produto do Item de Venda {0}, deve ser associada a um Produto",
+			"quantidade": "A quantidade do produto {0} deve ser informada",
+			"itemvenda": "Deve ser informado pelo menos um Item de Venda",
+			"consumidor": "Para realizar este tipo de venda deve ser informado o Consumidor"
 		}
 	},
 	"entidade": {
@@ -26,37 +68,27 @@
 		"exclusao": {
 			"sucesso": "<b>{0}</b>&#160;excluida(o) com sucesso!",
 			"erro": "Erro ao excluir a(0) <b>{0}</b>"
-		}
+		},
+		"jacadastrada": "{0}, já cadastrado(a)"
 	},
 	"message": {
 		"defulterror": "Erro inesperado...",
 		"login": {
 			"forbidden": "Sessão expirada, favor efetuar o login novamente.",
 			"confirmacaosenha": "A senha não confere com a confirmação de senha. Informe novamente."
-		},
-		"venda": {
-			"consumidor": {
-				"naocadastrado": "Consumidor {0}, não cadastrado",
-				"invalido": ""
-			},
-			"obrigatorio": {
-				"venda": "Erro de processamento, venda não informada",
-				"movimentacaoproduto": "O Item de Venda {0}, deve ser associado a uma Movimentação de Produto",
-				"produto": "A Movimentação de Produto do Item de Venda {0}, deve ser associada a um Produto",
-				"quantidade": "A quantidade do produto {0} deve ser informada",
-				"itemvenda": "Deve ser informado pelo menos um Item de Venda",
-				"consumidor": "Para realizar este tipo de venda deve ser informado o Consumidor"
-			}
-		},
-		"produto": {
-			"naocadastrado": "O Produto {0} não está cadastrado"
 		}
 	},
 	"label": {
 		"comprador": "Comprador",
 		"vendedor": "Vendedor"
 	},
-	"nome": "Nome Translate",
+	"email": {
+		"jacadastrado": "E-Mail <b>{0}</b>, já cadastrado"
+	},
+	"consumidor": {
+		"jacadastrado": "Consumidor <b>{0}</b>, Já cadastrado",
+		"jaregistrado": "Consumidor <b>{0}</b>, Já registrado"
+	},
 	"enum": {
 		"br": {
 			"com": {
@@ -90,6 +122,16 @@
 		}	
 	},
 	"erro": {
-		"naoidentificado" : "Erro não identificado, por favor contate o administrador do sistema"
+		"naoidentificado": "Erro não identificado, por favor contate o administrador do sistema",
+		"illegalargument": "Parametro inválido"
+	},
+	"security": {
+		"session": {
+			"timeout": "Sessão interrompida por inatividade, faça login novamente"
+		},
+		"access": {
+			"forbidden": "access forbidden",
+			"denied": "access denied"
+		}
 	}
 }

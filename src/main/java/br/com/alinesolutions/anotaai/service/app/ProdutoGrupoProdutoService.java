@@ -78,7 +78,7 @@ public class ProdutoGrupoProdutoService {
 			queryGrupoProduto.getSingleResult();
 		} catch (NoResultException e) {
 			ResponseEntity<?> responseEntity = new ResponseEntity<>();
-			responseEntity.addMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
+			responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 			throw new AppException(responseEntity);
 		}

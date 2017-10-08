@@ -86,15 +86,13 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 				AnotaaiSession anotaaiSession = new AnotaaiSession(request, sessaoUsuario);
 				RequestUtils.putRequest(anotaaiSession);
 			} catch (AppException e) {
-				requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-						.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
+				requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
 			}
 		}
 
 		// se for proibido para todos bloqueia o acesso
 		if (method.isAnnotationPresent(DenyAll.class)) {
-			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-					.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
+			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
 		} else if (method.isAnnotationPresent(RolesAllowed.class)) {// se for um metodo com permissao
 			if (login != null) {
 				RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
@@ -113,8 +111,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 						sessaoUsuarioervice.resetSession(sessaoUsuario);
 					}
 				} catch (AppException e) {// se o usuario ou a sessao nao existirem
-					requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-							.entity(buildResponseEntity(IMessage.SECURITY_SECURITY_SESSION_TIMEOUT)).build());
+					requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(buildResponseEntity(IMessage.SECURITY_SESSION_TIMEOUT)).build());
 				}
 			} else {
 				// sessao expirou, solicitar um novo login

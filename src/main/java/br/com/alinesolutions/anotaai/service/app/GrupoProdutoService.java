@@ -55,7 +55,7 @@ public class GrupoProdutoService {
 			q.setParameter(Constant.Entity.CLIENTE, cliente);
 			grupoProduto = q.getSingleResult();
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, grupoProduto.getNome()));
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.GRUPOPRODUTO_JACADASTRADA, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW, grupoProduto.getNome()));
 		} catch (NoResultException e) {
 			grupoProduto.getSetor().setCliente(cliente);
 			Setor setor = em.getReference(Setor.class, grupoProduto.getSetor().getId());
@@ -77,12 +77,12 @@ public class GrupoProdutoService {
 		responseEntity.setIsValid(Boolean.TRUE);
 		if (grupoProduto.getDescricao() == null || grupoProduto.getDescricao().equals("")) {
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.CAMPO_OBRIGATORIO_NAO_INFORMADO, TipoMensagem.ERROR,
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.GRUPOPRODUTO_DESCRICAONAOINFORMADA, TipoMensagem.ERROR,
 					Constant.App.DEFAULT_TIME_VIEW, "Nome"));
 		}
 		if (grupoProduto.getSetor() == null) {
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.CAMPO_OBRIGATORIO_NAO_INFORMADO, TipoMensagem.ERROR,
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.GRUPOPRODUTO_SETORNAOINFORMADO, TipoMensagem.ERROR,
 					Constant.App.DEFAULT_TIME_VIEW, "Setor"));
 		}
 		if (!responseEntity.getIsValid()) {
@@ -201,7 +201,7 @@ public class GrupoProdutoService {
 			responseEntity.getMessages().add(message);
 		} else {
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.ILLEGAL_ARGUMENT, TipoMensagem.ERROR,
+			responseEntity.addMessage(new AnotaaiMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR,
 					Constant.App.KEEP_ALIVE_TIME_VIEW));
 			appException = new AppException(responseEntity);
 			throw appException;

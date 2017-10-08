@@ -237,7 +237,7 @@ public class CadernetaService {
 			configuracaoCadernetaQuery.setParameter("id", entity.getId() == null ? 0 : entity.getId());
 			ConfiguracaoCaderneta configuracaoCaderneta = configuracaoCadernetaQuery.getSingleResult();
 			responseEntity.setEntity(configuracaoCaderneta);
-			responseEntity.addMessage(IMessage.ENTIDADE_JA_CADASTRADA, TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, CadernetaConstant.CADERNETA);
+			responseEntity.addMessage(IMessage.ENTIDADE_JACADASTRADA, TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, CadernetaConstant.CADERNETA);
 		} catch (NoResultException e) {
 			return responseEntity;
 		}
