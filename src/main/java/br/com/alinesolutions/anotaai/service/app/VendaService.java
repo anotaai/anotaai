@@ -176,7 +176,7 @@ public class VendaService {
 				Cliente cliente = query.getSingleResult();
 				if (!cliente.equals(appService.getCliente())) {
 					throw new NoResultException();
-				} else if (movimentacaoProduto.getQuantidade() <= 0) {
+				} else if (movimentacaoProduto.getQuantidade() == null || movimentacaoProduto.getQuantidade() <= 0) {
 					responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_QUANTIDADE, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
 					responseEntity.setIsValid(Boolean.FALSE);
 				}
