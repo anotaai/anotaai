@@ -22,6 +22,11 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 	private Integer qtdDiasDuracaoFolha;
 
 	private Integer diaBase;
+	/**
+	 * Este campo define quanto tempo em segundos o sistema apresenta o cupom de venda apos finalizar a venda.
+	 * 
+	 * */
+	private Integer timeoutSetupVenda;
 	
 	@OneToMany(mappedBy = "configuracao",cascade = { CascadeType.ALL } , fetch = FetchType.LAZY)
 	private List<Caderneta> cadernetas;
@@ -64,4 +69,12 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 		this.cadernetas = cadernetas;
 	}
 
+	public Integer getTimeoutSetupVenda() {
+		return timeoutSetupVenda;
+	}
+
+	public void setTimeoutSetupVenda(Integer timeoutSetupVenda) {
+		this.timeoutSetupVenda = timeoutSetupVenda;
+	}
+	
 }

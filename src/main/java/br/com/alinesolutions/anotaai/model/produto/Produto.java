@@ -32,7 +32,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 	@NamedQuery(name = ProdutoConstant.LIST_SEARCH_BY_GRUPO_PRODUTO_KEY, query = ProdutoConstant.LIST_SEARCH_BY_GRUPO_PRODUTO_QUERY),
 	@NamedQuery(name = ProdutoConstant.LIST_SEARCH_BY_DESCRICAO_KEY, query = ProdutoConstant.LIST_SEARCH_BY_DESCRICAO_QUERY),
 	@NamedQuery(name = ProdutoConstant.PRODUTO_BY_ID_KEY, query = ProdutoConstant.PRODUTO_BY_ID_QUERY),
-	@NamedQuery(name = ProdutoConstant.PRODUTO_BY_CODIGO_KEY, query = ProdutoConstant.PRODUTO_BY_CODIGO_QUERY),
+	@NamedQuery(name = ProdutoConstant.PRODUTO_BY_CODIGO_BARRAS_KEY, query = ProdutoConstant.PRODUTO_BY_CODIGO_BARRAS_QUERY),
 	@NamedQuery(name = ProdutoConstant.DISPONIBILIDADE_BY_PRODUTO_KEY, query = ProdutoConstant.DISPONIBILIDADE_BY_PRODUTO_QUERY),
 	@NamedQuery(name = ProdutoConstant.EDIT_KEY, query = ProdutoConstant.EDIT_QUERY),
 	@NamedQuery(name = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_KEY, query = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_QUERY),
@@ -286,7 +286,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 
 	public interface ProdutoConstant {
 
-		String FIELD_CODIGO = "codigo";
+		String FIELD_CODIGO = "codigoBarras";
 		
 		String LIST_ALL_COUNT = "Produto.listAllCount";
 		String LIST_ALL_QUERY_COUNT = "select count(p) from Produto p left join p.estoque e where p.cliente = :cliente";
@@ -314,8 +314,8 @@ public class Produto extends BaseEntity<Long, Produto> {
 		String PRODUTO_BY_ID_KEY = "Produto.loadProdutoByCliente";
 		String PRODUTO_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass) from Produto p where p.cliente = :cliente and p.id = :id";
 
-		String PRODUTO_BY_CODIGO_KEY = "Produto.findByCodigo";
-		String PRODUTO_BY_CODIGO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass) from Produto p where p.cliente = :cliente and p.codigo = :codigo";
+		String PRODUTO_BY_CODIGO_BARRAS_KEY = "Produto.findByCodigo";
+		String PRODUTO_BY_CODIGO_BARRAS_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass) from Produto p where p.cliente = :cliente and p.codigoBarras = :codigoBarras";
 
 		String ITEM_RECEITA_BY_PRODUTO_KEY = "Produto.itemReceitaByProduto";
 		String ITEM_RECEITA_BY_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.ItemReceita(ir.id, ir.quantidade, ing.id, ing.descricao, p.id, p.descricao) from ItemReceita ir left join ir.produto p left join ir.ingrediente ing where ir.produto = :produto and p.cliente = :cliente";

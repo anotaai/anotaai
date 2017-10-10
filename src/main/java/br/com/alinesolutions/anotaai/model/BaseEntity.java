@@ -1,7 +1,9 @@
 package br.com.alinesolutions.anotaai.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.BeanProperty;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -75,7 +89,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 					}
 				} else if (!id.equals(other.id)) {
 					equal = Boolean.FALSE;
-				}				
+				}
 			}
 		}
 		return equal;
@@ -91,28 +105,59 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	protected void onPrePersist() {
 		ativo = Boolean.TRUE;
 	}
-	
+
 	public interface BaseEntityConstant {
 		String FIELD_ID = "id";
 		String FIELD_CLIENTE = "cliente";
 		String FIELD_CONSUMIDOR = "consumidor";
 	}
-	
+
 	/**
-	 * Metodo utilizado na edicao de objetos, o objeto original é recuperado do banco e
-	 * invoca este metodo passando o objeto que foi manipulado na tela.
+	 * Metodo utilizado na edicao de objetos, o objeto original é recuperado do
+	 * banco e invoca este metodo passando o objeto que foi manipulado na tela.
 	 * 
-	 * Todos os atributos nao nulos do objeto passado como parametro serao copiados para
-	 * o objeto que invocou o metodos
+	 * Todos os atributos nao nulos do objeto passado como parametro serao copiados
+	 * para o objeto que invocou o metodos
 	 * 
 	 * @param entity
 	 */
 	public T clone() {
-		Gson gson = new GsonBuilder().create();
-		String entityStr = gson.toJson(this);
-		final ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
-		T clone = gson.fromJson(entityStr, type.getActualTypeArguments()[1]);
-		return clone;
+		try {
+			
+			ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+			Type type = parameterizedType.getActualTypeArguments()[1];
+			Gson gson = new GsonBuilder().create();
+			ObjectMapper mapper = new ObjectMapper();
+			SimpleModule module = new SimpleModule();
+			module.addSerializer(new CustomSerializer(TypeFactory.defaultInstance().constructType(type)));
+			mapper.registerModule(module);
+			String entityStr = mapper.writeValueAsString(this);
+			T clone = gson.fromJson(entityStr, type);
+			return clone;
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
+	
+	public static class CustomSerializer extends StdSerializer<BaseEntity<?, ?>> implements ContextualSerializer {
+		
+		protected CustomSerializer(JavaType type) {
+			super(type);
+		}
 
+		private JavaType valueType;
+		
+		@Override
+		public void serialize(BaseEntity<?, ?> value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+			System.out.println(valueType);
+		}
+
+		@Override
+		public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)
+				throws JsonMappingException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
 }

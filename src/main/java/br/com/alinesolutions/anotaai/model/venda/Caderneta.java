@@ -68,21 +68,22 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	private ConfiguracaoCaderneta configuracao;
 	
 	public Caderneta() {
-		
+		super();
 	}
 	
-	public Caderneta(Long id,Long idConfiguracao, String descricao, Integer qtdDiasDuracaoFolha, Integer diaBase) {
+	public Caderneta(Long id, Long idConfiguracao, String descricao, Integer qtdDiasDuracaoFolha, Integer diaBase, Integer timeoutSetupVenda) {
 		setId(id);
 		ConfiguracaoCaderneta c = new ConfiguracaoCaderneta();
 		c.setId(idConfiguracao);
 		c.setQtdDiasDuracaoFolha(qtdDiasDuracaoFolha);
 		c.setDiaBase(diaBase);
+		c.setTimeoutSetupVenda(timeoutSetupVenda);
 		this.configuracao = c;
 		this.descricao = descricao;
 	 
 	}
 	
-	public Caderneta(Long id,String descricao) {
+	public Caderneta(Long id, String descricao) {
 		setId(id);
 		this.descricao = descricao;
 	}
@@ -143,9 +144,9 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 		String FIELD_DIA_BASE = "diaBase";
 		String FIELD_QTD_DIAS_DURACAO = "qtdDiasDuracaoFolha";
 		String FIND_BY_DESCRICAO_LIKE_KEY = "Caderneta.findByNameLike"; 
-		String FIND_BY_DESCRICAO_LIKE_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, c.configuracao.id, c.descricao, cc.qtdDiasDuracaoFolha, cc.diaBase) from Caderneta c join c.configuracao cc where c.cliente = :cliente and upper(c.descricao) like :descricao order by c.descricao";
+		String FIND_BY_DESCRICAO_LIKE_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, c.configuracao.id, c.descricao, cc.qtdDiasDuracaoFolha, cc.diaBase, cc.timeoutSetupVenda) from Caderneta c join c.configuracao cc where c.cliente = :cliente and upper(c.descricao) like :descricao order by c.descricao";
 		String LIST_ALL_KEY = "Caderneta.listAll";
-		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, cc.id, c.descricao, cc.qtdDiasDuracaoFolha, cc.diaBase) from Caderneta c join c.configuracao cc where c.cliente = :cliente order by c.descricao";
+		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, cc.id, c.descricao, cc.qtdDiasDuracaoFolha, cc.diaBase, cc.timeoutSetupVenda) from Caderneta c join c.configuracao cc where c.cliente = :cliente order by c.descricao";
 		String LIST_ALL_COUNT = "Caderneta.listAllCount";
 		String FIND_BY_DESCRICAO_COUNT = "Caderneta.findByNameCount";
 		String FIND_BY_DESCRICAO_QUERY_COUNT = "select count(c) from Caderneta c where c.cliente = :cliente and upper(c.descricao) like :descricao";
@@ -154,8 +155,8 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 		String EDIT_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta(cc.id, cc.qtdDiasDuracaoFolha, cc.diaBase) from ConfiguracaoCaderneta cc  where cc.id = :id";
 		String CADERNETA_BY_CONFIGURACAO_KEY = "Caderneta.cadernetaByConfiguracao";
 		String CADERNETA_BY_CONFIGURACAO_QUERY = "select new br.com.alinesolutions.anotaai.model.venda.Caderneta(c.id, c.descricao) from Caderneta c  where c.configuracao = :configuracao";
-        String CADERNETA_BY_KEYS = "Caderneta.cadernetaByKeys";
-        String CADERNETA_BY_KEYS_QUERY = "select distinct new br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta(cc.id) from ConfiguracaoCaderneta cc join cc.cadernetas c where c.cliente =:cliente and cc.diaBase =:diaBase and cc.qtdDiasDuracaoFolha =:qtdDiasDuracaoFolha and cc.id <> :id";
+		String CADERNETA_BY_KEYS = "Caderneta.cadernetaByKeys";
+		String CADERNETA_BY_KEYS_QUERY = "select distinct new br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta(cc.id) from ConfiguracaoCaderneta cc join cc.cadernetas c where c.cliente =:cliente and cc.diaBase =:diaBase and cc.qtdDiasDuracaoFolha =:qtdDiasDuracaoFolha and cc.id <> :id";
 	}
 	
 }
