@@ -31,7 +31,7 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade={CascadeType.DETACH})
 	private FolhaCaderneta folhaCaderneta;
 
 	@NotNull
