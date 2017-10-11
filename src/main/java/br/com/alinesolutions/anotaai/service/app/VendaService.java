@@ -98,7 +98,7 @@ public class VendaService {
 		
 		createSale(vendaAnotada, folhaCadernetaVenda);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
-		responseEntity.setEntity(vendaAnotada.clone());
+		responseEntity.setEntity(vendaAnotada);
 		return responseEntity;
 		
 	}
