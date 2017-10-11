@@ -76,4 +76,4 @@ insert into Consumidor(ativo,dataCadastro, usuario_id) values (true,Now(),1);
 insert into ClienteConsumidor(ativo, cliente_id,consumidor_id, dataAssociacao, situacao) values (true, 1, 1, Now() ,1);
 
 insert into ConfiguracaoCaderneta(ativo, qtdDiasDuracaoFolha, diaBase, timeoutSetupVenda) values (true, 30, 1, 5);
-insert into Caderneta(ativo, descricao , dataAbertura , dataFechamento , configuracao_id, cliente_id) values (true,'Caderneta Escola', now(), now(),1,1);
+insert into Caderneta(ativo, descricao , dataAbertura , dataFechamento , configuracao_id, cliente_id) values (true, 'Caderneta Escola', now(), now(), 1, 1);
