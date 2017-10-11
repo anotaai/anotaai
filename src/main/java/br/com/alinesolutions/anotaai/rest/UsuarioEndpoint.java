@@ -127,7 +127,7 @@ public class UsuarioEndpoint {
 		return builder.build();
 	}
 
-	@RolesAllowed("CONSUMIDOR")
+	@RolesAllowed("ANOTADO")
 	@POST
 	@Path("/logout")
 	@Consumes(MediaType.APPLICATION_JSON)

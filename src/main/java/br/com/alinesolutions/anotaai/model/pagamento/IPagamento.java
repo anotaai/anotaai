@@ -13,8 +13,8 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoPagamento;
  *
  */
 @JsonSubTypes({ 
-	@Type(value = PagamentoAnonimo.class, name = "ANONIMO"),
-	@Type(value = PagamentoConsumidor.class, name = "CONSUMIDOR")
+	@Type(value = PagamentoAVista.class, name = "AVISTA"),
+	@Type(value = PagamentoAnotado.class, name = "ANOTADO")
 })
 public interface IPagamento {
 	

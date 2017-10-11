@@ -18,12 +18,12 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = PagamentoAnonimo.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = PagamentoAVista.class)
 @Entity
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update PagamentoAnonimo set ativo = false where id = ?")
+@SQLDelete(sql = "update PagamentoAVista set ativo = false where id = ?")
 @XmlRootElement
-public class PagamentoAnonimo extends BaseEntity<Long, PagamentoAnonimo> implements IPagamento {
+public class PagamentoAVista extends BaseEntity<Long, PagamentoAVista> implements IPagamento {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public class PagamentoAnonimo extends BaseEntity<Long, PagamentoAnonimo> impleme
 	@Transient
 	@Override
 	public TipoPagamento getTipoPagamento() {
-		return TipoPagamento.ANONIMO;
+		return TipoPagamento.AVISTA;
 	}
 
 	@ManyToOne(cascade=CascadeType.DETACH)

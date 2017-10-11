@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Any;
@@ -29,16 +30,17 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@ManyToOne(cascade=CascadeType.ALL)
 	private FolhaCaderneta folhaCaderneta;
 
+	@NotNull
 	@Any(metaColumn = @Column(name = "tipo_venda", length = 32), fetch = FetchType.LAZY, optional=false)
 	@AnyMetaDef(
 		idType = "long", metaType = "string", 
 		metaValues = { 
 			@MetaValue(targetEntity = VendaAVistaConsumidor.class, value = "A_VISTA_CONSUMIDOR"), 
-			@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR"),
-			@MetaValue(targetEntity = VendaAVistaAnonima.class, value = "A_VISTA_ANONIMA")
+			@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR")
 		}
 	)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })

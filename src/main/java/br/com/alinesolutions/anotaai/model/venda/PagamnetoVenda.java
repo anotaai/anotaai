@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +16,8 @@ import org.hibernate.annotations.Where;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.pagamento.IPagamento;
-import br.com.alinesolutions.anotaai.model.pagamento.PagamentoAnonimo;
-import br.com.alinesolutions.anotaai.model.pagamento.PagamentoConsumidor;
+import br.com.alinesolutions.anotaai.model.pagamento.PagamentoAVista;
+import br.com.alinesolutions.anotaai.model.pagamento.PagamentoAnotado;
 
 @Entity
 @NamedQueries({
@@ -37,10 +36,10 @@ public class PagamnetoVenda extends BaseEntity<Long, PagamnetoVenda> {
 	@NotNull
 	@Any(metaColumn = @Column(name = "tipo_pagamento", length = 16), fetch = FetchType.LAZY)
 	@AnyMetaDef(
-		idType = "long", metaType = "string", 
-		metaValues = { 
-			@MetaValue(targetEntity = PagamentoAnonimo.class, value = "ANONIMO"), 
-			@MetaValue(targetEntity = PagamentoConsumidor.class, value = "CONSUMIDOR") 
+		idType = "long", metaType = "string",
+		metaValues = {
+			@MetaValue(targetEntity = PagamentoAVista.class, value = "AVISTA"),
+			@MetaValue(targetEntity = PagamentoAnotado.class, value = "ANOTADO")
 		}
 	)
 	@JoinColumn(name = "pagamento_id")

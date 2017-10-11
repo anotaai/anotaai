@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoPagamento {
 	
-	ANONIMO("Anônimo"),
-	CONSUMIDOR("Consumidor");
+	AVISTA("A Vista"),
+	ANOTADO("Anotado");
 	
 	private String descricao;
 	

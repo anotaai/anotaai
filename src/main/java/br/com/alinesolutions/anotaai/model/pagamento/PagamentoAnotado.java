@@ -15,19 +15,19 @@ import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 
 @Entity
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update PagamentoConsumidor set ativo = false where id = ?")
+@SQLDelete(sql = "update PagamentoAnotado set ativo = false where id = ?")
 @XmlRootElement
-public class PagamentoConsumidor extends BaseEntity<Long, PagamentoConsumidor> implements IPagamento {
+public class PagamentoAnotado extends BaseEntity<Long, PagamentoAnotado> implements IPagamento {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(optional = false, cascade=CascadeType.ALL)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	private Pagamento pagamento;
 
 	@Transient
 	@Override
 	public TipoPagamento getTipoPagamento() {
-		return TipoPagamento.CONSUMIDOR;
+		return TipoPagamento.ANOTADO;
 	}
 
 	@ManyToOne(cascade = CascadeType.DETACH)

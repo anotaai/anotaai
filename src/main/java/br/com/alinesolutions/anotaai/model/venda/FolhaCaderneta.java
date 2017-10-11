@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.pagamento.PagamentoConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta.FolhaCadernetaConstant;
 
@@ -39,10 +38,7 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 
 	@OneToMany(mappedBy = "folhaCaderneta")
 	private List<FolhaCadernetaVenda> vendas;
-
-	@OneToMany(mappedBy = "folhaCaderneta", cascade = CascadeType.ALL)
-	private List<PagamentoConsumidor> pagamentos;
-
+	
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Caderneta caderneta;
 
@@ -67,14 +63,6 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 
 	public void setConsumidor(Consumidor consumidor) {
 		this.consumidor = consumidor;
-	}
-
-	public List<PagamentoConsumidor> getPagamentos() {
-		return pagamentos;
-	}
-
-	public void setPagamentos(List<PagamentoConsumidor> pagamentos) {
-		this.pagamentos = pagamentos;
 	}
 
 	public List<FolhaCadernetaVenda> getVendas() {
