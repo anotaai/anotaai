@@ -42,9 +42,6 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 	@ManyToOne(optional = false)
 	private Caderneta caderneta;
 
-	@OneToMany(mappedBy = "venda")
-	private List<PagamentoAnonimo> pagamentos;
-
 	public Venda getVenda() {
 		return venda;
 	}
@@ -60,13 +57,4 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 	public void setCaderneta(Caderneta caderneta) {
 		this.caderneta = caderneta;
 	}
-
-	public List<PagamentoAnonimo> getPagamentos() {
-		return pagamentos;
-	}
-
-	public void setPagamentos(List<PagamentoAnonimo> pagamentos) {
-		this.pagamentos = pagamentos;
-	}
-
 }

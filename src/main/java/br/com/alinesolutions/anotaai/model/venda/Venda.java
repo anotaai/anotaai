@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -41,6 +42,9 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	@Transient
 	private Double quantidadeItens;
+	
+	@OneToMany(mappedBy = "venda")
+	private List<PagamnetoVenda> pagamentos;
 
 	public List<ItemVenda> getProdutos() {
 		return produtos;
@@ -72,6 +76,14 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	public void setQuantidadeItens(Double quantidadeItens) {
 		this.quantidadeItens = quantidadeItens;
+	}
+
+	public List<PagamnetoVenda> getPagamentos() {
+		return pagamentos;
+	}
+
+	public void setPagamentos(List<PagamnetoVenda> pagamentos) {
+		this.pagamentos = pagamentos;
 	}
 
 	public interface VendaConstant {

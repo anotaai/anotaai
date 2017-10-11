@@ -159,7 +159,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		//https://github.com/FasterXML/jackson-datatypes-collections/blob/master/guava/src/main/java/com/fasterxml/jackson/datatype/guava/ser/TableSerializer.java
 		@Override
 		public JsonSerializer<?> createContextual(SerializerProvider provider, BeanProperty property) throws JsonMappingException {
-			return provider.findValueSerializer(_type, property);
+			return provider.findValueSerializer(_type, null);
 		}
 		
 //		public JsonSerializer<?> createContextual(SerializerProvider provider, BeanProperty property) throws JsonMappingException {

@@ -1,12 +1,8 @@
 package br.com.alinesolutions.anotaai.model.pagamento;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,7 +15,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoPagamento;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.domain.MeioPagamento;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -32,55 +27,17 @@ public class PagamentoAnonimo extends BaseEntity<Long, PagamentoAnonimo> impleme
 
 	private static final long serialVersionUID = 1L;
 
+	@ManyToOne(optional = false, cascade=CascadeType.ALL)
+	private Pagamento pagamento;
+
 	@Transient
 	@Override
 	public TipoPagamento getTipoPagamento() {
 		return TipoPagamento.ANONIMO;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataPagamento;
-
-	private Double valorRecebido;
-
-	private Double valorPagamento;
-
-	private MeioPagamento meioPagamento;
-
 	@ManyToOne(cascade=CascadeType.DETACH)
 	private VendaAVistaAnonima venda;
-
-	public Date getDataPagamento() {
-		return dataPagamento;
-	}
-
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
-
-	public Double getValorRecebido() {
-		return valorRecebido;
-	}
-
-	public void setValorRecebido(Double valorRecebido) {
-		this.valorRecebido = valorRecebido;
-	}
-
-	public Double getValorPagamento() {
-		return valorPagamento;
-	}
-
-	public void setValorPagamento(Double valorPagamento) {
-		this.valorPagamento = valorPagamento;
-	}
-
-	public MeioPagamento getMeioPagamento() {
-		return meioPagamento;
-	}
-
-	public void setMeioPagamento(MeioPagamento meioPagamento) {
-		this.meioPagamento = meioPagamento;
-	}
 
 	public VendaAVistaAnonima getVenda() {
 		return venda;
@@ -88,6 +45,14 @@ public class PagamentoAnonimo extends BaseEntity<Long, PagamentoAnonimo> impleme
 
 	public void setVenda(VendaAVistaAnonima venda) {
 		this.venda = venda;
+	}
+
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
 	}
 
 }

@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.pagamento.PagamentoConsumidor;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = VendaAVistaConsumidor.class)
 @NamedQueries({})
@@ -38,9 +37,6 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 
 	@ManyToOne(optional = false)
 	private FolhaCaderneta folhaCaderneta;
-
-	@ManyToOne(optional = false)
-	private PagamentoConsumidor pagamento;
 
 	public Venda getVenda() {
 		return venda;
