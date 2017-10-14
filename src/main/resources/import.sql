@@ -24,7 +24,7 @@ insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUE
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Liquido', 'Setor teste', 1, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bebidas', 'Produtos Líquidos', 1, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (55.50, 150, true);
-insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Cerveja Brahma 350ml', 'Brahma 350ml', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 7891149010301, false, false, true, 1);
+insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Cerveja Brahma 350ml', 'Braminha', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 7891149010301, false, false, true, 1);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo, ehPrincipal) values (1, 1, true, true);
 
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Salgados', 'Produtos Fritos', 1, true);
