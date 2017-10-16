@@ -26,6 +26,14 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 	private String responseText;
 
 	private List<AnotaaiMessage> messages;
+	
+	/**
+	 * Id do processo, A cada requisicao em processos sensiveis, como venda por exempo, um novo identificador do processo, PID (process id) 
+	 * serah gerado e deverah ser utilizado na proxima requisicao,
+	 *  
+	 */
+	//TODO ANOTAI - Implementar seguranca em processos sensiveis.
+	private String pid;
 
 	/**
 	 * Determina se ocorreu ou nao um erro de negocio caso tenha ocorrido a
@@ -92,6 +100,14 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 
 	public void setList(ResponseList<T> list) {
 		this.list = list;
+	}
+	
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
 	}
 
 	public void addMessage(AnotaaiMessage message) {
