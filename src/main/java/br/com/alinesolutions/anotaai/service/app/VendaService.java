@@ -97,7 +97,7 @@ public class VendaService {
 		vendaAnotada.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
 		vendaAnotada.getFolhaCadernetaVenda().setVenda(vendaAnotada);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
-		vendaAnotada.getVenda().setDataVenda(new Date());
+		vendaAnotada.getFolhaCadernetaVenda().getVenda().setDataVenda(new Date());
 		
 		createSale(vendaAnotada, folhaCadernetaVenda);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();

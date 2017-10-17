@@ -21,10 +21,6 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 	@Type(value = VendaAVistaConsumidor.class, name = "A_VISTA_CONSUMIDOR") 
 })
 public interface IVenda {
-
-	Venda getVenda();
-
-	void setVenda(Venda venda);
 	
 	TipoVenda getTipoVenda();
 

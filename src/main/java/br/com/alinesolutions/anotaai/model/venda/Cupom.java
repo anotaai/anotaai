@@ -14,8 +14,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.produto.ItemBalanco;
-import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 
 
 @Entity
@@ -29,11 +27,11 @@ public class Cupom extends BaseEntity<Long, Cupom> {
 
 	private static final long serialVersionUID = 1L;
 
-	@Any(metaColumn = @Column(name = "tipo_venda", length = 16), fetch = FetchType.LAZY)
+	@Any(metaColumn = @Column(name = "tipo_venda", length = 32), fetch = FetchType.LAZY)
 	@AnyMetaDef(idType = "long", metaType = "string", metaValues = {
-		@MetaValue(targetEntity = ItemBalanco.class, value = "VENDA_A_VISTA"),
-		@MetaValue(targetEntity = ItemEntrada.class, value = "VENDA_ANOTADA"),
-		@MetaValue(targetEntity = ItemEntrada.class, value = "VENDA_CLIENTE_AVULSO")
+		@MetaValue(targetEntity = VendaAVistaConsumidor.class, value = "A_VISTA_CONSUMIDOR"),
+		@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR"),
+		@MetaValue(targetEntity = VendaAVistaAnonima.class, value = "A_VISTA_ANONIMA")
 	})
 	@JoinColumn(name = "movimentacao_id")
 	private IVenda venda;
