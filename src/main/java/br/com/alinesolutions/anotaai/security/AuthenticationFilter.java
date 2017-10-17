@@ -145,10 +145,14 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 	private Boolean isSessionActive(SessaoUsuario sessaoUsuario) {
 		Boolean isSessionActive = Boolean.TRUE;
-		Calendar sessionTime = Calendar.getInstance();
-		sessionTime.setTime(sessaoUsuario.getUltimoAcesso());
-		Long timeLogged = ChronoUnit.MINUTES.between(sessionTime.toInstant(), Calendar.getInstance().toInstant());
-		if (timeLogged > Constant.App.SESSION_TIME) {
+		if (sessaoUsuario != null && sessaoUsuario.getUltimoAcesso() != null) {
+			Calendar sessionTime = Calendar.getInstance();
+			sessionTime.setTime(sessaoUsuario.getUltimoAcesso());
+			Long timeLogged = ChronoUnit.MINUTES.between(sessionTime.toInstant(), Calendar.getInstance().toInstant());
+			if (timeLogged > Constant.App.SESSION_TIME) {
+				isSessionActive = Boolean.FALSE;
+			}
+		} else {
 			isSessionActive = Boolean.FALSE;
 		}
 		return isSessionActive;

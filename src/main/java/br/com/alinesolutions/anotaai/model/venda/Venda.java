@@ -3,6 +3,7 @@ package br.com.alinesolutions.anotaai.model.venda;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,7 +32,7 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "venda")
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<ItemVenda> produtos;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -45,8 +46,8 @@ public class Venda extends BaseEntity<Long, Venda> {
 	
 	@Enumerated(EnumType.ORDINAL)
 	private StatusVenda statusVenda;
-	
-	@OneToMany(mappedBy = "venda")
+
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<PagamentoVenda> pagamentos;
 
 	public List<ItemVenda> getProdutos() {

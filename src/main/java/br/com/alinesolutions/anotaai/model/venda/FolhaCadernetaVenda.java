@@ -34,7 +34,7 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> i
 	private FolhaCaderneta folhaCaderneta;
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Venda venda;
 
 	public FolhaCaderneta getFolhaCaderneta() {

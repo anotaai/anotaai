@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.Hibernate;
+
 import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
@@ -85,21 +87,20 @@ public class VendaService {
 		
 		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
 		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor().getId());
-		vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().setCaderneta(caderneta);
-		vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().setConsumidor(consumidor);
-		validateSale(vendaAnotada);
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
+		validateSale(vendaAnotada);
+		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
+		Hibernate.initialize(folha.getVendas());
 		folha.getVendas().add(vendaAnotada.getFolhaCadernetaVenda());
-		vendaAnotada.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		vendaAnotada.getFolhaCadernetaVenda().getVenda().setDataVenda(new Date());
 		
 		createSale(vendaAnotada);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
-		responseEntity.setEntity(vendaAnotada);
+		responseEntity.setEntity(vendaAnotada.clone());
 		return responseEntity;
-		
+
 	}
 	
 	private void validateSale(IVenda iVenda) throws AppException {
