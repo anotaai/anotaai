@@ -1,18 +1,11 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Any;
-import org.hibernate.annotations.AnyMetaDef;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -33,16 +26,8 @@ public class CadernetaVenda extends BaseEntity<Long, CadernetaVenda> {
 	private Caderneta caderneta;
 
 	@NotNull
-	@Any(metaColumn = @Column(name = "tipo_venda", length = 32), fetch = FetchType.LAZY, optional=false)
-	@AnyMetaDef(
-		idType = "long", metaType = "string", 
-		metaValues = { 
-			@MetaValue(targetEntity = VendaAVistaAnonima.class, value = "A_VISTA_ANONIMA")
-		}
-	)
-	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
-	@JoinColumn(name="venda_id", nullable = false)
-	private IVendaAnonima venda;
+	@ManyToOne(cascade=CascadeType.DETACH)
+	private Venda venda;
 
 	public Caderneta getCaderneta() {
 		return caderneta;
@@ -52,11 +37,11 @@ public class CadernetaVenda extends BaseEntity<Long, CadernetaVenda> {
 		this.caderneta = caderneta;
 	}
 
-	public IVendaAnonima getVenda() {
+	public Venda getVenda() {
 		return venda;
 	}
 
-	public void setVenda(IVendaAnonima venda) {
+	public void setVenda(Venda venda) {
 		this.venda = venda;
 	}
 

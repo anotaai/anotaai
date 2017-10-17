@@ -1,19 +1,12 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.annotations.Any;
-import org.hibernate.annotations.AnyMetaDef;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -35,17 +28,8 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 	private FolhaCaderneta folhaCaderneta;
 
 	@NotNull
-	@Any(metaColumn = @Column(name = "tipo_venda", length = 32), fetch = FetchType.LAZY, optional=false)
-	@AnyMetaDef(
-		idType = "long", metaType = "string", 
-		metaValues = {
-			@MetaValue(targetEntity = VendaAVistaConsumidor.class, value = "A_VISTA_CONSUMIDOR"), 
-			@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR")
-		}
-	)
-	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
-	@JoinColumn(name="venda_id", nullable = false)
-	private IVendaConsumidor venda;
+	@ManyToOne(cascade = CascadeType.DETACH)
+	private Venda venda;
 
 	public FolhaCaderneta getFolhaCaderneta() {
 		return folhaCaderneta;
@@ -55,11 +39,11 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
 		this.folhaCaderneta = folhaCaderneta;
 	}
 
-	public IVendaConsumidor getVenda() {
+	public Venda getVenda() {
 		return venda;
 	}
 
-	public void setVenda(IVendaConsumidor venda) {
+	public void setVenda(Venda venda) {
 		this.venda = venda;
 	}
 
