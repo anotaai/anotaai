@@ -1,5 +1,6 @@
 package br.com.alinesolutions.anotaai.rest;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -17,6 +18,7 @@ import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.VendaAnotadaConsumidor;
 import br.com.alinesolutions.anotaai.service.app.VendaService;
 
+@RolesAllowed("CLIENTE")
 @Path("/venda")
 public class VendaEndpoint {
 

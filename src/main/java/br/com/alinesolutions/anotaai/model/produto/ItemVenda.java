@@ -3,6 +3,8 @@ package br.com.alinesolutions.anotaai.model.produto;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.StatusItemVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoItemMovimentacao;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
@@ -46,6 +49,9 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 	 */
 	private Double precoCusto;
 
+	@Enumerated(EnumType.ORDINAL)
+	private StatusItemVenda statusItemVenda;
+	
 	/**
 	 * Preco de venda quando o produto foi vendido
 	 */
@@ -90,6 +96,14 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 
 	public void setMovimentacaoProduto(MovimentacaoProduto movimentacaoProduto) {
 		this.movimentacaoProduto = movimentacaoProduto;
+	}
+
+	public StatusItemVenda getStatusItemVenda() {
+		return statusItemVenda;
+	}
+
+	public void setStatusItemVenda(StatusItemVenda statusItemVenda) {
+		this.statusItemVenda = statusItemVenda;
 	}
 
 }

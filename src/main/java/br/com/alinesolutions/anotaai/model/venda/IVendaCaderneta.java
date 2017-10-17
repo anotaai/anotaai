@@ -14,13 +14,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  */
 @JsonTypeInfo(use = Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ 
-	@Type(value = VendaAnotadaConsumidor.class, name = "ANOTADA_CONSUMIDOR"),
-	@Type(value = VendaAVistaConsumidor.class, name = "A_VISTA_CONSUMIDOR") 
+	@Type(value = VendaAVistaAnonima.class, name = "A_VISTA_ANONIMA")
 })
-public interface IVendaConsumidor extends IVenda {
+public interface IVendaCaderneta extends ITipoVenda {
 	
-	FolhaCaderneta getFolhaCaderneta();
+	CadernetaVenda getCadernetaVenda();
 	
-	void setFolhaCaderneta(FolhaCaderneta folhaCaderneta);
+	void setCadernetaVenda(CadernetaVenda caderneta);
 
 }

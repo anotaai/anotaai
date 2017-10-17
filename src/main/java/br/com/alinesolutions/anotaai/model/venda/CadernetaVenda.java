@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,31 +17,30 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 })
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update FolhaCadernetaVenda set ativo = false where id = ?")
-@XmlRootElement
-public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> implements IVenda {
+@SQLDelete(sql = "update CadernetaVenda set ativo = false where id = ?")
+public class CadernetaVenda extends BaseEntity<Long, CadernetaVenda> implements IVenda {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public LocalVenda getLocalVenda() {
-		return LocalVenda.FOLHA_CADERNETA;
+		return LocalVenda.CADERNETA;
 	}
 	
 	@NotNull
 	@ManyToOne(cascade={CascadeType.DETACH})
-	private FolhaCaderneta folhaCaderneta;
+	private Caderneta caderneta;
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade=CascadeType.DETACH)
 	private Venda venda;
 
-	public FolhaCaderneta getFolhaCaderneta() {
-		return folhaCaderneta;
+	public Caderneta getCaderneta() {
+		return caderneta;
 	}
 
-	public void setFolhaCaderneta(FolhaCaderneta folhaCaderneta) {
-		this.folhaCaderneta = folhaCaderneta;
+	public void setCaderneta(Caderneta caderneta) {
+		this.caderneta = caderneta;
 	}
 
 	public Venda getVenda() {

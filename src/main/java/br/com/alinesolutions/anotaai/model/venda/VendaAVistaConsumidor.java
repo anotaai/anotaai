@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -22,7 +21,7 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update VendaAVistaConsumidor set ativo = false where id = ?")
 @XmlRootElement
-public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumidor> implements IVendaConsumidor {
+public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumidor> implements IVendaFolha {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,28 +31,17 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 		return TipoVenda.A_VISTA_CONSUMIDOR;
 	}
 
-	@ManyToOne(optional = false, cascade=CascadeType.ALL)
-	private Venda venda;
-
 	@ManyToOne(optional = false)
-	private FolhaCaderneta folhaCaderneta;
+	private FolhaCadernetaVenda folhaCadernetaVenda;
 
-	public Venda getVenda() {
-		return venda;
-	}
-
-	public void setVenda(Venda venda) {
-		this.venda = venda;
+	@Override
+	public FolhaCadernetaVenda getFolhaCadernetaVenda() {
+		return folhaCadernetaVenda;
 	}
 
 	@Override
-	public FolhaCaderneta getFolhaCaderneta() {
-		return folhaCaderneta;
-	}
-
-	@Override
-	public void setFolhaCaderneta(FolhaCaderneta folhaCaderneta) {
-		this.folhaCaderneta = folhaCaderneta;
+	public void setFolhaCadernetaVenda(FolhaCadernetaVenda folhaCadernetaVenda) {
+		this.folhaCadernetaVenda = folhaCadernetaVenda;
 	}
 
 }

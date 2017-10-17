@@ -6,12 +6,14 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Priority;
 import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
@@ -28,6 +31,7 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSession;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
+import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
@@ -86,42 +90,50 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 				AnotaaiSession anotaaiSession = new AnotaaiSession(request, sessaoUsuario);
 				RequestUtils.putRequest(anotaaiSession);
 			} catch (AppException e) {
-				requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
+				abortWith(requestContext, Response.Status.FORBIDDEN, IMessage.SECURITY_ACCESS_FORBIDDEN);
 			}
 		}
 
-		// se for proibido para todos bloqueia o acesso
-		if (method.isAnnotationPresent(DenyAll.class)) {
-			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
-		} else if (method.isAnnotationPresent(RolesAllowed.class)) {// se for um metodo com permissao
-			if (login != null) {
-				RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
-				try {
-					Set<String> rolesSet = new HashSet<String>(Arrays.asList(rolesAnnotation.value()));
-					// o usuario nao tem acesso a funcionalidade ou a sessao expirou
-					if (!isSessionActive(sessaoUsuario)) {
-						requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-								.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_DENIED)).build());
-					} else if (!isUserAllowed(usuarioDatabase, rolesSet)) {
-						requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-								.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_FORBIDDEN)).build());
-					} else {
-						//acesso a funcionalidade liberado reinicia o tempo de sessao do usuario
-						sessaoUsuario.setUltimoAcesso(new Date());
-						sessaoUsuarioervice.resetSession(sessaoUsuario);
-					}
-				} catch (AppException e) {// se o usuario ou a sessao nao existirem
-					requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(buildResponseEntity(IMessage.SECURITY_SESSION_TIMEOUT)).build());
-				}
-			} else {
-				// sessao expirou, solicitar um novo login
-				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-						.entity(buildResponseEntity(IMessage.SECURITY_ACCESS_DENIED)).build());
-			}
+		// se for proibido para todos bloqueia o acesso na classe ou no metodo
+		if (resourceInfo.getResourceClass().isAnnotationPresent(DenyAll.class) || method.isAnnotationPresent(DenyAll.class)) {
+			abortWith(requestContext, Response.Status.FORBIDDEN, IMessage.SECURITY_ACCESS_FORBIDDEN);
 		} else {
-			AnotaaiSession anotaaiSession = new AnotaaiSession(request, sessaoUsuario);
-			RequestUtils.putRequest(anotaaiSession);
+			Boolean securityFromMethod = method.isAnnotationPresent(RolesAllowed.class);
+			Boolean securityFromClass = resourceInfo.getResourceClass().isAnnotationPresent(RolesAllowed.class);
+			if (securityFromMethod || securityFromClass) {// se for um metodo com permissao
+				if (login != null) {
+					RolesAllowed rolesAnnotation = securityFromClass ? resourceInfo.getResourceClass().getAnnotation(RolesAllowed.class) : method.getAnnotation(RolesAllowed.class);
+					try {
+						List<Perfil> listaPerfis = Arrays.stream(rolesAnnotation.value()).map(perfil -> Perfil.valueOf(perfil)).collect(Collectors.toList());
+						// o usuario nao tem acesso a funcionalidade ou a sessao expirou
+						if (!isSessionActive(sessaoUsuario)) {
+							abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_ACCESS_DENIED);
+						} else if (!isUserAllowed(usuarioDatabase, listaPerfis)) {
+							abortWith(requestContext, Response.Status.FORBIDDEN, IMessage.SECURITY_ACCESS_FORBIDDEN);
+						} else {
+							//acesso a funcionalidade liberado reinicia o tempo de sessao do usuario
+							sessaoUsuario.setUltimoAcesso(new Date());
+							sessaoUsuarioervice.resetSession(sessaoUsuario);
+						}
+					} catch (AppException e) {// se o usuario ou a sessao nao existirem
+						abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_SESSION_TIMEOUT);
+					}
+				} else {
+					// sessao expirou, solicitar um novo login
+					abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_ACCESS_DENIED);
+				}
+			} else if (resourceInfo.getResourceClass().isAnnotationPresent(PermitAll.class)) {
+				//Acesso para todos os usuarios, com ou sem sessao ativa
+				AnotaaiSession anotaaiSession = new AnotaaiSession(request, sessaoUsuario);
+				RequestUtils.putRequest(anotaaiSession);
+			} else {
+				abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_ACCESS_DENIED);
+			}
 		}
+	}
+
+	private void abortWith(ContainerRequestContext requestContext, Status status, String messageKey) {
+		requestContext.abortWith(Response.status(status).entity(buildResponseEntity(messageKey)).build());
 	}
 
 	private ResponseEntity<?> buildResponseEntity(String key) {
@@ -154,16 +166,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		return login;
 	}
 
-	private boolean isUserAllowed(final Usuario usuario, final Set<String> rolesSet) {
-		Boolean isAllowed = Boolean.FALSE;
-
-		for (UsuarioPerfil perfilUsuario : usuario.getPerfis()) {
-			isAllowed = rolesSet.contains(perfilUsuario.getPerfil().toString());
-			if (isAllowed) {
-				isAllowed = Boolean.TRUE;
-				break;
-			}
-		}
-		return isAllowed;
+	private Boolean isUserAllowed(final Usuario usuario, final List<Perfil> listaPerfis) {
+		Stream<UsuarioPerfil> filter = usuario.getPerfis().stream().filter(usuarioPerfil -> listaPerfis.contains(usuarioPerfil.getPerfil()));
+		return !filter.collect(Collectors.toList()).isEmpty();
 	}
 }
