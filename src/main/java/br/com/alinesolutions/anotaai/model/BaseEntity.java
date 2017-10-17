@@ -125,38 +125,13 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		try {
 			ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
 			Type type = parameterizedType.getActualTypeArguments()[1];
-			//FilterProvider filters = new SimpleFilterProvider().addFilter("baseEntityFilter", baseEntityFilter);
 			ObjectMapper mapper = new ObjectMapper();
 			String entityStr = mapper.writeValueAsString(this);
-			T clone = (T) mapper.readValue(entityStr, (Class<?>) type);
+			T clone = mapper.readValue(entityStr, (Class<T>) type);
 			return clone;
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 	
-	@Transient
-	PropertyFilter baseEntityFilter = new SimpleBeanPropertyFilter() {
-		@Override
-		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
-			if (include(writer)) {
-				if (!writer.getName().equals("intValue")) {
-					writer.serializeAsField(pojo, jgen, provider);
-					return;
-				}
-			} else if (!jgen.canOmitFields()) { // since 2.3
-				writer.serializeAsOmittedField(pojo, jgen, provider);
-			}
-		}
-
-		@Override
-		protected boolean include(BeanPropertyWriter writer) {
-			return true;
-		}
-
-		@Override
-		protected boolean include(PropertyWriter writer) {
-			return true;
-		}
-	};
 }
