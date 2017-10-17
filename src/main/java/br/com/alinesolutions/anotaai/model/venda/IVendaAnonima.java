@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 })
 public interface IVendaAnonima extends IVenda {
 	
-	Caderneta getCaderneta();
+	CadernetaVenda getCadernetaVenda();
 	
-	void setCaderneta(Caderneta caderneta);
+	void setCadernetaVenda(CadernetaVenda caderneta);
 
 }

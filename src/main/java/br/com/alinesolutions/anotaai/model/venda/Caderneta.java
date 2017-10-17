@@ -60,6 +60,9 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	
 	@OneToMany(mappedBy="caderneta")
 	private List<FolhaCaderneta> folhas;
+	
+	@OneToMany(mappedBy="caderneta")
+	private List<CadernetaVenda> vendasAnonimas;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;

@@ -24,8 +24,8 @@ import br.com.alinesolutions.anotaai.model.pagamento.PagamentoAnotado;
 	
 })
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update PagamnetoVenda set ativo = false where id = ?")
-public class PagamnetoVenda extends BaseEntity<Long, PagamnetoVenda> {
+@SQLDelete(sql = "update PagamentoVenda set ativo = false where id = ?")
+public class PagamentoVenda extends BaseEntity<Long, PagamentoVenda> {
 
 	private static final long serialVersionUID = 1L;
 	

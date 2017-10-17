@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 })
 public interface IVendaConsumidor extends IVenda {
 	
-	FolhaCaderneta getFolhaCaderneta();
+	FolhaCadernetaVenda getFolhaCadernetaVenda();
 	
-	void setFolhaCaderneta(FolhaCaderneta folhaCaderneta);
+	void setFolhaCadernetaVenda(FolhaCadernetaVenda folhaCadernetaVenda);
 
 }

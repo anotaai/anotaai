@@ -36,7 +36,7 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 	private Venda venda;
 
 	@ManyToOne(optional = false)
-	private Caderneta caderneta;
+	private CadernetaVenda cadernetaVenda;
 
 	public Venda getVenda() {
 		return venda;
@@ -46,11 +46,12 @@ public class VendaAVistaAnonima extends BaseEntity<Long, VendaAVistaAnonima> imp
 		this.venda = venda;
 	}
 
-	public Caderneta getCaderneta() {
-		return caderneta;
+	public CadernetaVenda getCadernetaVenda() {
+		return cadernetaVenda;
 	}
 
-	public void setCaderneta(Caderneta caderneta) {
-		this.caderneta = caderneta;
+	public void setCadernetaVenda(CadernetaVenda cadernetaVenda) {
+		this.cadernetaVenda = cadernetaVenda;
 	}
+
 }

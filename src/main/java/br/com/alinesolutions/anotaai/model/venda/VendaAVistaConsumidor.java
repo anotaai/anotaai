@@ -36,7 +36,7 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 	private Venda venda;
 
 	@ManyToOne(optional = false)
-	private FolhaCaderneta folhaCaderneta;
+	private FolhaCadernetaVenda folhaCadernetaVenda;
 
 	public Venda getVenda() {
 		return venda;
@@ -47,13 +47,13 @@ public class VendaAVistaConsumidor extends BaseEntity<Long, VendaAVistaConsumido
 	}
 
 	@Override
-	public FolhaCaderneta getFolhaCaderneta() {
-		return folhaCaderneta;
+	public FolhaCadernetaVenda getFolhaCadernetaVenda() {
+		return folhaCadernetaVenda;
 	}
 
 	@Override
-	public void setFolhaCaderneta(FolhaCaderneta folhaCaderneta) {
-		this.folhaCaderneta = folhaCaderneta;
+	public void setFolhaCadernetaVenda(FolhaCadernetaVenda folhaCadernetaVenda) {
+		this.folhaCadernetaVenda = folhaCadernetaVenda;
 	}
 
 }

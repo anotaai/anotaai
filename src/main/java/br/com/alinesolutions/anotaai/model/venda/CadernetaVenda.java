@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
@@ -24,42 +23,40 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 })
 @Where(clause = "ativo = true")
-@SQLDelete(sql = "update FolhaCadernetaVenda set ativo = false where id = ?")
-@XmlRootElement
-public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> {
+@SQLDelete(sql = "update CadernetaVenda set ativo = false where id = ?")
+public class CadernetaVenda extends BaseEntity<Long, CadernetaVenda> {
 
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	@ManyToOne(cascade={CascadeType.DETACH})
-	private FolhaCaderneta folhaCaderneta;
+	private Caderneta caderneta;
 
 	@NotNull
 	@Any(metaColumn = @Column(name = "tipo_venda", length = 32), fetch = FetchType.LAZY, optional=false)
 	@AnyMetaDef(
 		idType = "long", metaType = "string", 
-		metaValues = {
-			@MetaValue(targetEntity = VendaAVistaConsumidor.class, value = "A_VISTA_CONSUMIDOR"), 
-			@MetaValue(targetEntity = VendaAnotadaConsumidor.class, value = "ANOTADA_CONSUMIDOR")
+		metaValues = { 
+			@MetaValue(targetEntity = VendaAVistaAnonima.class, value = "A_VISTA_ANONIMA")
 		}
 	)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	@JoinColumn(name="venda_id", nullable = false)
-	private IVendaConsumidor venda;
+	private IVendaAnonima venda;
 
-	public FolhaCaderneta getFolhaCaderneta() {
-		return folhaCaderneta;
+	public Caderneta getCaderneta() {
+		return caderneta;
 	}
 
-	public void setFolhaCaderneta(FolhaCaderneta folhaCaderneta) {
-		this.folhaCaderneta = folhaCaderneta;
+	public void setCaderneta(Caderneta caderneta) {
+		this.caderneta = caderneta;
 	}
 
-	public IVendaConsumidor getVenda() {
+	public IVendaAnonima getVenda() {
 		return venda;
 	}
 
-	public void setVenda(IVendaConsumidor venda) {
+	public void setVenda(IVendaAnonima venda) {
 		this.venda = venda;
 	}
 

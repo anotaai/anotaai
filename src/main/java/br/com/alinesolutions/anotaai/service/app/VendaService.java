@@ -65,15 +65,16 @@ public class VendaService {
 
 	public ResponseEntity<Venda> createConsumerSale(VendaAVistaConsumidor vendaAVistaConsumidor) throws AppException {
 
-		Caderneta caderneta = em.getReference(Caderneta.class, vendaAVistaConsumidor.getFolhaCaderneta().getCaderneta().getId());
-		Consumidor consumidor = em.getReference(Consumidor.class, vendaAVistaConsumidor.getFolhaCaderneta().getConsumidor().getId());
+		Caderneta caderneta = em.getReference(Caderneta.class, vendaAVistaConsumidor.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
+		Consumidor consumidor = em.getReference(Consumidor.class, vendaAVistaConsumidor.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor().getId());
 
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
 		folha.getVendas().add(venda);
 		vendaAVistaConsumidor.getVenda().setDataVenda(new Date());
-		vendaAVistaConsumidor.setFolhaCaderneta(folha);
+		vendaAVistaConsumidor.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
+		vendaAVistaConsumidor.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		venda.setVenda(vendaAVistaConsumidor);
 		em.persist(venda);
 
@@ -82,10 +83,10 @@ public class VendaService {
 
 	public ResponseEntity<VendaAnotadaConsumidor> createAppointmentBookSale(VendaAnotadaConsumidor vendaAnotada) throws AppException {
 		
-		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCaderneta().getCaderneta().getId());
-		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCaderneta().getConsumidor().getId());
-		vendaAnotada.getFolhaCaderneta().setCaderneta(caderneta);
-		vendaAnotada.getFolhaCaderneta().setConsumidor(consumidor);
+		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
+		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor().getId());
+		vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().setCaderneta(caderneta);
+		vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().setConsumidor(consumidor);
 		validateSale((IVendaConsumidor)vendaAnotada);
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		FolhaCadernetaVenda folhaCadernetaVenda = new FolhaCadernetaVenda();
@@ -93,7 +94,9 @@ public class VendaService {
 		folhaCadernetaVenda.setFolhaCaderneta(folha);
 		
 		folha.getVendas().add(folhaCadernetaVenda);
-		vendaAnotada.setFolhaCaderneta(folha);
+		vendaAnotada.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
+		vendaAnotada.getFolhaCadernetaVenda().setVenda(vendaAnotada);
+		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		vendaAnotada.getVenda().setDataVenda(new Date());
 		
 		createSale(vendaAnotada, folhaCadernetaVenda);
@@ -206,7 +209,7 @@ public class VendaService {
 		} catch (AppException e) {
 			mergeErrorMessages(responseEntity, e.getResponseEntity());
 		}
-		Consumidor consumidor = iVenda.getFolhaCaderneta().getConsumidor();
+		Consumidor consumidor = iVenda.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor();
 		if (consumidor == null) {
 			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
