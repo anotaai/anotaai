@@ -28,9 +28,10 @@ import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
+import br.com.alinesolutions.anotaai.model.venda.ITipoVenda;
 import br.com.alinesolutions.anotaai.model.venda.IVenda;
-import br.com.alinesolutions.anotaai.model.venda.IVendaAnonima;
-import br.com.alinesolutions.anotaai.model.venda.IVendaConsumidor;
+import br.com.alinesolutions.anotaai.model.venda.IVendaCaderneta;
+import br.com.alinesolutions.anotaai.model.venda.IVendaFolha;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
@@ -72,10 +73,9 @@ public class VendaService {
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
 		folha.getVendas().add(venda);
-		vendaAVistaConsumidor.getVenda().setDataVenda(new Date());
 		vendaAVistaConsumidor.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
+		vendaAVistaConsumidor.getFolhaCadernetaVenda().getVenda().setDataVenda(new Date());
 		vendaAVistaConsumidor.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
-		venda.setVenda(vendaAVistaConsumidor);
 		em.persist(venda);
 
 		return null;
@@ -87,19 +87,15 @@ public class VendaService {
 		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor().getId());
 		vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().setCaderneta(caderneta);
 		vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().setConsumidor(consumidor);
-		validateSale((IVendaConsumidor)vendaAnotada);
+		validateSale(vendaAnotada);
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
-		FolhaCadernetaVenda folhaCadernetaVenda = new FolhaCadernetaVenda();
-		folhaCadernetaVenda.setVenda(vendaAnotada);
-		folhaCadernetaVenda.setFolhaCaderneta(folha);
-		
-		folha.getVendas().add(folhaCadernetaVenda);
+		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
+		folha.getVendas().add(vendaAnotada.getFolhaCadernetaVenda());
 		vendaAnotada.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
-		vendaAnotada.getFolhaCadernetaVenda().setVenda(vendaAnotada);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		vendaAnotada.getFolhaCadernetaVenda().getVenda().setDataVenda(new Date());
 		
-		createSale(vendaAnotada, folhaCadernetaVenda);
+		createSale(vendaAnotada);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
 		responseEntity.setEntity(vendaAnotada);
 		return responseEntity;
@@ -192,7 +188,7 @@ public class VendaService {
 		finalizeOrThrows(responseEntity);
 	}
 	
-	private void validateSale(IVendaAnonima vendaAnonima) {
+	private void validateSale(IVendaCaderneta vendaAnonima) {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		try {
 			validateSale((IVenda)vendaAnonima);
@@ -202,10 +198,10 @@ public class VendaService {
 		finalizeOrThrows(responseEntity);
 	}
 
-	private void validateSale(IVendaConsumidor iVenda) throws AppException {
+	private void validateSale(IVendaFolha iVenda) throws AppException {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		try {
-			validateSale((IVenda)iVenda);
+			validateSale(iVenda.getFolhaCadernetaVenda());
 		} catch (AppException e) {
 			mergeErrorMessages(responseEntity, e.getResponseEntity());
 		}
@@ -231,9 +227,8 @@ public class VendaService {
 		finalizeOrThrows(responseEntity);
 	}
 
-	private void createSale(IVenda vendaAnotada, FolhaCadernetaVenda folhaCadernetaVenda) {
-		em.persist(vendaAnotada);
-		em.persist(folhaCadernetaVenda);
+	private void createSale(ITipoVenda tipoVenda) {
+		em.persist(tipoVenda);
 	}
 
 }
