@@ -13,6 +13,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -31,6 +32,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ID id;
 
+	@JsonIgnore
 	private Boolean ativo;
 
 	public ID getId() {
