@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.alinesolutions.anotaai.metadata.model.domain.LocalVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 
@@ -30,6 +32,7 @@ public class FolhaCadernetaVenda extends BaseEntity<Long, FolhaCadernetaVenda> i
 	}
 	
 	@NotNull
+	@JsonBackReference(value = "vendas")
 	@ManyToOne(cascade={CascadeType.DETACH})
 	private FolhaCaderneta folhaCaderneta;
 

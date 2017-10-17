@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -12,23 +11,22 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.PropertyFilter;
+import com.fasterxml.jackson.databind.ser.PropertyWriter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -122,89 +120,43 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	 * 
 	 * @param entity
 	 */
+	@SuppressWarnings("unchecked")
 	public T clone() {
 		try {
 			ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
 			Type type = parameterizedType.getActualTypeArguments()[1];
-			Gson gson = new GsonBuilder().create();
+			//FilterProvider filters = new SimpleFilterProvider().addFilter("baseEntityFilter", baseEntityFilter);
 			ObjectMapper mapper = new ObjectMapper();
-			SimpleModule module = new SimpleModule();
-			module.addSerializer(new CustomSerializer(TypeFactory.defaultInstance().constructType(type)));
-			mapper.registerModule(module);
 			String entityStr = mapper.writeValueAsString(this);
-			T clone = gson.fromJson(entityStr, type);
+			T clone = (T) mapper.readValue(entityStr, (Class<?>) type);
 			return clone;
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 	
-	public static class CustomSerializer extends StdSerializer<BaseEntity<?, ?>> implements ContextualSerializer {
-		
-		private final JavaType _type;
-		
-		protected CustomSerializer(JavaType type) {
-			super(type);
-			_type = type;
+	@Transient
+	PropertyFilter baseEntityFilter = new SimpleBeanPropertyFilter() {
+		@Override
+		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
+			if (include(writer)) {
+				if (!writer.getName().equals("intValue")) {
+					writer.serializeAsField(pojo, jgen, provider);
+					return;
+				}
+			} else if (!jgen.canOmitFields()) { // since 2.3
+				writer.serializeAsOmittedField(pojo, jgen, provider);
+			}
 		}
 
-		private JavaType valueType;
-		
 		@Override
-		public void serialize(BaseEntity<?, ?> value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-			System.out.println(valueType);
+		protected boolean include(BeanPropertyWriter writer) {
+			return true;
 		}
 
-		//https://www.programcreek.com/java-api-examples/index.php?api=com.fasterxml.jackson.databind.ser.ContextualSerializer
-		//https://github.com/FasterXML/jackson-datatypes-collections/blob/master/guava/src/main/java/com/fasterxml/jackson/datatype/guava/ser/TableSerializer.java
 		@Override
-		public JsonSerializer<?> createContextual(SerializerProvider provider, BeanProperty property) throws JsonMappingException {
-			return provider.findValueSerializer(_type, null);
+		protected boolean include(PropertyWriter writer) {
+			return true;
 		}
-		
-//		public JsonSerializer<?> createContextual(SerializerProvider provider, BeanProperty property) throws JsonMappingException {
-//			
-//			TypeSerializer typeSer = _valueTypeSerializer;
-//			
-//			if (typeSer != null) {
-//				typeSer = typeSer.forProperty(property);
-//			}
-//			/*
-//			 * 29-Sep-2012, tatu: Actually, we need to do much more contextual
-//			 * checking here since we finally know for sure the property, and it
-//			 * may have overrides
-//			 */
-//			JsonSerializer<?> ser = null;
-//			// First: if we have a property, may have property-annotation
-//			// overrides
-//			if (property != null) {
-//				AnnotatedMember m = property.getMember();
-//				if (m != null) {
-//					Object serDef = provider.getAnnotationIntrospector().findContentSerializer(m);
-//					if (serDef != null) {
-//						ser = provider.serializerInstance(m, serDef);
-//					}
-//				}
-//			}
-//			if (ser == null) {
-//				ser = _elementSerializer;
-//			}
-//			if (ser == null) {
-//				// 30-Sep-2012, tatu: One more thing -- if explicit content type
-//				// is annotated,
-//				// we can consider it a static case as well.
-//				if (_elementType != null) {
-//					if (_staticTyping || hasContentTypeAnnotation(provider, property)) {
-//						ser = provider.findValueSerializer(_elementType, property);
-//					}
-//				}
-//			} else if (ser instanceof ContextualSerializer) {
-//				ser = ((ContextualSerializer) ser).createContextual(provider, property);
-//			}
-//			if ((ser != _elementSerializer) || (property != _property) || _valueTypeSerializer != typeSer) {
-//				return withResolved(property, typeSer, ser);
-//			}
-//			return this;
-//		}
-	}
+	};
 }

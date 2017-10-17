@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum LocalVenda {
 	
-	CADERNETA("A vista anônima"),
-	FOLHA_CADERNETA("Anotada consumidor");
+	CADERNETA("Caderneta"),
+	FOLHA_CADERNETA("Folha Caderneta");
 	
 	private String descricao;
 	
