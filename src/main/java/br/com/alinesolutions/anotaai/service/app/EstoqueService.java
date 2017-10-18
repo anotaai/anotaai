@@ -26,6 +26,7 @@ public class EstoqueService {
 	@PersistenceContext(unitName = Constant.App.UNIT_NAME)
 	private EntityManager em;
 
+	
 	@Asynchronous
 	public void sendItemMovimentacao(@Observes IMovimentacao itemMovimentacao) {
 		Estoque estoque = atualizarEstoque(itemMovimentacao);
