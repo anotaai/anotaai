@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -19,8 +21,14 @@ import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
+import br.com.alinesolutions.anotaai.metadata.model.domain.StatusItemVenda;
+import br.com.alinesolutions.anotaai.metadata.model.domain.StatusVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.BaseEntity.BaseEntityConstant;
+import br.com.alinesolutions.anotaai.model.produto.Estoque;
+import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
+import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
 import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
@@ -55,6 +63,10 @@ public class VendaService {
 	@EJB
 	private FolhaCadernetaService folhaCadernetaService;
 
+	@Inject
+	@Any
+	private Event<IMovimentacao> eventMovimentacao;
+	
 	@EJB
 	private AppService appService;
 
@@ -85,24 +97,59 @@ public class VendaService {
 
 	public ResponseEntity<VendaAnotadaConsumidor> createAppointmentBookSale(VendaAnotadaConsumidor vendaAnotada) throws AppException {
 		
+		validateRequired(vendaAnotada);
 		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
 		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor().getId());
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		validateSale(vendaAnotada);
+		updateItensVenda(vendaAnotada);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		Hibernate.initialize(folha.getVendas());
 		folha.getVendas().add(vendaAnotada.getFolhaCadernetaVenda());
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		vendaAnotada.getFolhaCadernetaVenda().getVenda().setDataVenda(new Date());
-		
+		vendaAnotada.getFolhaCadernetaVenda().getVenda().setStatusVenda(StatusVenda.FINALIZADA);
 		createSale(vendaAnotada);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
 		responseEntity.setEntity(vendaAnotada.clone());
 		return responseEntity;
 
 	}
+
+	private void updateItensVenda(VendaAnotadaConsumidor vendaAnotada) {
+		vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().stream().forEach(itemVenda -> {
+			Produto produto = em.find(Produto.class, itemVenda.getMovimentacaoProduto().getProduto().getId());
+			itemVenda.setPrecoVenda(produto.getPrecoVenda());
+			TypedQuery<Estoque> query = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
+			query.setParameter(BaseEntityConstant.FIELD_ID, produto.getId());
+			Double precoCusto = null;
+			try {
+				Estoque estoque = query.getSingleResult();
+				eventMovimentacao.fire(itemVenda);
+				precoCusto = estoque.getPrecoCusto();
+			} catch (NoResultException e) {
+				precoCusto = null;
+			}
+			itemVenda.setVenda(vendaAnotada.getFolhaCadernetaVenda().getVenda());
+			itemVenda.setPrecoCusto(precoCusto);
+			itemVenda.setStatusItemVenda(StatusItemVenda.VENDIDO);
+		});
+	}
 	
+	private void validateRequired(VendaAnotadaConsumidor vendaAnotada) {
+		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
+		responseEntity.setIsValid(vendaAnotada != null && vendaAnotada.getFolhaCadernetaVenda() != null && 
+								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta() != null &&
+								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta() != null &&
+								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId() != null &&
+								  vendaAnotada.getFolhaCadernetaVenda().getVenda() != null);
+		if (!responseEntity.getIsValid()) {
+			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CAMPOSNAOINFORMADOS, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW);
+		}
+		finalizeOrThrows(responseEntity);
+	}
+
 	private void validateSale(IVenda iVenda) throws AppException {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		if (iVenda.getVenda() == null) {

@@ -30,6 +30,7 @@ public interface IMessage {
 	String VENDA_CONSUMIDOR_NAOCADASTRADO = "venda.consumidor.naocadastrado";
 	String VENDA_CONSUMIDOR_INVALIDO = "venda.consumidor.invalido";
 	String VENDA_CONSUMIDOR_JAREGISTRADO = "venda.consumidor.jaregistrado";
+	String VENDA_OBRIGATORIO_CAMPOSNAOINFORMADOS = "venda.obrigatorio.camposnaoinformados";
 	String VENDA_OBRIGATORIO_VENDA = "venda.obrigatorio.venda";
 	String VENDA_OBRIGATORIO_MOVIMENTACAOPRODUTO = "venda.obrigatorio.movimentacaoproduto";
 	String VENDA_OBRIGATORIO_PRODUTO = "venda.obrigatorio.produto";

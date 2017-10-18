@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
+import br.com.alinesolutions.anotaai.model.produto.EstoqueMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
@@ -37,7 +38,6 @@ public class EstoqueService {
 				break;
 			case ITEM_ENTRADA:
 				estoque.setPrecoCusto(((ItemEntrada)itemMovimentacao).getPrecoCusto());
-				
 				break;
 			case ITEM_ESTORNO:
 				
@@ -51,14 +51,20 @@ public class EstoqueService {
 			default:
 				break;
 		}
+		
+		EstoqueMovimentacao estoqueMovimentacao = new EstoqueMovimentacao();
+		estoqueMovimentacao.setEstoque(estoque);
+		estoqueMovimentacao.setMovimentacao(itemMovimentacao);
+		em.persist(estoqueMovimentacao);
+		
 	}
 
-	public Estoque atualizarEstoque(IMovimentacao itemEntrada)  throws AppException  {
+	public Estoque atualizarEstoque(IMovimentacao itemMovimentacao)  throws AppException  {
 		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
-		final Produto produto = itemEntrada.getMovimentacaoProduto().getProduto();
+		final Produto produto = itemMovimentacao.getMovimentacaoProduto().getProduto();
 		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
 		Estoque estoque = estoqueQuery.getSingleResult();		
-		itemEntrada.atualizarQuantidadeEstoque(estoque);
+		itemMovimentacao.atualizarQuantidadeEstoque(estoque);
 		return estoque;
 	}
 

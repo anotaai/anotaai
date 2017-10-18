@@ -9,16 +9,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Estoque.class)
 @NamedQueries({
-    @NamedQuery(name= EstoqueConstant.FIND_BY_PRODUTO_KEY , query = EstoqueConstant.FIND_BY_PRODUTO_QUERY )
+	@NamedQuery(name= EstoqueConstant.FIND_BY_PRODUTO_KEY , query = EstoqueConstant.FIND_BY_PRODUTO_QUERY )
 }) 
 @Entity
 @Where(clause = "ativo = true")
@@ -28,6 +27,12 @@ public class Estoque extends BaseEntity<Long, Estoque> {
 
 	private static final long serialVersionUID = 1L;
 
+	public Estoque(Long id, Double precoCusto, Long quantidadeEstoque) {
+		setId(id);
+		this.precoCusto = precoCusto;
+		this.quantidadeEstoque = quantidadeEstoque;
+	}
+	
 	@OneToOne(cascade=CascadeType.DETACH, orphanRemoval=false, mappedBy="estoque")
 	private Produto produto;
 	
@@ -72,14 +77,7 @@ public class Estoque extends BaseEntity<Long, Estoque> {
 	public Estoque() {
 		
 	}
-	
-    public Estoque(Long id, Double precoCusto, Long quantidadeEstoque) {
-    	this.precoCusto = precoCusto;
-    	this.quantidadeEstoque = quantidadeEstoque;
-    	setId(id);
-    }
-	
-	
+		
 	public interface EstoqueConstant {
 		String FIND_BY_PRODUTO_KEY = "Estoque.findByProduto";
 		String FIND_BY_PRODUTO_QUERY = "select e from Estoque e where e.produto.id =:id";

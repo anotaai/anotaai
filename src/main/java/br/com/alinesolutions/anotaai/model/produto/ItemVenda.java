@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -38,12 +39,12 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 	public TipoItemMovimentacao getTipoItemMovimentacao() {
 		return TipoItemMovimentacao.ITEM_VENDA;
 	}
-	
+
 	@Override
 	public void atualizarQuantidadeEstoque(Estoque estoque) {
 		TipoMovimentacao.SAIDA.atualizarEstoque(estoque, this);
 	}
-	
+
 	/**
 	 * Custo da mercadoria no momento em qeu foi vendida
 	 */
@@ -51,13 +52,14 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 
 	@Enumerated(EnumType.ORDINAL)
 	private StatusItemVenda statusItemVenda;
-	
+
 	/**
 	 * Preco de venda quando o produto foi vendido
 	 */
+	@NotNull
 	private Double precoVenda;
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Venda venda;
 
 	/**

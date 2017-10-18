@@ -36,7 +36,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 	@NamedQuery(name = ProdutoConstant.DISPONIBILIDADE_BY_PRODUTO_KEY, query = ProdutoConstant.DISPONIBILIDADE_BY_PRODUTO_QUERY),
 	@NamedQuery(name = ProdutoConstant.EDIT_KEY, query = ProdutoConstant.EDIT_QUERY),
 	@NamedQuery(name = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_KEY, query = ProdutoConstant.ITEM_RECEITA_BY_PRODUTO_QUERY),
-    @NamedQuery(name = ProdutoConstant.LIST_ALL_COUNT, query = ProdutoConstant.LIST_ALL_QUERY_COUNT),
+	@NamedQuery(name = ProdutoConstant.LIST_ALL_COUNT, query = ProdutoConstant.LIST_ALL_QUERY_COUNT),
 	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_COUNT, query = ProdutoConstant.FIND_BY_NOME_QUERY_COUNT),
 	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_KEY, query = ProdutoConstant.FIND_BY_NOME_QUERY),
 	@NamedQuery(name = ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_KEY, query =  ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_QUERY),

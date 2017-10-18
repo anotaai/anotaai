@@ -19,7 +19,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.hibernate.Hibernate;
 
@@ -99,11 +99,11 @@ public class AppService {
 
 	public Cep findCep(Integer nrCep) {
 		Cep cep = null;
-		StringBuffer url = new StringBuffer();
+		StringBuilder url = new StringBuilder();
 		url.append("http://viacep.com.br/ws/");
 		url.append(nrCep);
 		url.append("/json");
-		HttpClient client = new DefaultHttpClient();
+		HttpClient client = HttpClients.createDefault();
 		HttpGet method = new HttpGet(url.toString());
 		try {
 			HttpResponse response = client.execute(method);

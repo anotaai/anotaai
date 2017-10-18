@@ -1,33 +1,33 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
 import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoItemMovimentacao;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
+import br.com.alinesolutions.anotaai.model.produto.ItemEntrada.ItemEntradaConstant;
 
-@DiscriminatorValue("ENTRADA")
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = ItemEntrada.class)
 @Entity
+@NamedQueries({
+	@NamedQuery(name = ItemEntradaConstant.ITEM_ENTRADA_BY_PRODUTO_KEY, query = ItemEntradaConstant.ITEM_ENTRADA_BY_PRODUTO_QUERY)
+})
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ItemEntrada set ativo = false where id = ?")
-@XmlRootElement
 public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovimentacao {
 
 	private static final long serialVersionUID = 1L;
+	
+	public ItemEntrada() {
+		super();
+	}
 
 	@Override
 	@Transient
@@ -52,11 +52,6 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	
 	@Transient
 	private Boolean estornar;
-	
-
-	public ItemEntrada() {
-
-	}
 
 	public ItemEntrada(Double precoCusto) {
 		setPrecoCusto(precoCusto);
@@ -110,6 +105,11 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	
 	public void setEstornar(Boolean estornar) {
 		this.estornar = estornar;
+	}
+	
+	public interface ItemEntradaConstant {
+		String ITEM_ENTRADA_BY_PRODUTO_KEY = "ItemEntrada.findByProduto";
+		String ITEM_ENTRADA_BY_PRODUTO_QUERY = "select ie from ItemEntrada ie join ie.movimentacaoProduto m join m.produto p where p = :produto";
 	}
 
 }

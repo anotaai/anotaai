@@ -38,7 +38,7 @@ public class PagamentoVenda extends BaseEntity<Long, PagamentoVenda> {
 	@AnyMetaDef(
 		idType = "long", metaType = "string",
 		metaValues = {
-			@MetaValue(targetEntity = PagamentoAVista.class, value = "AVISTA"),
+			@MetaValue(targetEntity = PagamentoAVista.class, value = "A_VISTA"),
 			@MetaValue(targetEntity = PagamentoAnotado.class, value = "ANOTADO")
 		}
 	)

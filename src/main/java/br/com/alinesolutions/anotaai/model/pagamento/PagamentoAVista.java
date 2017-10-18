@@ -33,7 +33,7 @@ public class PagamentoAVista extends BaseEntity<Long, PagamentoAVista> implement
 	@Transient
 	@Override
 	public TipoPagamento getTipoPagamento() {
-		return TipoPagamento.AVISTA;
+		return TipoPagamento.A_VISTA;
 	}
 
 	@ManyToOne(cascade=CascadeType.DETACH)

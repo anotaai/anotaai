@@ -1,3 +1,4 @@
+
 package br.com.alinesolutions.anotaai.metadata.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,9 +10,10 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusVenda {
 	
-	A_VISTA_ANONIMA("A vista anônima"),
-	ANOTADA_CONSUMIDOR("Anotada consumidor"),
-	A_VISTA_CONSUMIDOR("A vista consumidor");
+	EM_ANDAMENTO("Em Andamento"),
+	FINALIZADA("Finalizada"),
+	BLOQUEADA("Bloqueada"),
+	CANCELADA("Canceladdas");
 	
 	private String descricao;
 	

@@ -48,6 +48,7 @@
 			"jaregistrado": "Consumidor <b>{0}</b>, já registrado"
 		},
 		"obrigatorio": {
+			"camposnaoinformados": "Venda Inválida, favor preencher todos os campos necessários.",
 			"venda": "Erro de processamento, venda não informada",
 			"movimentacaoproduto": "O Item de Venda {0}, deve ser associado a uma Movimentação de Produto",
 			"produto": "A Movimentação de Produto do Item de Venda {0}, deve ser associada a um Produto",

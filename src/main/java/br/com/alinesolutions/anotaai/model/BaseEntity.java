@@ -98,6 +98,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		String FIELD_ID = "id";
 		String FIELD_CLIENTE = "cliente";
 		String FIELD_CONSUMIDOR = "consumidor";
+		String FIELD_PRODUTO = "produto";
 	}
 
 	/**

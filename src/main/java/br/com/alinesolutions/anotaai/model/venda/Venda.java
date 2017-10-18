@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -32,9 +33,11 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<ItemVenda> produtos;
 	
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataVenda;
 
@@ -44,6 +47,7 @@ public class Venda extends BaseEntity<Long, Venda> {
 	@Transient
 	private Double quantidadeItens;
 	
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private StatusVenda statusVenda;
 
