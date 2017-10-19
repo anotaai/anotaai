@@ -1,5 +1,6 @@
 package br.com.alinesolutions.anotaai.rest.util;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ import br.com.alinesolutions.anotaai.model.domain.SituacaoCliente;
 import br.com.alinesolutions.anotaai.model.domain.TipoArmazenamento;
 import br.com.alinesolutions.anotaai.model.domain.UnidadeMedida;
 
+@PermitAll
 @Singleton
 @Path("/enums")
 public class EnumEndpoint {

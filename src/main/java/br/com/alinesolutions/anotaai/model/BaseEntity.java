@@ -11,14 +11,25 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.PropertyFilter;
+import com.fasterxml.jackson.databind.ser.PropertyWriter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
+@JsonFilter("entity")
 @MappedSuperclass
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -115,13 +126,41 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		try {
 			ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
 			Type type = parameterizedType.getActualTypeArguments()[1];
+			
+			FilterProvider filters = new SimpleFilterProvider().addFilter("entity", entityFilter);
+			
 			ObjectMapper mapper = new ObjectMapper();
-			String entityStr = mapper.writeValueAsString(this);
+			String entityStr = mapper.writer(filters).writeValueAsString(this);
 			T clone = mapper.readValue(entityStr, (Class<T>) type);
 			return clone;
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
+	
+	//http://www.baeldung.com/jackson-serialize-field-custom-criteria
+	@Transient
+	PropertyFilter entityFilter = new SimpleBeanPropertyFilter() {
+		@Override
+		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
+			if (include(writer)) {
+				System.out.println(writer);
+			} else if (!jgen.canOmitFields()) { // since 2.3
+				writer.serializeAsOmittedField(pojo, jgen, provider);
+			}
+		}
+
+		@Override
+		protected boolean include(BeanPropertyWriter writer) {
+			return true;
+		}
+
+		@Override
+		protected boolean include(PropertyWriter writer) {
+			return true;
+		}
+	};
+	
+	
 	
 }

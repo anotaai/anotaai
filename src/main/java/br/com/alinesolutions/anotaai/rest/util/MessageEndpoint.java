@@ -2,6 +2,7 @@ package br.com.alinesolutions.anotaai.rest.util;
 
 import java.io.IOException;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,6 +15,7 @@ import br.com.alinesolutions.anotaai.i18n.Locale;
 import br.com.alinesolutions.anotaai.util.Constant;
 import br.com.alinesolutions.anotaai.util.LoadResource;;
 
+@PermitAll
 @Path("/i18n")
 public class MessageEndpoint {
 	

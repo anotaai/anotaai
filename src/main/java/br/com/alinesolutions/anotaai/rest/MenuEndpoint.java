@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -24,6 +25,7 @@ import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.util.Constant;
 
+@PermitAll
 @Stateless
 @Path("/menu")
 public class MenuEndpoint {

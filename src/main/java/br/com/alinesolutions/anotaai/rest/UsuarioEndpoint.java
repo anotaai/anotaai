@@ -1,7 +1,6 @@
 package br.com.alinesolutions.anotaai.rest;
 
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -27,6 +26,7 @@ import br.com.alinesolutions.anotaai.model.util.Arquivo;
 import br.com.alinesolutions.anotaai.service.app.UploadService;
 import br.com.alinesolutions.anotaai.service.app.UsuarioService;
 
+@PermitAll
 @Path("/usuarios")
 public class UsuarioEndpoint {
 
@@ -111,7 +111,6 @@ public class UsuarioEndpoint {
 		return builder.build();
 	}
 
-	@PermitAll
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -127,7 +126,6 @@ public class UsuarioEndpoint {
 		return builder.build();
 	}
 
-	@RolesAllowed("ANOTADO")
 	@POST
 	@Path("/logout")
 	@Consumes(MediaType.APPLICATION_JSON)

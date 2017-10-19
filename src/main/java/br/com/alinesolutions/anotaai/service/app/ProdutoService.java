@@ -100,11 +100,8 @@ public class ProdutoService {
 			produto.getEstoque().setProduto(produto);
 			produto.getEstoque().setQuantidadeEstoque(0L);
 			em.persist(produto);
-			Produto produtoNovo = new Produto(produto.getId(), produto.getDescricao(), produto.getDescricaoResumida(),
-					produto.getPrecoVenda(), produto.getIconClass(), produto.getEstoque().getId(), null, null,
-					produto.getCodigo(), produto.getUnidadeMedida(),produto.getTipoArmazenamento());
+			responseEntity.setEntity(produto.clone()	);
 			responseEntity.setIsValid(Boolean.TRUE);
-			responseEntity.setEntity(produtoNovo);
 			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao()));
 		}

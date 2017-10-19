@@ -30,6 +30,7 @@ public class ProdutoEndpoint {
 	@EJB
 	private ProdutoService produtoService;
 
+	@RolesAllowed("CLIENTE")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,6 +46,7 @@ public class ProdutoEndpoint {
 		return builder.build();
 	}
 	
+	@RolesAllowed("CLIENTE")
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id:[0-9][0-9]*}")
