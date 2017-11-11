@@ -21,6 +21,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -33,6 +34,7 @@ import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario.UsuarioConstant;
 import br.com.alinesolutions.anotaai.model.util.Arquivo;
 
+@JsonFilter("entity")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Usuario.class)
 @NamedQueries({ 

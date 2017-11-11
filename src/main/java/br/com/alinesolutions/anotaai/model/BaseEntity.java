@@ -145,7 +145,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
 			if (include(writer)) {
 				System.out.println(writer);
-			} else if (!jgen.canOmitFields()) { // since 2.3
+			} else if (!jgen.canOmitFields()) {
 				writer.serializeAsOmittedField(pojo, jgen, provider);
 			}
 		}

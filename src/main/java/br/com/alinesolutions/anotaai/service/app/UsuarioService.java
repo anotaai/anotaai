@@ -274,6 +274,7 @@ public class UsuarioService {
 				appException = new AppException(responseEntity);
 				throw appException;
 			}
+			System.out.println(login.getUsuario().clone());
 			responseEntity.setLogin(login);
 			return responseEntity;
 		} catch (NoResultException e) {
