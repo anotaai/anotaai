@@ -19,7 +19,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.PropertyFilter;
@@ -36,7 +38,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Serializable {
 
 	private static final long serialVersionUID = 1l;
-	private final static Integer ENTITY_TYPE_ARGUMENT_POSITION = 1;
+	private final static Integer POSITION_OF_ENTITY_TYPE_ARGUMENT = 1;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -124,7 +126,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	public T clone() {
 		try {
 			ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
-			Type type = parameterizedType.getActualTypeArguments()[ENTITY_TYPE_ARGUMENT_POSITION];
+			Type type = parameterizedType.getActualTypeArguments()[POSITION_OF_ENTITY_TYPE_ARGUMENT];
 			FilterProvider filters = new SimpleFilterProvider().addFilter("entity", entityFilter);
 			ObjectMapper mapper = new ObjectMapper();
 			String entityStr = mapper.writer(filters).writeValueAsString(this);
@@ -138,6 +140,16 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	//http://www.baeldung.com/jackson-serialize-field-custom-criteria
 	@Transient
 	PropertyFilter entityFilter = new SimpleBeanPropertyFilter() {
+		
+//		@Override
+//		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
+//			if (include(writer)) {
+//				System.out.println(writer);
+//			} else if (!jgen.canOmitFields()) {
+//				writer.serializeAsOmittedField(pojo, jgen, provider);
+//			}
+//		}
+		
 		@Override
 		protected boolean include(BeanPropertyWriter writer) {
 			return true;

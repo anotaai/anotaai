@@ -1,5 +1,8 @@
 package br.com.alinesolutions.anotaai.rest;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -16,12 +19,20 @@ import br.com.alinesolutions.anotaai.model.venda.Venda;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.VendaAnotadaConsumidor;
+import br.com.alinesolutions.anotaai.rest.util.JacksonConfig;
 import br.com.alinesolutions.anotaai.service.app.VendaService;
 
 @RolesAllowed("CLIENTE")
 @Path("/venda")
 public class VendaEndpoint {
 
+	
+	private static final Logger log;
+
+	static {
+		log = Logger.getLogger(JacksonConfig.class.getName());
+	}
+	
 	@EJB
 	private VendaService vendaService;
 
@@ -36,6 +47,7 @@ public class VendaEndpoint {
 			responseEntity = vendaService.createAnonymousSale(entity);
 			builder = Response.ok(responseEntity);
 		} catch (AppException e) {
+			log.log(Level.SEVERE, "/createanonymoussale", e);
 			builder = Response.ok(e.getResponseEntity());
 		}
 		return builder.build();
