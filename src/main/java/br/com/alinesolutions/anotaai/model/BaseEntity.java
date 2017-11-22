@@ -14,12 +14,15 @@ import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
+
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
@@ -141,14 +144,10 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	@Transient
 	PropertyFilter entityFilter = new SimpleBeanPropertyFilter() {
 		
-//		@Override
-//		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
-//			if (include(writer)) {
-//				System.out.println(writer);
-//			} else if (!jgen.canOmitFields()) {
-//				writer.serializeAsOmittedField(pojo, jgen, provider);
-//			}
-//		}
+		@Override
+		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
+			super.serializeAsField(pojo, jgen, provider, writer);
+		}
 		
 		@Override
 		protected boolean include(BeanPropertyWriter writer) {
@@ -156,7 +155,8 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		}
 		@Override
 		protected boolean include(PropertyWriter writer) {
-			return true;
+			final JavaType type = writer.getMember().getType();
+			return !type.isTypeOrSubTypeOf(JavassistLazyInitializer.class);
 		}
 	};
 	
