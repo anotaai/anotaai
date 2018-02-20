@@ -26,7 +26,7 @@
 		<version.surefire.plugin>2.16</version.surefire.plugin>
 		<version.war.plugin>2.5</version.war.plugin>
 		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-		<frontend.directory>F:/ambiente/git/anotaai-react</frontend.directory>
+		<frontend.directory>${basedir}/../anotaai-react</frontend.directory>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -256,7 +256,7 @@
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${version.wildfly.maven.plugin}</version>
 			</plugin>
-			<!--
+		<!--	 
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -316,7 +316,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
+			  -->
+			 
 		</plugins>
 	</build>
 	<profiles>
