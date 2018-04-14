@@ -111,6 +111,7 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 	public interface ClienteConsumidorConstant {
 		String FIND_BY_ID_KEY = "ClienteConsumidor.findById";
 		String FIELD_CONSUMIDOR = "consumidor";
+		String FIELD_SITUACAO = "situacao";
 		String FIND_BY_TELEFONE_KEY = "ClienteConsumidor.findByClienteAndConsumidorFotTel";
 		String FIND_BY_TELEFONE_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, cl.id, ucl.id, ucl.nome, ucl.email, co.id, uco.id, uco.nome, uco.email) from ClienteConsumidor cc join cc.cliente cl join cl.usuario ucl join cc.consumidor co join co.usuario uco join uco.telefone t where t.ddi = :ddi and t.ddd = :ddd and t.numero = :numero and cl = :cliente";
 		String COUNT_USUARIO_KEY = "ClienteConsumidor.countUsuario";

@@ -114,7 +114,7 @@ public class ClienteConsumidorService {
 		notify(clienteConsumidor, isNewUser);
 		ClienteConsumidor newClienteConsumidor = new ClienteConsumidor(clienteConsumidor.getId());
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.setEntity(newClienteConsumidor);
+		responseEntity.setEntity(newClienteConsumidor.clone());
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setMessages(new ArrayList<>());
 		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome()));
@@ -184,19 +184,17 @@ public class ClienteConsumidorService {
 	public ResponseEntity<ClienteConsumidor> deleteById(Long id) throws AppException {
 		ResponseEntity<ClienteConsumidor> entity = new ResponseEntity<>();
 		 
-		try {
-			ClienteConsumidor clienteConsumidor = em.find(ClienteConsumidor.class, id);
-			clienteConsumidor.getConsumidor().setAtivo(Boolean.FALSE);
+		ClienteConsumidor clienteConsumidor = em.find(ClienteConsumidor.class, id);
+		if (clienteConsumidor != null) {
 			clienteConsumidor.setSituacao(SituacaoConsumidor.INATIVO);
 			em.merge(clienteConsumidor);
 			entity.setIsValid(Boolean.TRUE);
 			entity.setMessages(new ArrayList<>());
 			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
-		} catch (NoResultException e) {
+		} else {
 			responseUtil.buildIllegalArgumentException(entity);
 		}
 		return entity;
-		 
 	}
 
 	public ResponseEntity<Consumidor> listAll(Integer startPosition, Integer maxResult, String nome) throws AppException {
@@ -209,16 +207,14 @@ public class ClienteConsumidorService {
 		} else  {
 			consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY,Consumidor.class);
 		}
-		
+		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
 		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
-		
 		if (startPosition != null) {
 			consumidorQuery.setFirstResult(startPosition);
 		}
 		if (maxResult != null) {
 			consumidorQuery.setMaxResults(maxResult);
 		}
- 
 		ResponseEntity<Consumidor> responseEntity = new ResponseEntity<>();
 		ResponseList<Consumidor> responseList = new ResponseList<Consumidor>();
 		responseEntity.setList(responseList);
@@ -236,6 +232,7 @@ public class ClienteConsumidorService {
 		}
 		 
 		countAll.setParameter(Constant.Entity.CLIENTE, cliente);
+		countAll.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
 		responseList.setQtdTotalItens(countAll.getSingleResult());
 		
 		return responseEntity;

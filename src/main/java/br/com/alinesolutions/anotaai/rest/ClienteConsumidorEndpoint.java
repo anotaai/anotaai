@@ -27,6 +27,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.service.app.ClienteConsumidorService;
 import br.com.alinesolutions.anotaai.util.Constant;
 
+@RolesAllowed(Constant.Role.CLIENTE)
 @Path("/clienteconsumidor")
 public class ClienteConsumidorEndpoint {
 

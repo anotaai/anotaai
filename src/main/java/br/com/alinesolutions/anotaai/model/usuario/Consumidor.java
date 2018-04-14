@@ -115,7 +115,7 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 	public interface ConsumidorConstant {
 		
 		String LIST_CLIENTE_CONSUMIDOR_KEY = "Consumidor.findConsumidorByCliente";
-		String LIST_CLIENTE_CONSUMIDOR_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente order by u.nome";
+		String LIST_CLIENTE_CONSUMIDOR_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao order by u.nome";
 		
 		String FIND_CLIENTE_KEY = "Consumidor.findClienteByConsumidor";
 		String FIND_CLIENTE_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Cliente(cliente.id, cliente.nomeComercial) from Consumidor consumidor left join consumidor.clientes cc left join cc.cliente cliente where cliente = :cliente and consumidor = :consumidor";
@@ -125,10 +125,10 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 		String FIND_BY_NOME_COUNT = "Consumidor.findByNameCount";
 		String LIST_ALL_COUNT = "Consumidor.listAllCount";
 		
-		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and upper(u.nome) like upper(concat('%', :nome, '%')) order by u.nome";
+		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao and upper(u.nome) like upper(concat('%', :nome, '%')) order by u.nome";
 		
-		String FIND_BY_NOME_QUERY_COUNT = "select count(c) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and u.nome =:nome";
-		String LIST_ALL_QUERY_COUNT = "select count(c) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente";
+		String FIND_BY_NOME_QUERY_COUNT = "select count(c.id) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and u.nome =:nome and cc.situacao = :situacao";
+		String LIST_ALL_QUERY_COUNT = "select count(c.id) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao";
 
 	}
 }
