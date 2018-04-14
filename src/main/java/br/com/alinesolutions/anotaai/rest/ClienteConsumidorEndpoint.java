@@ -25,6 +25,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.service.app.ClienteConsumidorService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Path("/clienteconsumidor")
 public class ClienteConsumidorEndpoint {
@@ -86,7 +87,7 @@ public class ClienteConsumidorEndpoint {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	public ResponseEntity<Consumidor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nome) {
 	  return service.listAll(startPosition, maxResult, nome);
 	}

@@ -21,8 +21,9 @@ import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.VendaAnotadaConsumidor;
 import br.com.alinesolutions.anotaai.rest.util.JacksonConfig;
 import br.com.alinesolutions.anotaai.service.app.VendaService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
-@RolesAllowed("CLIENTE")
+@RolesAllowed(Constant.Role.CLIENTE)
 @Path("/venda")
 public class VendaEndpoint {
 

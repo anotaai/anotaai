@@ -19,6 +19,7 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.EntradaMercadoria;
 import br.com.alinesolutions.anotaai.service.app.EntradaMercadoriaService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Path("/entradamercadoria")
 public class EntradaMercadoriaEndpoint {
@@ -28,7 +29,7 @@ public class EntradaMercadoriaEndpoint {
 	private EntradaMercadoriaService entradaMercadoriaService;
 	
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	//TODO - Mudar para POST e alterar a data de string para Date

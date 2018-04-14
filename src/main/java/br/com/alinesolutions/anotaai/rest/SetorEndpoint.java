@@ -22,6 +22,7 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.service.app.SetorService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Path("/setor")
 public class SetorEndpoint {
@@ -81,7 +82,7 @@ public class SetorEndpoint {
 		return builder.build();
 	}
 
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<Setor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nomeSetor) {
@@ -89,7 +90,7 @@ public class SetorEndpoint {
 	}
 	
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Path("/recuperarPorNome")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -98,7 +99,7 @@ public class SetorEndpoint {
 		return setores;
 	}
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Path("/recuperarSetor")
 	@Produces(MediaType.APPLICATION_JSON)

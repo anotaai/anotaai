@@ -23,6 +23,7 @@ import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta;
 import br.com.alinesolutions.anotaai.service.app.CadernetaService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Path("/caderneta")
 public class CadernetaEndpoint {
@@ -32,7 +33,7 @@ public class CadernetaEndpoint {
 	private CadernetaService cadernetaService;
 	
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<Caderneta> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String descricao) {

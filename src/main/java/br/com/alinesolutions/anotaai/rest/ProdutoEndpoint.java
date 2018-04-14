@@ -23,6 +23,7 @@ import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.ItemReceita;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.service.app.ProdutoService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Path("/produto")
 public class ProdutoEndpoint {
@@ -30,7 +31,7 @@ public class ProdutoEndpoint {
 	@EJB
 	private ProdutoService produtoService;
 
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -46,7 +47,7 @@ public class ProdutoEndpoint {
 		return builder.build();
 	}
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id:[0-9][0-9]*}")
@@ -82,14 +83,14 @@ public class ProdutoEndpoint {
 	}
 
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<Produto> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String descricao) {
 		return produtoService.listAll(startPosition, maxResult , descricao);
 	}
 
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@Path("/search")
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
@@ -109,7 +110,7 @@ public class ProdutoEndpoint {
 	 * @param produtosNaoInclusos ID dos produtos que ja estao no item de receita e o id do proprio produto para excluir da consulta
 	 * @return
 	 */
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@Path("/searchProdutosParaReceita")
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
@@ -119,7 +120,7 @@ public class ProdutoEndpoint {
 		return produtos;
 	}
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@POST()
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -129,7 +130,7 @@ public class ProdutoEndpoint {
 		return Response.ok(entity).build();
 	}
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@POST()
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -139,7 +140,7 @@ public class ProdutoEndpoint {
 		return Response.ok(entity).build();
 	}
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@POST()
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

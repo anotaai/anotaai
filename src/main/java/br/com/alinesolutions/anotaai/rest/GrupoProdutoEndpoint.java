@@ -22,6 +22,7 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto;
 import br.com.alinesolutions.anotaai.service.app.GrupoProdutoService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
 @Path("/grupoproduto")
 public class GrupoProdutoEndpoint {
@@ -75,14 +76,14 @@ public class GrupoProdutoEndpoint {
 		return builder.build();
 	}
 
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<GrupoProduto> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nome) {
 		return grupoProdutoService.listAll(startPosition, maxResult,nome);
 	}
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Path("/recuperarPorDescricao")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -109,7 +110,7 @@ public class GrupoProdutoEndpoint {
 	}
 	
 	
-	@RolesAllowed("CLIENTE")
+	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Path("/recuperarPorNome")
 	@Produces(MediaType.APPLICATION_JSON)

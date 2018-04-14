@@ -2,6 +2,10 @@ package br.com.alinesolutions.anotaai.util;
 
 public interface Constant {
 
+	public interface Role {
+		String CLIENTE = "CLIENTE";
+	}
+	
 	public interface App {
 		String UNIT_NAME = "anota-ai-persistence-unit";
 		Long SESSION_TIME = 30L;

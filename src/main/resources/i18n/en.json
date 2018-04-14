@@ -73,7 +73,7 @@
 		"jacadastrada": "{0}, já cadastrado(a)"
 	},
 	"message": {
-		"defulterror": "Erro inesperado...",
+		"defaulterror": "Erro inesperado, contate o administrador do sistema!",
 		"login": {
 			"forbidden": "Sessão expirada, favor efetuar o login novamente.",
 			"confirmacaosenha": "A senha não confere com a confirmação de senha. Informe novamente."
