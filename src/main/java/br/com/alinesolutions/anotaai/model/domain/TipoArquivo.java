@@ -30,11 +30,11 @@ public enum TipoArquivo {
 	
 	static {
 		tiposArquivo = new HashMap<>();
-		tiposArquivo.put(".png", TipoArquivo.PNG);
-		tiposArquivo.put(".jpg", TipoArquivo.JPG);
-		tiposArquivo.put(".jpeg", TipoArquivo.JPEG);
-		tiposArquivo.put(".doc", TipoArquivo.DOC);
-		tiposArquivo.put(".pdf", TipoArquivo.PDF);
+		tiposArquivo.put(TipoArquivo.PNG.suffixe, TipoArquivo.PNG);
+		tiposArquivo.put(TipoArquivo.JPG.suffixe, TipoArquivo.JPG);
+		tiposArquivo.put(TipoArquivo.JPEG.suffixe, TipoArquivo.JPEG);
+		tiposArquivo.put(TipoArquivo.DOC.suffixe, TipoArquivo.DOC);
+		tiposArquivo.put(TipoArquivo.PDF.suffixe, TipoArquivo.PDF);
 	}
 	
 	public String getDescricao() {
@@ -76,11 +76,10 @@ public enum TipoArquivo {
 	}
 
 	public static TipoArquivo buildFromExtension(String extension) {
-		TipoArquivo tipoArquivo = tiposArquivo.get(extension);
-		if (tipoArquivo == null) {
-			throw new IllegalArgumentException();
+		if (tiposArquivo.containsKey(extension)) {
+			return tiposArquivo.get(extension);
 		}
-		return tipoArquivo;
+		throw new IllegalArgumentException();
 	} 
 	
 }

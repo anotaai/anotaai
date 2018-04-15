@@ -106,6 +106,7 @@ public class ClienteConsumidorService {
 			Usuario usuario = clienteConsumidor.getConsumidor().getUsuario();
 			usuario.setId(null);
 			usuario.setEmail(null);
+			usuario.setNome(null);
 			usuario.setDataCadastro(new Date());
 			usuario.setPerfis(new ArrayList<>());
 			usuario.getPerfis().add(new UsuarioPerfil(usuario, Perfil.CONSUMIDOR));
@@ -121,7 +122,7 @@ public class ClienteConsumidorService {
 		retorno.setId(clienteConsumidor.getId());
 		responseEntity.setEntity(retorno);
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getNomeConsumidor()));
 		return responseEntity;
 	}
 
