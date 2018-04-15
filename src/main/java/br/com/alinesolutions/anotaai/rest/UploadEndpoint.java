@@ -1,5 +1,6 @@
 package br.com.alinesolutions.anotaai.rest;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -15,8 +16,9 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.util.Arquivo;
 import br.com.alinesolutions.anotaai.service.app.UploadService;
+import br.com.alinesolutions.anotaai.util.Constant;
 
-
+@RolesAllowed({Constant.Role.CLIENTE, Constant.Role.CONSUMIDOR})
 @Path("fileUpload")
 public class UploadEndpoint {
 

@@ -4,6 +4,7 @@ public interface Constant {
 
 	public interface Role {
 		String CLIENTE = "CLIENTE";
+		String CONSUMIDOR = "CONSUMIDOR";
 	}
 	
 	public interface App {

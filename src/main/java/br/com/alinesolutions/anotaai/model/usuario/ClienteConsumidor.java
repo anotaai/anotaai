@@ -44,6 +44,8 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 
 	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
 	private Consumidor consumidor;
+	
+	private String nomeConsumidor;
 
 	private Date dataAssociacao;
 
@@ -71,13 +73,14 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		this(id);
 		this.setConsumidor(new Consumidor());
 		this.getConsumidor().setUsuario(new Usuario());
-		this.getConsumidor().getUsuario().setId(idUsuario);
-		this.getConsumidor().getUsuario().setNome(nome);
-		this.getConsumidor().getUsuario().setTelefone(new Telefone());
-		this.getConsumidor().getUsuario().getTelefone().setId(idTelefone);
-		this.getConsumidor().getUsuario().getTelefone().setDdi(ddi);
-		this.getConsumidor().getUsuario().getTelefone().setDdd(ddd);
-		this.getConsumidor().getUsuario().getTelefone().setNumero(numero);
+		Usuario usuario = this.getConsumidor().getUsuario();
+		usuario.setId(idUsuario);
+		this.setNomeConsumidor(nome);
+		usuario.setTelefone(new Telefone());
+		usuario.getTelefone().setId(idTelefone);
+		usuario.getTelefone().setDdi(ddi);
+		usuario.getTelefone().setDdd(ddd);
+		usuario.getTelefone().setNumero(numero);
 	}
 
 	
@@ -125,6 +128,16 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 	public void setSituacao(SituacaoConsumidor situacao) {
 		this.situacao = situacao;
 	}
+	
+	public String getNomeConsumidor() {
+		return nomeConsumidor;
+	}
+
+	public void setNomeConsumidor(String nomeConsumidor) {
+		this.nomeConsumidor = nomeConsumidor;
+	}
+
+
 
 	public interface ClienteConsumidorConstant {
 		String FIND_BY_ID_KEY = "ClienteConsumidor.findById";
@@ -137,10 +150,10 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		String FIND_BY_ID_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id,cc.consumidor.usuario.id,cc.consumidor.usuario.nome,cc.consumidor.usuario.email,cc.consumidor.usuario.telefone.id,cc.consumidor.usuario.telefone.ddd,cc.consumidor.usuario.telefone.ddi,cc.consumidor.usuario.telefone.numero,cc.consumidor.usuario.situacao ) from ClienteConsumidor cc where cc.cliente = :cliente and cc.id = :id";
 
 		String LIST_CLIENTE_CONSUMIDOR_KEY = "ClienteConsumidor.findConsumidorByCliente";
-		String LIST_CLIENTE_CONSUMIDOR_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from ClienteConsumidor cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao order by u.nome";
+		String LIST_CLIENTE_CONSUMIDOR_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, u.id, cc.nomeConsumidor, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from ClienteConsumidor cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao order by u.nome";
 		
 		String FIND_BY_NOME_KEY = "ClienteConsumidor.findByName";
-		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from ClienteConsumidor cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao and upper(u.nome) like upper(concat('%', :nome, '%')) order by u.nome";
+		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, u.id, cc.nomeConsumidor, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from ClienteConsumidor cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao and upper(u.nome) like upper(concat('%', :nome, '%')) order by u.nome";
 		
 		String LOAD_BY_CONSUMIDOR_KEY = "ClienteConsumidor.loadByConsumidor";
 		String LOAD_BY_CONSUMIDOR_QUERY = "select cc from ClienteConsumidor cc left join cc.cliente c where c = :cliente and cc.consumidor = :consumidor";
