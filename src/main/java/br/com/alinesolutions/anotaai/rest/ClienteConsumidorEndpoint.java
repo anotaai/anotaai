@@ -89,7 +89,7 @@ public class ClienteConsumidorEndpoint {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed(Constant.Role.CLIENTE)
-	public ResponseEntity<Consumidor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nome) {
+	public ResponseEntity<ClienteConsumidor> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nome) {
 	  return service.listAll(startPosition, maxResult, nome);
 	}
 	

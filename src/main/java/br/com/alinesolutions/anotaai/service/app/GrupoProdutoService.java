@@ -61,13 +61,10 @@ public class GrupoProdutoService {
 			Setor setor = em.getReference(Setor.class, grupoProduto.getSetor().getId());
 			grupoProduto.setSetor(setor);
 			em.persist(grupoProduto);
-			GrupoProduto grupoNovo = new GrupoProduto(grupoProduto.getId(), grupoProduto.getNome(),
-					grupoProduto.getDescricao());
+			GrupoProduto grupoNovo = new GrupoProduto(grupoProduto.getId(), grupoProduto.getNome(), grupoProduto.getDescricao());
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.setEntity(grupoNovo);
-			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
-					TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome()));
+			responseEntity.addMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome());
 		}
 		return responseEntity;
 	}
@@ -105,7 +102,6 @@ public class GrupoProdutoService {
 			if (entity.getIsValid()) {
 				grupoProduto = em.find(GrupoProduto.class, id);
 				em.remove(grupoProduto);
-				entity.setMessages(new ArrayList<>());
 				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
 						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome()));
 			} else {
@@ -131,7 +127,6 @@ public class GrupoProdutoService {
 			if (entity.getIsValid()) {
 				produtoGrupoProduto = em.find(ProdutoGrupoProduto.class, produtoGrupoProduto);
 				em.remove(produtoGrupoProduto);
-				entity.setMessages(new ArrayList<>());
 				entity.getMessages()
 						.add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,
 								Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
@@ -188,21 +183,16 @@ public class GrupoProdutoService {
 
 	public ResponseEntity<GrupoProduto> update(Long id, GrupoProduto entity) throws AppException {
 		GrupoProduto grupoProduto = null;
-		AnotaaiMessage message = null;
 		ResponseEntity<GrupoProduto> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			grupoProduto = em.find(GrupoProduto.class, id);
 			mergeGrupoProduto(entity, grupoProduto);
 			entity = em.merge(grupoProduto);
-			message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS,
-					Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome());
-			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(message);
+			responseEntity.addMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, grupoProduto.getNome());
 		} else {
 			responseEntity.setIsValid(Boolean.FALSE);
-			responseEntity.addMessage(new AnotaaiMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR,
-					Constant.App.KEEP_ALIVE_TIME_VIEW));
+			responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			appException = new AppException(responseEntity);
 			throw appException;
 		}

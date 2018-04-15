@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,7 +14,6 @@ import javax.persistence.TypedQuery;
 import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
@@ -59,9 +57,7 @@ public class SetorService {
 			Setor setorNovo = new Setor(setor.getId(), setor.getNome(), setor.getDescricao());
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.setEntity(setorNovo);
-			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
-					TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, setor.getNome()));
+			responseEntity.addMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, setor.getNome());
 		}
 		return responseEntity;
 	}
@@ -79,9 +75,7 @@ public class SetorService {
 			if (entity.getIsValid()) {
 				setor = em.find(Setor.class, id);
 				em.remove(setor);
-				entity.setMessages(new ArrayList<>());
-				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
-						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, setor.getNome()));
+				entity.addMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, setor.getNome());
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}
@@ -132,16 +126,13 @@ public class SetorService {
 
 	public ResponseEntity<Setor> update(Long id, Setor entity) throws AppException {
 		Setor setor = null;
-		AnotaaiMessage message = null;
 		ResponseEntity<Setor> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			setor = em.find(Setor.class, id);
 			mergeSetor(entity, setor);
 			entity = em.merge(setor);
-			message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, setor.getNome());
-			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(message);
+			responseEntity.addMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, setor.getNome());
 		} else {
 			responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			appException = new AppException(responseEntity);

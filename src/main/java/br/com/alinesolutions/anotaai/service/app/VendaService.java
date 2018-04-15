@@ -112,7 +112,7 @@ public class VendaService {
 		vendaAnotada.getFolhaCadernetaVenda().getVenda().setStatusVenda(StatusVenda.FINALIZADA);
 		createSale(vendaAnotada);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
-		responseEntity.setEntity(vendaAnotada.clone());
+		responseEntity.setEntity(vendaAnotada);
 		return responseEntity;
 
 	}
@@ -182,12 +182,8 @@ public class VendaService {
 
 	private void mergeErrorMessages(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity, ResponseEntity<?> target) {
 		responseEntity.setIsValid(Boolean.FALSE);
-		if (responseEntity.getMessages() == null) {
-			responseEntity.setMessages(new ArrayList<>());
-		}
-		if (target.getMessages() != null) {
-			responseEntity.getMessages().addAll(target.getMessages());
-		}
+		responseEntity.getMessages().addAll(target.getMessages());
+		
 	}
 
 	private void validateProcucts(List<ItemVenda> produtos) throws AppException {

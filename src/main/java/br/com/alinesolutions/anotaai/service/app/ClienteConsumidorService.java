@@ -28,12 +28,14 @@ import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.BaseEntity.BaseEntityConstant;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoConsumidor;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.usuario.Consumidor.ConsumidorConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Preferencia;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone.TelefoneConstant;
@@ -60,64 +62,66 @@ public class ClienteConsumidorService {
 	private ResponseUtil responseUtil;
 	
 	public ResponseEntity<ClienteConsumidor> create(ClienteConsumidor clienteConsumidor) throws AppException {
-		TypedQuery<Usuario> q = null;
-		Usuario usuarioDatabase = null;
 		ResponseEntity<ClienteConsumidor> responseEntity = new ResponseEntity<>();
+		ClienteConsumidor retorno = clienteConsumidor.clone();
 		Cliente cliente = appManager.getAppService().getCliente();
-		clienteConsumidor.setCliente(cliente);
-		clienteConsumidor.setDataAssociacao(new Date());
-		clienteConsumidor.getConsumidor().setDataCadastro(new Date());
-		clienteConsumidor.setSituacao(SituacaoConsumidor.ATIVO);
-		Usuario usuario = clienteConsumidor.getConsumidor().getUsuario();
-		usuario.setId(null);
-		usuario.setDataCadastro(new Date());
-		usuario.setPerfis(new ArrayList<>());
-		usuario.getPerfis().add(new UsuarioPerfil(usuario, Perfil.CONSUMIDOR));
-		usuario.setPreferencia(new Preferencia());
-		usuario.setSituacao(SituacaoUsuario.NAO_REGISTRADO);
-		Boolean isNewUser = Boolean.TRUE;
+		Boolean isNewUser = null;
 		try {
-			// verifica se o telefone ainda nao foi utilizado
-			q = em.createNamedQuery(UsuarioConstant.FIND_BY_TELEFONE_PERSIST_KEY, Usuario.class);
-			q.setParameter(TelefoneConstant.FIELD_DDI, usuario.getTelefone().getDdi());
-			q.setParameter(TelefoneConstant.FIELD_DDD, usuario.getTelefone().getDdd());
-			q.setParameter(TelefoneConstant.FIELD_NUMERO, usuario.getTelefone().getNumero());
-			usuarioDatabase = q.getSingleResult();
-			clienteConsumidor.getConsumidor().setUsuario(usuarioDatabase);
-			isNewUser = Boolean.FALSE;
-		} catch (NoResultException e) {
-			// verifica se o email ja esta cadastrado
-			String email = usuario.getEmail();
-			if (email != null && !email.equals("")) {
-				email = appManager.getAppService().atulaizarEmail(usuario.getEmail());
-				TypedQuery<Long> queryCount = em.createNamedQuery(Usuario.UsuarioConstant.COUNT_USURIO_BY_EMAIL_KEY,
-						Long.class);
-				queryCount.setParameter(Usuario.UsuarioConstant.FIELD_EMAIL, email);
-				Long cont = queryCount.getSingleResult();
-				if (cont > 0) {
-					responseEntity = new ResponseEntity<>();
+			//verifica se o consumidor ja esta cadastrado com o telefone informado
+			TypedQuery<Consumidor> consumidorQuery = em.createNamedQuery(ConsumidorConstant.FIND_BY_TELEFONE_KEY, Consumidor.class);
+			Telefone telefone = clienteConsumidor.getConsumidor().getUsuario().getTelefone();
+			consumidorQuery.setParameter(TelefoneConstant.FIELD_DDI, telefone.getDdi());
+			consumidorQuery.setParameter(TelefoneConstant.FIELD_DDD, telefone.getDdd());
+			consumidorQuery.setParameter(TelefoneConstant.FIELD_NUMERO, telefone.getNumero());
+			Consumidor consumidorDatabase = consumidorQuery.getSingleResult();			
+			TypedQuery<ClienteConsumidor> clienteConsumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.LOAD_BY_CONSUMIDOR_KEY, ClienteConsumidor.class);
+			clienteConsumidorQuery.setParameter(BaseEntityConstant.FIELD_CONSUMIDOR, consumidorDatabase);
+			clienteConsumidorQuery.setParameter(BaseEntityConstant.FIELD_CLIENTE, cliente);
+			try {
+				//verifica se ja criou clienteconsumidor para o telefone informado
+				ClienteConsumidor clienteConsumidorDatabase = clienteConsumidorQuery.getSingleResult();
+				if (clienteConsumidorDatabase.getSituacao().equals(SituacaoConsumidor.INATIVO)) {
+					clienteConsumidorDatabase.setSituacao(SituacaoConsumidor.ATIVO);
+					em.merge(clienteConsumidorDatabase);
+					clienteConsumidor = clienteConsumidorDatabase;
+				} else {
 					responseEntity.setIsValid(Boolean.FALSE);
-					AnotaaiMessage message = new AnotaaiMessage(IMessage.EMAIL_JACADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, usuario.getEmail());
-					responseEntity.addMessage(message);
+					responseEntity.setEntity(clienteConsumidor);
+					responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
 					throw new AppException(responseEntity);
 				}
-				usuario.setCodigoAtivacao(UUID.randomUUID().toString());
-				if (usuario.getEmail() != null) {
-					// remove o ponto quando for gmail
-					usuario.setEmail(appManager.getAppService().atulaizarEmail(usuario.getEmail()));
-				}
-				clienteConsumidor.getConsumidor().setUsuario(usuario);
+			} catch (NoResultException e) {
+				clienteConsumidor.setConsumidor(consumidorDatabase);
+				clienteConsumidor.setSituacao(SituacaoConsumidor.ATIVO);
+				clienteConsumidor.setCliente(cliente);
+				em.persist(clienteConsumidor);
 			}
+			isNewUser = Boolean.FALSE;
+		} catch (NoResultException e) {
+			isNewUser = Boolean.TRUE;
+			clienteConsumidor.setCliente(cliente);
+			clienteConsumidor.setDataAssociacao(new Date());
+			clienteConsumidor.getConsumidor().setDataCadastro(new Date());
+			clienteConsumidor.setSituacao(SituacaoConsumidor.ATIVO);
+			Usuario usuario = clienteConsumidor.getConsumidor().getUsuario();
+			usuario.setId(null);
+			usuario.setEmail(null);
+			usuario.setDataCadastro(new Date());
+			usuario.setPerfis(new ArrayList<>());
+			usuario.getPerfis().add(new UsuarioPerfil(usuario, Perfil.CONSUMIDOR));
+			usuario.setPreferencia(new Preferencia());
+			usuario.setSituacao(SituacaoUsuario.NAO_REGISTRADO);
+			usuario.setCodigoAtivacao(UUID.randomUUID().toString());
+			usuario.setSituacao(SituacaoUsuario.NAO_REGISTRADO);
+			clienteConsumidor.getConsumidor().setUsuario(usuario);
+			em.persist(clienteConsumidor);
 		}
-		
-		em.persist(clienteConsumidor);
+		retorno.setId(clienteConsumidor.getId());
 		notify(clienteConsumidor, isNewUser);
-		ClienteConsumidor newClienteConsumidor = new ClienteConsumidor(clienteConsumidor.getId());
+		retorno.setId(clienteConsumidor.getId());
+		responseEntity.setEntity(retorno);
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.setEntity(newClienteConsumidor.clone());
-		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome()));
+		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
 		return responseEntity;
 	}
 
@@ -189,7 +193,6 @@ public class ClienteConsumidorService {
 			clienteConsumidor.setSituacao(SituacaoConsumidor.INATIVO);
 			em.merge(clienteConsumidor);
 			entity.setIsValid(Boolean.TRUE);
-			entity.setMessages(new ArrayList<>());
 			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
 		} else {
 			responseUtil.buildIllegalArgumentException(entity);
@@ -197,15 +200,14 @@ public class ClienteConsumidorService {
 		return entity;
 	}
 
-	public ResponseEntity<Consumidor> listAll(Integer startPosition, Integer maxResult, String nome) throws AppException {
-		TypedQuery<Consumidor> consumidorQuery = null;
+	public ResponseEntity<ClienteConsumidor> listAll(Integer startPosition, Integer maxResult, String nome) throws AppException {
+		TypedQuery<ClienteConsumidor> consumidorQuery = null;
 		Cliente cliente = appManager.getAppService().getCliente();
-		
 		if(!"".equals(nome)) {
-			consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_BY_NOME_KEY, Consumidor.class);
+			consumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_NOME_KEY, ClienteConsumidor.class);
 			consumidorQuery.setParameter("nome", nome);
 		} else  {
-			consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY,Consumidor.class);
+			consumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, ClienteConsumidor.class);
 		}
 		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
 		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
@@ -215,12 +217,11 @@ public class ClienteConsumidorService {
 		if (maxResult != null) {
 			consumidorQuery.setMaxResults(maxResult);
 		}
-		ResponseEntity<Consumidor> responseEntity = new ResponseEntity<>();
-		ResponseList<Consumidor> responseList = new ResponseList<Consumidor>();
+		ResponseEntity<ClienteConsumidor> responseEntity = new ResponseEntity<>();
+		ResponseList<ClienteConsumidor> responseList = new ResponseList<>();
 		responseEntity.setList(responseList);
 		
-		final List<Consumidor> results = consumidorQuery.getResultList();
-		responseList.setItens(results);
+		responseList.setItens(consumidorQuery.getResultList());
 		
 		TypedQuery<Long> countAll = null;
 		
@@ -262,7 +263,6 @@ public class ClienteConsumidorService {
 			} catch (NoResultException e) {
 				// o consumidor ja esta cadastrado para outro cliente
 				message = new AnotaaiMessage(IMessage.CONSUMIDOR_JAREGISTRADO, TipoMensagem.WARNING, Constant.App.KEEP_ALIVE_TIME_VIEW, nome);
-				responseEntity.setMessages(new ArrayList<>());
 				responseEntity.getMessages().add(message);
 			}
 			responseEntity.setIsValid(Boolean.FALSE);
@@ -382,7 +382,6 @@ public class ClienteConsumidorService {
 			mergeUsuario(entity.getConsumidor().getUsuario(), clienteConsumidor.getConsumidor().getUsuario());
 			em.merge(clienteConsumidor.getConsumidor().getUsuario());
 			message = new AnotaaiMessage(IMessage.ENTIDADE_EDICAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome());
-			responseEntity.setMessages(new ArrayList<>());
 			responseEntity.getMessages().add(message);
 		} else {
 			responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
@@ -405,7 +404,7 @@ public class ClienteConsumidorService {
 	public  List<Consumidor> getConsumersByName(String nome) {
 		TypedQuery<Consumidor> consumidorQuery = null;
 		Cliente cliente = appManager.getAppService().getCliente();
-		consumidorQuery =  em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_BY_NOME_KEY, Consumidor.class);
+		consumidorQuery =  em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_NOME_KEY, Consumidor.class);
 		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
 		consumidorQuery.setParameter("nome", nome);
 		final List<Consumidor> results = consumidorQuery.getResultList();

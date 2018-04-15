@@ -274,7 +274,7 @@ public class UsuarioService {
 				appException = new AppException(responseEntity);
 				throw appException;
 			}
-			System.out.println(login.getUsuario().clone());
+			System.out.println(login.getUsuario());
 			responseEntity.setLogin(login);
 			return responseEntity;
 		} catch (NoResultException e) {
@@ -308,16 +308,13 @@ public class UsuarioService {
 
 	public ResponseEntity<Usuario> update(Long id, Usuario entity) throws AppException {
 		Usuario usuario = null;
-		AnotaaiMessage message = null;
 		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && id != null && id.equals(entity.getId())) {
 			usuario = em.find(Usuario.class, id);
-			usuario = entity.clone();
-			entity = em.merge(usuario);
-			message = new AnotaaiMessage(IMessage.USUARIO_EDITADOSUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome());
-			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(message);
+			usuario.setEmail(entity.getEmail());
+			usuario.setNome(entity.getNome());
+			responseEntity.addMessage(IMessage.USUARIO_EDITADOSUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome());
 		} else {
 			responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
@@ -437,7 +434,6 @@ public class UsuarioService {
 	
 	public ResponseEntity<Usuario> alterarSenha(Usuario entity) throws AppException {
 		Usuario usuario = null;
-		AnotaaiMessage message = null;
 		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		AppException appException = null;
 		if (entity != null && entity.getEmail() != null) {
@@ -449,11 +445,9 @@ public class UsuarioService {
 				//usuario = entity.clone();
 				em.merge(usuario);
 				entity.setCodigoAtivacao(null);
-				message = new AnotaaiMessage(IMessage.USUARIO_EDITADOSUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome());
 				responseEntity.setIsValid(Boolean.TRUE);
 				responseEntity.setEntity(entity);
-				responseEntity.setMessages(new ArrayList<>());
-				responseEntity.getMessages().add(message);
+				responseEntity.addMessage(IMessage.USUARIO_EDITADOSUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, usuario.getNome());
 			} else {
 				responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
 				appException = new AppException(responseEntity);

@@ -164,7 +164,6 @@ public class EntradaMercadoriaService {
 		EntradaMercadoria e = new EntradaMercadoria(entradaMercadoria.getId());
 		responseEntity.setEntity(e);	
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.setMessages(new ArrayList<>());
 		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
 		return responseEntity;
 	}
@@ -208,7 +207,6 @@ public class EntradaMercadoriaService {
 		EntradaMercadoria e = new EntradaMercadoria(entradaMercadoria.getId());
 		responseEntity.setEntity(e);	
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.setMessages(new ArrayList<>());
 		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ENTRADA_MERCADORIA));
 		
 		return responseEntity;
@@ -236,7 +234,6 @@ public class EntradaMercadoriaService {
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		responseEntity.setEntity(new EntradaMercadoria(entradaMercadoria.getId()));
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.setMessages(new ArrayList<>());
 		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, EntradaMercadoriaConstant.ITEM_MERCADORIA));
 		
 		

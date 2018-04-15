@@ -3,6 +3,8 @@ package br.com.alinesolutions.anotaai.model;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,16 +16,14 @@ import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
-
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -42,6 +42,13 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 
 	private static final long serialVersionUID = 1l;
 	private final static Integer POSITION_OF_ENTITY_TYPE_ARGUMENT = 1;
+	private static final List<String> frameworFields;
+	
+	static {
+		frameworFields = new ArrayList<String>();
+		frameworFields.add("handler");
+		frameworFields.add("hibernateLazyInitializer");
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -132,6 +139,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 			Type type = parameterizedType.getActualTypeArguments()[POSITION_OF_ENTITY_TYPE_ARGUMENT];
 			FilterProvider filters = new SimpleFilterProvider().addFilter("entity", entityFilter);
 			ObjectMapper mapper = new ObjectMapper();
+			mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 			String entityStr = mapper.writer(filters).writeValueAsString(this);
 			T clone = mapper.readValue(entityStr, (Class<T>) type);
 			return clone;
@@ -140,24 +148,27 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		}
 	}
 	
-	//http://www.baeldung.com/jackson-serialize-field-custom-criteria
+	//ht]tp://www.baeldung.com/jackson-serialize-field-custom-criteria
 	@Transient
-	PropertyFilter entityFilter = new SimpleBeanPropertyFilter() {
-		
+	private static PropertyFilter entityFilter = new SimpleBeanPropertyFilter() {
+
 		@Override
 		public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer) throws Exception {
 			super.serializeAsField(pojo, jgen, provider, writer);
 		}
-		
+
 		@Override
 		protected boolean include(BeanPropertyWriter writer) {
 			return true;
 		}
+
 		@Override
 		protected boolean include(PropertyWriter writer) {
-			final JavaType type = writer.getMember().getType();
-			return !type.isTypeOrSubTypeOf(JavassistLazyInitializer.class);
+//			final JavaType type = writer.getMember().getType();
+//			return !type.isTypeOrSubTypeOf(JavassistLazyInitializer.class) && !frameworFields.contains(writer.getFullName().getSimpleName());
+			return true;
 		}
+
 	};
 	
 

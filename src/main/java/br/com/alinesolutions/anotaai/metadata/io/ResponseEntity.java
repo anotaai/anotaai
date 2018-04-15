@@ -45,6 +45,7 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 
 	public ResponseEntity() {
 		super();
+		messages = new ArrayList<>();
 	}
 
 	public ResponseEntity(T entity) {
@@ -113,9 +114,6 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 	}
 
 	public void addMessage(AnotaaiMessage message) {
-		if (messages == null) {
-			messages = new ArrayList<>();
-		}
 		messages.add(message);
 	}
 

@@ -26,11 +26,10 @@ import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Consumidor.class)
 @NamedQueries({
-	@NamedQuery(name = ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, query = ConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_QUERY),
 	@NamedQuery(name = ConsumidorConstant.FIND_CLIENTE_KEY, query = ConsumidorConstant.FIND_CLIENTE_QUERY),
 	@NamedQuery(name = ConsumidorConstant.FIND_BY_NOME_COUNT, query = ConsumidorConstant.FIND_BY_NOME_QUERY_COUNT),
-	@NamedQuery(name = ConsumidorConstant.FIND_BY_NOME_KEY, query = ConsumidorConstant.FIND_BY_NOME_QUERY),
-	@NamedQuery(name = ConsumidorConstant.LIST_ALL_COUNT, query = ConsumidorConstant.LIST_ALL_QUERY_COUNT)
+	@NamedQuery(name = ConsumidorConstant.LIST_ALL_COUNT, query = ConsumidorConstant.LIST_ALL_QUERY_COUNT),
+	@NamedQuery(name = ConsumidorConstant.FIND_BY_TELEFONE_KEY, query = ConsumidorConstant.FIND_BY_TELEFONE_QUERY)
 })
 @Entity
 @Where(clause = "ativo = true")
@@ -64,8 +63,7 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 		this.usuario.setEmail(email);
 	}
 
-	public Consumidor(Long id, Long idUsuario, String nome, String email, Long idTelefone, Integer ddi, Integer ddd,
-			Integer numero, Operadora operadora) {
+	public Consumidor(Long id, Long idUsuario, String nome, String email, Long idTelefone, Integer ddi, Integer ddd, Integer numero, Operadora operadora) {
 		this(id, idUsuario, nome, email);
 		this.usuario.setTelefone(new Telefone());
 		this.usuario.getTelefone().setId(idTelefone);
@@ -113,22 +111,18 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 	}
 
 	public interface ConsumidorConstant {
-		
-		String LIST_CLIENTE_CONSUMIDOR_KEY = "Consumidor.findConsumidorByCliente";
-		String LIST_CLIENTE_CONSUMIDOR_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao order by u.nome";
-		
 		String FIND_CLIENTE_KEY = "Consumidor.findClienteByConsumidor";
 		String FIND_CLIENTE_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Cliente(cliente.id, cliente.nomeComercial) from Consumidor consumidor left join consumidor.clientes cc left join cc.cliente cliente where cliente = :cliente and consumidor = :consumidor";
 		
 		String FIELD_USUARIO = "usuario";
-		String FIND_BY_NOME_KEY = "Consumidor.findByName";
+
 		String FIND_BY_NOME_COUNT = "Consumidor.findByNameCount";
 		String LIST_ALL_COUNT = "Consumidor.listAllCount";
-		
-		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Consumidor(c.id, u.id, u.nome, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao and upper(u.nome) like upper(concat('%', :nome, '%')) order by u.nome";
-		
+
 		String FIND_BY_NOME_QUERY_COUNT = "select count(c.id) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and u.nome =:nome and cc.situacao = :situacao";
 		String LIST_ALL_QUERY_COUNT = "select count(c.id) from Consumidor c left join c.clientes cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao";
+		String FIND_BY_TELEFONE_KEY = "Consumidor.findByTelefone";
+		String FIND_BY_TELEFONE_QUERY = "select c from Consumidor c left join c.usuario u left join u.telefone t where t.ddi = :ddi and t.ddd = :ddd and t.numero = :numero";
 
 	}
 }

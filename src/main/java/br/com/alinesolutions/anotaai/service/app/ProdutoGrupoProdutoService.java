@@ -54,10 +54,7 @@ public class ProdutoGrupoProdutoService {
 
 		responseEntity.setIsValid(Boolean.TRUE);
 		responseEntity.setEntity(produtoGrupoProduto);
-		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages()
-				.add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS,
-						Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
+		responseEntity.addMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao());
 		return responseEntity;
 	}
 
@@ -99,10 +96,7 @@ public class ProdutoGrupoProdutoService {
 			if (entity.getIsValid()) {
 				produtoGrupoProduto = em.find(ProdutoGrupoProduto.class, id);
 				em.remove(produtoGrupoProduto);
-				entity.setMessages(new ArrayList<>());
-				entity.getMessages()
-						.add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS,
-								Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao()));
+				entity.addMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produtoGrupoProduto.getProduto().getDescricao());
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}

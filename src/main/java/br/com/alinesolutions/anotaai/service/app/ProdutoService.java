@@ -71,6 +71,7 @@ public class ProdutoService {
 	}
 
 	public ResponseEntity<Produto> create(Produto produto) throws AppException {
+		Produto retorno = produto.clone();
 		TypedQuery<Produto> q = null;
 		Cliente cliente = appService.getCliente();
 		ResponseEntity<Produto> responseEntity = new ResponseEntity<>();
@@ -100,16 +101,16 @@ public class ProdutoService {
 			produto.getEstoque().setProduto(produto);
 			produto.getEstoque().setQuantidadeEstoque(0L);
 			em.persist(produto);
-			responseEntity.setEntity(produto.clone()	);
+			retorno.setId(produto.getId());
+			responseEntity.setEntity(retorno);
 			responseEntity.setIsValid(Boolean.TRUE);
-			responseEntity.setMessages(new ArrayList<>());
-			responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao()));
+			responseEntity.addMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao());
 		}
 		return responseEntity;
 	}
 
 	public ResponseEntity<Produto> deleteById(Long id) throws AppException {
-		ResponseEntity<Produto> entity = new ResponseEntity<>();
+		ResponseEntity<Produto> responseEntity = new ResponseEntity<>();
 		Cliente clienteLogado = appService.getCliente();
 		Cliente clienteProduto = null;
 		Produto produto = null;
@@ -117,20 +118,18 @@ public class ProdutoService {
 			TypedQuery<Cliente> query = em.createNamedQuery(Cliente.ClienteConstant.FIND_BY_PRODUTO_KEY, Cliente.class);
 			query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, id);
 			clienteProduto = query.getSingleResult();
-			entity.setIsValid(clienteProduto.equals(clienteLogado));
-			if (entity.getIsValid()) {
+			responseEntity.setIsValid(clienteProduto.equals(clienteLogado));
+			if (responseEntity.getIsValid()) {
 				produto = em.find(Produto.class, id);
 				em.remove(produto);
-				entity.setMessages(new ArrayList<>());
-				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
-						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao()));
+				responseEntity.addMessage(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao()));
 			} else {
-				responseUtil.buildIllegalArgumentException(entity);
+				responseUtil.buildIllegalArgumentException(responseEntity);
 			}
 		} catch (NoResultException e) {
-			responseUtil.buildIllegalArgumentException(entity);
+			responseUtil.buildIllegalArgumentException(responseEntity);
 		}
-		return entity;
+		return responseEntity;
 	}
 
 	public List<Produto> searchByDescricao(String query, String insumoFilter, Integer startPosition, Integer maxResult, List<Long> excludes)

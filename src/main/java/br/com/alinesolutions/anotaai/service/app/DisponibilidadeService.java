@@ -1,7 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.ArrayList;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -47,7 +45,6 @@ public class DisponibilidadeService {
 				em.persist(disponibilidade);
 				responseEntity.setIsValid(Boolean.TRUE);
 				responseEntity.setEntity(disponibilidade);
-				responseEntity.setMessages(new ArrayList<>());
 				responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO,
 						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
 			} else {
@@ -72,9 +69,7 @@ public class DisponibilidadeService {
 			if (entity.getIsValid()) {
 				disponibilidade = em.find(Disponibilidade.class, id);
 				em.remove(disponibilidade);
-				entity.setMessages(new ArrayList<>());
-				entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,
-						TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao()));
+				entity.addMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, disponibilidade.getDia().getDescricao());
 			} else {
 				responseUtil.buildIllegalArgumentException(entity);
 			}

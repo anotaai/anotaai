@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -114,8 +113,6 @@ public class CadernetaService {
 			throws AppException {
 
 		Cliente cliente = appService.getCliente();
-		ResponseEntity<ConfiguracaoCaderneta> responseEntity = new ResponseEntity<>();
-
 		for (Caderneta caderneta : configuracaoCaderneta.getCadernetas()) {
 			caderneta.setDataAbertura(new Date());
 			caderneta.setDataFechamento(new Date());
@@ -125,10 +122,9 @@ public class CadernetaService {
 
 		em.persist(configuracaoCaderneta);
 		ConfiguracaoCaderneta caderdetaNova = new ConfiguracaoCaderneta(configuracaoCaderneta.getId());
+		ResponseEntity<ConfiguracaoCaderneta> responseEntity = new ResponseEntity<>(caderdetaNova);
 		responseEntity.setIsValid(Boolean.TRUE);
-		responseEntity.setEntity(caderdetaNova);
-		responseEntity.setMessages(new ArrayList<>());
-		responseEntity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
+		responseEntity.addMessage(IMessage.ENTIDADE_GRAVACAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA);
 
 		return responseEntity;
 	}
@@ -154,7 +150,6 @@ public class CadernetaService {
 			}
 			
 			entity.setIsValid(Boolean.TRUE);
-			entity.setMessages(new ArrayList<>());
 			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
 		} catch (NoResultException e) {
 			responseUtil.buildIllegalArgumentException(entity);
@@ -170,7 +165,6 @@ public class CadernetaService {
 			ConfiguracaoCaderneta configuracaoCaderneta = em.find(ConfiguracaoCaderneta.class, id);
 			em.remove(configuracaoCaderneta);
 			entity.setIsValid(Boolean.TRUE);
-			entity.setMessages(new ArrayList<>());
 			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, CadernetaConstant.CADERNETA));
 		} catch (NoResultException e) {
 			responseUtil.buildIllegalArgumentException(entity);
