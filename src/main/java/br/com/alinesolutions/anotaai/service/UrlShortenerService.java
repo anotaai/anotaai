@@ -1,8 +1,6 @@
 package br.com.alinesolutions.anotaai.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,13 +8,15 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+
+import com.google.gson.JsonObject;
 
 @Singleton
 @Startup
@@ -38,13 +38,16 @@ public class UrlShortenerService {
 		try {
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 			String key = service.getGooleServiceAccountKey();
+			JsonObject requestObj = new JsonObject();
+			requestObj.addProperty("longDynamicLink", longUrl);
+			StringEntity params = new StringEntity(requestObj.toString());
+			params.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+
 			StringBuilder uri = new StringBuilder("https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=").append(key);
-			List<NameValuePair> nameValuePairs = new ArrayList<>();
-			nameValuePairs.add(new BasicNameValuePair("longDynamicLink", "https://firebase.google.com/docs/dynamic-links/rest?authuser=0"));
 			HttpPost httpPost = new HttpPost(uri.toString());
 			httpPost.setHeader("Accept", "application/json");
-			httpPost.setHeader("Content-type", "application/json");
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
+			httpPost.setEntity(params);
 			response = httpclient.execute(httpPost);
 			try {
 				System.out.println(response.getStatusLine());
