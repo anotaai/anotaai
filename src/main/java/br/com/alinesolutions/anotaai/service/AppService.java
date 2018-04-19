@@ -2,10 +2,12 @@ package br.com.alinesolutions.anotaai.service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -23,6 +25,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.hibernate.Hibernate;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -48,7 +51,19 @@ public class AppService {
 	
 	@EJB
 	private LoadResource loader;
-
+	
+	private GoogleCredential scoped;
+	
+	@PostConstruct
+	private void initGoogleCredential() {
+		try {
+			GoogleCredential googleCred = GoogleCredential.fromStream(loader.getInputStream(Constant.FileNane.GOOGLE_KEY));
+			scoped = googleCred.createScoped(Arrays.asList(Constant.App.GOOGLE_CREDENTIAL_SCOPE));
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+	
 	@Schedule(minute = "*/30", hour = "*")
 	public void limparSessao() {
 		String findAllKey = SessaoUsuario.SessaoUsuarioConstant.FIND_ALL_KEY;
@@ -134,19 +149,19 @@ public class AppService {
 	public String atulaizarEmail(String email) {
 		Integer indexInicioProvedor = null;
 		String nickName = null;
-		String retorno = null;
+		String key = null;
 		if (email != null) {
 			if (email.endsWith("@gmail.com")) {
 				StringBuilder novoEmail = new StringBuilder();
 				indexInicioProvedor = email.indexOf("@gmail.com");
 				nickName = email.substring(0, indexInicioProvedor).replace(".", "");
 				novoEmail.append(nickName).append("@gmail.com");
-				retorno = novoEmail.toString();
+				key = novoEmail.toString();
 			} else {
-				retorno = email;
+				key = email;
 			}
 		}
-		return retorno;
+		return key;
 	}
 
 	/**
@@ -177,4 +192,13 @@ public class AppService {
 		return cal.getTime();
 	}
 
+	public String getGooleServiceAccountKey() {
+		try {
+			scoped.refreshToken();
+			return scoped.getAccessToken();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 }

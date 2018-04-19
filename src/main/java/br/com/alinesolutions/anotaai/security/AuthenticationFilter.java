@@ -107,9 +107,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 						List<Perfil> listaPerfis = Arrays.stream(rolesAnnotation.value()).map(perfil -> Perfil.valueOf(perfil)).collect(Collectors.toList());
 						// o usuario nao tem acesso a funcionalidade ou a sessao expirou
 						if (!isSessionActive(sessaoUsuario)) {
-							abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_ACCESS_DENIED);
+							abortWith(requestContext, Response.Status.FORBIDDEN, IMessage.SECURITY_ACCESS_DENIED);
 						} else if (!isUserAllowed(usuarioDatabase, listaPerfis)) {
-							abortWith(requestContext, Response.Status.FORBIDDEN, IMessage.SECURITY_ACCESS_FORBIDDEN);
+							abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_ACCESS_FORBIDDEN);
 						} else {
 							//acesso a funcionalidade liberado reinicia o tempo de sessao do usuario
 							sessaoUsuario.setUltimoAcesso(new Date());

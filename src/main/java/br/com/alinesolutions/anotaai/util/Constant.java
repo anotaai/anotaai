@@ -9,6 +9,7 @@ public interface Constant {
 	
 	public interface App {
 		String UNIT_NAME = "anota-ai-persistence-unit";
+		String GOOGLE_CREDENTIAL_SCOPE = "https://www.googleapis.com/auth/firebase";
 		Long SESSION_TIME = 30L;
 		String COOKIE_SESSION_NAME = "globals";
 		String NAME_FOTO_PERFIL = "fotoPerfil";
@@ -36,6 +37,7 @@ public interface Constant {
 	public interface FileNane {
 		String I18N_PATH = "i18n/";
 		String SHORTENER = "config/google/url-shortener/shortener.json";
+		String GOOGLE_KEY = "config/google/firebase/service-account-key.json";
 		String CONFIRMACAO_CADASTRO_CONSUMIDOR_EMAIL = "template/email/usuario/confirmacao-cadastro-consumidor.html";
 		String CONFIRMACAO_CADASTRO_CONSUMIDOR_SMS = "template/sms/usuario/confirmacao-cadastro-consumidor.txt";
 		String CONFIRMACAO_CADASTRO_USUARIO_EMAIL = "template/email/usuario/confirmacao-cadastro-usuario.html";

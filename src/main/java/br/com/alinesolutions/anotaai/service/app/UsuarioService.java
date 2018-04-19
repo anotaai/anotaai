@@ -50,8 +50,8 @@ public class UsuarioService {
 	private EntityManager em;
 
 	@Inject
-	@Email
-	private AnotaaiSendMessage senderEmail;
+	@SMS
+	private AnotaaiSendMessage senderSms;
 	
 	@Inject
 	@SMS
@@ -86,7 +86,7 @@ public class UsuarioService {
 		consumidor.setUsuario(usuario);
 		consumidor.setDataCadastro(new Date());
 		em.persist(consumidor);
-		senderEmail.notificacaoRegistroUsuario(usuario);
+		senderSms.notificacaoRegistroUsuario(usuario);
 		return usuario;
 	}
 
@@ -123,7 +123,7 @@ public class UsuarioService {
 		usuarioDatabase.setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
 		usuario.setCodigoAtivacao(usuarioDatabase.getCodigoAtivacao());
 		em.merge(usuarioDatabase);
-		senderEmail.notificacaoRegistroUsuario(usuario);
+		senderSms.notificacaoRegistroUsuario(usuario);
 		ResponseEntity<Usuario> responseEntity = new ResponseEntity<>();
 		responseEntity.addMessage(IMessage.USUARIO_CADASTRO_ATIVADO_SUCESSO, TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW);
 		responseEntity.setIsValid(Boolean.TRUE);
@@ -264,7 +264,7 @@ public class UsuarioService {
 					break;
 				case PENDENTE_VALIDACAO:
 					key = IMessage.USUARIO_PENDENTEVALIDACAO;
-					senderEmail.notificacaoRegistroUsuario(usuarioLogin);
+					senderSms.notificacaoRegistroUsuario(usuarioLogin);
 					break;
 			}
 			if (!usuarioLogin.getSituacao().equals(SituacaoUsuario.ATIVO)) {
@@ -400,7 +400,7 @@ public class UsuarioService {
 				senderSMS.notificacaoRenewPassword(usuarioDataBase);
 			}
 			if (usuarioDataBase.getEmail() != null && !usuarioDataBase.getEmail().isEmpty()) {
-				senderEmail.notificacaoRenewPassword(usuarioDataBase);
+				senderSms.notificacaoRenewPassword(usuarioDataBase);
 			}
 			responseEntity.setIsValid(Boolean.TRUE);
 			responseEntity.addMessage(new AnotaaiMessage(IMessage.USUARIO_SOLICITACAOALTERACAOSENHA, TipoMensagem.SUCCESS, Constant.App.LONG_TIME_VIEW, mensagem.toString()));

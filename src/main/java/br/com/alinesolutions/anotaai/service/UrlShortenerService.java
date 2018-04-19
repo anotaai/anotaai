@@ -1,82 +1,74 @@
 package br.com.alinesolutions.anotaai.service;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.inject.Inject;
 
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.urlshortener.Urlshortener;
-import com.google.api.services.urlshortener.UrlshortenerRequestInitializer;
-import com.google.api.services.urlshortener.model.Url;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import br.com.alinesolutions.anotaai.metadata.model.Shortener;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.LoadResource;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 
 @Singleton
 @Startup
 public class UrlShortenerService {
 
-	private Shortener shortener;
+	// private Shortener shortener;
 
-	@Inject
-	private LoadResource fileUtil;
+	@EJB
+	private AppService service;
 
 	@PostConstruct
 	private void init() {
-		
-		InputStream content = fileUtil.getInputStream(Constant.FileNane.SHORTENER);
-
-		try {
-			Reader reader = new InputStreamReader(content);
-			GsonBuilder gsonBuilder = new GsonBuilder();
-			Gson gson = gsonBuilder.create();
-			shortener = gson.fromJson(reader, Shortener.class);
-			content.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		String url = shortener("https://hc.apache.org/httpcomponents-client-ga/quickstart.html");
+		System.out.println(url);
 	}
 
 	public String shortener(String longUrl) {
+		CloseableHttpResponse response = null;
 		try {
-			UrlshortenerRequestInitializer initializer = authorize();
-			Urlshortener service = getService(initializer);
-			Url shortUrl = getShortUrl(service, longUrl);
-			return shortUrl.getId();
+			CloseableHttpClient httpclient = HttpClients.createDefault();
+			String key = service.getGooleServiceAccountKey();
+			StringBuilder uri = new StringBuilder("https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=").append(key);
+			List<NameValuePair> nameValuePairs = new ArrayList<>();
+			nameValuePairs.add(new BasicNameValuePair("longDynamicLink", "https://firebase.google.com/docs/dynamic-links/rest?authuser=0"));
+			HttpPost httpPost = new HttpPost(uri.toString());
+			httpPost.setHeader("Accept", "application/json");
+			httpPost.setHeader("Content-type", "application/json");
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			response = httpclient.execute(httpPost);
+			try {
+				System.out.println(response.getStatusLine());
+				HttpEntity entity = response.getEntity();
+				return entity.toString();
+			} finally {
+				response.close();
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		} finally {
+			closeHttpResponse(response);
 		}
 	}
 
-	private Url getShortUrl(Urlshortener service, String longUrl) throws Exception {
-		Url url = new Url().setLongUrl(longUrl);
-		Url result = service.url().insert(url).execute();
-		return result;
-	}
-
-	private UrlshortenerRequestInitializer authorize() throws Exception {
-		return new UrlshortenerRequestInitializer(shortener.getKey());
-	}
-
-	private Urlshortener getService(UrlshortenerRequestInitializer initializer) throws Exception {
-		HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-		JsonFactory jsonFactory = new JacksonFactory();
-
-		Urlshortener service = new Urlshortener.Builder(httpTransport, jsonFactory, null)
-				.setUrlshortenerRequestInitializer(initializer).setApplicationName(shortener.getApplication()).build();
-
-		return service;
+	private void closeHttpResponse(CloseableHttpResponse response) {
+		if (response != null) {
+			try {
+				response.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
