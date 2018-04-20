@@ -32,8 +32,14 @@ public class MessageEndpoint {
 	@GET
 	@Path("/locales/{locale}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getLocale(@PathParam("locale") String locale) throws IOException {
-		StringBuilder fileName = new StringBuilder(Constant.FileNane.I18N_PATH).append(locale).append(".json");
+	public Response getLocale(@PathParam("locale") String key) throws IOException {
+		Locale locale = null;
+		try {
+			locale = Locale.getByKey(key);
+		} catch (IllegalArgumentException e) {
+			locale = Locale.PT;//defaul locale
+		}
+		StringBuilder fileName = new StringBuilder(Constant.FileNane.I18N_PATH).append(locale.getKey()).append(".json");
 		return Response.ok(loader.getFile(fileName.toString())).build();
 	}
 

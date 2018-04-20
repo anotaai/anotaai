@@ -24,6 +24,7 @@ import br.com.alinesolutions.anotaai.model.produto.Setor;
 import br.com.alinesolutions.anotaai.service.app.SetorService;
 import br.com.alinesolutions.anotaai.util.Constant;
 
+@RolesAllowed(Constant.Role.CLIENTE)
 @Path("/setor")
 public class SetorEndpoint {
 
