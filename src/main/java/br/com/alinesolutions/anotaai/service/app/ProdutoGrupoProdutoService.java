@@ -1,7 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.ArrayList;
-
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -15,7 +13,6 @@ import javax.ws.rs.core.Context;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
-import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;

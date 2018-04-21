@@ -23,12 +23,12 @@ insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUE
 insert into Setor (nome, descricao, cliente_id, ativo) values ('Liquido', 'Setor teste', 1, true);
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Bebidas', 'Produtos Líquidos', 1, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (55.50, 150, true);
-insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Cerveja Brahma 350ml', 'Braminha', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 7891149010301, false, false, true, 1);
+insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Cerveja Brahma 350ml', 'Braminha', 3, 3, 'GLYPHICON_MUSIC', 1, 1, 9990000000, false, 7891149010301, true, 1);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo, ehPrincipal) values (1, 1, true, true);
 
 insert into GrupoProduto (nome, descricao, setor_id, ativo) values ('Salgados', 'Produtos Fritos', 1, true);
 insert into Estoque (precocusto, quantidadeestoque, ativo) values (10.50, 1200, true);
-insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Coxinha de Frango', 'Coxinha', 3.5, 7, 'GLYPHICON_CLOUD', 1, 2, 7894568551258, false, false, true, 2);
+insert into Produto (descricao, descricaoresumida, precovenda, unidademedida, iconclass, cliente_id, estoque_id, codigo, ehInsumo, codigoBarras, ativo, tipoArmazenamento) values ('Coxinha de Frango', 'Coxinha', 3.5, 7, 'GLYPHICON_CLOUD', 1, 2, 9990000001, false, 7894568551258, true, 2);
 insert into Disponibilidade (dia, produto_id, ativo) values (0, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (1, 1, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (2, 1, true);
@@ -66,13 +66,13 @@ insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 10
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 50.25, 2, 3);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
-insert into Venda (ativo, dataVenda) values (true, now());
+insert into Venda (ativo, dataVenda, statusVenda) values (true, now(), 0);
 insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 12, 1);
 insert into ItemVenda (ativo, precoCusto, precoVenda, movimentacaoProduto_id, venda_id) values (true, 2, 3, 1, 1);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'VENDA', 2, 1);
 
-insert into Consumidor(ativo,dataCadastro, usuario_id) values (true,Now(),1);
-insert into ClienteConsumidor(ativo, cliente_id,consumidor_id, dataAssociacao, situacao) values (true, 1, 1, Now() ,1);
+insert into Consumidor(ativo, dataCadastro, usuario_id) values (true, Now(), 1);
+insert into ClienteConsumidor(ativo, cliente_id, consumidor_id, dataAssociacao, situacao) values (true, 1, 1, Now() ,1);
 
 insert into ConfiguracaoCaderneta(ativo, qtdDiasDuracaoFolha, diaBase, timeoutSetupVenda) values (true, 30, 1, 5);
 insert into Caderneta(ativo, descricao , dataAbertura , dataFechamento , configuracao_id, cliente_id) values (true, 'Caderneta Escola', now(), now(), 1, 1);

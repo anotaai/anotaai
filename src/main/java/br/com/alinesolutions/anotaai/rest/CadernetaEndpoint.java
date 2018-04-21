@@ -25,15 +25,14 @@ import br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta;
 import br.com.alinesolutions.anotaai.service.app.CadernetaService;
 import br.com.alinesolutions.anotaai.util.Constant;
 
+@RolesAllowed(Constant.Role.CLIENTE)
 @Path("/caderneta")
 public class CadernetaEndpoint {
-	
 	
 	@EJB
 	private CadernetaService cadernetaService;
 	
 	
-	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<Caderneta> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String descricao) {

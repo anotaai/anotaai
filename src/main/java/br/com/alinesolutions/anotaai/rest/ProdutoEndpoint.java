@@ -25,6 +25,7 @@ import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.service.app.ProdutoService;
 import br.com.alinesolutions.anotaai.util.Constant;
 
+@RolesAllowed(Constant.Role.CLIENTE)
 @Path("/produto")
 public class ProdutoEndpoint {
 	
@@ -47,7 +48,6 @@ public class ProdutoEndpoint {
 		return builder.build();
 	}
 	
-	@RolesAllowed(Constant.Role.CLIENTE)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id:[0-9][0-9]*}")

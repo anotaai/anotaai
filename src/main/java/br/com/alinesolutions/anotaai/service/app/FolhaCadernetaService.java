@@ -16,7 +16,7 @@ import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
-import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta.FolhaCadernetaConstant;
@@ -48,7 +48,7 @@ public class FolhaCadernetaService {
 	}
 
 
-	public FolhaCaderneta recuperarFolhaCaderneta(Caderneta caderneta, Consumidor consumidor) {
+	public FolhaCaderneta recuperarFolhaCaderneta(Caderneta caderneta, ClienteConsumidor clienteConsumidor) {
 		FolhaCaderneta folha = null;
 		try {
 			TypedQuery<FolhaCaderneta> query = em.createNamedQuery(FolhaCadernetaConstant.FIND_FOLHA_VIGENTE, FolhaCaderneta.class);
@@ -56,7 +56,7 @@ public class FolhaCadernetaService {
 			folha = query.getSingleResult();
 		} catch (NoResultException e) {
 			folha = new FolhaCaderneta();
-			folha.setConsumidor(consumidor);
+			folha.setClienteConsumidor(clienteConsumidor);
 			folha.setCaderneta(em.getReference(Caderneta.class, caderneta.getId()));
 			folha.setVendas(new ArrayList<>());
 			folha.setDataCriacao(new Date());

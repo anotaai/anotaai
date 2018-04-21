@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -34,6 +33,7 @@ import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.model.produto.Produto.ProdutoConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
+import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
@@ -81,9 +81,9 @@ public class VendaService {
 	public ResponseEntity<Venda> createConsumerSale(VendaAVistaConsumidor vendaAVistaConsumidor) throws AppException {
 
 		Caderneta caderneta = em.getReference(Caderneta.class, vendaAVistaConsumidor.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
-		Consumidor consumidor = em.getReference(Consumidor.class, vendaAVistaConsumidor.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor().getId());
+		ClienteConsumidor clienteConsumidor = em.getReference(ClienteConsumidor.class, vendaAVistaConsumidor.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor().getId());
 
-		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
+		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, clienteConsumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
 		folha.getVendas().add(venda);
@@ -99,8 +99,8 @@ public class VendaService {
 		
 		validateRequired(vendaAnotada);
 		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
-		Consumidor consumidor = em.getReference(Consumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor().getId());
-		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, consumidor);
+		ClienteConsumidor clienteConsumidor = em.getReference(ClienteConsumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor().getId());
+		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, clienteConsumidor);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		validateSale(vendaAnotada);
 		updateItensVenda(vendaAnotada);
@@ -249,7 +249,7 @@ public class VendaService {
 		} catch (AppException e) {
 			mergeErrorMessages(responseEntity, e.getResponseEntity());
 		}
-		Consumidor consumidor = iVenda.getFolhaCadernetaVenda().getFolhaCaderneta().getConsumidor();
+		ClienteConsumidor consumidor = iVenda.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor();
 		if (consumidor == null) {
 			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);

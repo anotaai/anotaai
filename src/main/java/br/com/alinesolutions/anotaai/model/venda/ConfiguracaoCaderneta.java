@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 
 @Entity
@@ -22,24 +23,31 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 	private Integer qtdDiasDuracaoFolha;
 
 	private Integer diaBase;
+
 	/**
-	 * Este campo define quanto tempo em segundos o sistema apresenta o cupom de venda apos finalizar a venda.
+	 * Quando o Cliente inicia a venda este tipo aparece selecionado por padrao
+	 */
+	private TipoVenda tipoVendaPadrao;
+
+	/**
+	 * Este campo define quanto tempo em segundos o sistema apresenta o cupom de
+	 * venda apos finalizar a venda.
 	 * 
-	 * */
+	 */
 	private Integer timeoutSetupVenda;
-	
-	@OneToMany(mappedBy = "configuracao",cascade = { CascadeType.ALL } , fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "configuracao", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Caderneta> cadernetas;
-	
+
 	public ConfiguracaoCaderneta() {
 		super();
 	}
-	
+
 	public ConfiguracaoCaderneta(Long id) {
 		setId(id);
 	}
-	
-	public ConfiguracaoCaderneta(Long id,Integer qtdDiasDuracaoFolha,Integer diaBase) {
+
+	public ConfiguracaoCaderneta(Long id, Integer qtdDiasDuracaoFolha, Integer diaBase) {
 		setId(id);
 		this.qtdDiasDuracaoFolha = qtdDiasDuracaoFolha;
 		this.diaBase = diaBase;
@@ -76,5 +84,13 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 	public void setTimeoutSetupVenda(Integer timeoutSetupVenda) {
 		this.timeoutSetupVenda = timeoutSetupVenda;
 	}
-	
+
+	public TipoVenda getTipoVendaPadrao() {
+		return tipoVendaPadrao;
+	}
+
+	public void setTipoVendaPadrao(TipoVenda tipoVendaPadrao) {
+		this.tipoVendaPadrao = tipoVendaPadrao;
+	}
+
 }

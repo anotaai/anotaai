@@ -151,7 +151,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 	}
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Long codigo,
-			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente,TipoArmazenamento tipoArmazenamento,Long codigoBarras) {
+			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente, TipoArmazenamento tipoArmazenamento, Long codigoBarras) {
 		this(id, descricao, descricaoResumida, precoVenda, iconClass);
 		this.ehInsumo = ehInsumo;
 		this.codigo = codigo;
@@ -293,11 +293,9 @@ public class Produto extends BaseEntity<Long, Produto> {
 		
 		String FIND_BY_NOME_COUNT = "Produto.findByNameCount";
 		String FIND_BY_NOME_QUERY_COUNT = "select count(p) from Produto p left join p.estoque e where p.cliente = :cliente and p.descricao =:descricao";
-		
-		
+
 		String FIND_BY_NOME_KEY = "Produto.findByName";
 		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida, p.tipoArmazenamento) from Produto p left join p.estoque e where p.cliente = :cliente and p.descricao =:descricao order by p.descricao";
-		
 
 		String LIST_ALL_KEY = "Produto.listAll";
 		String LIST_ALL_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id, p.descricao, p.descricaoResumida, p.precoVenda, p.iconClass, e.id, e.quantidadeEstoque, e.precoCusto, p.codigo, p.unidadeMedida, p.tipoArmazenamento) from Produto p left join p.estoque e where p.cliente = :cliente order by p.descricao";

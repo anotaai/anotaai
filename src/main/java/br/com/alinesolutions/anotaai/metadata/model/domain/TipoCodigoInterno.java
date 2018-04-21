@@ -6,7 +6,7 @@ public enum TipoCodigoInterno {
 		@Override
 		public Long gerarCodigo(Long codigo, Long sequencial) {
 			StringBuilder codigoStr = new StringBuilder(codigo.toString());
-			codigoStr.append(leftPad(sequencial.toString(), 8));
+			codigoStr.append(leftPad(sequencial.toString(), 9));
 			return Long.parseLong(codigoStr.toString());
 		}
 	},
@@ -15,7 +15,7 @@ public enum TipoCodigoInterno {
 		@Override
 		public Long gerarCodigo(Long codigo, Long sequencial) {
 			StringBuilder codigoStr = new StringBuilder(codigo.toString());
-			codigoStr.append(leftPad(sequencial.toString(), 8));
+			codigoStr.append(leftPad(sequencial.toString(), 11));
 			return Long.parseLong(codigoStr.toString());
 		}
 	},
@@ -25,7 +25,7 @@ public enum TipoCodigoInterno {
 		@Override
 		public Long gerarCodigo(Long codigo, Long sequencial) {
 			StringBuilder codigoStr = new StringBuilder(codigo.toString());
-			codigoStr.append(leftPad(sequencial.toString(), 8));
+			codigoStr.append(leftPad(sequencial.toString(), 11));
 			return Long.parseLong(codigoStr.toString());
 		}
 		
@@ -34,7 +34,7 @@ public enum TipoCodigoInterno {
 	public abstract Long gerarCodigo(Long codigo, Long sequencial);
 
 	private static String leftPad(String sequence, Integer quantidade) {
-		StringBuilder codigo = new StringBuilder();
+		final StringBuilder codigo = new StringBuilder();
 		for (int i = sequence.length(); i < quantidade; i++) {
 			codigo.append("0");
 		}

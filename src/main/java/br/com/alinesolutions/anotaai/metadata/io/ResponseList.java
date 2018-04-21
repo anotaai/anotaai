@@ -10,6 +10,15 @@ import br.com.alinesolutions.anotaai.model.BaseEntity;
 @JsonInclude(Include.NON_NULL)
 public class ResponseList <T extends BaseEntity<?, ?>> {
 
+	public ResponseList() {
+		super();
+	}
+	
+	public ResponseList(List<T> itens) {
+		this();
+		this.itens = itens;
+	}
+
 	private List<T> itens;
 
 	private Long qtdTotalItens;

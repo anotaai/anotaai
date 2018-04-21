@@ -242,12 +242,11 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 	public void setPreferencia(Preferencia preferencia) {
 		this.preferencia = preferencia;
 	}
-
-
+	
 	public interface UsuarioConstant {
 		
 		String FIELD_EMAIL = "email";
-		String FIELD_NOME = "email";
+		String FIELD_NOME = "nome";
 		String FIELD_TELEFONE = "telefone";
 		String FIELD_CODIGO_ATIVACAO = "codigoAtivacao";
 		String FIND_BY_EMAIL_KEY = "Usuario.findByEmail";

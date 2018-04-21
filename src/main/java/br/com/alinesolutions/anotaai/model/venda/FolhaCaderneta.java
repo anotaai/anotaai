@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta.FolhaCadernetaConstant;
 
 @NamedQueries({
@@ -56,15 +56,16 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Consumidor consumidor;
+	@NotNull
+	@ManyToOne()
+	private ClienteConsumidor clienteConsumidor;
 
-	public Consumidor getConsumidor() {
-		return consumidor;
+	public ClienteConsumidor getClienteConsumidor() {
+		return clienteConsumidor;
 	}
 
-	public void setConsumidor(Consumidor consumidor) {
-		this.consumidor = consumidor;
+	public void setClienteConsumidor(ClienteConsumidor clienteConsumidor) {
+		this.clienteConsumidor = clienteConsumidor;
 	}
 
 	public List<FolhaCadernetaVenda> getVendas() {

@@ -2,7 +2,6 @@ package br.com.alinesolutions.anotaai.service.app;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -402,14 +401,16 @@ public class ClienteConsumidorService {
 	
 	}
 	
-	public  List<Consumidor> getConsumersByName(String nome) {
-		TypedQuery<Consumidor> consumidorQuery = null;
+	public ResponseEntity<ClienteConsumidor> getConsumersByName(String nome) {
+		TypedQuery<ClienteConsumidor> consumidorQuery = null;
 		Cliente cliente = appManager.getAppService().getCliente();
-		consumidorQuery =  em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_NOME_KEY, Consumidor.class);
+		consumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_NOME_KEY, ClienteConsumidor.class);
 		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
-		consumidorQuery.setParameter("nome", nome);
-		final List<Consumidor> results = consumidorQuery.getResultList();
-		return results;
+		consumidorQuery.setParameter(UsuarioConstant.FIELD_NOME, nome);
+		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
+		ResponseEntity<ClienteConsumidor> resp = new ResponseEntity<>();
+		resp.setList(new ResponseList<>(consumidorQuery.getResultList()));
+		 return resp;
 	}
 
 }

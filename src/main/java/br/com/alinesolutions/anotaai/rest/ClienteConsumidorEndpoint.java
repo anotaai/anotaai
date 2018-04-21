@@ -1,7 +1,5 @@
 package br.com.alinesolutions.anotaai.rest;
 
-import java.util.List;
-
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -21,7 +19,6 @@ import javax.ws.rs.core.Response.Status;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
-import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.service.app.ClienteConsumidorService;
@@ -161,8 +158,16 @@ public class ClienteConsumidorEndpoint {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getconsumersbyname")
-	public List<Consumidor> getConsumersByName(@QueryParam("query") String nome) {
-		return service.getConsumersByName(nome);
+	public Response getConsumersByName(@QueryParam("query") String nome) {
+		ResponseBuilder builder = null;
+		ResponseEntity<ClienteConsumidor> responseEntity = null;
+		try {
+			responseEntity = service.getConsumersByName(nome);
+			builder = Response.ok(responseEntity);
+		} catch (AppException e) {
+			builder = Response.status(Status.BAD_REQUEST).entity(e.getResponseEntity());
+		}
+		return builder.build();
 	}
 
 }
