@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
@@ -21,7 +22,6 @@ import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.VendaAnotadaConsumidor;
 import br.com.alinesolutions.anotaai.rest.util.JacksonConfig;
 import br.com.alinesolutions.anotaai.service.app.VendaService;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @RolesAllowed(Constant.Role.CLIENTE)
 @Path("/venda")

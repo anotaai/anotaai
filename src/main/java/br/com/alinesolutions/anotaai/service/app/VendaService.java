@@ -16,6 +16,7 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Hibernate;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
@@ -34,7 +35,7 @@ import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.model.produto.Produto.ProdutoConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
-import br.com.alinesolutions.anotaai.model.usuario.Consumidor;
+import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
@@ -48,7 +49,6 @@ import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
 import br.com.alinesolutions.anotaai.model.venda.VendaAnotadaConsumidor;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 public class VendaService {
@@ -143,7 +143,9 @@ public class VendaService {
 								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta() != null &&
 								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta() != null &&
 								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId() != null &&
-								  vendaAnotada.getFolhaCadernetaVenda().getVenda() != null);
+								  vendaAnotada.getFolhaCadernetaVenda().getVenda() != null &&
+								  vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos() != null &&
+								  !vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().isEmpty());
 		if (!responseEntity.getIsValid()) {
 			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CAMPOSNAOINFORMADOS, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW);
 		}
@@ -187,6 +189,7 @@ public class VendaService {
 	}
 
 	private void validateProcucts(List<ItemVenda> produtos) throws AppException {
+		//verifica se o produto esta associado ao cliente logado
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		AtomicInteger index = new AtomicInteger();
 		produtos.stream().forEach(itemVenda -> {
@@ -213,13 +216,12 @@ public class VendaService {
 		} else {
 			Produto produto = movimentacaoProduto.getProduto();
 			try {
-				TypedQuery<Cliente> query = em.createNamedQuery(ProdutoConstant.CLIENTE_BY_PRODUTO_KEY, Cliente.class);
-				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
+				TypedQuery<Produto> query = em.createNamedQuery(ProdutoConstant.PRODUTO_BY_CLIENTE_KEY, Produto.class);
+				Cliente clienteAcesso = appService.getCliente();
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, clienteAcesso);
 				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
-				Cliente cliente = query.getSingleResult();
-				if (!cliente.equals(appService.getCliente())) {
-					throw new NoResultException();
-				} else if (movimentacaoProduto.getQuantidade() == null || movimentacaoProduto.getQuantidade() <= 0) {
+				query.getSingleResult();
+				if (movimentacaoProduto.getQuantidade() == null || movimentacaoProduto.getQuantidade() <= 0) {
 					responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_QUANTIDADE, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
 					responseEntity.setIsValid(Boolean.FALSE);
 				}
@@ -249,19 +251,17 @@ public class VendaService {
 		} catch (AppException e) {
 			mergeErrorMessages(responseEntity, e.getResponseEntity());
 		}
-		ClienteConsumidor consumidor = iVenda.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor();
-		if (consumidor == null) {
+		ClienteConsumidor clienteConsumidor = iVenda.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor();
+		if (clienteConsumidor == null) {
 			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
+			//valida se o cliente consumidor esta realmente associado ao cliente logado
 			try {
-				TypedQuery<Cliente> query = em.createNamedQuery(Consumidor.ConsumidorConstant.FIND_CLIENTE_KEY, Cliente.class);
+				TypedQuery<ClienteConsumidor> query = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_CLIENTE_KEY, ClienteConsumidor.class);
 				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
-				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CONSUMIDOR, consumidor);
-				Cliente clienteStorage = query.getSingleResult();
-				if (!clienteStorage.equals(appService.getCliente())) {
-					throw new NoResultException();
-				}
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE_CONSUMIDOR, clienteConsumidor);
+				query.getSingleResult();
 			} catch (NoResultException e) {
 				//TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto inexistente ou associado a outro vendedor)
 				responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);

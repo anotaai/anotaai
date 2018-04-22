@@ -37,7 +37,8 @@ public class Estoque extends BaseEntity<Long, Estoque> {
 	private Produto produto;
 	
 	private Long quantidadeEstoque;
-	private Double precoCusto = new Double(0);
+	
+	private Double precoCusto;
 	
 	@OneToMany(mappedBy="estoque")
 	private List<EstoqueMovimentacao> movimentacoes;

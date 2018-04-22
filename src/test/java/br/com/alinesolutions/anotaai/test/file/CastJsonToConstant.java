@@ -15,8 +15,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.LoadResource;
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.LoadResource;
 
 public class CastJsonToConstant {
 

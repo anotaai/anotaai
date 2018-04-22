@@ -18,12 +18,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.model.domain.ItemMenu;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Menu;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 import br.com.alinesolutions.anotaai.service.AppService;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @PermitAll
 @Stateless

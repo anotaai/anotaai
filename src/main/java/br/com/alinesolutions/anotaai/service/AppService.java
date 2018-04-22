@@ -29,6 +29,9 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.LoadResource;
+import br.com.alinesolutions.anotaai.infra.UsuarioUtils;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -38,9 +41,6 @@ import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.LoadResource;
-import br.com.alinesolutions.anotaai.util.UsuarioUtils;
 
 @Singleton
 @Startup

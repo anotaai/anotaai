@@ -18,6 +18,9 @@ import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
 import br.com.alinesolutions.anotaai.i18n.Locale;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.Criptografia;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.message.qualifier.SMS;
@@ -39,9 +42,6 @@ import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario.UsuarioConstant;
 import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 import br.com.alinesolutions.anotaai.service.AppService;
-import br.com.alinesolutions.anotaai.util.AnotaaiUtil;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.Criptografia;
 
 @Stateless
 public class UsuarioService {

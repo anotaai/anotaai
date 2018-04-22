@@ -31,6 +31,9 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.Criptografia;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
@@ -47,9 +50,6 @@ import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 import br.com.alinesolutions.anotaai.service.AppService;
-import br.com.alinesolutions.anotaai.util.AnotaaiUtil;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.Criptografia;
 
 @Stateless
 @Path("/clientes")

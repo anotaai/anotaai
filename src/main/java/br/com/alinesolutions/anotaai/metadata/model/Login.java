@@ -9,10 +9,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoAcesso;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 
 @JsonFilter("entity")

@@ -40,7 +40,7 @@ import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_COUNT, query = ProdutoConstant.FIND_BY_NOME_QUERY_COUNT),
 	@NamedQuery(name = ProdutoConstant.FIND_BY_NOME_KEY, query = ProdutoConstant.FIND_BY_NOME_QUERY),
 	@NamedQuery(name = ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_KEY, query =  ProdutoConstant.GRUPO_PRODUTO_BY_PRODUTO_QUERY),
-	@NamedQuery(name = ProdutoConstant.CLIENTE_BY_PRODUTO_KEY, query =  ProdutoConstant.CLIENTE_BY_PRODUTO_QUERY),
+	@NamedQuery(name = ProdutoConstant.PRODUTO_BY_CLIENTE_KEY, query =  ProdutoConstant.PRODUTO_BY_CLIENTE_QUERY),
 })
 @Entity
 @Where(clause = "ativo = true")
@@ -101,16 +101,15 @@ public class Produto extends BaseEntity<Long, Produto> {
 	}
 	
 	public Produto(Long id) {
-		 setId(id);
+		setId(id);
 	}
 	
 	public Produto(Estoque estoque) {
-		  this.estoque = estoque;
+		this.estoque = estoque;
 	}
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass) {
-		this();
-		setId(id);
+		this(id);
 		this.descricao = descricao;
 		this.descricaoResumida = descricaoResumida;
 		this.precoVenda = precoVenda;
@@ -118,24 +117,13 @@ public class Produto extends BaseEntity<Long, Produto> {
 	}
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Boolean ehInsumo) {
-		this();
-		setId(id);
-		this.descricao = descricao;
-		this.descricaoResumida = descricaoResumida;
-		this.precoVenda = precoVenda;
-		this.iconClass = iconClass;
+		this(id, descricao, descricaoResumida, precoVenda, iconClass);
 		this.ehInsumo = ehInsumo;
 	}
 	
 	public Produto(Long id, Long codigo, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Boolean ehInsumo) {
-		this();
-		setId(id);
+		this(id, descricao, descricaoResumida, precoVenda, iconClass, ehInsumo);
 		this.codigo = codigo;
-		this.descricao = descricao;
-		this.descricaoResumida = descricaoResumida;
-		this.precoVenda = precoVenda;
-		this.iconClass = iconClass;
-		this.ehInsumo = ehInsumo;
 	}
 	
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass,
@@ -152,9 +140,7 @@ public class Produto extends BaseEntity<Long, Produto> {
 
 	public Produto(Long id, String descricao, String descricaoResumida, Double precoVenda, Icon iconClass, Long codigo,
 			UnidadeMedida unidadeMedida, Boolean ehInsumo, Long idCliente, TipoArmazenamento tipoArmazenamento, Long codigoBarras) {
-		this(id, descricao, descricaoResumida, precoVenda, iconClass);
-		this.ehInsumo = ehInsumo;
-		this.codigo = codigo;
+		this(id, codigo, descricao, descricaoResumida, precoVenda, iconClass, ehInsumo);
 		this.unidadeMedida = unidadeMedida;
 		this.cliente = new Cliente();
 		this.cliente.setId(idCliente);
@@ -282,12 +268,10 @@ public class Produto extends BaseEntity<Long, Produto> {
 		this.tipoArmazenamento = tipoArmazenamento;
 	}
 
-
-
 	public interface ProdutoConstant {
 
 		String FIELD_CODIGO = "codigoBarras";
-		
+
 		String LIST_ALL_COUNT = "Produto.listAllCount";
 		String LIST_ALL_QUERY_COUNT = "select count(p) from Produto p left join p.estoque e where p.cliente = :cliente";
 		
@@ -324,9 +308,9 @@ public class Produto extends BaseEntity<Long, Produto> {
 		String GRUPO_PRODUTO_BY_PRODUTO_KEY = "Produto.grupoProdutoByProduto";
 		String GRUPO_PRODUTO_BY_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto(pgp.id, gp.id, gp.nome, pgp.ehPrincipal) from ProdutoGrupoProduto pgp join pgp.grupoProduto gp join pgp.produto p  where pgp.produto = :produto and p.cliente = :cliente";
 
-		String CLIENTE_BY_PRODUTO_KEY = "Produto.clienteByProduto";
-		String CLIENTE_BY_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Cliente(p.cliente.id, p.cliente.nomeComercial) from Produto p where p.id = :id and p.cliente = :cliente";
-		
+		String PRODUTO_BY_CLIENTE_KEY = "Produto.clienteByProduto";
+		String PRODUTO_BY_CLIENTE_QUERY = "select new br.com.alinesolutions.anotaai.model.produto.Produto(p.id) from Produto p where p.id = :id and p.cliente = :cliente";
+
 	}
 
 }

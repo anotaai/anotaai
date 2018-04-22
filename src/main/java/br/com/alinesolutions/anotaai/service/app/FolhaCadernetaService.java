@@ -14,6 +14,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
@@ -22,7 +23,6 @@ import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta.FolhaCadernetaConstant;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 public class FolhaCadernetaService {

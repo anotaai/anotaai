@@ -19,9 +19,9 @@ import com.google.api.services.urlshortener.model.Url;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.LoadResource;
 import br.com.alinesolutions.anotaai.metadata.model.Shortener;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.LoadResource;
 
 @Singleton
 @Startup

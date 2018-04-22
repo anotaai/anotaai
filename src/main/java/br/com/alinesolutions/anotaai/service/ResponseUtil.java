@@ -4,9 +4,9 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Singleton
 @Startup

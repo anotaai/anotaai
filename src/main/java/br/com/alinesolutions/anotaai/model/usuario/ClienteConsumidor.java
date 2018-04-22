@@ -17,6 +17,7 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.infra.ReferencedNamedQuery;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.Operadora;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoConsumidor;
@@ -28,9 +29,11 @@ import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteCons
 		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_TELEFONE_KEY, query = ClienteConsumidorConstant.FIND_BY_TELEFONE_QUERY),
 		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_ID_KEY, query = ClienteConsumidorConstant.FIND_BY_ID_QUERY),
 		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_NOME_KEY, query = ClienteConsumidorConstant.FIND_BY_NOME_QUERY),
+		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_QUERY),
 		@NamedQuery(name = ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_QUERY),
 		@NamedQuery(name = ClienteConsumidorConstant.LOAD_BY_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.LOAD_BY_CONSUMIDOR_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.COUNT_USUARIO_KEY, query = ClienteConsumidorConstant.COUNT_USUARIO_QUERY) })
+		@NamedQuery(name = ClienteConsumidorConstant.COUNT_USUARIO_KEY, query = ClienteConsumidorConstant.COUNT_USUARIO_QUERY),
+		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_CLIENTE_KEY, query = ClienteConsumidorConstant.FIND_BY_CLIENTE_QUERY) })
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ClienteConsumidor set ativo = false where id = ?")
@@ -56,6 +59,9 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		super();
 	}
 	
+	@ReferencedNamedQuery(namedQuerys= {
+		ClienteConsumidorConstant.FIND_BY_CLIENTE_KEY
+	})
 	public ClienteConsumidor(Long id) {
 		this();
 		this.setId(id);
@@ -97,6 +103,14 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		this.consumidor.setUsuario(new Usuario(idUsuarioConsumidor, nomeUsuarioConsumidor, emailUsuarioConsumidor));
 	}
 
+	@ReferencedNamedQuery(namedQuerys = { 
+		ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_KEY
+	})
+	public ClienteConsumidor(Long id, String nomeConsumidor) {
+		setId(id);
+		this.nomeConsumidor = nomeConsumidor;
+	}
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -143,6 +157,7 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		String FIND_BY_ID_KEY = "ClienteConsumidor.findById";
 		String FIELD_CONSUMIDOR = "consumidor";
 		String FIELD_SITUACAO = "situacao";
+		String FIELD_NOME_CONSUMIDOR = "nomeConsumidor";
 		String FIND_BY_TELEFONE_KEY = "ClienteConsumidor.findByClienteAndConsumidorFotTel";
 		String FIND_BY_TELEFONE_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, cl.id, ucl.id, ucl.nome, ucl.email, co.id, uco.id, uco.nome, uco.email) from ClienteConsumidor cc join cc.cliente cl join cl.usuario ucl join cc.consumidor co join co.usuario uco join uco.telefone t where t.ddi = :ddi and t.ddd = :ddd and t.numero = :numero and cl = :cliente";
 		String COUNT_USUARIO_KEY = "ClienteConsumidor.countUsuario";
@@ -155,7 +170,14 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		String FIND_BY_NOME_KEY = "ClienteConsumidor.findByName";
 		String FIND_BY_NOME_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, u.id, cc.nomeConsumidor, u.email, t.id, t.ddi, t.ddd, t.numero, t.operadora) from ClienteConsumidor cc left join cc.consumidor cs join cs.usuario u join u.telefone t where cc.cliente = :cliente and cc.situacao = :situacao and upper(u.nome) like upper(concat('%', :nome, '%')) order by u.nome";
 		
+		String FIND_BY_NOME_CONSUMIDOR_KEY = "ClienteConsumidor.findByNameConsumidor";
+		String FIND_BY_NOME_CONSUMIDOR_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id, cc.nomeConsumidor) from ClienteConsumidor cc where cc.cliente = :cliente and cc.situacao = :situacao and upper(cc.nomeConsumidor) like upper(concat('%', :nomeConsumidor, '%')) order by cc.nomeConsumidor";
+		
 		String LOAD_BY_CONSUMIDOR_KEY = "ClienteConsumidor.loadByConsumidor";
 		String LOAD_BY_CONSUMIDOR_QUERY = "select cc from ClienteConsumidor cc left join cc.cliente c where c = :cliente and cc.consumidor = :consumidor";
+	
+		String FIND_BY_CLIENTE_KEY = "Consumidor.findClienteByConsumidor";
+		String FIND_BY_CLIENTE_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor(cc.id) from ClienteConsumidor cc left join cc.cliente cliente where cliente = :cliente and cc = :clienteConsumidor";
+	
 	}
 }

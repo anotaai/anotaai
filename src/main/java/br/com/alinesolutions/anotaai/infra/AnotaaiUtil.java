@@ -1,4 +1,4 @@
-package br.com.alinesolutions.anotaai.util;
+package br.com.alinesolutions.anotaai.infra;
 
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 

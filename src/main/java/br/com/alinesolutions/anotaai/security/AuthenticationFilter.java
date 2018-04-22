@@ -27,6 +27,9 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.RequestUtils;
+import br.com.alinesolutions.anotaai.infra.UsuarioUtils;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSession;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -40,9 +43,6 @@ import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.app.SessaoUsuarioService;
 import br.com.alinesolutions.anotaai.service.app.UsuarioService;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.RequestUtils;
-import br.com.alinesolutions.anotaai.util.UsuarioUtils;
 
 @Provider
 @Priority(Priorities.AUTHORIZATION)

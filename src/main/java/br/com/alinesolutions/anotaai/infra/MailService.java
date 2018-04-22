@@ -1,4 +1,4 @@
-package br.com.alinesolutions.anotaai.util;
+package br.com.alinesolutions.anotaai.infra;
 
 import javax.annotation.Resource;
 import javax.ejb.Asynchronous;

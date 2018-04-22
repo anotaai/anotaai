@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Estoque;
@@ -15,7 +16,6 @@ import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemEntrada;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 /**
  * Session Bean implementation class EstoqueService

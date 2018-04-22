@@ -5,12 +5,12 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.ShardingResourceFactory;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSequencial;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSequencial.AnotaaiSequenceConstant;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoCodigoInterno;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.ShardingResourceFactory;
 
 
 @Singleton

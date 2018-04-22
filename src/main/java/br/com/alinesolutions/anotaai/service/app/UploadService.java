@@ -15,6 +15,10 @@ import javax.persistence.TypedQuery;
 
 import com.google.common.io.ByteStreams;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.FileUtils;
+import br.com.alinesolutions.anotaai.infra.ShardingResourceFactory;
+import br.com.alinesolutions.anotaai.infra.UsuarioUtils;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Path;
@@ -23,10 +27,6 @@ import br.com.alinesolutions.anotaai.model.domain.TipoArquivo;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.model.util.Arquivo;
 import br.com.alinesolutions.anotaai.model.util.Arquivo.ArquivoContant;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.FileUtils;
-import br.com.alinesolutions.anotaai.util.ShardingResourceFactory;
-import br.com.alinesolutions.anotaai.util.UsuarioUtils;
 
 @Stateless
 public class UploadService {

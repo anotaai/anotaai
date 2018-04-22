@@ -16,13 +16,13 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario.SessaoUsuarioConstant;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto.GrupoProdutoConstant;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 public class SessaoUsuarioService {

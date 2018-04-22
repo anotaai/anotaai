@@ -12,11 +12,11 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.util.Arquivo;
 import br.com.alinesolutions.anotaai.service.app.UploadService;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @RolesAllowed({Constant.Role.CLIENTE, Constant.Role.CONSUMIDOR})
 @Path("fileUpload")

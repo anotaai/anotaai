@@ -119,6 +119,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	public interface BaseEntityConstant {
 		String FIELD_ID = "id";
 		String FIELD_CLIENTE = "cliente";
+		String FIELD_CLIENTE_CONSUMIDOR = "clienteConsumidor";
 		String FIELD_CONSUMIDOR = "consumidor";
 		String FIELD_PRODUTO = "produto";
 	}

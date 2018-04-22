@@ -6,13 +6,13 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.LoadResource;
+import br.com.alinesolutions.anotaai.infra.RequestUtils;
 import br.com.alinesolutions.anotaai.metadata.model.Email;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.service.UrlShortenerService;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.LoadResource;
-import br.com.alinesolutions.anotaai.util.RequestUtils;
 
 @br.com.alinesolutions.anotaai.message.qualifier.Email
 

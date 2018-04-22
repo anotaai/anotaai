@@ -22,8 +22,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 @Path("/comandas")

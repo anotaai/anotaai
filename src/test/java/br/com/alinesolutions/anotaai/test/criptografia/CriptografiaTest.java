@@ -3,7 +3,7 @@ package br.com.alinesolutions.anotaai.test.criptografia;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.alinesolutions.anotaai.util.Criptografia;
+import br.com.alinesolutions.anotaai.infra.Criptografia;
 
 
 public class CriptografiaTest {

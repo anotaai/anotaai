@@ -20,6 +20,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.Constant;
+import br.com.alinesolutions.anotaai.infra.ShardingResourceFactory;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
@@ -42,8 +44,6 @@ import br.com.alinesolutions.anotaai.model.usuario.Usuario;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario.UsuarioConstant;
 import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
-import br.com.alinesolutions.anotaai.util.Constant;
-import br.com.alinesolutions.anotaai.util.ShardingResourceFactory;
 
 @Stateless
 public class ClienteConsumidorService {
@@ -401,16 +401,16 @@ public class ClienteConsumidorService {
 	
 	}
 	
-	public ResponseEntity<ClienteConsumidor> getConsumersByName(String nome) {
+	public ResponseEntity<ClienteConsumidor> getConsumersByName(String nomeConsumidor) {
 		TypedQuery<ClienteConsumidor> consumidorQuery = null;
 		Cliente cliente = appManager.getAppService().getCliente();
-		consumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_NOME_KEY, ClienteConsumidor.class);
+		consumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_KEY, ClienteConsumidor.class);
 		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
-		consumidorQuery.setParameter(UsuarioConstant.FIELD_NOME, nome);
 		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
+		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_NOME_CONSUMIDOR, nomeConsumidor);
 		ResponseEntity<ClienteConsumidor> resp = new ResponseEntity<>();
 		resp.setList(new ResponseList<>(consumidorQuery.getResultList()));
-		 return resp;
+		return resp;
 	}
 
 }

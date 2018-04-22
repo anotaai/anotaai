@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
@@ -26,7 +27,6 @@ import br.com.alinesolutions.anotaai.model.venda.Caderneta.CadernetaConstant;
 import br.com.alinesolutions.anotaai.model.venda.ConfiguracaoCaderneta;
 import br.com.alinesolutions.anotaai.service.AppService;
 import br.com.alinesolutions.anotaai.service.ResponseUtil;
-import br.com.alinesolutions.anotaai.util.Constant;
 
 @Stateless
 public class CadernetaService {

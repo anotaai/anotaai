@@ -14,9 +14,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import br.com.alinesolutions.anotaai.infra.FileUtils;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Path;
 import br.com.alinesolutions.anotaai.model.util.EnumSerialize;
-import br.com.alinesolutions.anotaai.util.FileUtils;
 import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.CtClass;

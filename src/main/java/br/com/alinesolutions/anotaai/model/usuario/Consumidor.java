@@ -26,7 +26,6 @@ import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Consumidor.class)
 @NamedQueries({
-	@NamedQuery(name = ConsumidorConstant.FIND_CLIENTE_KEY, query = ConsumidorConstant.FIND_CLIENTE_QUERY),
 	@NamedQuery(name = ConsumidorConstant.FIND_BY_NOME_COUNT, query = ConsumidorConstant.FIND_BY_NOME_QUERY_COUNT),
 	@NamedQuery(name = ConsumidorConstant.LIST_ALL_COUNT, query = ConsumidorConstant.LIST_ALL_QUERY_COUNT),
 	@NamedQuery(name = ConsumidorConstant.FIND_BY_TELEFONE_KEY, query = ConsumidorConstant.FIND_BY_TELEFONE_QUERY)
@@ -111,9 +110,6 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 	}
 
 	public interface ConsumidorConstant {
-		String FIND_CLIENTE_KEY = "Consumidor.findClienteByConsumidor";
-		String FIND_CLIENTE_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Cliente(cliente.id, cliente.nomeComercial) from Consumidor consumidor left join consumidor.clientes cc left join cc.cliente cliente where cliente = :cliente and consumidor = :consumidor";
-		
 		String FIELD_USUARIO = "usuario";
 
 		String FIND_BY_NOME_COUNT = "Consumidor.findByNameCount";
