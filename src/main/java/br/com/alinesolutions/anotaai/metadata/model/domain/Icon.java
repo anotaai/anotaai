@@ -279,7 +279,8 @@ public enum Icon {
 	INFO("Information", CategoriaIcone.MATERIAL, "info"),
 	WARNING("Warning", CategoriaIcone.MATERIAL, "warning"),
 	ERROR("Error", CategoriaIcone.MATERIAL, "error"),
-	ARROW_LEFT("List", CategoriaIcone.MATERIAL, "list");
+	ARROW_LEFT("List", CategoriaIcone.MATERIAL, "list"), 
+	SETTINGS_APPLICATIONS("Settings", CategoriaIcone.MATERIAL, "settings_applications");
 	
 	private Icon(String descricao, CategoriaIcone categoria, String className) {
 		this.descricao = descricao;

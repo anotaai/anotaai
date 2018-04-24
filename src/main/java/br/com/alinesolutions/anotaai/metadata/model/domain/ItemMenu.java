@@ -12,6 +12,7 @@ public enum ItemMenu {
 	GRUPO_PRODUTO("Grupo Produto", "app.grupo-produto", Menu.PRINCIPAL, Icon.GLYPHICON_TH, Perfil.CLIENTE, Icon.TH, "/grupoproduto"),
 	SETOR("Setor", "app.setor", Menu.PRINCIPAL, Icon.GLYPHICON_LIST, Perfil.CLIENTE, Icon.TH_LIST, "/setor"),
 	PRODUTO("Produto", "app.produto", Menu.PRINCIPAL, Icon.GLYPHICON_BARCODE, Perfil.CLIENTE, Icon.BARCODE, "/produto"),
+	CONFIGURACAO_CADERNETA("Configuracao Caderneta", "app.configuracao-caderneta", Menu.PRINCIPAL, Icon.GLYPHICON_EDIT, Perfil.CLIENTE, Icon.SETTINGS_APPLICATIONS, "/configuracaocaderneta"),
 	CADERNETA("Caderneta", "app.caderneta", Menu.PRINCIPAL, Icon.GLYPHICON_BOOK, Perfil.CLIENTE, Icon.BOOK, "/caderneta"),
 	//FOLHA("Folha", "folha", Menu.PRINCIPAL, Perfil.CONSUMIDOR, Icon.GLYPHICON_SEARCH),
 	VENDA("Venda", "app.venda", Menu.PRINCIPAL, Icon.GLYPHICON_PENCIL, Perfil.CLIENTE, Icon.PENCIL, "/venda"),

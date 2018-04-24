@@ -20,6 +20,8 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	private static final long serialVersionUID = 1L;
 
+	private String descricao;
+	
 	private Integer qtdDiasDuracaoFolha;
 
 	private Integer diaBase;
@@ -91,6 +93,14 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	public void setTipoVendaPadrao(TipoVenda tipoVendaPadrao) {
 		this.tipoVendaPadrao = tipoVendaPadrao;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }
