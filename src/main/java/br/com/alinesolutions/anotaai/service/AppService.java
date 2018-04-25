@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -36,11 +37,15 @@ import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.Cep;
+import br.com.alinesolutions.anotaai.metadata.model.domain.ItemMenu;
+import br.com.alinesolutions.anotaai.metadata.model.domain.Menu;
+import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.SessaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 import br.com.alinesolutions.anotaai.model.usuario.Usuario;
+import br.com.alinesolutions.anotaai.model.usuario.UsuarioPerfil;
 
 @Singleton
 @Startup
@@ -180,15 +185,15 @@ public class AppService {
 	
 	/**
 	 * 
-	 * @param oldDate
+	 * @param date
 	 * @return
 	 * @throws AppException
 	 */
 	
-	public Date addDayHtml5Date(Date oldDate) throws AppException {
+	public Date addDayHtml5Date(Date date) throws AppException {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(oldDate);
-		cal.add(Calendar.DATE, +1);
+		cal.setTime(date);
+		cal.add(Calendar.DATE, 1);
 		return cal.getTime();
 	}
 
@@ -199,6 +204,12 @@ public class AppService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public List<ItemMenu> getItensMenu(Menu menu) {
+		final List<Perfil> perfis = getUsuario().getPerfis().stream().map(UsuarioPerfil::getPerfil).collect(Collectors.toList());
+		return Arrays.asList(ItemMenu.values()).stream().filter(itemMenu -> Arrays.asList(itemMenu.getPerfis()).stream().
+				filter(perfil -> perfis.contains(perfil)).count() > 0 && itemMenu.getMenu().equals(menu)).collect(Collectors.toList());
 	}
 	
 }
