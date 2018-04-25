@@ -1,5 +1,19 @@
 {
 	"app": "Anota ai",
+	"menu": {
+		"principal": {
+			"consumidor": "Consumidor",
+			"grupoproduto": "Grupo Produto",
+			"setor": "Setor",
+			"produto": "Produto",
+			"configuracaocaderneta": "Configuracao Caderneta",
+			"caderneta": "Caderneta",
+			"venda": "Venda",
+			"home": "Anota ai",
+			"perfil": "Perfil",
+			"entradamercadoria": "Entrada de Mercadoria"
+		}
+	},
 	"usuario": {
 		"jacadastrado":"Usuário <b>{0}</b>, já cadastrado",
 		"editadosucesso": "Usuário <b>{0}</b>, editado com sucesso",
