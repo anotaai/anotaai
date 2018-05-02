@@ -2,6 +2,16 @@ package br.com.alinesolutions.anotaai.i18n;
 
 public interface IMessage {
 	String APP = "app";
+	String MENU_PRINCIPAL_CONSUMIDOR = "menu.principal.consumidor";
+	String MENU_PRINCIPAL_GRUPOPRODUTO = "menu.principal.grupoproduto";
+	String MENU_PRINCIPAL_SETOR = "menu.principal.setor";
+	String MENU_PRINCIPAL_PRODUTO = "menu.principal.produto";
+	String MENU_PRINCIPAL_CONFIGURACAOCADERNETA = "menu.principal.configuracaocaderneta";
+	String MENU_PRINCIPAL_CADERNETA = "menu.principal.caderneta";
+	String MENU_PRINCIPAL_VENDA = "menu.principal.venda";
+	String MENU_PRINCIPAL_HOME = "menu.principal.home";
+	String MENU_PRINCIPAL_PERFIL = "menu.principal.perfil";
+	String MENU_PRINCIPAL_ENTRADAMERCADORIA = "menu.principal.entradamercadoria";
 	String USUARIO_JACADASTRADO = "usuario.jacadastrado";
 	String USUARIO_EDITADOSUCESSO = "usuario.editadosucesso";
 	String USUARIO_CODIGOATIVACAOINVALIDO = "usuario.codigoativacaoinvalido";
@@ -27,6 +37,7 @@ public interface IMessage {
 	String PRODUTO_NAOCADASTRADO = "produto.naocadastrado";
 	String SETOR_JACADASTRADO = "setor.jacadastrado";
 	String TELEFONE_JACADASTRADO = "telefone.jacadastrado";
+	String VENDA_SUCESSO = "venda.sucesso";
 	String VENDA_CONSUMIDOR_NAOCADASTRADO = "venda.consumidor.naocadastrado";
 	String VENDA_CONSUMIDOR_INVALIDO = "venda.consumidor.invalido";
 	String VENDA_CONSUMIDOR_JAREGISTRADO = "venda.consumidor.jaregistrado";
@@ -37,6 +48,7 @@ public interface IMessage {
 	String VENDA_OBRIGATORIO_QUANTIDADE = "venda.obrigatorio.quantidade";
 	String VENDA_OBRIGATORIO_ITEMVENDA = "venda.obrigatorio.itemvenda";
 	String VENDA_OBRIGATORIO_CONSUMIDOR = "venda.obrigatorio.consumidor";
+	String VENDA_OBRIGATORIO_VALORPAGAMENTO = "venda.obrigatorio.valorpagamento";
 	String ENTIDADE_GRAVACAO_SUCESSO = "entidade.gravacao.sucesso";
 	String ENTIDADE_GRAVACAO_ERRO = "entidade.gravacao.erro";
 	String ENTIDADE_EDICAO_SUCESSO = "entidade.edicao.sucesso";
@@ -44,7 +56,7 @@ public interface IMessage {
 	String ENTIDADE_EXCLUSAO_SUCESSO = "entidade.exclusao.sucesso";
 	String ENTIDADE_EXCLUSAO_ERRO = "entidade.exclusao.erro";
 	String ENTIDADE_JACADASTRADA = "entidade.jacadastrada";
-	String MESSAGE_DEFULTERROR = "message.defulterror";
+	String MESSAGE_DEFAULTERROR = "message.defaulterror";
 	String MESSAGE_LOGIN_FORBIDDEN = "message.login.forbidden";
 	String MESSAGE_LOGIN_CONFIRMACAOSENHA = "message.login.confirmacaosenha";
 	String LABEL_COMPRADOR = "label.comprador";

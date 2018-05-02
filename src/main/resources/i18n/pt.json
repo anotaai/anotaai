@@ -56,6 +56,7 @@
 		"jacadastrado": "Telefone <b>{}</b>, já cadastrado"
 	},
 	"venda": {
+		"sucesso": "Venda realizada com sucesso!",
 		"consumidor": {
 			"naocadastrado": "Consumidor <b>{0}</b>, não cadastrado",
 			"invalido": "Consumidor <b>{0}</b>, inválido",

@@ -113,6 +113,7 @@ public class VendaService {
 		createSale(vendaAnotada);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
 		responseEntity.setEntity(vendaAnotada);
+		responseEntity.addMessage(IMessage.VENDA_SUCESSO, TipoMensagem.SUCCESS);
 		return responseEntity;
 
 	}

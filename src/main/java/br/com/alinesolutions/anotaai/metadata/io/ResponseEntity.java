@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiMessage;
 import br.com.alinesolutions.anotaai.metadata.model.Login;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
@@ -119,6 +120,10 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 
 	public void addMessage(String key, TipoMensagem type, Long time, String... params) {
 		addMessage(new AnotaaiMessage(key, type, time, params));
+	}
+	
+	public void addMessage(String key, TipoMensagem type, String... params) {
+		addMessage(key, type, Constant.App.DEFAULT_TIME_VIEW, params);
 	}
 
 }
