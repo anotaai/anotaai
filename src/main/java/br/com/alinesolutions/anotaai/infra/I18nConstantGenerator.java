@@ -48,7 +48,7 @@ public class I18nConstantGenerator {
 		}
 		if (entry.getValue() instanceof JsonPrimitive) {
 			String key = root.substring(1);
-			constants.add("\tString " + key.replace(".", "_").toUpperCase() + " = \"" + key + "\";");
+			constants.add(new StringBuilder("\tString ").append(key.replace(".", "_").toUpperCase()).append(" = \"").append(key).append("\";").toString());
 		}
 
 	}
