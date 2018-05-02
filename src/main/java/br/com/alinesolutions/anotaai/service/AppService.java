@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -59,6 +61,12 @@ public class AppService {
 	
 	private GoogleCredential scoped;
 	
+	private static Logger log;
+	
+	static {
+		log = Logger.getLogger(AppService.class.getSimpleName());
+	}
+	
 	@PostConstruct
 	private void initGoogleCredential() {
 		try {
@@ -69,11 +77,12 @@ public class AppService {
 		}
 	}
 	
-	@Schedule(minute = "*/30", hour = "*")
+	@Schedule(second="*/30", minute = "*", hour = "*")
 	public void limparSessao() {
 		String findAllKey = SessaoUsuario.SessaoUsuarioConstant.FIND_ALL_KEY;
 		TypedQuery<SessaoUsuario> query = em.createNamedQuery(findAllKey, SessaoUsuario.class);
 		List<SessaoUsuario> sessoes = query.getResultList();
+		log.log(Level.INFO, new StringBuilder("Sessoes ativar: ").append(sessoes.size()).toString());
 		for (SessaoUsuario sessaoUsuario : sessoes) {
 			try {
 				validarTempoSessao(sessaoUsuario.getUltimoAcesso());
@@ -87,6 +96,7 @@ public class AppService {
 	private void validarTempoSessao(Date inicio) throws IllegalStateException {
 		Instant instantInicio = inicio.toInstant();
 		Long timeLogged = ChronoUnit.MINUTES.between(instantInicio, Calendar.getInstance().toInstant());
+		log.log(Level.INFO, timeLogged.toString());
 		if (timeLogged > Constant.App.SESSION_TIME) {
 			throw new IllegalStateException();
 		}

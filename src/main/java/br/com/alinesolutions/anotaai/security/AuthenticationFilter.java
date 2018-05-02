@@ -116,11 +116,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 							sessaoUsuarioervice.resetSession(sessaoUsuario);
 						}
 					} catch (AppException e) {// se o usuario ou a sessao nao existirem
-						abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_SESSION_TIMEOUT);
+						abortWith(requestContext, Response.Status.FORBIDDEN, IMessage.SECURITY_SESSION_TIMEOUT);
 					}
 				} else {
 					// sessao expirou, solicitar um novo login
-					abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_ACCESS_DENIED);
+					abortWith(requestContext, Response.Status.FORBIDDEN, IMessage.SECURITY_ACCESS_DENIED);
 				}
 			} else if (resourceInfo.getResourceClass().isAnnotationPresent(PermitAll.class)) {
 				//Acesso para todos os usuarios, com ou sem sessao ativa

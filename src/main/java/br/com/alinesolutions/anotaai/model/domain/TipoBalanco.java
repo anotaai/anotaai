@@ -15,10 +15,16 @@ public enum TipoBalanco {
 	 * Balanco para atualizar a quantidade de mercadorias pontuais
 	 */
 	MOVIMENTACAO("Movimentacao"),
+	
 	/**
 	 * Balanco para contagem de mercadorias gerais
 	 */
-	ACERTO("Acerto");
+	ACERTO("Acerto"),
+	
+	/**
+	 * Balanco para correcao de entrada de mercadoria
+	 * */
+	CORRECAO_ENTRADA("Correção de Entrada");
 	
 	private TipoBalanco(String descricao) {
 		this.descricao = descricao;
