@@ -10,7 +10,7 @@ public interface Constant {
 	public interface App {
 		String UNIT_NAME = "anota-ai-persistence-unit";
 		String GOOGLE_CREDENTIAL_SCOPE = "https://www.googleapis.com/auth/firebase";
-		Long SESSION_TIME = 2L;
+		Long SESSION_TIME = 30L;
 		String COOKIE_SESSION_NAME = "globals";
 		String NAME_FOTO_PERFIL = "fotoPerfil";
 		Integer DEFAULT_ITENS_PER_PAGE = 5;
