@@ -4,8 +4,6 @@ import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -27,6 +25,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.infra.RequestUtils;
 import br.com.alinesolutions.anotaai.infra.UsuarioUtils;
@@ -112,7 +111,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 							abortWith(requestContext, Response.Status.UNAUTHORIZED, IMessage.SECURITY_ACCESS_FORBIDDEN);
 						} else {
 							//acesso a funcionalidade liberado reinicia o tempo de sessao do usuario
-							sessaoUsuario.setUltimoAcesso(new Date());
+							sessaoUsuario.setUltimoAcesso(AnotaaiUtil.getInstance().now());
 							sessaoUsuarioervice.resetSession(sessaoUsuario);
 						}
 					} catch (AppException e) {// se o usuario ou a sessao nao existirem
@@ -146,9 +145,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	private Boolean isSessionActive(SessaoUsuario sessaoUsuario) {
 		Boolean isSessionActive = Boolean.TRUE;
 		if (sessaoUsuario != null && sessaoUsuario.getUltimoAcesso() != null) {
-			Calendar sessionTime = Calendar.getInstance();
-			sessionTime.setTime(sessaoUsuario.getUltimoAcesso());
-			Long timeLogged = ChronoUnit.MINUTES.between(sessionTime.toInstant(), Calendar.getInstance().toInstant());
+			Long timeLogged = ChronoUnit.MINUTES.between(sessaoUsuario.getUltimoAcesso(), AnotaaiUtil.getInstance().now());
 			if (timeLogged > Constant.App.SESSION_TIME) {
 				isSessionActive = Boolean.FALSE;
 			}

@@ -10,7 +10,9 @@ public enum Perfil {
 
 	ADMINISTRADOR("Administrador"),
 	CLIENTE("Cliente"),
-	CONSUMIDOR("Consumidor");
+	CONSUMIDOR("Consumidor"),
+	ENTREGADOR("Entregador"),
+	VENDEDOR("Vendedor");
 	
 	private Perfil(String descricao) {
 		this.descricao = descricao;

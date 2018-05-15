@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -52,11 +50,9 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	 */
 	private String descricao;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataAbertura;
+	private LocalDateTime dataAbertura;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataFechamento;
+	private LocalDateTime dataFechamento;
 	
 	@OneToMany(mappedBy="caderneta")
 	private List<FolhaCaderneta> folhas;
@@ -91,19 +87,19 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 		this.descricao = descricao;
 	}
 
-	public Date getDataAbertura() {
+	public LocalDateTime getDataAbertura() {
 		return dataAbertura;
 	}
 
-	public void setDataAbertura(Date dataAbertura) {
+	public void setDataAbertura(LocalDateTime dataAbertura) {
 		this.dataAbertura = dataAbertura;
 	}
 
-	public Date getDataFechamento() {
+	public LocalDateTime getDataFechamento() {
 		return dataFechamento;
 	}
 
-	public void setDataFechamento(Date dataFechamento) {
+	public void setDataFechamento(LocalDateTime dataFechamento) {
 		this.dataFechamento = dataFechamento;
 	}
 

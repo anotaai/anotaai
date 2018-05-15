@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,6 +14,7 @@ import javax.persistence.TypedQuery;
 
 import com.google.common.io.ByteStreams;
 
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.infra.FileUtils;
 import br.com.alinesolutions.anotaai.infra.ShardingResourceFactory;
@@ -43,7 +43,7 @@ public class UploadService {
 			buildTypeFile(arquivo);
 			String path = createFile(arquivo, file);
 			arquivo.setPath(path);
-			arquivo.setDataCriacao(new Date());
+			arquivo.setDataCriacao(AnotaaiUtil.getInstance().now());
 			Long idUsuario = appManager.getAppService().getUsuario().getId();
 			Usuario usuario = appManager.getEntityManager().find(Usuario.class, idUsuario);
 			createByteArray(arquivo);

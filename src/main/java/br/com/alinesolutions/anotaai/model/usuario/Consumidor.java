@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.usuario;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -41,7 +41,7 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
 
-	private Date dataCadastro;
+	private LocalDateTime dataCadastro;
 
 	@OneToMany(mappedBy = "consumidor", cascade = CascadeType.ALL)
 	private List<ClienteConsumidor> clientes;
@@ -85,11 +85,11 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 		this.usuario = usuario;
 	}
 
-	public Date getDataCadastro() {
+	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 

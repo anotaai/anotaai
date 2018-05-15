@@ -1,13 +1,11 @@
 package br.com.alinesolutions.anotaai.model.util;
 
 import java.io.InputStream;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.ws.rs.FormParam;
 
@@ -34,8 +32,7 @@ public class Arquivo extends BaseEntity<Long, Arquivo> {
 	@FormParam("type")
 	private TipoArquivo tipoArquivo;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;
+	private LocalDateTime dataCriacao;
 
 	@Transient
 	@FormParam("file")
@@ -75,11 +72,11 @@ public class Arquivo extends BaseEntity<Long, Arquivo> {
 		this.tipoArquivo = tipoArquivo;
 	}
 
-	public Date getDataCriacao() {
+	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(Date dataCriacao) {
+	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 

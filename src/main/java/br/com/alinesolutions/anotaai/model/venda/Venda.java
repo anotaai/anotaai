@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,10 +9,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -33,20 +32,21 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotNull
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<ItemVenda> produtos;
-	
+
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataVenda;
+	private LocalDateTime dataInicioVenda;
+
+	@Null
+	private LocalDateTime dataConclusaoVenda;
 
 	@Transient
 	private Double valor;
 
 	@Transient
 	private Double quantidadeItens;
-	
+
 	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private StatusVenda statusVenda;
@@ -60,14 +60,6 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	public void setProdutos(List<ItemVenda> produtos) {
 		this.produtos = produtos;
-	}
-
-	public Date getDataVenda() {
-		return dataVenda;
-	}
-
-	public void setDataVenda(Date dataVenda) {
-		this.dataVenda = dataVenda;
 	}
 
 	public Double getValor() {
@@ -85,7 +77,7 @@ public class Venda extends BaseEntity<Long, Venda> {
 	public void setQuantidadeItens(Double quantidadeItens) {
 		this.quantidadeItens = quantidadeItens;
 	}
-	
+
 	public StatusVenda getStatusVenda() {
 		return statusVenda;
 	}
@@ -100,6 +92,22 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	public void setPagamentos(List<PagamentoVenda> pagamentos) {
 		this.pagamentos = pagamentos;
+	}
+
+	public LocalDateTime getDataInicioVenda() {
+		return dataInicioVenda;
+	}
+
+	public void setDataInicioVenda(LocalDateTime dataInicioVenda) {
+		this.dataInicioVenda = dataInicioVenda;
+	}
+
+	public LocalDateTime getDataConclusaoVenda() {
+		return dataConclusaoVenda;
+	}
+
+	public void setDataConclusaoVenda(LocalDateTime dataConclusaoVenda) {
+		this.dataConclusaoVenda = dataConclusaoVenda;
 	}
 
 	public interface VendaConstant {

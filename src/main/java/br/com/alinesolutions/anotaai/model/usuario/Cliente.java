@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.usuario;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.SQLDelete;
@@ -61,8 +59,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 	@OneToMany
 	private List<Cupom> cuponsFiscais;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCadastro;
+	private LocalDateTime dataCadastro;
 
 	@Enumerated(EnumType.ORDINAL)
 	private SituacaoCliente situacaoCliente;
@@ -80,7 +77,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		this.nomeComercial = nomeComercial;
 	}
 
-	public Cliente(Long id, String nomeComercial, Long cpf, Date dataCadastro, Long idUsuario, String nomeUsuario) {
+	public Cliente(Long id, String nomeComercial, Long cpf, LocalDateTime dataCadastro, Long idUsuario, String nomeUsuario) {
 		this();
 		this.nomeComercial = nomeComercial;
 		this.cpf = cpf;
@@ -153,11 +150,11 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		this.nomeComercial = nomeComercial;
 	}
 
-	public Date getDataCadastro() {
+	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 

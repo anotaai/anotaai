@@ -1,5 +1,10 @@
 package br.com.alinesolutions.anotaai.infra;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 
 public class AnotaaiUtil {
@@ -17,6 +22,14 @@ public class AnotaaiUtil {
 	public static AnotaaiUtil getInstance() {
 		return instance;
 	}
+	
+	public LocalDateTime now() {
+		return LocalDateTime.now();
+	}
+	
+	public LocalDate today() {
+		return LocalDate.now();
+	}
 
 	public String formatarTelefoneStr(Telefone telefone) {
 		StringBuilder sb = new StringBuilder();
@@ -28,6 +41,11 @@ public class AnotaaiUtil {
 		}
 
 		return sb.toString();
+	}
+
+	public LocalDateTime toLocalDateTime(String dateInString, ZoneId zone) {
+		Instant instant = Instant.parse(dateInString);
+		return LocalDateTime.ofInstant(instant, zone);
 	}
 
 }

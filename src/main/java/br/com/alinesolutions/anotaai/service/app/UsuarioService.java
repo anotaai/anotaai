@@ -2,7 +2,6 @@ package br.com.alinesolutions.anotaai.service.app;
 
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -67,7 +66,7 @@ public class UsuarioService {
 	private SessionContext sessionContext;
 
 	public Usuario create(Usuario usuario) throws AppException {
-		usuario.setDataCadastro(new Date());
+		usuario.setDataCadastro(AnotaaiUtil.getInstance().now());
 		if (usuario.getEmail() != null) {
 			//remove o ponto quando for gmail
 			usuario.setEmail(appService.atulaizarEmail(usuario.getEmail()));
@@ -84,7 +83,7 @@ public class UsuarioService {
 		validarUsuario(usuario);
 		Consumidor consumidor = new Consumidor();
 		consumidor.setUsuario(usuario);
-		consumidor.setDataCadastro(new Date());
+		consumidor.setDataCadastro(AnotaaiUtil.getInstance().now());
 		em.persist(consumidor);
 		senderEmail.notificacaoRegistroUsuario(usuario);
 		return usuario;
@@ -226,7 +225,7 @@ public class UsuarioService {
 		SessaoUsuario sessaoUsuario;
 		sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.setUsuario(em.find(Usuario.class, usuarioLogin.getId()));
-		sessaoUsuario.setUltimoAcesso(new Date());
+		sessaoUsuario.setUltimoAcesso(AnotaaiUtil.getInstance().now());
 		sessaoUsuario.setSessionID(UUID.randomUUID().toString());
 		sessaoUsuario.setKeepAlive(login.getKeepAlive());
 		em.persist(sessaoUsuario);

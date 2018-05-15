@@ -1,10 +1,8 @@
 package br.com.alinesolutions.anotaai.service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +30,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.infra.LoadResource;
 import br.com.alinesolutions.anotaai.infra.UsuarioUtils;
@@ -77,7 +76,7 @@ public class AppService {
 		}
 	}
 	
-	@Schedule(second="*/30", minute = "*", hour = "*")
+	@Schedule(second="*/3000", minute = "*", hour = "*")
 	public void limparSessao() {
 		String findAllKey = SessaoUsuario.SessaoUsuarioConstant.FIND_ALL_KEY;
 		TypedQuery<SessaoUsuario> query = em.createNamedQuery(findAllKey, SessaoUsuario.class);
@@ -93,9 +92,8 @@ public class AppService {
 		}
 	}
 
-	private void validarTempoSessao(Date inicio) throws IllegalStateException {
-		Instant instantInicio = inicio.toInstant();
-		Long timeLogged = ChronoUnit.MINUTES.between(instantInicio, Calendar.getInstance().toInstant());
+	private void validarTempoSessao(LocalDateTime inicio) throws IllegalStateException {
+		Long timeLogged = ChronoUnit.MINUTES.between(inicio, AnotaaiUtil.getInstance().now());
 		log.log(Level.INFO, timeLogged.toString());
 		if (timeLogged > Constant.App.SESSION_TIME) {
 			throw new IllegalStateException();
@@ -200,11 +198,8 @@ public class AppService {
 	 * @throws AppException
 	 */
 	
-	public Date addDayHtml5Date(Date date) throws AppException {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		cal.add(Calendar.DATE, 1);
-		return cal.getTime();
+	public LocalDateTime addDayHtml5Date(LocalDateTime date) throws AppException {
+		return date;
 	}
 
 	public String getGooleServiceAccountKey() {

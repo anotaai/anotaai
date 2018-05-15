@@ -1,9 +1,7 @@
 package br.com.alinesolutions.anotaai.service.app;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -14,6 +12,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -52,27 +51,27 @@ public class FolhaCadernetaService {
 		FolhaCaderneta folha = null;
 		try {
 			TypedQuery<FolhaCaderneta> query = em.createNamedQuery(FolhaCadernetaConstant.FIND_FOLHA_VIGENTE, FolhaCaderneta.class);
-			query.setParameter("hoje", new Date());
+			query.setParameter("hoje", AnotaaiUtil.getInstance().now());
 			folha = query.getSingleResult();
 		} catch (NoResultException e) {
 			folha = new FolhaCaderneta();
 			folha.setClienteConsumidor(clienteConsumidor);
 			folha.setCaderneta(em.getReference(Caderneta.class, caderneta.getId()));
 			folha.setVendas(new ArrayList<>());
-			folha.setDataCriacao(new Date());
+			folha.setDataCriacao(AnotaaiUtil.getInstance().now());
 			Integer diaBase = caderneta.getConfiguracao().getDiaBase();
 			Integer qtdDiasDuracaoFolha = caderneta.getConfiguracao().getQtdDiasDuracaoFolha();
 			LocalDate dataInicial = calcularDataInicioFolhaCaderneta(diaBase, qtdDiasDuracaoFolha);
 			LocalDate dataFinal = dataInicial.plusDays(qtdDiasDuracaoFolha);
-			folha.setDataInicio(Date.from(dataInicial.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-			folha.setDataTermino(Date.from(dataFinal.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			folha.setDataInicio(dataInicial);
+			folha.setDataTermino(dataFinal);
 			em.persist(folha);
 		}
 		return folha;
 	}
 	
 	private LocalDate calcularDataInicioFolhaCaderneta(Integer diaBase, Integer qtdDiasDuracaoFolha) {
-		LocalDate now = LocalDate.now();
+		LocalDate now = AnotaaiUtil.getInstance().today();
 		Integer countDay = 0;
 		//quantidade de dias entre o dia base e a data atual
 		while (!diaBase.equals(now.getDayOfMonth())) {
@@ -81,7 +80,7 @@ public class FolhaCadernetaService {
 		}
 		LocalDate dataBase = LocalDate.now().plusDays(countDay * -1);
 		LocalDate diaInicioFolhaCaderneta = dataBase;
-		now = LocalDate.now();
+		now = AnotaaiUtil.getInstance().today();
 		while (dataBase.isBefore(now)) {
 			dataBase = dataBase.plusDays(qtdDiasDuracaoFolha);
 			if (dataBase.isBefore(now)) {

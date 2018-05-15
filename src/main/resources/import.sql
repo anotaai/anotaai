@@ -66,7 +66,7 @@ insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 10
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 50.25, 2, 3);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
-insert into Venda (ativo, dataVenda, statusVenda) values (true, now(), 0);
+insert into Venda (ativo, dataInicioVenda, statusVenda) values (true, now(), 0);
 insert into MovimentacaoProduto (ativo, quantidade, produto_id) values (true, 12, 1);
 insert into ItemVenda (ativo, precoCusto, precoVenda, movimentacaoProduto_id, venda_id) values (true, 2, 3, 1, 1);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'VENDA', 2, 1);

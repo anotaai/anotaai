@@ -51,7 +51,7 @@ public class EstoqueMovimentacao extends BaseEntity<Long, EstoqueMovimentacao> {
 			@MetaValue(targetEntity = ItemEstorno.class, value = "ESTORNO")
 		}
 	)
-	@JoinColumn(name="movimentacao_id" )
+	@JoinColumn(name="movimentacao_id")
 	private IMovimentacao movimentacao;
 
 	public Estoque getEstoque() {

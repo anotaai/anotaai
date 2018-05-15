@@ -1,10 +1,8 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -18,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
@@ -84,23 +83,14 @@ public class EntradaMercadoriaService {
 
 	}
 
-	public ResponseEntity<EntradaMercadoria> listAll(Integer startPosition, Integer maxResult, String nome,String dataEntradaStr) {
+	public ResponseEntity<EntradaMercadoria> listAll(Integer startPosition, Integer maxResult, String nome, String dataEntradaStr) {
 
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		TypedQuery<EntradaMercadoria> entradaMercadoriaQuery = null;
-		Date dataEntrada = null;
+		LocalDateTime dataEntrada = null;
 
 		if (!"".equals(dataEntradaStr)) {
-
-			DateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
-
-			try {
-				dataEntrada = formatador.parse(dataEntradaStr);
-			} catch (ParseException e) {
-				responseEntity.setIsValid(Boolean.FALSE);
-				responseEntity.addMessage(IMessage.ERRO_ILLEGALARGUMENT, TipoMensagem.ERROR, Constant.App.KEEP_ALIVE_TIME_VIEW);
-				return responseEntity;
-			}
+			dataEntrada = AnotaaiUtil.getInstance().toLocalDateTime(dataEntradaStr, ZoneId.systemDefault());
 		}
 
 		if (!"".equals(nome) && dataEntrada == null) {
@@ -220,7 +210,7 @@ public class EntradaMercadoriaService {
 		
 		Devolucao devolucao = new Devolucao();
 		devolucao.setProdutos(new ArrayList<>());
-		devolucao.setData(new Date());
+		devolucao.setData(AnotaaiUtil.getInstance().now());
 		devolucao.setCliente(appService.getCliente());
 		entradaMercadoria.getItens().forEach(itemEntrada -> {
 			final ItemDevolucao itemDevolucao = new ItemDevolucao();

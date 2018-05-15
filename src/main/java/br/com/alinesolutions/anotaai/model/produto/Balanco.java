@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,8 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -39,8 +37,7 @@ public class Balanco extends BaseEntity<Long, Balanco> {
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Cliente cliente;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date data;
+	private LocalDateTime data;
 
 	@Enumerated(EnumType.ORDINAL)
 	private TipoBalanco tipo;
@@ -58,11 +55,11 @@ public class Balanco extends BaseEntity<Long, Balanco> {
 		this.cliente = cliente;
 	}
 
-	public Date getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
 	}
 

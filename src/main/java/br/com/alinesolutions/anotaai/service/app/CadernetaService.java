@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseList;
@@ -114,8 +114,8 @@ public class CadernetaService {
 
 		Cliente cliente = appService.getCliente();
 		for (Caderneta caderneta : configuracaoCaderneta.getCadernetas()) {
-			caderneta.setDataAbertura(new Date());
-			caderneta.setDataFechamento(new Date());
+			caderneta.setDataAbertura(AnotaaiUtil.getInstance().now());
+			caderneta.setDataFechamento(AnotaaiUtil.getInstance().now());
 			caderneta.setCliente(cliente);
 			caderneta.setConfiguracao(configuracaoCaderneta);
 		}
@@ -197,8 +197,8 @@ public class CadernetaService {
 		}
 
 		for (Caderneta caderneta : entity.getCadernetas()) {
-			caderneta.setDataAbertura(new Date());
-			caderneta.setDataFechamento(new Date());
+			caderneta.setDataAbertura(AnotaaiUtil.getInstance().now());
+			caderneta.setDataFechamento(AnotaaiUtil.getInstance().now());
 			Cliente currentClient = new Cliente();
 			currentClient.setId(cliente.getId());
 			caderneta.setCliente(currentClient);

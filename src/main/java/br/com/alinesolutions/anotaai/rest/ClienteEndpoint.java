@@ -2,7 +2,6 @@ package br.com.alinesolutions.anotaai.rest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,8 +72,8 @@ public class ClienteEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)  
 	public Response create(Cliente entity) {
 		ResponseBuilder builder = null;
-		entity.setDataCadastro(new Date());
-		entity.getUsuario().setDataCadastro(new Date());
+		entity.setDataCadastro(AnotaaiUtil.getInstance().now());
+		entity.getUsuario().setDataCadastro(AnotaaiUtil.getInstance().now());
 		entity.getUsuario().setCodigoAtivacao(UUID.randomUUID().toString());
 		entity.getUsuario().setPerfis(new ArrayList<UsuarioPerfil>());
 		entity.getUsuario().getPerfis().add(new UsuarioPerfil(entity.getUsuario(), Perfil.CLIENTE));

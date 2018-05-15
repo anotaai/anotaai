@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -16,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
@@ -74,7 +74,7 @@ public class SessaoUsuarioService {
 	public void resetSession(SessaoUsuario sessaoUsuario) {
 		Query query = em.createNamedQuery(SessaoUsuarioConstant.RESET_SESSION_KEY);
 		query.setParameter(GrupoProdutoConstant.FIELD_SESSION_ID, sessaoUsuario.getSessionID());
-		query.setParameter(GrupoProdutoConstant.FIELD_ULTIMO_ACESSO, new Date());
+		query.setParameter(GrupoProdutoConstant.FIELD_ULTIMO_ACESSO, AnotaaiUtil.getInstance().now());
 		query.executeUpdate();
 	}
 

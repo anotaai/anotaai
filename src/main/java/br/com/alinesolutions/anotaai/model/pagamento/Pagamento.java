@@ -1,10 +1,9 @@
 package br.com.alinesolutions.anotaai.model.pagamento;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -19,8 +18,7 @@ public class Pagamento extends BaseEntity<Long, Pagamento> {
 
 	private static final long serialVersionUID = 1L;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataPagamento;
+	private LocalDateTime dataPagamento;
 
 	private Double valorRecebido;
 
@@ -28,11 +26,11 @@ public class Pagamento extends BaseEntity<Long, Pagamento> {
 
 	private MeioPagamento meioPagamento;
 
-	public Date getDataPagamento() {
+	public LocalDateTime getDataPagamento() {
 		return dataPagamento;
 	}
 
-	public void setDataPagamento(Date dataPagamento) {
+	public void setDataPagamento(LocalDateTime dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
 

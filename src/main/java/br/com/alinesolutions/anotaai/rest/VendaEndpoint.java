@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
 import br.com.alinesolutions.anotaai.metadata.model.AppException;
+import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
@@ -69,7 +70,23 @@ public class VendaEndpoint {
 		}
 		return builder.build();
 	}
-
+	
+	@POST
+	@Path("/initsale")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response initSale(Caderneta caderneta) {
+		ResponseBuilder builder = null;
+		ResponseEntity<Venda> responseEntity = null;
+		try {
+			responseEntity = vendaService.createSale(caderneta);
+			builder = Response.ok(responseEntity);
+		} catch (AppException e) {
+			builder = Response.ok(e.getResponseEntity());
+		}
+		return builder.build();
+	}
+	
 	@POST
 	@Path("/createappointmentbooksale")
 	@Consumes(MediaType.APPLICATION_JSON)

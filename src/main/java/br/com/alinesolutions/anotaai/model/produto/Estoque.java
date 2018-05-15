@@ -16,9 +16,7 @@ import org.hibernate.annotations.Where;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 
-@NamedQueries({
-	@NamedQuery(name= EstoqueConstant.FIND_BY_PRODUTO_KEY , query = EstoqueConstant.FIND_BY_PRODUTO_QUERY )
-}) 
+@NamedQueries({ @NamedQuery(name = EstoqueConstant.FIND_BY_PRODUTO_KEY, query = EstoqueConstant.FIND_BY_PRODUTO_QUERY) })
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update Estoque set ativo = false where id = ?")
@@ -32,15 +30,15 @@ public class Estoque extends BaseEntity<Long, Estoque> {
 		this.precoCusto = precoCusto;
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
-	
-	@OneToOne(cascade=CascadeType.DETACH, orphanRemoval=false, mappedBy="estoque")
+
+	@OneToOne(cascade = CascadeType.DETACH, orphanRemoval = false, mappedBy = "estoque")
 	private Produto produto;
-	
+
 	private Long quantidadeEstoque;
-	
+
 	private Double precoCusto;
-	
-	@OneToMany(mappedBy="estoque")
+
+	@OneToMany(mappedBy = "estoque", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<EstoqueMovimentacao> movimentacoes;
 
 	public Long getQuantidadeEstoque() {
@@ -74,14 +72,14 @@ public class Estoque extends BaseEntity<Long, Estoque> {
 	public void setMovimentacoes(List<EstoqueMovimentacao> movimentacoes) {
 		this.movimentacoes = movimentacoes;
 	}
-	
+
 	public Estoque() {
-		
+
 	}
-		
+
 	public interface EstoqueConstant {
 		String FIND_BY_PRODUTO_KEY = "Estoque.findByProduto";
-		String FIND_BY_PRODUTO_QUERY = "select e from Estoque e where e.produto.id =:id";
+		String FIND_BY_PRODUTO_QUERY = "select e from Estoque e where e.produto.id = :id";
 	}
-	
+
 }

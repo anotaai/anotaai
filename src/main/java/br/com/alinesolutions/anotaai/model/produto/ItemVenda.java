@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -59,13 +58,13 @@ public class ItemVenda extends BaseEntity<Long, ItemVenda> implements IMovimenta
 	@NotNull
 	private Double precoVenda;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Venda venda;
 
 	/**
 	 * Atualiza o estoque removendo os itens desta venda
 	 */
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private MovimentacaoProduto movimentacaoProduto;
 
 	public Double getPrecoCusto() {

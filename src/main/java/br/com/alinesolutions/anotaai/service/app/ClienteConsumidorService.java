@@ -1,7 +1,6 @@
 package br.com.alinesolutions.anotaai.service.app;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -20,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.infra.ShardingResourceFactory;
 import br.com.alinesolutions.anotaai.metadata.io.ResponseEntity;
@@ -99,14 +99,14 @@ public class ClienteConsumidorService {
 		} catch (NoResultException e) {
 			isNewUser = Boolean.TRUE;
 			clienteConsumidor.setCliente(cliente);
-			clienteConsumidor.setDataAssociacao(new Date());
-			clienteConsumidor.getConsumidor().setDataCadastro(new Date());
+			clienteConsumidor.setDataAssociacao(AnotaaiUtil.getInstance().now());
+			clienteConsumidor.getConsumidor().setDataCadastro(AnotaaiUtil.getInstance().now());
 			clienteConsumidor.setSituacao(SituacaoConsumidor.ATIVO);
 			Usuario usuario = clienteConsumidor.getConsumidor().getUsuario();
 			usuario.setId(null);
 			usuario.setEmail(null);
 			usuario.setNome(null);
-			usuario.setDataCadastro(new Date());
+			usuario.setDataCadastro(AnotaaiUtil.getInstance().now());
 			usuario.setPerfis(new ArrayList<>());
 			usuario.getPerfis().add(new UsuarioPerfil(usuario, Perfil.CONSUMIDOR));
 			usuario.setPreferencia(new Preferencia());

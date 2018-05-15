@@ -1,6 +1,7 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,8 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -45,16 +44,13 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 	private Caderneta caderneta;
 
 	@NotNull
-	@Temporal(TemporalType.DATE)
-	private Date dataInicio;
+	private LocalDate dataInicio;
 
 	@NotNull
-	@Temporal(TemporalType.DATE)
-	private Date dataTermino;
+	private LocalDate dataTermino;
 
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;
+	private LocalDateTime dataCriacao;
 
 	@NotNull
 	@ManyToOne()
@@ -84,27 +80,27 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 		this.caderneta = caderneta;
 	}
 
-	public Date getDataInicio() {
+	public LocalDate getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(Date dataInicio) {
+	public void setDataInicio(LocalDate dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public Date getDataTermino() {
+	public LocalDate getDataTermino() {
 		return dataTermino;
 	}
 
-	public void setDataTermino(Date dataTermino) {
+	public void setDataTermino(LocalDate dataTermino) {
 		this.dataTermino = dataTermino;
 	}
 
-	public Date getDataCriacao() {
+	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(Date dataCriacao) {
+	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 	

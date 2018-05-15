@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,9 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import org.hibernate.Hibernate;
-
 import br.com.alinesolutions.anotaai.i18n.IMessage;
+import br.com.alinesolutions.anotaai.infra.AnotaaiUtil;
 import br.com.alinesolutions.anotaai.infra.Constant;
 import br.com.alinesolutions.anotaai.message.AnotaaiSendMessage;
 import br.com.alinesolutions.anotaai.message.qualifier.Email;
@@ -25,9 +23,6 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.StatusItemVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.StatusVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.BaseEntity.BaseEntityConstant;
-import br.com.alinesolutions.anotaai.model.produto.Estoque;
-import br.com.alinesolutions.anotaai.model.produto.Estoque.EstoqueConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
 import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
@@ -39,7 +34,6 @@ import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteCons
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
-import br.com.alinesolutions.anotaai.model.venda.ITipoVenda;
 import br.com.alinesolutions.anotaai.model.venda.IVenda;
 import br.com.alinesolutions.anotaai.model.venda.IVendaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.IVendaFolha;
@@ -88,7 +82,7 @@ public class VendaService {
 		venda.setFolhaCaderneta(folha);
 		folha.getVendas().add(venda);
 		vendaAVistaConsumidor.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
-		vendaAVistaConsumidor.getFolhaCadernetaVenda().getVenda().setDataVenda(new Date());
+		vendaAVistaConsumidor.getFolhaCadernetaVenda().getVenda().setDataInicioVenda(AnotaaiUtil.getInstance().now());
 		vendaAVistaConsumidor.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		em.persist(venda);
 
@@ -103,14 +97,13 @@ public class VendaService {
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, clienteConsumidor);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		validateSale(vendaAnotada);
-		updateItensVenda(vendaAnotada);
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
-		Hibernate.initialize(folha.getVendas());
 		folha.getVendas().add(vendaAnotada.getFolhaCadernetaVenda());
 		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
-		vendaAnotada.getFolhaCadernetaVenda().getVenda().setDataVenda(new Date());
+		vendaAnotada.getFolhaCadernetaVenda().getVenda().setDataInicioVenda(AnotaaiUtil.getInstance().now());
 		vendaAnotada.getFolhaCadernetaVenda().getVenda().setStatusVenda(StatusVenda.FINALIZADA);
-		createSale(vendaAnotada);
+		updateItensVenda(vendaAnotada);
+		em.persist(vendaAnotada);
 		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
 		responseEntity.setEntity(vendaAnotada);
 		responseEntity.addMessage(IMessage.VENDA_SUCESSO, TipoMensagem.SUCCESS);
@@ -122,18 +115,8 @@ public class VendaService {
 		vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().stream().forEach(itemVenda -> {
 			Produto produto = em.find(Produto.class, itemVenda.getMovimentacaoProduto().getProduto().getId());
 			itemVenda.setPrecoVenda(produto.getPrecoVenda());
-			TypedQuery<Estoque> query = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
-			query.setParameter(BaseEntityConstant.FIELD_ID, produto.getId());
-			Double precoCusto = null;
-			try {
-				Estoque estoque = query.getSingleResult();
-				eventMovimentacao.fire(itemVenda);
-				precoCusto = estoque.getPrecoCusto();
-			} catch (NoResultException e) {
-				precoCusto = null;
-			}
 			itemVenda.setVenda(vendaAnotada.getFolhaCadernetaVenda().getVenda());
-			itemVenda.setPrecoCusto(precoCusto);
+			itemVenda.setPrecoCusto(produto.getEstoque().getPrecoCusto());
 			itemVenda.setStatusItemVenda(StatusItemVenda.VENDIDO);
 		});
 	}
@@ -186,7 +169,6 @@ public class VendaService {
 	private void mergeErrorMessages(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity, ResponseEntity<?> target) {
 		responseEntity.setIsValid(Boolean.FALSE);
 		responseEntity.getMessages().addAll(target.getMessages());
-		
 	}
 
 	private void validateProcucts(List<ItemVenda> produtos) throws AppException {
@@ -234,7 +216,7 @@ public class VendaService {
 		}
 		finalizeOrThrows(responseEntity);
 	}
-	
+
 	private void validateSale(IVendaCaderneta vendaAnonima) {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		try {
@@ -272,8 +254,18 @@ public class VendaService {
 		finalizeOrThrows(responseEntity);
 	}
 
-	private void createSale(ITipoVenda tipoVenda) {
-		em.persist(tipoVenda);
+	public ResponseEntity<VendaAnotadaConsumidor> createSale(Venda venda) {
+		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
+		em.persist(venda);
+		return new ResponseEntity<>();
+	}
+	
+	public ResponseEntity<Venda> createSale(Caderneta caderneta) {
+		Venda venda = new Venda();
+		venda.setDataInicioVenda(AnotaaiUtil.getInstance().now());
+		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
+		em.persist(venda);
+		return new ResponseEntity<Venda>(venda);
 	}
 
 }

@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -36,8 +34,7 @@ public class Devolucao extends BaseEntity<Long, Devolucao> {
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Cliente cliente;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date data;
+	private LocalDateTime data;
 
 	@OneToMany(mappedBy = "devolucao", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	private List<ItemDevolucao> produtos;
@@ -50,11 +47,11 @@ public class Devolucao extends BaseEntity<Long, Devolucao> {
 		this.cliente = cliente;
 	}
 
-	public Date getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
 	}
 
