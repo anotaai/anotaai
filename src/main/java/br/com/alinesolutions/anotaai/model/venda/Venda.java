@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -36,10 +36,10 @@ public class Venda extends BaseEntity<Long, Venda> {
 	private List<ItemVenda> produtos;
 
 	@NotNull
-	private LocalDateTime dataInicioVenda;
+	private ZonedDateTime dataInicioVenda;
 
 	@Null
-	private LocalDateTime dataConclusaoVenda;
+	private ZonedDateTime dataConclusaoVenda;
 
 	@Transient
 	private Double valor;
@@ -94,19 +94,19 @@ public class Venda extends BaseEntity<Long, Venda> {
 		this.pagamentos = pagamentos;
 	}
 
-	public LocalDateTime getDataInicioVenda() {
+	public ZonedDateTime getDataInicioVenda() {
 		return dataInicioVenda;
 	}
 
-	public void setDataInicioVenda(LocalDateTime dataInicioVenda) {
+	public void setDataInicioVenda(ZonedDateTime dataInicioVenda) {
 		this.dataInicioVenda = dataInicioVenda;
 	}
 
-	public LocalDateTime getDataConclusaoVenda() {
+	public ZonedDateTime getDataConclusaoVenda() {
 		return dataConclusaoVenda;
 	}
 
-	public void setDataConclusaoVenda(LocalDateTime dataConclusaoVenda) {
+	public void setDataConclusaoVenda(ZonedDateTime dataConclusaoVenda) {
 		this.dataConclusaoVenda = dataConclusaoVenda;
 	}
 

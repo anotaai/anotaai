@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.service;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
@@ -92,7 +92,7 @@ public class AppService {
 		}
 	}
 
-	private void validarTempoSessao(LocalDateTime inicio) throws IllegalStateException {
+	private void validarTempoSessao(ZonedDateTime inicio) throws IllegalStateException {
 		Long timeLogged = ChronoUnit.MINUTES.between(inicio, AnotaaiUtil.getInstance().now());
 		log.log(Level.INFO, timeLogged.toString());
 		if (timeLogged > Constant.App.SESSION_TIME) {
@@ -198,7 +198,7 @@ public class AppService {
 	 * @throws AppException
 	 */
 	
-	public LocalDateTime addDayHtml5Date(LocalDateTime date) throws AppException {
+	public ZonedDateTime addDayHtml5Date(ZonedDateTime date) throws AppException {
 		return date;
 	}
 

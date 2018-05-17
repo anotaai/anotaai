@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -50,9 +50,9 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	 */
 	private String descricao;
 	
-	private LocalDateTime dataAbertura;
+	private ZonedDateTime dataAbertura;
 
-	private LocalDateTime dataFechamento;
+	private ZonedDateTime dataFechamento;
 	
 	@OneToMany(mappedBy="caderneta")
 	private List<FolhaCaderneta> folhas;
@@ -87,19 +87,19 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 		this.descricao = descricao;
 	}
 
-	public LocalDateTime getDataAbertura() {
+	public ZonedDateTime getDataAbertura() {
 		return dataAbertura;
 	}
 
-	public void setDataAbertura(LocalDateTime dataAbertura) {
+	public void setDataAbertura(ZonedDateTime dataAbertura) {
 		this.dataAbertura = dataAbertura;
 	}
 
-	public LocalDateTime getDataFechamento() {
+	public ZonedDateTime getDataFechamento() {
 		return dataFechamento;
 	}
 
-	public void setDataFechamento(LocalDateTime dataFechamento) {
+	public void setDataFechamento(ZonedDateTime dataFechamento) {
 		this.dataFechamento = dataFechamento;
 	}
 

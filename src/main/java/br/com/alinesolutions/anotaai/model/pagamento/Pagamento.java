@@ -1,7 +1,7 @@
 package br.com.alinesolutions.anotaai.model.pagamento;
 
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 
@@ -18,7 +18,7 @@ public class Pagamento extends BaseEntity<Long, Pagamento> {
 
 	private static final long serialVersionUID = 1L;
 
-	private LocalDateTime dataPagamento;
+	private ZonedDateTime dataPagamento;
 
 	private Double valorRecebido;
 
@@ -26,11 +26,11 @@ public class Pagamento extends BaseEntity<Long, Pagamento> {
 
 	private MeioPagamento meioPagamento;
 
-	public LocalDateTime getDataPagamento() {
+	public ZonedDateTime getDataPagamento() {
 		return dataPagamento;
 	}
 
-	public void setDataPagamento(LocalDateTime dataPagamento) {
+	public void setDataPagamento(ZonedDateTime dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
 

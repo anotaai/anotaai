@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,7 +37,7 @@ public class Balanco extends BaseEntity<Long, Balanco> {
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Cliente cliente;
 
-	private LocalDateTime data;
+	private ZonedDateTime data;
 
 	@Enumerated(EnumType.ORDINAL)
 	private TipoBalanco tipo;
@@ -55,11 +55,11 @@ public class Balanco extends BaseEntity<Long, Balanco> {
 		this.cliente = cliente;
 	}
 
-	public LocalDateTime getData() {
+	public ZonedDateTime getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data) {
+	public void setData(ZonedDateTime data) {
 		this.data = data;
 	}
 

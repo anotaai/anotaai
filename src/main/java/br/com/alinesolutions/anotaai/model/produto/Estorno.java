@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,7 +38,7 @@ public class Estorno extends BaseEntity<Long, Estorno> {
 	@OneToMany(mappedBy = "estorno", cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST })
 	private List<ItemEstorno> itens;
 
-	private LocalDateTime dataEstorno;
+	private ZonedDateTime dataEstorno;
 
 	@ManyToOne(optional = false)
 	private EntradaMercadoria entradaMercadoria;
@@ -51,11 +51,11 @@ public class Estorno extends BaseEntity<Long, Estorno> {
 		this.itens = itens;
 	}
 
-	public LocalDateTime getDataEstorno() {
+	public ZonedDateTime getDataEstorno() {
 		return dataEstorno;
 	}
 
-	public void setDataEstorno(LocalDateTime dataEstorno) {
+	public void setDataEstorno(ZonedDateTime dataEstorno) {
 		this.dataEstorno = dataEstorno;
 	}
 

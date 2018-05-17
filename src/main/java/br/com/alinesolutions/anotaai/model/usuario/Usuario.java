@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.usuario;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -66,7 +66,7 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 	
 	private String senha;
 	
-	private LocalDateTime dataCadastro;
+	private ZonedDateTime dataCadastro;
 	
 	private String codigoAtivacao;
 
@@ -121,7 +121,7 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 		this.situacao = situacao;
 	}
 
-	public Usuario(Long id, String nome, String email, LocalDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
+	public Usuario(Long id, String nome, String email, ZonedDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
 			Integer numero, Operadora operadora) {
 		this(id, nome, email);
 		this.dataCadastro = dataCadastro;
@@ -132,19 +132,19 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 		this.telefone.setNumero(numero);
 	}
 
-	public Usuario(Long id, String nome, String email, LocalDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
+	public Usuario(Long id, String nome, String email, ZonedDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
 			Integer numero, Operadora operadora, SituacaoUsuario situacao) {
 		this(id, nome, email, dataCadastro, idTelefone, ddi, ddd, numero, operadora);
 		this.situacao = situacao;
 	}
 
-	public Usuario(Long id, String nome, String email, LocalDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
+	public Usuario(Long id, String nome, String email, ZonedDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
 			Integer numero, Operadora operadora, String senha) {
 		this(id, nome, email, dataCadastro, idTelefone, ddi, ddd, numero, operadora);
 		this.senha = senha;
 	}
 
-	public Usuario(Long id, String nome, String email, LocalDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
+	public Usuario(Long id, String nome, String email, ZonedDateTime dataCadastro, Long idTelefone, Integer ddi, Integer ddd,
 			Integer numero, Operadora operadora, String senha, SituacaoUsuario situacao) {
 		this(id, nome, email, dataCadastro, idTelefone, ddi, ddd, numero, operadora, senha);
 		this.situacao = situacao;
@@ -187,11 +187,11 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 		this.fotoPerfil = fotoPerfil;
 	}
 
-	public LocalDateTime getDataCadastro() {
+	public ZonedDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(LocalDateTime dataCadastro) {
+	public void setDataCadastro(ZonedDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 

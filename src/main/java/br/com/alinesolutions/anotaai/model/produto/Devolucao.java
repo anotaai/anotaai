@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -34,7 +34,7 @@ public class Devolucao extends BaseEntity<Long, Devolucao> {
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Cliente cliente;
 
-	private LocalDateTime data;
+	private ZonedDateTime data;
 
 	@OneToMany(mappedBy = "devolucao", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	private List<ItemDevolucao> produtos;
@@ -47,11 +47,11 @@ public class Devolucao extends BaseEntity<Long, Devolucao> {
 		this.cliente = cliente;
 	}
 
-	public LocalDateTime getData() {
+	public ZonedDateTime getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data) {
+	public void setData(ZonedDateTime data) {
 		this.data = data;
 	}
 

@@ -1,7 +1,7 @@
 package br.com.alinesolutions.anotaai.service.app;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,10 +87,10 @@ public class EntradaMercadoriaService {
 
 		ResponseEntity<EntradaMercadoria> responseEntity = new ResponseEntity<>();
 		TypedQuery<EntradaMercadoria> entradaMercadoriaQuery = null;
-		LocalDateTime dataEntrada = null;
+		ZonedDateTime dataEntrada = null;
 
 		if (!"".equals(dataEntradaStr)) {
-			dataEntrada = AnotaaiUtil.getInstance().toLocalDateTime(dataEntradaStr, ZoneId.systemDefault());
+			dataEntrada = AnotaaiUtil.getInstance().toZonedDateTime(dataEntradaStr, ZoneId.systemDefault());
 		}
 
 		if (!"".equals(nome) && dataEntrada == null) {

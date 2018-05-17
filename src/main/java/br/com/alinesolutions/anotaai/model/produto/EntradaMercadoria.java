@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -54,7 +54,7 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 	@OneToMany(mappedBy = "entradaMercadoria", cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST })
 	private List<ItemEntrada> itens;
 
-	private LocalDateTime dataEntrada;
+	private ZonedDateTime dataEntrada;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;
@@ -67,11 +67,11 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 		this.itens = itens;
 	}
 
-	public LocalDateTime getDataEntrada() {
+	public ZonedDateTime getDataEntrada() {
 		return dataEntrada;
 	}
 
-	public void setDataEntrada(LocalDateTime dataEntrada) {
+	public void setDataEntrada(ZonedDateTime dataEntrada) {
 		this.dataEntrada = dataEntrada;
 	}
 
@@ -83,13 +83,13 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	}
 
-	public EntradaMercadoria(Long id, LocalDateTime dataEntrada, Long codigo) {
+	public EntradaMercadoria(Long id, ZonedDateTime dataEntrada, Long codigo) {
 		setId(id);
 		setDataEntrada(dataEntrada);
 		setCodigo(codigo);
 	}
 	
-	public EntradaMercadoria(Long id, LocalDateTime dataEntrada) {
+	public EntradaMercadoria(Long id, ZonedDateTime dataEntrada) {
 		setId(id);
 		setDataEntrada(dataEntrada);
 	}

@@ -2,8 +2,8 @@ package br.com.alinesolutions.anotaai.infra;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
 
@@ -23,8 +23,8 @@ public class AnotaaiUtil {
 		return instance;
 	}
 	
-	public LocalDateTime now() {
-		return LocalDateTime.now();
+	public ZonedDateTime now() {
+		return ZonedDateTime.now();
 	}
 	
 	public LocalDate today() {
@@ -43,9 +43,9 @@ public class AnotaaiUtil {
 		return sb.toString();
 	}
 
-	public LocalDateTime toLocalDateTime(String dateInString, ZoneId zone) {
+	public ZonedDateTime toZonedDateTime(String dateInString, ZoneId zone) {
 		Instant instant = Instant.parse(dateInString);
-		return LocalDateTime.ofInstant(instant, zone);
+		return ZonedDateTime.ofInstant(instant, zone);
 	}
 
 }

@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,7 +34,7 @@ public class SessaoUsuario extends BaseEntity<Long, SessaoUsuario> {
 	private static final long serialVersionUID = 1L;
 
 	private String sessionID;
-	private LocalDateTime ultimoAcesso;
+	private ZonedDateTime ultimoAcesso;
 	private Boolean keepAlive;
 
 	@JsonBackReference(value = "sessoesAtivas")
@@ -45,7 +45,7 @@ public class SessaoUsuario extends BaseEntity<Long, SessaoUsuario> {
 		super();
 	}
 
-	public SessaoUsuario(Long id, LocalDateTime ultimoAcesso, Boolean keepAlive, Long idUsuario, String nomeUsuario, String emailUsuario) {
+	public SessaoUsuario(Long id, ZonedDateTime ultimoAcesso, Boolean keepAlive, Long idUsuario, String nomeUsuario, String emailUsuario) {
 		this();
 		super.setId(id);
 		this.ultimoAcesso = ultimoAcesso;
@@ -61,11 +61,11 @@ public class SessaoUsuario extends BaseEntity<Long, SessaoUsuario> {
 		this.sessionID = sessionID;
 	}
 
-	public LocalDateTime getUltimoAcesso() {
+	public ZonedDateTime getUltimoAcesso() {
 		return ultimoAcesso;
 	}
 
-	public void setUltimoAcesso(LocalDateTime ultimoAcesso) {
+	public void setUltimoAcesso(ZonedDateTime ultimoAcesso) {
 		this.ultimoAcesso = ultimoAcesso;
 	}
 

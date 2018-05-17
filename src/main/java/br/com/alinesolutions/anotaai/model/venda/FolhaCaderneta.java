@@ -1,7 +1,7 @@
 package br.com.alinesolutions.anotaai.model.venda;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -50,7 +50,7 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 	private LocalDate dataTermino;
 
 	@NotNull
-	private LocalDateTime dataCriacao;
+	private ZonedDateTime dataCriacao;
 
 	@NotNull
 	@ManyToOne()
@@ -96,11 +96,11 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 		this.dataTermino = dataTermino;
 	}
 
-	public LocalDateTime getDataCriacao() {
+	public ZonedDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(LocalDateTime dataCriacao) {
+	public void setDataCriacao(ZonedDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 	

@@ -1,6 +1,6 @@
 package br.com.alinesolutions.anotaai.model.usuario;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -59,7 +59,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 	@OneToMany
 	private List<Cupom> cuponsFiscais;
 
-	private LocalDateTime dataCadastro;
+	private ZonedDateTime dataCadastro;
 
 	@Enumerated(EnumType.ORDINAL)
 	private SituacaoCliente situacaoCliente;
@@ -77,7 +77,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		this.nomeComercial = nomeComercial;
 	}
 
-	public Cliente(Long id, String nomeComercial, Long cpf, LocalDateTime dataCadastro, Long idUsuario, String nomeUsuario) {
+	public Cliente(Long id, String nomeComercial, Long cpf, ZonedDateTime dataCadastro, Long idUsuario, String nomeUsuario) {
 		this();
 		this.nomeComercial = nomeComercial;
 		this.cpf = cpf;
@@ -150,11 +150,11 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		this.nomeComercial = nomeComercial;
 	}
 
-	public LocalDateTime getDataCadastro() {
+	public ZonedDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(LocalDateTime dataCadastro) {
+	public void setDataCadastro(ZonedDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
