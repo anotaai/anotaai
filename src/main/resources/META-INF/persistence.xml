@@ -9,14 +9,14 @@
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 		
-			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<property name="javax.persistence.schema-generation.database.action" value="none"/>
 			<property name="hibernate.jdbc.time_zone" value="UTC"/>
 
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.import_files" value="import.sql" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="jboss.as.jpa.providerModule" value="org.hibernate:5.2.14.Final" />
-			
+
 		</properties>
 	</persistence-unit>
 </persistence>

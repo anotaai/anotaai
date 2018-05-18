@@ -263,9 +263,12 @@ public class VendaService {
 	public ResponseEntity<Venda> createSale(Caderneta caderneta) {
 		Venda venda = new Venda();
 		venda.setDataInicioVenda(AnotaaiUtil.getInstance().now());
+		venda.setDataConclusaoVenda(caderneta.getDataAbertura().withFixedOffsetZone());
 		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
 		em.persist(venda);
-		return new ResponseEntity<Venda>(venda);
+		ResponseEntity<Venda> responseEntity = new ResponseEntity<Venda>(venda);
+		responseEntity.setIsValid(Boolean.TRUE);
+		return responseEntity;
 	}
 
 }

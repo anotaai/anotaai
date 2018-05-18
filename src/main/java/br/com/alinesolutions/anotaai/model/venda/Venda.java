@@ -38,7 +38,6 @@ public class Venda extends BaseEntity<Long, Venda> {
 	@NotNull
 	private ZonedDateTime dataInicioVenda;
 
-	@Null
 	private ZonedDateTime dataConclusaoVenda;
 
 	@Transient

@@ -74,8 +74,7 @@ public class AnotaaiClassLoader implements ServletContextListener {
 
 	private void loadEnums(ServletContextEvent sce) {
 		// TODO incluir metodos nos enuns para deserilizacao
-		List<Class<?>> classes = CPScanner.scanClasses(
-				new ClassFilter().packageName("br.com.alinesolutions.anotaai.*").annotation(EnumSerialize.class));
+		List<Class<?>> classes = CPScanner.scanClasses(new ClassFilter().packageName("br.com.alinesolutions.anotaai.*").annotation(EnumSerialize.class));
 		CtClass ctClass = null;
 		try {
 			for (Class<?> clazz : classes) {

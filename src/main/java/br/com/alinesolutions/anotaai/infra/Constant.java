@@ -3,8 +3,11 @@ package br.com.alinesolutions.anotaai.infra;
 public interface Constant {
 
 	public interface Role {
+		String ADMINISTRADOR = "ADMINISTRADOR";
 		String CLIENTE = "CLIENTE";
 		String CONSUMIDOR = "CONSUMIDOR";
+		String ENTREGADOR = "ENTREGADOR";
+		String VENDEDOR = "VENDEDOR";
 	}
 	
 	public interface App {
