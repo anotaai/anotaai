@@ -9,22 +9,22 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusVenda {
-	
+
 	EM_ANDAMENTO("Em Andamento"),
 	FINALIZADA("Finalizada"),
 	BLOQUEADA("Bloqueada"),
-	CANCELADA("Canceladdas");
-	
+	CANCELADA("Cancelada");
+
 	private String descricao;
-	
+
 	private StatusVenda(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 	public String getDescricao() {
 		return descricao;
 	}
-	
+
 	// TODO - Adicionar metodos dinamicamente
 	public String getType() {
 		return this.toString();
@@ -50,5 +50,5 @@ public enum StatusVenda {
 		}
 		return valueOf(type);
 	}
-	
+
 }
