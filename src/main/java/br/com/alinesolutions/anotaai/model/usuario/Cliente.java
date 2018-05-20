@@ -31,6 +31,7 @@ import br.com.alinesolutions.anotaai.model.venda.Cupom;
 	@NamedQuery(name = ClienteConstant.FIND_BY_DISPONIBILIDADE_KEY, query = ClienteConstant.FIND_BY_DISPONIBILIDADE_QUERY),
 	@NamedQuery(name = ClienteConstant.FIND_BY_GRUPO_PRODUTO_KEY, query = ClienteConstant.FIND_BY_GRUPO_PRODUTO_QUERY),
 	@NamedQuery(name = ClienteConstant.FIND_BY_SETOR_KEY, query = ClienteConstant.FIND_BY_SETOR_QUERY),
+	@NamedQuery(name = ClienteConstant.FIND_BY_VENDA_KEY, query = ClienteConstant.FIND_BY_VENDA_QUERY),
 	@NamedQuery(name = ClienteConstant.FIND_BY_PRODUTO_GRUPO_PRODUTO_KEY, query = ClienteConstant.FIND_BY_PRODUTO_GRUPO_PRODUTO_QUERY)
 })
 @Entity
@@ -78,11 +79,9 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 	}
 
 	public Cliente(Long id, String nomeComercial, Long cpf, ZonedDateTime dataCadastro, Long idUsuario, String nomeUsuario) {
-		this();
-		this.nomeComercial = nomeComercial;
+		this(id, nomeComercial);
 		this.cpf = cpf;
 		this.dataCadastro = dataCadastro;
-		this.setId(id);
 		this.setUsuario(new Usuario());
 		this.getUsuario().setId(idUsuario);
 		this.getUsuario().setNome(nomeUsuario);
@@ -194,5 +193,8 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		
 		String FIND_BY_PRODUTO_GRUPO_PRODUTO_KEY = "Cliente.findClienteByProdutoGrupoProduto";
 		String FIND_BY_PRODUTO_GRUPO_PRODUTO_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Cliente(c.id, c.nomeComercial, c.cpf, c.dataCadastro, u.id, u.nome) from ProdutoGrupoProduto pgp join pgp.produto p join p.cliente c join c.usuario u where pgp.id = :id";
+		
+		String FIND_BY_VENDA_KEY = "Cliente.findClienteByVenda";
+		String FIND_BY_VENDA_QUERY = "select new br.com.alinesolutions.anotaai.model.usuario.Cliente(c.id, c.nomeComercial) from CadernetaVenda cv left join cv.caderneta cd left join cd.cliente c where cv.venda =:venda";
 	}
 }

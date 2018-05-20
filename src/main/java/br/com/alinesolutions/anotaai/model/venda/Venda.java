@@ -11,7 +11,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;

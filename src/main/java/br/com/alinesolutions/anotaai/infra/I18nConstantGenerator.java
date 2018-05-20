@@ -26,7 +26,7 @@ public class I18nConstantGenerator {
 	}
 
 	private void build() throws IOException {
-		String i18nFile = loader.getFile(Constant.FileNane.I18N_EN);
+		String i18nFile = loader.getFile(Constant.FileNane.I18N_PT);
 		JsonObject o = new JsonParser().parse(i18nFile).getAsJsonObject();
 		Set<Map.Entry<String, JsonElement>> entries = o.entrySet();
 		for (Map.Entry<String, JsonElement> entry : entries) {

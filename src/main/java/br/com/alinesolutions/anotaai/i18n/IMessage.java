@@ -1,6 +1,7 @@
 package br.com.alinesolutions.anotaai.i18n;
 
 public interface IMessage {
+	
 	String APP = "app";
 	String MENU_PRINCIPAL_CONSUMIDOR = "menu.principal.consumidor";
 	String MENU_PRINCIPAL_GRUPOPRODUTO = "menu.principal.grupoproduto";
@@ -49,6 +50,9 @@ public interface IMessage {
 	String VENDA_OBRIGATORIO_ITEMVENDA = "venda.obrigatorio.itemvenda";
 	String VENDA_OBRIGATORIO_CONSUMIDOR = "venda.obrigatorio.consumidor";
 	String VENDA_OBRIGATORIO_VALORPAGAMENTO = "venda.obrigatorio.valorpagamento";
+	String VENDA_ERRO_CADERNETANAOCADASTRADA = "venda.erro.cadernetanaocadastrada";
+	String VENDA_ERRO_VENDANAOCADASTRADA = "venda.erro.vendanaocadastrada";
+	String VENDA_ERRO_PRODUTONAOCADASTRADA = "venda.erro.produtonaocadastrada";
 	String ENTIDADE_GRAVACAO_SUCESSO = "entidade.gravacao.sucesso";
 	String ENTIDADE_GRAVACAO_ERRO = "entidade.gravacao.erro";
 	String ENTIDADE_EDICAO_SUCESSO = "entidade.edicao.sucesso";
@@ -57,7 +61,6 @@ public interface IMessage {
 	String ENTIDADE_EXCLUSAO_ERRO = "entidade.exclusao.erro";
 	String ENTIDADE_JACADASTRADA = "entidade.jacadastrada";
 	String MESSAGE_DEFAULTERROR = "message.defaulterror";
-	String MESSAGE_LOGIN_FORBIDDEN = "message.login.forbidden";
 	String MESSAGE_LOGIN_CONFIRMACAOSENHA = "message.login.confirmacaosenha";
 	String LABEL_COMPRADOR = "label.comprador";
 	String LABEL_VENDEDOR = "label.vendedor";
@@ -82,5 +85,6 @@ public interface IMessage {
 	String ERRO_ILLEGALARGUMENT = "erro.illegalargument";
 	String SECURITY_SESSION_TIMEOUT = "security.session.timeout";
 	String SECURITY_ACCESS_FORBIDDEN = "security.access.forbidden";
+	String SECURITY_ACCESS_UNAUTHORIZED = "security.access.unauthorized";
 	String SECURITY_ACCESS_DENIED = "security.access.denied";
 }

@@ -9,7 +9,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusItemVenda {
 	
-	VENDIDO("Vendido"),
+	REGISTRADO("Registrado"),
+	PROCESSADO("Processado"),
 	CANCELADO("Cancelada");	
 	
 	private String descricao;

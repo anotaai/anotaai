@@ -23,15 +23,18 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.StatusItemVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.StatusVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.BaseEntity.BaseEntityConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
 import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.model.produto.Produto.ProdutoConstant;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
+import br.com.alinesolutions.anotaai.model.usuario.Cliente.ClienteConstant;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
+import br.com.alinesolutions.anotaai.model.venda.CadernetaVenda;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
 import br.com.alinesolutions.anotaai.model.venda.IVenda;
@@ -117,7 +120,7 @@ public class VendaService {
 			itemVenda.setPrecoVenda(produto.getPrecoVenda());
 			itemVenda.setVenda(vendaAnotada.getFolhaCadernetaVenda().getVenda());
 			itemVenda.setPrecoCusto(produto.getEstoque().getPrecoCusto());
-			itemVenda.setStatusItemVenda(StatusItemVenda.VENDIDO);
+			itemVenda.setStatusItemVenda(StatusItemVenda.PROCESSADO);
 		});
 	}
 	
@@ -260,14 +263,93 @@ public class VendaService {
 		return new ResponseEntity<>();
 	}
 	
-	public ResponseEntity<Venda> createSale(Caderneta caderneta) {
+	public ResponseEntity<CadernetaVenda> createSale(Caderneta caderneta) throws AppException {
+		Caderneta cadernetaDB = getCaderneta(caderneta);
 		Venda venda = new Venda();
 		venda.setDataInicioVenda(AnotaaiUtil.getInstance().now());
 		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
-		em.persist(venda);
-		ResponseEntity<Venda> responseEntity = new ResponseEntity<Venda>(venda);
+		CadernetaVenda cadernetaVenda = new CadernetaVenda();
+		cadernetaVenda.setCaderneta(cadernetaDB);
+		cadernetaVenda.setVenda(venda);
+		em.persist(cadernetaVenda);
+		cadernetaVenda.setCaderneta(caderneta);
+		ResponseEntity<CadernetaVenda> responseEntity = new ResponseEntity<>(cadernetaVenda);
 		responseEntity.setIsValid(Boolean.TRUE);
 		return responseEntity;
 	}
 
+	public ResponseEntity<ItemVenda> adicionarProduto(ItemVenda itemVenda) {
+		Venda venda = itemVenda.getVenda();
+		Venda vendaDB = getVenda(venda);
+		itemVenda.setVenda(vendaDB);
+		Produto produto = itemVenda.getMovimentacaoProduto().getProduto();
+		Produto produtoDB = getProduto(produto);
+		itemVenda.getMovimentacaoProduto().setProduto(produtoDB);
+		itemVenda.setStatusItemVenda(StatusItemVenda.REGISTRADO);
+		em.persist(itemVenda);
+		itemVenda.setVenda(venda);
+		itemVenda.getMovimentacaoProduto().setProduto(produto);
+		ResponseEntity<ItemVenda> responseEntity = new ResponseEntity<>(itemVenda);
+		responseEntity.setIsValid(Boolean.TRUE);
+		return responseEntity;
+	}
+
+	private Produto getProduto(Produto produto) {
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(Boolean.FALSE);
+		responseEntity.addMessage(IMessage.VENDA_ERRO_PRODUTONAOCADASTRADA, TipoMensagem.ERROR);
+		if (produto != null && produto.getId() != null) {
+			try {
+				final Produto vendaDB = em.getReference(Produto.class, produto.getId());
+				TypedQuery<Produto> query = em.createNamedQuery(ProdutoConstant.PRODUTO_BY_CLIENTE_KEY, Produto.class);
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
+				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
+				query.getSingleResult();
+				return vendaDB;
+			} catch (NoResultException e) {
+				//TODO - Verificar possiblilidade de fraude venda para item com venda de outro cliente (LOGAR ISTO)
+				throw new AppException(responseEntity);
+			}	
+		} else {
+			//TODO - Verificar possiblilidade de fraude item sem venda (LOGAR ISTO)
+			throw new AppException(responseEntity);
+		}
+	}
+
+	private Venda getVenda(Venda venda) {
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(Boolean.FALSE);
+		responseEntity.addMessage(IMessage.VENDA_ERRO_VENDANAOCADASTRADA, TipoMensagem.ERROR);
+		if (venda != null && venda.getId() != null) {
+			try {
+				final Venda vendaDB = em.getReference(Venda.class, venda.getId());
+				TypedQuery<Cliente> query = em.createNamedQuery(ClienteConstant.FIND_BY_VENDA_KEY, Cliente.class);
+				query.setParameter(BaseEntityConstant.FIELD_VENDA, vendaDB);
+				Cliente clienta = query.getSingleResult();
+				if (!clienta.equals(appService.getCliente())) {
+					throw new AppException(responseEntity);
+				}
+				return vendaDB;
+			} catch (NoResultException e) {
+				//TODO - Verificar possiblilidade de fraude venda para item com venda de outro cliente (LOGAR ISTO)
+				throw new AppException(responseEntity);
+			}	
+		} else {
+			//TODO - Verificar possiblilidade de fraude item sem venda (LOGAR ISTO)
+			throw new AppException(responseEntity);
+		}
+	}
+
+	private Caderneta getCaderneta(Caderneta caderneta) throws AppException {
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(Boolean.FALSE);
+		responseEntity.addMessage(IMessage.VENDA_ERRO_CADERNETANAOCADASTRADA, TipoMensagem.ERROR, caderneta.getDescricao());
+		try {
+			final Caderneta cadernetaDB = em.getReference(Caderneta.class, caderneta.getId());
+			if (!cadernetaDB.getCliente().equals(appService.getCliente())) {
+				//TODO - Verificar possiblilidade de fraude caderneta diferente do vendedor (LOGAR ISTO)
+				throw new AppException(responseEntity);
+			}
+			return cadernetaDB;
+		} catch (NoResultException e) {
+			throw new AppException(responseEntity);
+		}
+	}
 }

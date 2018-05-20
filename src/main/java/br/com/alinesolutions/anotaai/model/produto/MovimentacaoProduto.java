@@ -1,6 +1,5 @@
 package br.com.alinesolutions.anotaai.model.produto;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,7 +23,7 @@ public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 
 	private Long quantidade;
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = {})
 	private Produto produto;
 
 	public Long getQuantidade() {

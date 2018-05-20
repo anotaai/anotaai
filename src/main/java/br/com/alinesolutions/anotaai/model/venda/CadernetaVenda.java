@@ -32,7 +32,7 @@ public class CadernetaVenda extends BaseEntity<Long, CadernetaVenda> implements 
 	private Caderneta caderneta;
 
 	@NotNull
-	@ManyToOne(cascade=CascadeType.DETACH)
+	@ManyToOne(cascade= {CascadeType.DETACH, CascadeType.PERSIST})
 	private Venda venda;
 
 	public Caderneta getCaderneta() {

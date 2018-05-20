@@ -71,6 +71,11 @@
 			"itemvenda": "Deve ser informado pelo menos um Item de Venda",
 			"consumidor": "Para realizar este tipo de venda deve ser informado o Consumidor",
 			"valorpagamento": "Informe o valor do Pagamento"
+		},
+		"erro": {
+			"cadernetanaocadastrada": "Erro ao iniciar a venda Caderneta não cadastrada.",
+			"vendanaocadastrada": "Erro incluir o produto, Venda não cadastrada.",
+			"produtonaocadastrada": "Erro incluir o produto, Produto não cadastrado."
 		}
 	},
 	"entidade": {

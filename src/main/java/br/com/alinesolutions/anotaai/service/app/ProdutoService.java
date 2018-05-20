@@ -132,11 +132,9 @@ public class ProdutoService {
 		return responseEntity;
 	}
 
-	public List<Produto> searchByDescricao(String query, String insumoFilter, Integer startPosition, Integer maxResult, List<Long> excludes)
-			throws AppException {
+	public List<Produto> searchByDescricao(String query, String insumoFilter, Integer startPosition, Integer maxResult, List<Long> excludes) throws AppException {
 		Cliente cliente = appService.getCliente();
-		TypedQuery<Produto> findProdutos = em.createNamedQuery(Produto.ProdutoConstant.LIST_SEARCH_BY_DESCRICAO_KEY,
-				Produto.class);
+		TypedQuery<Produto> findProdutos = em.createNamedQuery(Produto.ProdutoConstant.LIST_SEARCH_BY_DESCRICAO_KEY, Produto.class);
 		findProdutos.setParameter(Constant.Persistence.QUERY, query);
 		findProdutos.setParameter(Constant.Entity.CLIENTE, cliente);
 		// evita erro de excecucao, caso nao haja elementos na lista

@@ -53,6 +53,11 @@ public class ResponseEntity <T extends BaseEntity<?, ?>>  implements Serializabl
 		this();
 		this.entity = entity;
 	}
+	
+	public ResponseEntity(Boolean isValid) {
+		this();
+		this.isValid = isValid;
+	}
 
 	public ResponseEntity(AnotaaiMessage mensagem) {
 		addMessage(mensagem);
