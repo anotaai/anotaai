@@ -116,7 +116,6 @@ public class UsuarioEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(Login login) throws AppException {
-
 		ResponseBuilder builder = null;
 		try {
 			builder = Response.ok(usuarioService.login(login));
