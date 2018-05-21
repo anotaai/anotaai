@@ -63,9 +63,12 @@ public class VendaService {
 	@Inject
 	@Any
 	private Event<IMovimentacao> eventMovimentacao;
-	
+
 	@EJB
 	private AppService appService;
+	
+	@EJB
+	private EstoqueService estoqueService;
 
 	@EJB
 	private ResponseUtil responseUtil;
@@ -93,7 +96,7 @@ public class VendaService {
 	}
 
 	public ResponseEntity<VendaAnotadaConsumidor> createAppointmentBookSale(VendaAnotadaConsumidor vendaAnotada) throws AppException {
-		
+
 		validateRequired(vendaAnotada);
 		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
 		ClienteConsumidor clienteConsumidor = em.getReference(ClienteConsumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor().getId());
@@ -123,16 +126,12 @@ public class VendaService {
 			itemVenda.setStatusItemVenda(StatusItemVenda.PROCESSADO);
 		});
 	}
-	
+
 	private void validateRequired(VendaAnotadaConsumidor vendaAnotada) {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
-		responseEntity.setIsValid(vendaAnotada != null && vendaAnotada.getFolhaCadernetaVenda() != null && 
-								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta() != null &&
-								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta() != null &&
-								  vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId() != null &&
-								  vendaAnotada.getFolhaCadernetaVenda().getVenda() != null &&
-								  vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos() != null &&
-								  !vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().isEmpty());
+		responseEntity.setIsValid(vendaAnotada != null && vendaAnotada.getFolhaCadernetaVenda() != null && vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta() != null && vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta() != null
+				&& vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId() != null && vendaAnotada.getFolhaCadernetaVenda().getVenda() != null && vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos() != null
+				&& !vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().isEmpty());
 		if (!responseEntity.getIsValid()) {
 			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CAMPOSNAOINFORMADOS, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW);
 		}
@@ -175,7 +174,7 @@ public class VendaService {
 	}
 
 	private void validateProcucts(List<ItemVenda> produtos) throws AppException {
-		//verifica se o produto esta associado ao cliente logado
+		// verifica se o produto esta associado ao cliente logado
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		AtomicInteger index = new AtomicInteger();
 		produtos.stream().forEach(itemVenda -> {
@@ -185,7 +184,7 @@ public class VendaService {
 				responseEntity.setIsValid(Boolean.FALSE);
 			} else {
 				try {
-					validateProductMovement(itemVenda.getMovimentacaoProduto(), indexStr);
+					 validateProductMovement(itemVenda.getMovimentacaoProduto(), indexStr);
 				} catch (AppException e) {
 					mergeErrorMessages(responseEntity, e.getResponseEntity());
 				}
@@ -212,7 +211,8 @@ public class VendaService {
 					responseEntity.setIsValid(Boolean.FALSE);
 				}
 			} catch (NoResultException e) {
-				//TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto inexistente ou associado a outro vendedor)
+				// TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto
+				// inexistente ou associado a outro vendedor)
 				responseEntity.addMessage(IMessage.PRODUTO_NAOCADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
@@ -223,7 +223,7 @@ public class VendaService {
 	private void validateSale(IVendaCaderneta vendaAnonima) {
 		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
 		try {
-			validateSale((IVenda)vendaAnonima);
+			validateSale((IVenda) vendaAnonima);
 		} catch (AppException e) {
 			mergeErrorMessages(responseEntity, e.getResponseEntity());
 		}
@@ -242,14 +242,15 @@ public class VendaService {
 			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 			responseEntity.setIsValid(Boolean.FALSE);
 		} else {
-			//valida se o cliente consumidor esta realmente associado ao cliente logado
+			// valida se o cliente consumidor esta realmente associado ao cliente logado
 			try {
 				TypedQuery<ClienteConsumidor> query = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_CLIENTE_KEY, ClienteConsumidor.class);
 				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
 				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE_CONSUMIDOR, clienteConsumidor);
 				query.getSingleResult();
 			} catch (NoResultException e) {
-				//TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto inexistente ou associado a outro vendedor)
+				// TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto
+				// inexistente ou associado a outro vendedor)
 				responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
 				responseEntity.setIsValid(Boolean.FALSE);
 			}
@@ -262,7 +263,7 @@ public class VendaService {
 		em.persist(venda);
 		return new ResponseEntity<>();
 	}
-	
+
 	public ResponseEntity<CadernetaVenda> createSale(Caderneta caderneta) throws AppException {
 		Caderneta cadernetaDB = getCaderneta(caderneta);
 		Venda venda = new Venda();
@@ -284,6 +285,8 @@ public class VendaService {
 		itemVenda.setVenda(vendaDB);
 		Produto produto = itemVenda.getMovimentacaoProduto().getProduto();
 		Produto produtoDB = getProduto(produto);
+		itemVenda.setPrecoCusto(estoqueService.recuperarEstoque(produtoDB).getPrecoCusto());
+		itemVenda.setPrecoVenda(produtoDB.getPrecoVenda());
 		itemVenda.getMovimentacaoProduto().setProduto(produtoDB);
 		itemVenda.setStatusItemVenda(StatusItemVenda.REGISTRADO);
 		em.persist(itemVenda);
@@ -299,18 +302,19 @@ public class VendaService {
 		responseEntity.addMessage(IMessage.VENDA_ERRO_PRODUTONAOCADASTRADA, TipoMensagem.ERROR);
 		if (produto != null && produto.getId() != null) {
 			try {
-				final Produto vendaDB = em.getReference(Produto.class, produto.getId());
+				final Produto vendaDB = em.find(Produto.class, produto.getId());
 				TypedQuery<Produto> query = em.createNamedQuery(ProdutoConstant.PRODUTO_BY_CLIENTE_KEY, Produto.class);
 				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
 				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
 				query.getSingleResult();
 				return vendaDB;
 			} catch (NoResultException e) {
-				//TODO - Verificar possiblilidade de fraude venda para item com venda de outro cliente (LOGAR ISTO)
+				// TODO - Verificar possiblilidade de fraude venda para item com venda de outro
+				// cliente (LOGAR ISTO)
 				throw new AppException(responseEntity);
-			}	
+			}
 		} else {
-			//TODO - Verificar possiblilidade de fraude item sem venda (LOGAR ISTO)
+			// TODO - Verificar possiblilidade de fraude item sem venda (LOGAR ISTO)
 			throw new AppException(responseEntity);
 		}
 	}
@@ -329,11 +333,12 @@ public class VendaService {
 				}
 				return vendaDB;
 			} catch (NoResultException e) {
-				//TODO - Verificar possiblilidade de fraude venda para item com venda de outro cliente (LOGAR ISTO)
+				// TODO - Verificar possiblilidade de fraude venda para item com venda de outro
+				// cliente (LOGAR ISTO)
 				throw new AppException(responseEntity);
-			}	
+			}
 		} else {
-			//TODO - Verificar possiblilidade de fraude item sem venda (LOGAR ISTO)
+			// TODO - Verificar possiblilidade de fraude item sem venda (LOGAR ISTO)
 			throw new AppException(responseEntity);
 		}
 	}
@@ -343,8 +348,9 @@ public class VendaService {
 		responseEntity.addMessage(IMessage.VENDA_ERRO_CADERNETANAOCADASTRADA, TipoMensagem.ERROR, caderneta.getDescricao());
 		try {
 			final Caderneta cadernetaDB = em.getReference(Caderneta.class, caderneta.getId());
-			if (!cadernetaDB.getCliente().equals(appService.getCliente())) {
-				//TODO - Verificar possiblilidade de fraude caderneta diferente do vendedor (LOGAR ISTO)
+			if (!cadernetaDB.getCliente().getId().equals(appService.getCliente().getId())) {
+				// TODO - Verificar possiblilidade de fraude caderneta diferente do vendedor
+				// (LOGAR ISTO)
 				throw new AppException(responseEntity);
 			}
 			return cadernetaDB;

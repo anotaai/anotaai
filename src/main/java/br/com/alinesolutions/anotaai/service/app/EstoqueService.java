@@ -35,6 +35,12 @@ public class EstoqueService {
 	@PersistenceContext(unitName = Constant.App.UNIT_NAME)
 	private EntityManager em;
 
+	public Estoque recuperarEstoque(Produto produto) {
+		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
+		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
+		return estoqueQuery.getSingleResult();
+	}
+
 	@Asynchronous
 	public void atualizarEstoque(@Observes IMovimentacao itemMovimentacao) {
 		final List<EstoqueMovimentacao> estoquesMovimentacao = new ArrayList<>();
@@ -82,9 +88,7 @@ public class EstoqueService {
 	}
 
 	private EstoqueMovimentacao atualizar(IMovimentacao itemMovimentacao) {
-		TypedQuery<Estoque> estoqueQuery = em.createNamedQuery(EstoqueConstant.FIND_BY_PRODUTO_KEY, Estoque.class);
-		estoqueQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, itemMovimentacao.getMovimentacaoProduto().getProduto().getId());
-		Estoque estoque = estoqueQuery.getSingleResult();
+		Estoque estoque = recuperarEstoque(itemMovimentacao.getMovimentacaoProduto().getProduto());
 		EstoqueMovimentacao estoqueMovimentacao = new EstoqueMovimentacao();
 		estoqueMovimentacao.setEstoque(estoque);
 		estoqueMovimentacao.setMovimentacao(itemMovimentacao);

@@ -1,0 +1,31 @@
+{
+	"createdAt": "2018-05-20T23:38:22.407Z",
+	"version": "12.1.3",
+	"kind": "ARC#Project",
+	"requests": [
+		{
+			"type": "saved",
+			"headers": "content-type: application/json\nauthorization: Basic 10481",
+			"method": "POST",
+			"name": "initsale",
+			"payload": "{\n  \"id\": 1,\n  \"descricao\": \"Caderneta Escola\"\n}",
+			"url": "http://localhost:8080/rest/venda/initsale",
+			"description": "Iniciar uma Venda",
+			"localIndex": 3,
+			"updated": 1526859493813,
+			"id": "initsale/http%3A%2F%2Flocalhost%3A8080%2Frest%2Fvenda%2Finitsale/post/ee9d80a3-3190-46ce-b12e-781695d0a215",
+			"_referenceLegacyProject": "ee9d80a3-3190-46ce-b12e-781695d0a215",
+			"kind": "ARC#RequestData"
+		}
+	],
+	"projects": [
+		{
+			"name": "anota-ai-rest-client",
+			"order": 0,
+			"created": 1526859442778,
+			"updated": 1526859442778,
+			"_referenceId": "ee9d80a3-3190-46ce-b12e-781695d0a215",
+			"kind": "ARC#ProjectData"
+		}
+	]
+}

@@ -112,5 +112,19 @@ public class VendaEndpoint {
 		}
 		return builder.build();
 	}
+	
+	@POST
+	@Path("/addconsumer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addConsumer(Venda entity) {
+		ResponseBuilder builder = null;
+		try {
+			builder = Response.ok(entity);
+		} catch (AppException e) {
+			builder = Response.ok(e.getResponseEntity());
+		}
+		return builder.build();
+	}
 
 }
