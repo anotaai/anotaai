@@ -26,14 +26,14 @@ import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteCons
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = ClienteConsumidor.class)
 @NamedQueries({
-		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_TELEFONE_KEY, query = ClienteConsumidorConstant.FIND_BY_TELEFONE_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_ID_KEY, query = ClienteConsumidorConstant.FIND_BY_ID_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_NOME_KEY, query = ClienteConsumidorConstant.FIND_BY_NOME_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.LOAD_BY_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.LOAD_BY_CONSUMIDOR_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.COUNT_USUARIO_KEY, query = ClienteConsumidorConstant.COUNT_USUARIO_QUERY),
-		@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_CLIENTE_KEY, query = ClienteConsumidorConstant.FIND_BY_CLIENTE_QUERY) })
+	@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_TELEFONE_KEY, query = ClienteConsumidorConstant.FIND_BY_TELEFONE_QUERY),
+	@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_ID_KEY, query = ClienteConsumidorConstant.FIND_BY_ID_QUERY),
+	@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_NOME_KEY, query = ClienteConsumidorConstant.FIND_BY_NOME_QUERY),
+	@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_QUERY),
+	@NamedQuery(name = ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_QUERY),
+	@NamedQuery(name = ClienteConsumidorConstant.LOAD_BY_CONSUMIDOR_KEY, query = ClienteConsumidorConstant.LOAD_BY_CONSUMIDOR_QUERY),
+	@NamedQuery(name = ClienteConsumidorConstant.COUNT_USUARIO_KEY, query = ClienteConsumidorConstant.COUNT_USUARIO_QUERY),
+	@NamedQuery(name = ClienteConsumidorConstant.FIND_BY_CLIENTE_KEY, query = ClienteConsumidorConstant.FIND_BY_CLIENTE_QUERY) })
 @Entity
 @Where(clause = "ativo = true")
 @SQLDelete(sql = "update ClienteConsumidor set ativo = false where id = ?")
