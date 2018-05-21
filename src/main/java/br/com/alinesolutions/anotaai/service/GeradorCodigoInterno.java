@@ -1,7 +1,11 @@
 package br.com.alinesolutions.anotaai.service;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
+import javax.ejb.AccessTimeout;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -14,7 +18,8 @@ import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSequencial.AnotaaiSeq
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoCodigoInterno;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 
-
+@Lock(LockType.READ)
+@AccessTimeout(value = 60, unit = TimeUnit.SECONDS)
 @Singleton
 @Startup
 public class GeradorCodigoInterno {
