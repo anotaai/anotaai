@@ -1,5 +1,7 @@
 package br.com.alinesolutions.anotaai.service;
 
+import java.util.Arrays;
+
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -53,16 +55,13 @@ public class GeradorCodigoInterno {
 		char[] digitos = codigoReverseStr.toCharArray();
 		Integer[] numeros = new Integer[digitos.length];
 		Integer n = null;
-		Integer somaTotal = 0;
 		Integer index = 1;
 		for (int i = 0; i < digitos.length; i++) {
 			n = Integer.valueOf(digitos[i]) * index;
 			numeros[i] = n >= 10 ? n + 1 : n;
 			index = index == 1 ? 2 : 1;
 		}
-		for (Integer numero : numeros) {
-			somaTotal += numero;
-		}
+		Integer somaTotal = Arrays.asList(numeros).stream().mapToInt(Integer::intValue).sum();
 		Integer modulo = somaTotal % 10;
 		StringBuilder codigoComDigito = new StringBuilder(codigoStr).append(modulo);
 		return Long.valueOf(codigoComDigito.toString());
