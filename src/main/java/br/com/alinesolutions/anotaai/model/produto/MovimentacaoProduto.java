@@ -5,6 +5,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,6 +26,8 @@ public class MovimentacaoProduto extends BaseEntity<Long, MovimentacaoProduto> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
+	@Min(value = 1L)
 	private Long quantidade;
 
 	@NotNull
