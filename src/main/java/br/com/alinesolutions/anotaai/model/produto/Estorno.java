@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -38,8 +39,10 @@ public class Estorno extends BaseEntity<Long, Estorno> {
 	@OneToMany(mappedBy = "estorno", cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST })
 	private List<ItemEstorno> itens;
 
+	@NotNull
 	private ZonedDateTime dataEstorno;
 
+	@NotNull
 	@ManyToOne(optional = false)
 	private EntradaMercadoria entradaMercadoria;
 

@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -21,6 +22,7 @@ public class PagamentoAnotado extends BaseEntity<Long, PagamentoAnotado> impleme
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	private Pagamento pagamento;
 
@@ -30,6 +32,7 @@ public class PagamentoAnotado extends BaseEntity<Long, PagamentoAnotado> impleme
 		return TipoPagamento.ANOTADO;
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private FolhaCaderneta folhaCaderneta;
 

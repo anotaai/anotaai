@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -48,14 +49,17 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@Column(nullable = false)
 	private Long codigo;
 
 	@OneToMany(mappedBy = "entradaMercadoria", cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST })
 	private List<ItemEntrada> itens;
 
+	@NotNull
 	private ZonedDateTime dataEntrada;
 
+	@NotNull
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;
 

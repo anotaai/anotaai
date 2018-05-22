@@ -8,6 +8,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -31,9 +32,11 @@ public class Estoque extends BaseEntity<Long, Estoque> {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.DETACH, orphanRemoval = false, mappedBy = "estoque")
 	private Produto produto;
 
+	@NotNull
 	private Long quantidadeEstoque;
 
 	private Double precoCusto;

@@ -3,7 +3,6 @@ package br.com.alinesolutions.anotaai.model.produto;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +12,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -50,29 +50,30 @@ public class Produto extends BaseEntity<Long, Produto> {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false)
+	@NotNull
 	private Long codigo;
 	
-	@Column(nullable = false)
+	@NotNull
 	private Long codigoBarras;
 	
-	@Column(nullable = false)
+	@NotNull
 	private String descricao;
 	
 	private String descricaoResumida;
 	
-	@Column(nullable = false)
+	@NotNull
 	private Double precoVenda;
 	
-	@Column(nullable = false)
+	@NotNull
 	private Boolean ehInsumo;
 
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	private Icon iconClass;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;
 
+	@NotNull
 	@OneToOne(optional = true, cascade = { CascadeType.ALL })
 	private Estoque estoque;
 

@@ -24,6 +24,7 @@ import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.model.produto.GrupoProduto;
 import br.com.alinesolutions.anotaai.service.app.GrupoProdutoService;
 
+@RolesAllowed(Constant.Role.CLIENTE)
 @Path("/grupoproduto")
 public class GrupoProdutoEndpoint {
 	
@@ -76,7 +77,6 @@ public class GrupoProdutoEndpoint {
 		return builder.build();
 	}
 
-	@RolesAllowed(Constant.Role.CLIENTE)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<GrupoProduto> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult, @QueryParam("nome") String nome) {

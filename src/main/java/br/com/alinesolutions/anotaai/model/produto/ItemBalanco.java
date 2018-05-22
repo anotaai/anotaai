@@ -3,8 +3,11 @@ package br.com.alinesolutions.anotaai.model.produto;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -48,6 +51,7 @@ public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovim
 		TipoMovimentacao.ALTERACAO.atualizarEstoque(estoque, this);
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Balanco balanco;
 
@@ -55,6 +59,7 @@ public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovim
 	 * Esta movientacao devera substituir o valor atual do estoque caso a
 	 * contagem seja divergente da quantidade atual do estoque
 	 */
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private MovimentacaoProduto movimentacaoProduto;
 
@@ -68,6 +73,7 @@ public class ItemBalanco extends BaseEntity<Long, ItemBalanco> implements IMovim
 	 */
 	private Long quantidadeContada;
 
+	@Enumerated(EnumType.ORDINAL)
 	private SituacaoItemBalanco situacao;
 
 	public MovimentacaoProduto getMovimentacaoProduto() {

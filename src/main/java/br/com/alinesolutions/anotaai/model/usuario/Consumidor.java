@@ -10,6 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -38,9 +39,11 @@ public class Consumidor extends BaseEntity<Long, Consumidor> implements IPessoa 
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
 
+	@NotNull
 	private ZonedDateTime dataCadastro;
 
 	@OneToMany(mappedBy = "consumidor", cascade = CascadeType.ALL)

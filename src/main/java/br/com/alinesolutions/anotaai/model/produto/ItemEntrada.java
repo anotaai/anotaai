@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -40,6 +41,7 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 		TipoMovimentacao.ENTRADA.atualizarEstoque(estoque, this);
 	}
 	
+	@NotNull
 	@ManyToOne
 	private EntradaMercadoria entradaMercadoria;
 
@@ -47,6 +49,7 @@ public class ItemEntrada extends BaseEntity<Long, ItemEntrada> implements IMovim
 	 * Atualiza a quantidade de estoque somando a quantidade de itens desta
 	 * movimentacao
 	 */
+	@NotNull
 	@ManyToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	private MovimentacaoProduto movimentacaoProduto;
 	

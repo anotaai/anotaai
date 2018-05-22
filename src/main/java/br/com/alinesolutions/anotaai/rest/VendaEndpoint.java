@@ -121,7 +121,7 @@ public class VendaEndpoint {
 	public Response addConsumer(FolhaCadernetaVenda entity) {
 		ResponseBuilder builder = null;
 		try {
-			builder = Response.ok(new ResponseEntity<>(entity));
+			builder = Response.ok(vendaService.adicionarConsumidor(entity));
 		} catch (AppException e) {
 			builder = Response.ok(e.getResponseEntity());
 		}

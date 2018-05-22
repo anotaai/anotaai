@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum StatusItemVenda {
-	
-	REGISTRADO("Registrado"),
-	PROCESSADO("Processado"),
-	CANCELADO("Cancelada");	
-	
+public enum StatusMovimentacao {
+
+	REGISTRADA("Registrada"),
+	PROCESSADA("Processada"),
+	CANCELADA("Cancelada");	
+
 	private String descricao;
 	
-	private StatusItemVenda(String descricao) {
+	private StatusMovimentacao(String descricao) {
 		this.descricao = descricao;
 	}
 	
@@ -36,7 +36,7 @@ public enum StatusItemVenda {
 	}
 
 	@JsonCreator
-	public static StatusItemVenda fromObject(JsonNode node) {
+	public static StatusMovimentacao fromObject(JsonNode node) {
 		String type = null;
 		if (node.getNodeType().equals(JsonNodeType.STRING)) {
 			type = node.asText();

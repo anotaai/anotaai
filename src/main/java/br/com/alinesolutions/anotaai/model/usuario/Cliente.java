@@ -13,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -41,6 +42,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private Usuario usuario;
 
@@ -60,6 +62,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 	@OneToMany
 	private List<Cupom> cuponsFiscais;
 
+	@NotNull
 	private ZonedDateTime dataCadastro;
 
 	@Enumerated(EnumType.ORDINAL)

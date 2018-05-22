@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -27,6 +28,7 @@ public class PagamentoAVista extends BaseEntity<Long, PagamentoAVista> implement
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@ManyToOne(optional = false, cascade=CascadeType.ALL)
 	private Pagamento pagamento;
 
@@ -36,6 +38,7 @@ public class PagamentoAVista extends BaseEntity<Long, PagamentoAVista> implement
 		return TipoPagamento.A_VISTA;
 	}
 
+	@NotNull
 	@ManyToOne(cascade=CascadeType.DETACH)
 	private VendaAVistaAnonima venda;
 

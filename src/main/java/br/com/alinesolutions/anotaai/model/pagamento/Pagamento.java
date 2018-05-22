@@ -4,6 +4,9 @@ package br.com.alinesolutions.anotaai.model.pagamento;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,12 +21,17 @@ public class Pagamento extends BaseEntity<Long, Pagamento> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	private ZonedDateTime dataPagamento;
 
+	@NotNull
 	private Double valorRecebido;
 
+	@NotNull
 	private Double valorPagamento;
 
+	@NotNull
+	@Enumerated(EnumType.ORDINAL)
 	private MeioPagamento meioPagamento;
 
 	public ZonedDateTime getDataPagamento() {

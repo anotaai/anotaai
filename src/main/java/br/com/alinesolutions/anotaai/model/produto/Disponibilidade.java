@@ -6,6 +6,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -35,9 +36,11 @@ public class Disponibilidade extends BaseEntity<Long, Disponibilidade> {
 		this.produto.setDescricao(descricaoProduto);
 	}
 
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private DiaSemana dia;
 
+	@NotNull
 	@JsonBackReference(value = "diasDisponibilidade")
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Produto produto;

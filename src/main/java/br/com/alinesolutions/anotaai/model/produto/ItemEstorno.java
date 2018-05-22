@@ -3,8 +3,11 @@ package br.com.alinesolutions.anotaai.model.produto;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -14,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.alinesolutions.anotaai.metadata.model.domain.StatusMovimentacao;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoItemMovimentacao;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.TipoMovimentacao;
@@ -53,9 +57,14 @@ public class ItemEstorno extends BaseEntity<Long, ItemEstorno> implements IMovim
 	 * Atualiza a quantidade de estoque removendo a quantidade de itens desta
 	 * movimentacao
 	 */
+	@NotNull
 	@ManyToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	private MovimentacaoProduto movimentacaoProduto;
 
+	@NotNull
+	@Enumerated(EnumType.ORDINAL)
+	private StatusMovimentacao statusItemMovimentacao;
+	
 	public ItemEstorno() {
 
 	}

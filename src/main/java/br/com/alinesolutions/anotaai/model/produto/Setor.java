@@ -43,6 +43,7 @@ public class Setor extends BaseEntity<Long, Setor> {
 	@OneToMany(mappedBy = "setor")
 	private List<GrupoProduto> gruposProduto;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 

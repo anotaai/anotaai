@@ -17,7 +17,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 import br.com.alinesolutions.anotaai.model.BaseEntity;
@@ -36,7 +35,6 @@ public class FolhaCaderneta extends BaseEntity<Long, FolhaCaderneta> {
 
 	private static final long serialVersionUID = 1L;
 
-	@JsonManagedReference(value="vendas")
 	@OneToMany(mappedBy = "folhaCaderneta")
 	private List<FolhaCadernetaVenda> vendas;
 	

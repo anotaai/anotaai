@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -34,11 +35,13 @@ public class Balanco extends BaseEntity<Long, Balanco> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Cliente cliente;
 
 	private ZonedDateTime data;
 
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private TipoBalanco tipo;
 

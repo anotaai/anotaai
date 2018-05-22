@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -37,6 +38,7 @@ public class SessaoUsuario extends BaseEntity<Long, SessaoUsuario> {
 	private ZonedDateTime ultimoAcesso;
 	private Boolean keepAlive;
 
+	@NotNull
 	@JsonBackReference(value = "sessoesAtivas")
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Usuario usuario;

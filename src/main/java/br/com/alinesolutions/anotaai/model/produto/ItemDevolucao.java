@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -55,6 +56,7 @@ public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IM
 	 * Atualiza a quantidade de estoque somando a quantidade de itens desta
 	 * movimentacao
 	 */
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private MovimentacaoProduto movimentacaoProduto;
 
@@ -63,6 +65,7 @@ public class ItemDevolucao extends BaseEntity<Long, ItemDevolucao> implements IM
 	 */
 	private Double precoCusto;
 
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private MotivoDevolucao motivo;
 

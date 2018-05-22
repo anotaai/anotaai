@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Any;
@@ -36,9 +37,11 @@ public class EstoqueMovimentacao extends BaseEntity<Long, EstoqueMovimentacao> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@ManyToOne(optional = false)
 	private Estoque estoque;
 
+	@NotNull
 	@Any(metaColumn = @Column(name = "tipo_movimentacao", length = 16), fetch = FetchType.LAZY)
 	@AnyMetaDef(
 		idType = "long", metaType = "string", 

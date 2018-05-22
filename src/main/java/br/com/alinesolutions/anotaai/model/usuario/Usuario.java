@@ -74,6 +74,7 @@ public class Usuario extends BaseEntity<Long, Usuario> {
 	@JoinColumn(nullable = true)
 	private Arquivo fotoPerfil;
 
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private SituacaoUsuario situacao;
 

@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -43,12 +44,14 @@ public class ItemQuebra extends BaseEntity<Long, ItemQuebra> implements IMovimen
 		TipoMovimentacao.SAIDA.atualizarEstoque(estoque, this);
 	}
 	
+	@NotNull
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private Quebra quebra;
 
 	/**
 	 * Atualiza o estoque removendo os itens desta movimentacao
 	 */
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private MovimentacaoProduto movimentacaoProduto;
 
@@ -57,6 +60,7 @@ public class ItemQuebra extends BaseEntity<Long, ItemQuebra> implements IMovimen
 	 */
 	private Double precoCusto;
 
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private MotivoQuebra motivoQuebra;
 

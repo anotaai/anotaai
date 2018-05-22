@@ -53,6 +53,7 @@ public interface IMessage {
 	String VENDA_ERRO_CADERNETANAOCADASTRADA = "venda.erro.cadernetanaocadastrada";
 	String VENDA_ERRO_VENDANAOCADASTRADA = "venda.erro.vendanaocadastrada";
 	String VENDA_ERRO_PRODUTONAOCADASTRADA = "venda.erro.produtonaocadastrada";
+	String VENDA_ERRO_CONSUMIDORNAOCADASTRADA = "venda.erro.consumidornaocadastrada";
 	String ENTIDADE_GRAVACAO_SUCESSO = "entidade.gravacao.sucesso";
 	String ENTIDADE_GRAVACAO_ERRO = "entidade.gravacao.erro";
 	String ENTIDADE_EDICAO_SUCESSO = "entidade.edicao.sucesso";

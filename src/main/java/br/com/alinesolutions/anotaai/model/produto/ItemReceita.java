@@ -3,6 +3,7 @@ package br.com.alinesolutions.anotaai.model.produto;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -20,15 +21,18 @@ public class ItemReceita extends BaseEntity<Long, ItemReceita> {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@JsonBackReference(value="itensReceita")
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Produto produto;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Produto ingrediente;
 
+	@NotNull
 	private Integer quantidade;
 
 	public ItemReceita() {

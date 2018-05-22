@@ -51,7 +51,7 @@ public class FolhaCadernetaService {
 		FolhaCaderneta folha = null;
 		try {
 			TypedQuery<FolhaCaderneta> query = em.createNamedQuery(FolhaCadernetaConstant.FIND_FOLHA_VIGENTE, FolhaCaderneta.class);
-			query.setParameter("hoje", AnotaaiUtil.getInstance().now());
+			query.setParameter("hoje", AnotaaiUtil.getInstance().today());
 			folha = query.getSingleResult();
 		} catch (NoResultException e) {
 			folha = new FolhaCaderneta();
