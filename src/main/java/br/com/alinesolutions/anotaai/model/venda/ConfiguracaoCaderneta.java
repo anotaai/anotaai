@@ -6,12 +6,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.domain.TimeZone;
 
 @Entity
 @Where(clause = "ativo = true")
@@ -21,10 +23,14 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 	private static final long serialVersionUID = 1L;
 
 	private String descricao;
-	
+
 	private Integer qtdDiasDuracaoFolha;
 
+	@NotNull
 	private Integer diaBase;
+
+	@NotNull
+	private TimeZone timeZone;
 
 	/**
 	 * Quando o Cliente inicia a venda este tipo aparece selecionado por padrao
@@ -101,6 +107,14 @@ public class ConfiguracaoCaderneta extends BaseEntity<Long, ConfiguracaoCadernet
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
 	}
 
 }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Zone {
+public enum TimeZone {
 
 	ASIA_ADEN("Asia/Aden"),
 	AMERICA_CUIABA("America/Cuiaba"),
@@ -597,7 +597,7 @@ public enum Zone {
 	EUROPE_MONACO("Europe/Monaco");
 
 	
-	private Zone(String descricao) {
+	private TimeZone(String descricao) {
 		this.descricao = descricao;
 	}
 	
@@ -620,7 +620,7 @@ public enum Zone {
 	}
 
 	@JsonCreator
-	public static Zone fromObject(JsonNode node) {
+	public static TimeZone fromObject(JsonNode node) {
 		String type = null;
 		if (node.getNodeType().equals(JsonNodeType.STRING)) {
 			type = node.asText();
