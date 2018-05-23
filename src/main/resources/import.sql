@@ -72,7 +72,7 @@ insert into ItemVenda (ativo, precoCusto, precoVenda, movimentacaoProduto_id, ve
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'VENDA', 2, 1);
 
 insert into Consumidor(ativo, dataCadastro, usuario_id) values (true, Now(), 1);
-insert into ClienteConsumidor(ativo, cliente_id, consumidor_id, dataAssociacao, situacao) values (true, 1, 1, Now(), 1);
+insert into ClienteConsumidor(ativo, cliente_id, consumidor_id, dataAssociacao, situacao, nomeConsumidor) values (true, 1, 1, Now(), 0, 'Maria Sophia Moura');
 
 insert into ConfiguracaoCaderneta(ativo, qtdDiasDuracaoFolha, diaBase, timeoutSetupVenda, timeZone) values (true, 30, 1, 5, 86);
 insert into Caderneta(ativo, descricao , dataAbertura , dataFechamento , configuracao_id, cliente_id) values (true, 'Caderneta Escola', now(), now(), 1, 1);
@@ -83,4 +83,4 @@ insert into Telefone (ativo, ddd, ddi, numero, operadora) values (true, 31, 55, 
 insert into Usuario (ativo, codigoAtivacao, dataCadastro, email, fotoPerfil_id, nome, preferencia_id, senha, situacao, telefone_id) values (true, '10481', now(), 'danielaizabel@hotmail.com', null, 'Daniela Izabel', 3, '5A8D23E9E52765D58E75534EDDEFCA6DE8F88E99284FFA09E445D5BE52267922', 0, 3);
 insert into UsuarioPerfil (ativo, perfil, usuario_id) values (true, 2, 3);
 insert into Consumidor (ativo, dataCadastro, usuario_id) values (true, now(), 3);
-insert into ClienteConsumidor (ativo, cliente_id, consumidor_id, dataAssociacao, nomeConsumidor, situacao) values (true, 1, 1, now(), 'Daniela Izabel', 1);
+insert into ClienteConsumidor (ativo, cliente_id, consumidor_id, dataAssociacao, nomeConsumidor, situacao) values (true, 1, 2, now(), 'Daniela Izabel', 0);
