@@ -51,6 +51,7 @@ public interface IMessage {
 	String VENDA_OBRIGATORIO_CONSUMIDOR = "venda.obrigatorio.consumidor";
 	String VENDA_OBRIGATORIO_VALORPAGAMENTO = "venda.obrigatorio.valorpagamento";
 	String VENDA_ERRO_CADERNETANAOCADASTRADA = "venda.erro.cadernetanaocadastrada";
+	String VENDA_ERRO_VENDAINVALIDA = "venda.erro.vendainvalida";
 	String VENDA_ERRO_VENDANAOCADASTRADA = "venda.erro.vendanaocadastrada";
 	String VENDA_ERRO_PRODUTONAOCADASTRADA = "venda.erro.produtonaocadastrada";
 	String VENDA_ERRO_CONSUMIDORNAOCADASTRADA = "venda.erro.consumidornaocadastrada";

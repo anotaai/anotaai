@@ -76,7 +76,8 @@
 			"cadernetanaocadastrada": "Erro ao iniciar a venda Caderneta não cadastrada.",
 			"vendanaocadastrada": "Erro incluir o produto, Venda não cadastrada.",
 			"produtonaocadastrada": "Erro incluir o produto, Produto não cadastrado.",
-			"consumidornaocadastrada": "Erro incluir associar Consumidor."
+			"consumidornaocadastrada": "Erro incluir associar Consumidor.",
+			"vendainvalida": "Erro ao porcessar a venda."
 		}
 	},
 	"entidade": {

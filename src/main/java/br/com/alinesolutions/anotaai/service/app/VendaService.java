@@ -1,7 +1,7 @@
 package br.com.alinesolutions.anotaai.service.app;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,9 +37,6 @@ import br.com.alinesolutions.anotaai.model.venda.Caderneta;
 import br.com.alinesolutions.anotaai.model.venda.CadernetaVenda;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
-import br.com.alinesolutions.anotaai.model.venda.IVenda;
-import br.com.alinesolutions.anotaai.model.venda.IVendaCaderneta;
-import br.com.alinesolutions.anotaai.model.venda.IVendaFolha;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaAnonima;
 import br.com.alinesolutions.anotaai.model.venda.VendaAVistaConsumidor;
@@ -74,7 +71,6 @@ public class VendaService {
 	private ResponseUtil responseUtil;
 
 	public ResponseEntity<VendaAVistaAnonima> createAnonymousSale(VendaAVistaAnonima vendaAVistaAnonima) throws AppException {
-		validateSale(vendaAVistaAnonima);
 		return null;
 	}
 
@@ -88,7 +84,7 @@ public class VendaService {
 		venda.setFolhaCaderneta(folha);
 		folha.getVendas().add(venda);
 		vendaAVistaConsumidor.setFolhaCadernetaVenda(new FolhaCadernetaVenda());
-		vendaAVistaConsumidor.getFolhaCadernetaVenda().getVenda().setDataInicioVenda(AnotaaiUtil.getInstance().now());
+		vendaAVistaConsumidor.getFolhaCadernetaVenda().getVenda().setInicioVenda(AnotaaiUtil.getInstance().now());
 		vendaAVistaConsumidor.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		em.persist(venda);
 
@@ -96,69 +92,23 @@ public class VendaService {
 	}
 
 	public ResponseEntity<VendaAnotadaConsumidor> createAppointmentBookSale(VendaAnotadaConsumidor vendaAnotada) throws AppException {
-
-		validateRequired(vendaAnotada);
-		Caderneta caderneta = em.getReference(Caderneta.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
-		ClienteConsumidor clienteConsumidor = em.getReference(ClienteConsumidor.class, vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor().getId());
-		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, clienteConsumidor);
-		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
-		validateSale(vendaAnotada);
-		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
-		folha.getVendas().add(vendaAnotada.getFolhaCadernetaVenda());
-		vendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
-		vendaAnotada.getFolhaCadernetaVenda().getVenda().setDataInicioVenda(AnotaaiUtil.getInstance().now());
-		vendaAnotada.getFolhaCadernetaVenda().getVenda().setStatusVenda(StatusVenda.FINALIZADA);
-		updateItensVenda(vendaAnotada);
-		em.persist(vendaAnotada);
-		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>();
-		responseEntity.setEntity(vendaAnotada);
+		ResponseEntity<VendaAnotadaConsumidor> responseEntity = new ResponseEntity<>(vendaAnotada);
 		responseEntity.addMessage(IMessage.VENDA_SUCESSO, TipoMensagem.SUCCESS);
+		validarCamposObrigatorios(vendaAnotada);
+		VendaAnotadaConsumidor novaVendaAnotada = new VendaAnotadaConsumidor();
+		ClienteConsumidor clienteConsumidor = getClienteConsumidor(vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor());
+		Caderneta caderneta = getCaderneta(vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta());
+		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, clienteConsumidor);
+		novaVendaAnotada.setFolhaCadernetaVenda(getFolhaCadernetaVenda(vendaAnotada.getFolhaCadernetaVenda(), caderneta));
+		novaVendaAnotada.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
+		Venda venda = vendaAnotada.getFolhaCadernetaVenda().getVenda();
+		novaVendaAnotada.getFolhaCadernetaVenda().setVenda(getVenda(venda));
+		novaVendaAnotada.getFolhaCadernetaVenda().getVenda().setProdutos(getProdutos(venda.getProdutos(), novaVendaAnotada.getFolhaCadernetaVenda().getVenda()));
+		folha.getVendas().add(vendaAnotada.getFolhaCadernetaVenda());
+		novaVendaAnotada.getFolhaCadernetaVenda().getVenda().setConclusaoVenda(AnotaaiUtil.getInstance().now());
+		novaVendaAnotada.getFolhaCadernetaVenda().getVenda().setStatusVenda(StatusVenda.FINALIZADA);
+		em.persist(novaVendaAnotada);
 		return responseEntity;
-
-	}
-
-	private void updateItensVenda(VendaAnotadaConsumidor vendaAnotada) {
-		vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().stream().forEach(itemVenda -> {
-			Produto produto = em.find(Produto.class, itemVenda.getMovimentacaoProduto().getProduto().getId());
-			itemVenda.setPrecoVenda(produto.getPrecoVenda());
-			itemVenda.setVenda(vendaAnotada.getFolhaCadernetaVenda().getVenda());
-			itemVenda.setPrecoCusto(produto.getEstoque().getPrecoCusto());
-		});
-	}
-
-	private void validateRequired(VendaAnotadaConsumidor vendaAnotada) {
-		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
-		responseEntity.setIsValid(vendaAnotada != null && vendaAnotada.getFolhaCadernetaVenda() != null && vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta() != null && vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta() != null
-				&& vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId() != null && vendaAnotada.getFolhaCadernetaVenda().getVenda() != null && vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos() != null
-				&& !vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().isEmpty());
-		if (!responseEntity.getIsValid()) {
-			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CAMPOSNAOINFORMADOS, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW);
-		}
-		finalizeOrThrows(responseEntity);
-	}
-
-	private void validateSale(IVenda iVenda) throws AppException {
-		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
-		if (iVenda.getVenda() == null) {
-			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_VENDA, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
-			responseEntity.setIsValid(Boolean.FALSE);
-		} else if (iVenda.getVenda().getProdutos() == null || iVenda.getVenda().getProdutos().isEmpty()) {
-			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_ITEMVENDA, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
-			responseEntity.setIsValid(Boolean.FALSE);
-		} else {
-			try {
-				validateProcucts(iVenda.getVenda().getProdutos());
-			} catch (AppException e) {
-				mergeErrorMessages(responseEntity, e.getResponseEntity());
-			}
-		}
-		finalizeOrThrows(responseEntity);
-	}
-
-	private void finalizeOrThrows(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity) throws AppException {
-		if (responseEntity.getIsValid() != null && !responseEntity.getIsValid()) {
-			throw new AppException(responseEntity);
-		}
 	}
 
 	private ResponseEntity<? extends BaseEntity<?, ?>> buildResponseEntity() {
@@ -167,106 +117,10 @@ public class VendaService {
 		return responseEntity;
 	}
 
-	private void mergeErrorMessages(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity, ResponseEntity<?> target) {
-		responseEntity.setIsValid(Boolean.FALSE);
-		responseEntity.getMessages().addAll(target.getMessages());
-	}
-
-	private void validateProcucts(List<ItemVenda> produtos) throws AppException {
-		// verifica se o produto esta associado ao cliente logado
-		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
-		AtomicInteger index = new AtomicInteger();
-		produtos.stream().forEach(itemVenda -> {
-			String indexStr = String.valueOf(index.getAndIncrement());
-			if (itemVenda.getMovimentacaoProduto() == null) {
-				responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_MOVIMENTACAOPRODUTO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, indexStr);
-				responseEntity.setIsValid(Boolean.FALSE);
-			} else {
-				try {
-					 validateProductMovement(itemVenda.getMovimentacaoProduto(), indexStr);
-				} catch (AppException e) {
-					mergeErrorMessages(responseEntity, e.getResponseEntity());
-				}
-			}
-		});
-		finalizeOrThrows(responseEntity);
-	}
-
-	private void validateProductMovement(MovimentacaoProduto movimentacaoProduto, String index) throws AppException {
-		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
-		if (movimentacaoProduto.getProduto() == null) {
-			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_PRODUTO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, index);
-			responseEntity.setIsValid(Boolean.FALSE);
-		} else {
-			Produto produto = movimentacaoProduto.getProduto();
-			try {
-				TypedQuery<Produto> query = em.createNamedQuery(ProdutoConstant.PRODUTO_BY_CLIENTE_KEY, Produto.class);
-				Cliente clienteAcesso = appService.getCliente();
-				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, clienteAcesso);
-				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_ID, produto.getId());
-				query.getSingleResult();
-				if (movimentacaoProduto.getQuantidade() == null || movimentacaoProduto.getQuantidade() <= 0) {
-					responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_QUANTIDADE, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
-					responseEntity.setIsValid(Boolean.FALSE);
-				}
-			} catch (NoResultException e) {
-				// TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto
-				// inexistente ou associado a outro vendedor)
-				responseEntity.addMessage(IMessage.PRODUTO_NAOCADASTRADO, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW, produto.getDescricao() != null ? produto.getDescricao() : "");
-				responseEntity.setIsValid(Boolean.FALSE);
-			}
-		}
-		finalizeOrThrows(responseEntity);
-	}
-
-	private void validateSale(IVendaCaderneta vendaAnonima) {
-		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
-		try {
-			validateSale((IVenda) vendaAnonima);
-		} catch (AppException e) {
-			mergeErrorMessages(responseEntity, e.getResponseEntity());
-		}
-		finalizeOrThrows(responseEntity);
-	}
-
-	private void validateSale(IVendaFolha iVenda) throws AppException {
-		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
-		try {
-			validateSale(iVenda.getFolhaCadernetaVenda());
-		} catch (AppException e) {
-			mergeErrorMessages(responseEntity, e.getResponseEntity());
-		}
-		ClienteConsumidor clienteConsumidor = iVenda.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor();
-		if (clienteConsumidor == null) {
-			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
-			responseEntity.setIsValid(Boolean.FALSE);
-		} else {
-			// valida se o cliente consumidor esta realmente associado ao cliente logado
-			try {
-				TypedQuery<ClienteConsumidor> query = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_CLIENTE_KEY, ClienteConsumidor.class);
-				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, appService.getCliente());
-				query.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE_CONSUMIDOR, clienteConsumidor);
-				query.getSingleResult();
-			} catch (NoResultException e) {
-				// TODO ANOTAAI disparar evento de suspeita de fraude (venda de produto
-				// inexistente ou associado a outro vendedor)
-				responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CONSUMIDOR, TipoMensagem.ERROR, Constant.App.DEFAULT_TIME_VIEW);
-				responseEntity.setIsValid(Boolean.FALSE);
-			}
-		}
-		finalizeOrThrows(responseEntity);
-	}
-
-	public ResponseEntity<VendaAnotadaConsumidor> createSale(Venda venda) {
-		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
-		em.persist(venda);
-		return new ResponseEntity<>();
-	}
-
 	public ResponseEntity<CadernetaVenda> createSale(Caderneta caderneta) throws AppException {
 		Caderneta cadernetaDB = getCaderneta(caderneta);
 		Venda venda = new Venda();
-		venda.setDataInicioVenda(AnotaaiUtil.getInstance().now());
+		venda.setInicioVenda(AnotaaiUtil.getInstance().now());
 		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
 		CadernetaVenda cadernetaVenda = new CadernetaVenda();
 		cadernetaVenda.setCaderneta(cadernetaDB);
@@ -334,6 +188,27 @@ public class VendaService {
 		}
 	}
 
+	private List<ItemVenda> getProdutos(List<ItemVenda> produtos, Venda venda) throws AppException {
+		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
+		final List<ItemVenda> produtosBD = new ArrayList<>();
+		produtos.stream().forEach(itemVenda -> {
+			try {
+				ItemVenda itemVendaBD = em.find(ItemVenda.class, itemVenda.getId());
+				if (!itemVendaBD.getVenda().equals(venda)) {
+					throw new AppException(responseEntity);
+				} else if (!itemVenda.getMovimentacaoProduto().equals(itemVenda.getMovimentacaoProduto())) {
+					throw new AppException(responseEntity);
+				} else if (!itemVendaBD.getMovimentacaoProduto().getProduto().equals(itemVenda.getMovimentacaoProduto().getProduto())) {
+					throw new AppException(responseEntity);
+				}
+				produtosBD.add(itemVendaBD);
+			} catch (NoResultException e) {
+				throw new AppException(responseEntity);
+			}
+		});
+		return produtosBD;
+	}
+	
 	private Produto getProduto(Produto produto) {
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(Boolean.FALSE);
 		responseEntity.addMessage(IMessage.VENDA_ERRO_PRODUTONAOCADASTRADA, TipoMensagem.ERROR);
@@ -391,5 +266,41 @@ public class VendaService {
 			throw new AppException(responseEntity);
 		}
 	}
+	
+	private FolhaCadernetaVenda getFolhaCadernetaVenda(FolhaCadernetaVenda folhaCadernetaVenda, Caderneta caderneta) {
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(Boolean.FALSE);
+		responseEntity.addMessage(IMessage.VENDA_ERRO_VENDAINVALIDA, TipoMensagem.ERROR);
+		try {
+			FolhaCadernetaVenda folhaCadernetaVendaBD = em.find(FolhaCadernetaVenda.class, folhaCadernetaVenda.getId());
+			if (!folhaCadernetaVendaBD.getFolhaCaderneta().getCaderneta().equals(caderneta)) {
+				throw new AppException(responseEntity);
+			}
+			return folhaCadernetaVendaBD;
+		} catch (NoResultException e) {
+			throw new AppException(responseEntity);
+		}
+	}
 
+	private void validarCamposObrigatorios(VendaAnotadaConsumidor vendaAnotada) {
+		ResponseEntity<? extends BaseEntity<?, ?>> responseEntity = buildResponseEntity();
+		responseEntity.setIsValid(
+			vendaAnotada != null && 
+			vendaAnotada.getFolhaCadernetaVenda() != null && 
+			vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta() != null && 
+			vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta() != null &&
+			vendaAnotada.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId() != null && 
+			vendaAnotada.getFolhaCadernetaVenda().getVenda() != null && vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos() != null && 
+			!vendaAnotada.getFolhaCadernetaVenda().getVenda().getProdutos().isEmpty()
+		);
+		if (!responseEntity.getIsValid()) {
+			responseEntity.addMessage(IMessage.VENDA_OBRIGATORIO_CAMPOSNAOINFORMADOS, TipoMensagem.ERROR, Constant.App.LONG_TIME_VIEW);
+		}
+		finalizeOrThrows(responseEntity);
+	}
+
+	private void finalizeOrThrows(ResponseEntity<? extends BaseEntity<?, ?>> responseEntity) throws AppException {
+		if (responseEntity.getIsValid() != null && !responseEntity.getIsValid()) {
+			throw new AppException(responseEntity);
+		}
+	}
 }

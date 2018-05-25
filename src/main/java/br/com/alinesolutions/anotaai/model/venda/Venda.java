@@ -35,9 +35,9 @@ public class Venda extends BaseEntity<Long, Venda> {
 	private List<ItemVenda> produtos;
 
 	@NotNull
-	private ZonedDateTime dataInicioVenda;
+	private ZonedDateTime inicioVenda;
 
-	private ZonedDateTime dataConclusaoVenda;
+	private ZonedDateTime conclusaoVenda;
 
 	@Transient
 	private Double valor;
@@ -92,20 +92,20 @@ public class Venda extends BaseEntity<Long, Venda> {
 		this.pagamentos = pagamentos;
 	}
 
-	public ZonedDateTime getDataInicioVenda() {
-		return dataInicioVenda;
+	public ZonedDateTime getInicioVenda() {
+		return inicioVenda;
 	}
 
-	public void setDataInicioVenda(ZonedDateTime dataInicioVenda) {
-		this.dataInicioVenda = dataInicioVenda;
+	public void setInicioVenda(ZonedDateTime inicioVenda) {
+		this.inicioVenda = inicioVenda;
 	}
 
-	public ZonedDateTime getDataConclusaoVenda() {
-		return dataConclusaoVenda;
+	public ZonedDateTime getConclusaoVenda() {
+		return conclusaoVenda;
 	}
 
-	public void setDataConclusaoVenda(ZonedDateTime dataConclusaoVenda) {
-		this.dataConclusaoVenda = dataConclusaoVenda;
+	public void setConclusaoVenda(ZonedDateTime conclusaoVenda) {
+		this.conclusaoVenda = conclusaoVenda;
 	}
 
 	public interface VendaConstant {
