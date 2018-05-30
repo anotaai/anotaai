@@ -123,7 +123,7 @@ public class VendaService {
 		query.setParameter(BaseEntityConstant.FIELD_USUARIO, appService.getCliente().getUsuario());
 		venda.setVendedor(query.getSingleResult());
 		em.persist(venda);
-		ResponseEntity<Venda> responseEntity = new ResponseEntity<>(venda);
+		ResponseEntity<Venda> responseEntity = new ResponseEntity<>(new Venda(venda.getId()));
 		responseEntity.setIsValid(Boolean.TRUE);
 		return responseEntity;
 	}
@@ -228,17 +228,14 @@ public class VendaService {
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(Boolean.FALSE);
 		responseEntity.addMessage(IMessage.VENDA_ERRO_VENDANAOCADASTRADA, TipoMensagem.ERROR);
 		if (venda != null && venda.getId() != null) {
-			if (venda.getStatusVenda().equals(StatusVenda.EM_ANDAMENTO)) {
-				try {
-					final Venda vendaDB = em.find(Venda.class, venda.getId());
-					if (!vendaDB.getCliente().equals(appService.getCliente())) {
-						throw new AppException(responseEntity);
-					}
+			try {
+				final Venda vendaDB = em.find(Venda.class, venda.getId());
+				if (vendaDB.getCliente().getId().equals(appService.getCliente().getId()) && vendaDB.getStatusVenda().equals(StatusVenda.EM_ANDAMENTO)) {
 					return vendaDB;
-				} catch (NoResultException e) {
+				} else {
 					throw new AppException(responseEntity);
 				}
-			} else {
+			} catch (NoResultException e) {
 				throw new AppException(responseEntity);
 			}
 		} else {

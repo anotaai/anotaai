@@ -64,6 +64,15 @@ public class Venda extends BaseEntity<Long, Venda> {
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<PagamentoVenda> pagamentos;
 
+	public Venda() {
+		super();
+	}
+	
+	public Venda(Long id) {
+		this();
+		setId(id);
+	}
+
 	public List<ItemVenda> getProdutos() {
 		return produtos;
 	}
