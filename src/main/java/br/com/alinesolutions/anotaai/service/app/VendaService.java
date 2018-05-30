@@ -23,6 +23,7 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.StatusMovimentacao;
 import br.com.alinesolutions.anotaai.metadata.model.domain.StatusVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
+import br.com.alinesolutions.anotaai.model.BaseEntity.BaseEntityConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
 import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
@@ -119,6 +120,7 @@ public class VendaService {
 		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
 		venda.setCliente(appService.getCliente());
 		TypedQuery<Vendedor> query = em.createNamedQuery(VendedorConstant.FIND_BY_USUARIO_KEY, Vendedor.class);
+		query.setParameter(BaseEntityConstant.FIELD_USUARIO, appService.getCliente().getUsuario());
 		venda.setVendedor(query.getSingleResult());
 		em.persist(venda);
 		ResponseEntity<Venda> responseEntity = new ResponseEntity<>(venda);

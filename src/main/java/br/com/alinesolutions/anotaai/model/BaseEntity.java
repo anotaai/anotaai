@@ -123,6 +123,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 		String FIELD_CONSUMIDOR = "consumidor";
 		String FIELD_PRODUTO = "produto";
 		String FIELD_VENDA = "venda";
+		String FIELD_USUARIO = "usuario";
 	}
 
 	/**
