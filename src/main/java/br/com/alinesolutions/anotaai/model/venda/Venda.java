@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -19,6 +21,8 @@ import org.hibernate.annotations.Where;
 import br.com.alinesolutions.anotaai.metadata.model.domain.StatusVenda;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
+import br.com.alinesolutions.anotaai.model.usuario.Cliente;
+import br.com.alinesolutions.anotaai.model.usuario.Vendedor;
 
 @Entity
 @NamedQueries({
@@ -38,6 +42,14 @@ public class Venda extends BaseEntity<Long, Venda> {
 	private ZonedDateTime inicioVenda;
 
 	private ZonedDateTime conclusaoVenda;
+
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
+	private Cliente cliente;
+	
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
+	private Vendedor vendedor;
 
 	@Transient
 	private Double valor;
@@ -106,6 +118,22 @@ public class Venda extends BaseEntity<Long, Venda> {
 
 	public void setConclusaoVenda(ZonedDateTime conclusaoVenda) {
 		this.conclusaoVenda = conclusaoVenda;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Vendedor getVendedor() {
+		return vendedor;
+	}
+
+	public void setVendedor(Vendedor vendedor) {
+		this.vendedor = vendedor;
 	}
 
 	public interface VendaConstant {

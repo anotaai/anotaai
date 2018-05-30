@@ -6,17 +6,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum SituacaoConsumidor {
+public enum SituacaoPessoa {
 
-	ATIVO("Ativo"), 
-	INATIVO("Inativo");
-
-	private SituacaoConsumidor(String descricao) {
+	ATIVO("Ativo"),
+	INATIVO("Inativo"),
+	BLOQUEADO("Bloqueado");
+	
+	private SituacaoPessoa(String descricao) {
 		this.descricao = descricao;
 	}
-
+	
 	private String descricao;
-
+	
 	public String getDescricao() {
 		return descricao;
 	}
@@ -34,7 +35,7 @@ public enum SituacaoConsumidor {
 	}
 
 	@JsonCreator
-	public static SituacaoConsumidor fromObject(JsonNode node) {
+	public static SituacaoPessoa fromObject(JsonNode node) {
 		String type = null;
 		if (node.getNodeType().equals(JsonNodeType.STRING)) {
 			type = node.asText();
@@ -46,5 +47,5 @@ public enum SituacaoConsumidor {
 		}
 		return valueOf(type);
 	}
-
+	
 }

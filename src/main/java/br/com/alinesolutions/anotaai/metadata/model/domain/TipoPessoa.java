@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 public enum TipoPessoa {
 
 	CONSUMIDOR("Consumidor"),
-	CLIENTE("Cliente");
+	CLIENTE("Cliente"),
+	VENDEDOR("Vendedor"),
+	ENTREGADOR("Entregador");
 	
 	private String descricao;
 	

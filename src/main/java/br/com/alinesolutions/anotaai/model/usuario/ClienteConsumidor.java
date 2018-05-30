@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import br.com.alinesolutions.anotaai.infra.ReferencedNamedQuery;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.domain.Operadora;
-import br.com.alinesolutions.anotaai.model.domain.SituacaoConsumidor;
+import br.com.alinesolutions.anotaai.model.domain.SituacaoPessoa;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
 
@@ -53,7 +53,7 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 	private ZonedDateTime dataAssociacao;
 
 	@Enumerated(EnumType.ORDINAL)
-	private SituacaoConsumidor situacao;
+	private SituacaoPessoa situacao;
 
 	public ClienteConsumidor() {
 		super();
@@ -135,11 +135,11 @@ public class ClienteConsumidor extends BaseEntity<Long, ClienteConsumidor> {
 		this.dataAssociacao = dataAssociacao;
 	}
 
-	public SituacaoConsumidor getSituacao() {
+	public SituacaoPessoa getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(SituacaoConsumidor situacao) {
+	public void setSituacao(SituacaoPessoa situacao) {
 		this.situacao = situacao;
 	}
 	

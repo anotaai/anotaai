@@ -42,7 +42,7 @@ import br.com.alinesolutions.anotaai.metadata.model.AppException;
 import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoCodigoInterno;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
-import br.com.alinesolutions.anotaai.model.domain.SituacaoCliente;
+import br.com.alinesolutions.anotaai.model.domain.SituacaoPessoa;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.Telefone;
@@ -79,7 +79,7 @@ public class ClienteEndpoint {
 		entity.getUsuario().getPerfis().add(new UsuarioPerfil(entity.getUsuario(), Perfil.CLIENTE));
 		entity.getUsuario().getPerfis().add(new UsuarioPerfil(entity.getUsuario(), Perfil.CONSUMIDOR));
 		entity.getUsuario().setSenha(Criptografia.criptografar(entity.getUsuario().getSenha()));
-		entity.setSituacaoCliente(SituacaoCliente.BLOQUEADO);
+		entity.setSituacaoCliente(SituacaoPessoa.BLOQUEADO);
 		entity.getUsuario().setSituacao(SituacaoUsuario.PENDENTE_VALIDACAO);
 		ResponseEntity<Cliente> response = new ResponseEntity<>();
 		try {

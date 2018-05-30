@@ -21,7 +21,7 @@ import org.hibernate.annotations.Where;
 import br.com.alinesolutions.anotaai.metadata.model.AnotaaiSequencial;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoPessoa;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.domain.SituacaoCliente;
+import br.com.alinesolutions.anotaai.model.domain.SituacaoPessoa;
 import br.com.alinesolutions.anotaai.model.produto.ProdutoGrupoProduto;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente.ClienteConstant;
 import br.com.alinesolutions.anotaai.model.venda.Cupom;
@@ -66,7 +66,7 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 	private ZonedDateTime dataCadastro;
 
 	@Enumerated(EnumType.ORDINAL)
-	private SituacaoCliente situacaoCliente;
+	private SituacaoPessoa situacaoCliente;
 
 	@OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	private List<AnotaaiSequencial> sequences;
@@ -160,11 +160,11 @@ public class Cliente extends BaseEntity<Long, Cliente> implements IPessoa {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public SituacaoCliente getSituacaoCliente() {
+	public SituacaoPessoa getSituacaoCliente() {
 		return situacaoCliente;
 	}
 
-	public void setSituacaoCliente(SituacaoCliente situacaoCliente) {
+	public void setSituacaoCliente(SituacaoPessoa situacaoCliente) {
 		this.situacaoCliente = situacaoCliente;
 	}
 

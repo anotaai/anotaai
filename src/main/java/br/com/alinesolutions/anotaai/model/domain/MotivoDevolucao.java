@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 public enum MotivoDevolucao {
 
 	DEFEITO("Defeito"),
+	DATA_VENCIMENTO("Data vencimento"),
 	ERRO_LANCAMENTO("Erro de lançamento");
 	
 	private MotivoDevolucao(String descricao) {

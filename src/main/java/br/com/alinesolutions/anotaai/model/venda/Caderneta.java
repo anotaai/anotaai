@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SQLDelete;
@@ -60,6 +61,7 @@ public class Caderneta extends BaseEntity<Long, Caderneta> {
 	@OneToMany(mappedBy="caderneta")
 	private List<CadernetaVenda> vendasAnonimas;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;
 	

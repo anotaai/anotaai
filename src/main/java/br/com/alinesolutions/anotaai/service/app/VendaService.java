@@ -23,18 +23,16 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.StatusMovimentacao;
 import br.com.alinesolutions.anotaai.metadata.model.domain.StatusVenda;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
-import br.com.alinesolutions.anotaai.model.BaseEntity.BaseEntityConstant;
 import br.com.alinesolutions.anotaai.model.produto.IMovimentacao;
 import br.com.alinesolutions.anotaai.model.produto.ItemVenda;
 import br.com.alinesolutions.anotaai.model.produto.MovimentacaoProduto;
 import br.com.alinesolutions.anotaai.model.produto.Produto;
 import br.com.alinesolutions.anotaai.model.produto.Produto.ProdutoConstant;
-import br.com.alinesolutions.anotaai.model.usuario.Cliente;
-import br.com.alinesolutions.anotaai.model.usuario.Cliente.ClienteConstant;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor.ClienteConsumidorConstant;
+import br.com.alinesolutions.anotaai.model.usuario.Vendedor.VendedorConstant;
+import br.com.alinesolutions.anotaai.model.usuario.Vendedor;
 import br.com.alinesolutions.anotaai.model.venda.Caderneta;
-import br.com.alinesolutions.anotaai.model.venda.CadernetaVenda;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCaderneta;
 import br.com.alinesolutions.anotaai.model.venda.FolhaCadernetaVenda;
 import br.com.alinesolutions.anotaai.model.venda.Venda;
@@ -75,10 +73,8 @@ public class VendaService {
 	}
 
 	public ResponseEntity<Venda> createConsumerSale(VendaAVistaConsumidor vendaAVistaConsumidor) throws AppException {
-
 		Caderneta caderneta = em.getReference(Caderneta.class, vendaAVistaConsumidor.getFolhaCadernetaVenda().getFolhaCaderneta().getCaderneta().getId());
 		ClienteConsumidor clienteConsumidor = em.getReference(ClienteConsumidor.class, vendaAVistaConsumidor.getFolhaCadernetaVenda().getFolhaCaderneta().getClienteConsumidor().getId());
-
 		FolhaCaderneta folha = folhaCadernetaService.recuperarFolhaCaderneta(caderneta, clienteConsumidor);
 		FolhaCadernetaVenda venda = new FolhaCadernetaVenda();
 		venda.setFolhaCaderneta(folha);
@@ -87,7 +83,6 @@ public class VendaService {
 		vendaAVistaConsumidor.getFolhaCadernetaVenda().getVenda().setInicioVenda(AnotaaiUtil.getInstance().now());
 		vendaAVistaConsumidor.getFolhaCadernetaVenda().setFolhaCaderneta(folha);
 		em.persist(venda);
-
 		return null;
 	}
 
@@ -117,17 +112,16 @@ public class VendaService {
 		return responseEntity;
 	}
 
-	public ResponseEntity<CadernetaVenda> createSale(Caderneta caderneta) throws AppException {
-		Caderneta cadernetaDB = getCaderneta(caderneta);
+	public ResponseEntity<Venda> createSale(Caderneta caderneta) throws AppException {
+		getCaderneta(caderneta);
 		Venda venda = new Venda();
 		venda.setInicioVenda(AnotaaiUtil.getInstance().now());
 		venda.setStatusVenda(StatusVenda.EM_ANDAMENTO);
-		CadernetaVenda cadernetaVenda = new CadernetaVenda();
-		cadernetaVenda.setCaderneta(cadernetaDB);
-		cadernetaVenda.setVenda(venda);
-		em.persist(cadernetaVenda);
-		cadernetaVenda.setCaderneta(caderneta);
-		ResponseEntity<CadernetaVenda> responseEntity = new ResponseEntity<>(cadernetaVenda);
+		venda.setCliente(appService.getCliente());
+		TypedQuery<Vendedor> query = em.createNamedQuery(VendedorConstant.FIND_BY_USUARIO_KEY, Vendedor.class);
+		venda.setVendedor(query.getSingleResult());
+		em.persist(venda);
+		ResponseEntity<Venda> responseEntity = new ResponseEntity<>(venda);
 		responseEntity.setIsValid(Boolean.TRUE);
 		return responseEntity;
 	}
@@ -235,10 +229,7 @@ public class VendaService {
 			if (venda.getStatusVenda().equals(StatusVenda.EM_ANDAMENTO)) {
 				try {
 					final Venda vendaDB = em.find(Venda.class, venda.getId());
-					TypedQuery<Cliente> query = em.createNamedQuery(ClienteConstant.FIND_BY_VENDA_KEY, Cliente.class);
-					query.setParameter(BaseEntityConstant.FIELD_VENDA, vendaDB);
-					Cliente clienta = query.getSingleResult();
-					if (!clienta.equals(appService.getCliente())) {
+					if (!vendaDB.getCliente().equals(appService.getCliente())) {
 						throw new AppException(responseEntity);
 					}
 					return vendaDB;

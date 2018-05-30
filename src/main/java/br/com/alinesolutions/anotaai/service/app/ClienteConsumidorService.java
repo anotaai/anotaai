@@ -30,7 +30,7 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.Perfil;
 import br.com.alinesolutions.anotaai.metadata.model.domain.TipoMensagem;
 import br.com.alinesolutions.anotaai.model.BaseEntity;
 import br.com.alinesolutions.anotaai.model.BaseEntity.BaseEntityConstant;
-import br.com.alinesolutions.anotaai.model.domain.SituacaoConsumidor;
+import br.com.alinesolutions.anotaai.model.domain.SituacaoPessoa;
 import br.com.alinesolutions.anotaai.model.domain.SituacaoUsuario;
 import br.com.alinesolutions.anotaai.model.usuario.Cliente;
 import br.com.alinesolutions.anotaai.model.usuario.ClienteConsumidor;
@@ -79,8 +79,8 @@ public class ClienteConsumidorService {
 			try {
 				//verifica se ja criou clienteconsumidor para o telefone informado
 				ClienteConsumidor clienteConsumidorDatabase = clienteConsumidorQuery.getSingleResult();
-				if (clienteConsumidorDatabase.getSituacao().equals(SituacaoConsumidor.INATIVO)) {
-					clienteConsumidorDatabase.setSituacao(SituacaoConsumidor.ATIVO);
+				if (clienteConsumidorDatabase.getSituacao().equals(SituacaoPessoa.INATIVO)) {
+					clienteConsumidorDatabase.setSituacao(SituacaoPessoa.ATIVO);
 					em.merge(clienteConsumidorDatabase);
 					clienteConsumidor = clienteConsumidorDatabase;
 				} else {
@@ -91,7 +91,7 @@ public class ClienteConsumidorService {
 				}
 			} catch (NoResultException e) {
 				clienteConsumidor.setConsumidor(consumidorDatabase);
-				clienteConsumidor.setSituacao(SituacaoConsumidor.ATIVO);
+				clienteConsumidor.setSituacao(SituacaoPessoa.ATIVO);
 				clienteConsumidor.setCliente(cliente);
 				em.persist(clienteConsumidor);
 			}
@@ -101,7 +101,7 @@ public class ClienteConsumidorService {
 			clienteConsumidor.setCliente(cliente);
 			clienteConsumidor.setDataAssociacao(AnotaaiUtil.getInstance().now());
 			clienteConsumidor.getConsumidor().setDataCadastro(AnotaaiUtil.getInstance().now());
-			clienteConsumidor.setSituacao(SituacaoConsumidor.ATIVO);
+			clienteConsumidor.setSituacao(SituacaoPessoa.ATIVO);
 			Usuario usuario = clienteConsumidor.getConsumidor().getUsuario();
 			usuario.setId(null);
 			usuario.setEmail(null);
@@ -190,7 +190,7 @@ public class ClienteConsumidorService {
 		 
 		ClienteConsumidor clienteConsumidor = em.find(ClienteConsumidor.class, id);
 		if (clienteConsumidor != null) {
-			clienteConsumidor.setSituacao(SituacaoConsumidor.INATIVO);
+			clienteConsumidor.setSituacao(SituacaoPessoa.INATIVO);
 			em.merge(clienteConsumidor);
 			entity.setIsValid(Boolean.TRUE);
 			entity.getMessages().add(new AnotaaiMessage(IMessage.ENTIDADE_EXCLUSAO_SUCESSO,TipoMensagem.SUCCESS, Constant.App.DEFAULT_TIME_VIEW, clienteConsumidor.getConsumidor().getUsuario().getNome()));
@@ -209,7 +209,7 @@ public class ClienteConsumidorService {
 		} else  {
 			consumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.LIST_CLIENTE_CONSUMIDOR_KEY, ClienteConsumidor.class);
 		}
-		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
+		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoPessoa.ATIVO);
 		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
 		if (startPosition != null) {
 			consumidorQuery.setFirstResult(startPosition);
@@ -233,7 +233,7 @@ public class ClienteConsumidorService {
 		}
 		 
 		countAll.setParameter(Constant.Entity.CLIENTE, cliente);
-		countAll.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
+		countAll.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoPessoa.ATIVO);
 		responseList.setQtdTotalItens(countAll.getSingleResult());
 		
 		return responseEntity;
@@ -406,7 +406,7 @@ public class ClienteConsumidorService {
 		Cliente cliente = appManager.getAppService().getCliente();
 		consumidorQuery = em.createNamedQuery(ClienteConsumidorConstant.FIND_BY_NOME_CONSUMIDOR_KEY, ClienteConsumidor.class);
 		consumidorQuery.setParameter(BaseEntity.BaseEntityConstant.FIELD_CLIENTE, cliente);
-		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoConsumidor.ATIVO);
+		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_SITUACAO, SituacaoPessoa.ATIVO);
 		consumidorQuery.setParameter(ClienteConsumidorConstant.FIELD_NOME_CONSUMIDOR, nomeConsumidor);
 		ResponseEntity<ClienteConsumidor> resp = new ResponseEntity<>();
 		resp.setList(new ResponseList<>(consumidorQuery.getResultList()));

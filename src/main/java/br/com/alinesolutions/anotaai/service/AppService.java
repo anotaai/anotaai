@@ -76,7 +76,7 @@ public class AppService {
 		}
 	}
 	
-	@Schedule(second="*/3000", minute = "*", hour = "*")
+	@Schedule(second="*/3000", minute = "*", hour = "*", persistent = false)
 	public void limparSessao() {
 		String findAllKey = SessaoUsuario.SessaoUsuarioConstant.FIND_ALL_KEY;
 		TypedQuery<SessaoUsuario> query = em.createNamedQuery(findAllKey, SessaoUsuario.class);
@@ -188,18 +188,6 @@ public class AppService {
 		Integer ddd = Integer.parseInt(telefoneStr.substring(2, 4));
 		Integer numero = Integer.parseInt(telefoneStr.substring(4, telefoneStr.length()));
 		return new Telefone(ddi, ddd, numero);
-	}
-	
-	
-	/**
-	 * 
-	 * @param date
-	 * @return
-	 * @throws AppException
-	 */
-	
-	public ZonedDateTime addDayHtml5Date(ZonedDateTime date) throws AppException {
-		return date;
 	}
 
 	public String getGooleServiceAccountKey() {

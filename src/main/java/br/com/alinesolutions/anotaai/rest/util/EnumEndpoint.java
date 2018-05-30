@@ -14,7 +14,7 @@ import br.com.alinesolutions.anotaai.metadata.model.domain.TipoVenda;
 import br.com.alinesolutions.anotaai.model.domain.DiaSemana;
 import br.com.alinesolutions.anotaai.model.domain.Estado;
 import br.com.alinesolutions.anotaai.model.domain.Operadora;
-import br.com.alinesolutions.anotaai.model.domain.SituacaoCliente;
+import br.com.alinesolutions.anotaai.model.domain.SituacaoPessoa;
 import br.com.alinesolutions.anotaai.model.domain.TipoArmazenamento;
 import br.com.alinesolutions.anotaai.model.domain.UnidadeMedida;
 
@@ -62,7 +62,7 @@ public class EnumEndpoint {
 	@Path("/situacoescliente")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response situacoesCliente() throws Exception {
-		return Response.ok(SituacaoCliente.values()).build();
+		return Response.ok(SituacaoPessoa.values()).build();
 	}
 
 	@GET

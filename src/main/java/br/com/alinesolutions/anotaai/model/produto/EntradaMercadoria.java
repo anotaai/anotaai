@@ -58,7 +58,10 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	@NotNull
 	private ZonedDateTime dataEntrada;
-
+	
+	@NotNull
+	private ZonedDateTime dataCadastro;
+	
 	@NotNull
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	private Cliente cliente;
@@ -112,6 +115,14 @@ public class EntradaMercadoria extends BaseEntity<Long, EntradaMercadoria> {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public ZonedDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(ZonedDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 	public interface EntradaMercadoriaConstant {

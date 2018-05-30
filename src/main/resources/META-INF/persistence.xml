@@ -9,7 +9,7 @@
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 		
-			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/><!-- drop-and-create | none -->
+			<property name="javax.persistence.schema-generation.database.action" value="create"/><!-- drop-and-create | none -->
 			<property name="hibernate.jdbc.time_zone" value="UTC"/>
 
 			<!-- Properties for Hibernate -->

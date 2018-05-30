@@ -5,6 +5,9 @@ insert into Usuario (dataCadastro, email, fotoPerfil_id, nome, senha, telefone_i
 insert into UsuarioPerfil (perfil, usuario_id, ativo) values (1, 1, true);
 insert into UsuarioPerfil (perfil, usuario_id, ativo) values (2, 1, true);
 insert into Cliente (cpf, dataCadastro, endereco_id, nomeComercial, situacaoCliente, usuario_id, ativo) values (55546265302, Now(), 1, 'A Line Solutions', 0, 1, true);
+
+insert into Vendedor (cpf, dataCadastro, endereco_id, situacaoVendedor, usuario_id, ativo) values (55546265302, Now(), 1, 0, 1, true)
+
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'PRODUTO', 1);
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'CUPOM', 1);
 insert into Anotaaisequencial(ativo, sequence, tipocodigointerno, cliente) VALUES (true, 1, 'ENTRADA_MERCADORIA', 1);
@@ -52,7 +55,7 @@ insert into Disponibilidade (dia, produto_id, ativo) values (5, 3, true);
 insert into Disponibilidade (dia, produto_id, ativo) values (6, 3, true);
 insert into ProdutoGrupoProduto (grupoproduto_id, produto_id, ativo, ehPrincipal) values (2, 3, true, true);
 
-insert into EntradaMercadoria (ativo, dataEntrada,codigo,cliente_id) values (true, now(),7894568551258,1);
+insert into EntradaMercadoria (ativo, dataEntrada, codigo, cliente_id, dataCadastro) values (true, now(),7894568551258, 1, now());
 insert into MovimentacaoProduto (ativo, quantidade, produto_id, statusMovimentacao) values (true, 1200, 2, 0);
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 10.50, 1, 1);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
@@ -61,12 +64,12 @@ insert into MovimentacaoProduto (ativo, quantidade, produto_id, statusMovimentac
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 5.25  , 1, 2);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
-insert into EntradaMercadoria (ativo, dataEntrada,codigo,cliente_id) values (true, now(),7893214568825,1);
+insert into EntradaMercadoria (ativo, dataEntrada, codigo, cliente_id, dataCadastro) values (true, now(), 7893214568825, 1, now());
 insert into MovimentacaoProduto (ativo, quantidade, produto_id, statusMovimentacao) values (true, 100, 1, 0);
 insert into ItemEntrada (ativo, precoCusto, entradaMercadoria_id, movimentacaoProduto_id) values (true, 50.25, 2, 3);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'ENTRADA', 1, 1);
 
-insert into Venda (ativo, inicioVenda, statusVenda, conclusaoVenda) values (true, now(), 0, now());
+insert into Venda (ativo, inicioVenda, statusVenda, conclusaoVenda, cliente_id, vendedor_id) values (true, now(), 0, now(), 1, 1);
 insert into MovimentacaoProduto (ativo, quantidade, produto_id, statusMovimentacao) values (true, 12, 1, 0);
 insert into ItemVenda (ativo, precoCusto, precoVenda, movimentacaoProduto_id, venda_id) values (true, 2, 3, 1, 1);
 insert into EstoqueMovimentacao (ativo, tipo_movimentacao, movimentacao_id, estoque_id) values (true, 'VENDA', 2, 1);
