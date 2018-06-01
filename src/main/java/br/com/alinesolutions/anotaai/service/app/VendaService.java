@@ -153,11 +153,17 @@ public class VendaService {
 		ClienteConsumidor clienteConsumidorDB = getClienteConsumidor(clienteConsumidor);
 		Caderneta caderneta = folhaCadernetaVenda.getFolhaCaderneta().getCaderneta();
 		Caderneta cadernetaDB = getCaderneta(caderneta);
-		FolhaCaderneta folhaCaderneta = folhaCadernetaService.recuperarFolhaCaderneta(cadernetaDB, clienteConsumidorDB);
-		FolhaCadernetaVenda novaFolhaCadernetaVenda = new FolhaCadernetaVenda();
-		novaFolhaCadernetaVenda.setVenda(vendaDB);
-		novaFolhaCadernetaVenda.setFolhaCaderneta(folhaCaderneta);
-		em.persist(novaFolhaCadernetaVenda);
+		FolhaCaderneta folhaCadernetaDB = folhaCadernetaService.recuperarFolhaCaderneta(cadernetaDB, clienteConsumidorDB);
+		FolhaCadernetaVenda novaFolhaCadernetaVenda = new FolhaCadernetaVenda();;
+		if (folhaCadernetaVenda.getId() == null) {
+			novaFolhaCadernetaVenda.setVenda(vendaDB);
+			novaFolhaCadernetaVenda.setFolhaCaderneta(folhaCadernetaDB);
+			em.persist(novaFolhaCadernetaVenda);
+		} else {
+			novaFolhaCadernetaVenda = getFolhaCadernetaVenda(folhaCadernetaVenda, cadernetaDB);
+			novaFolhaCadernetaVenda.getFolhaCaderneta().setClienteConsumidor(clienteConsumidorDB);
+			em.merge(novaFolhaCadernetaVenda);
+		}
 		folhaCadernetaVenda.setId(novaFolhaCadernetaVenda.getId());
 		folhaCadernetaVenda.getFolhaCaderneta().setId(novaFolhaCadernetaVenda.getFolhaCaderneta().getId());
 		ResponseEntity<FolhaCadernetaVenda> responseEntity = new ResponseEntity<>(folhaCadernetaVenda);
