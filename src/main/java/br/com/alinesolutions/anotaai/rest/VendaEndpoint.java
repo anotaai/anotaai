@@ -71,7 +71,7 @@ public class VendaEndpoint {
 		}
 		return builder.build();
 	}
-	
+
 	@POST
 	@Path("/initsale")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -85,7 +85,7 @@ public class VendaEndpoint {
 		}
 		return builder.build();
 	}
-	
+
 	@POST
 	@Path("/addproduct")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -99,7 +99,7 @@ public class VendaEndpoint {
 		}
 		return builder.build();
 	}
-	
+
 	@POST
 	@Path("/createappointmentbooksale")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -122,6 +122,20 @@ public class VendaEndpoint {
 		ResponseBuilder builder = null;
 		try {
 			builder = Response.ok(vendaService.adicionarConsumidor(entity));
+		} catch (AppException e) {
+			builder = Response.ok(e.getResponseEntity());
+		}
+		return builder.build();
+	}
+
+	@POST
+	@Path("/removeconsumer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response removeConsumer(FolhaCadernetaVenda entity) {
+		ResponseBuilder builder = null;
+		try {
+			builder = Response.ok(vendaService.removerConsumidor(entity));
 		} catch (AppException e) {
 			builder = Response.ok(e.getResponseEntity());
 		}

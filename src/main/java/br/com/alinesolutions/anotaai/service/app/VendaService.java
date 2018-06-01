@@ -145,7 +145,11 @@ public class VendaService {
 		responseEntity.setIsValid(Boolean.TRUE);
 		return responseEntity;
 	}
-	
+
+	public ResponseEntity<FolhaCadernetaVenda> removerConsumidor(FolhaCadernetaVenda folhaCadernetaVenda) {
+		return null;
+	}
+
 	public ResponseEntity<FolhaCadernetaVenda> adicionarConsumidor(FolhaCadernetaVenda folhaCadernetaVenda) {
 		Venda venda = folhaCadernetaVenda.getVenda();
 		Venda vendaDB = getVenda(venda);
