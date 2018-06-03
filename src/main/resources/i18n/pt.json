@@ -95,11 +95,12 @@
 		},
 		"jacadastrada": "{0}, já cadastrado(a)"
 	},
-	"message": {
+	"mensagem": {
 		"defaulterror": "Erro inesperado, contate o administrador do sistema!",
 		"login": {
 			"confirmacaosenha": "A senha não confere com a confirmação de senha. Informe novamente."
-		}
+		},
+		"nenhumitemencontrado": "Não encontrado"
 	},
 	"label": {
 		"comprador": "Comprador",
