@@ -147,7 +147,10 @@ public class VendaService {
 	}
 
 	public ResponseEntity<FolhaCadernetaVenda> removerConsumidor(FolhaCadernetaVenda folhaCadernetaVenda) {
-		return null;
+		Caderneta cadernetaDB = getCaderneta(folhaCadernetaVenda.getFolhaCaderneta().getCaderneta());
+		FolhaCadernetaVenda folhaCadernetaVendaDB = getFolhaCadernetaVenda(folhaCadernetaVenda, cadernetaDB);
+		em.remove(folhaCadernetaVendaDB);
+		return new ResponseEntity<>(Boolean.TRUE);
 	}
 
 	public ResponseEntity<FolhaCadernetaVenda> adicionarConsumidor(FolhaCadernetaVenda folhaCadernetaVenda) {
@@ -165,7 +168,6 @@ public class VendaService {
 			em.persist(novaFolhaCadernetaVenda);
 		} else {
 			novaFolhaCadernetaVenda = getFolhaCadernetaVenda(folhaCadernetaVenda, cadernetaDB);
-			novaFolhaCadernetaVenda.getFolhaCaderneta().setClienteConsumidor(clienteConsumidorDB);
 			em.merge(novaFolhaCadernetaVenda);
 		}
 		folhaCadernetaVenda.setId(novaFolhaCadernetaVenda.getId());
