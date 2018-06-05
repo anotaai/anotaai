@@ -51,11 +51,11 @@ public class GeradorCodigoInterno {
 		return codigoDV;
 	}
 	
-	private Long inserirDigitoVerificador(Long codigoProduto) {
-		if (codigoProduto == null) {
+	private Long inserirDigitoVerificador(Long codigo) {
+		if (codigo == null) {
 			throw new IllegalArgumentException();
 		}
-		String codigoStr = codigoProduto.toString();
+		String codigoStr = codigo.toString();
 		String codigoReverseStr = new StringBuilder(codigoStr).reverse().toString();
 		char[] digitos = codigoReverseStr.toCharArray();
 		Integer[] numeros = new Integer[digitos.length];

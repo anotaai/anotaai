@@ -84,9 +84,7 @@ public abstract class BaseEntity<ID, T extends BaseEntity<?, ?>> implements Seri
 	@Override
 	public boolean equals(Object obj) {
 		Boolean equal = Boolean.TRUE;
-		if (this == obj) {
-			equal = Boolean.TRUE;
-		} else {
+		if (this != obj) {
 			if (obj == null) {
 				equal = Boolean.FALSE;
 			} else if (getClass() != obj.getClass()) {
