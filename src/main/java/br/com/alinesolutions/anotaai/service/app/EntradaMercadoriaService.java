@@ -150,6 +150,7 @@ public class EntradaMercadoriaService {
 	}
 
 	public void updateItemEntrada(EntradaMercadoria entradaMercadoria) {
+		entradaMercadoria.setDataCadastro(ZonedDateTime.now());
 		entradaMercadoria.getItens().stream().forEach(e -> {
 			e.setEntradaMercadoria(entradaMercadoria);
 		});
